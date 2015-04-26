@@ -5,7 +5,7 @@
 * [无痛修改协议](chapter2.md)
 * [API的命名](chapter3.md)
 * [执行的几个阶段](chapter4.md)
-* [websocket](chapter5.md)
+* [LuaRestyRedisLibrary](chapter5.md)
 * [缓存](chapter6.md)
 * [异常捕获和处理](chapter7.md)
 * [调用外部资源](chapter8.md)
@@ -32,3 +32,4 @@
 * [c10k和c10m](chapter29.md)
 * [docker](chapter30.md)
 * [SQL注入](chapter31.md)
+
