@@ -19,4 +19,5 @@
 * [如何调试](chapter17.md)
 * [ffi](chapter18.md)
 * [返回数据后继续执行](chapter19.md)
+* [不要使用lua自己的库](chapter20.md)
 * 
