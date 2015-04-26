@@ -9,6 +9,6 @@ OpenResty最佳实践
 
 我们选择把这几年的一些浅薄甚至可能是错误的实践，通过gitbook的方式公开出来，一方面有利于团队自身的技术积累，另一方面，也能让更多的高手一起加入，让OpenResty的使用变得更加简单，更多的应用到服务端开发中，毕竟人生苦短，少一些加班，多一些陪家人。
 
-这本书的定位是最佳实践，并不会对OpenResty做基础的介绍。想了解基础的同学，请不要看书，而是马上安装OpenResty，把[官方网站](http://openresty.org/)的Presentations浏览和实践一遍。
+这本书的定位是最佳实践，并不会对OpenResty做基础的介绍。想了解基础的同学，请不要看书，而是马上安装OpenResty，把[官方网站](http://openresty.org/)的Presentations浏览和实践几遍。
 
 希望你能enjoy OpenResty之旅！
