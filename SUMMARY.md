@@ -26,3 +26,4 @@
 * [功能测试](chapter24.md)
 * [性能测试](chapter25.md)
 * [连接池](chapter26.md)
+* [worker间通信](chapter27.md)
