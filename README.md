@@ -1,4 +1,6 @@
-My Awesome Book
+OpenResty最佳实践
 =======
 
-This file file serves as your book's preface, a great place to describe your book's content and ideas.
+在2011年的时候，我为新的产品做技术选型。由于之前一直混迹在python圈子里面，也接触过nginx c模块的高性能开发，一直想找到一个兼备python快速开发和nginx c模块高性能的产品。看到OpenResty后，有发现新大陆的感觉。
+
+于是我在新产品里面力推OpenResty，团队里面几乎没有人支持，经过几轮性能测试，虽然轻松击败所有的其他方案，但是其他开发人员并不愿意参与到基于OpenResty这个“陌生”框架的开发中来。于是我一个人开始了OpenResty之旅，刚开始经历了各种技术挑战，庆幸有详细的文档，以及春哥和邮件列表里面热情的帮助，
