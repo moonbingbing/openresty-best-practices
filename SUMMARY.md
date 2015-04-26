@@ -10,4 +10,5 @@
 * [调用外部资源](chapter8.md)
 * [后台定时任务](chapter9.md)
 * [数据库健康检查](chapter10.md)
+* [全局变量](chapter11.md)
 * 
