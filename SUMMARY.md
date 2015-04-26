@@ -23,3 +23,5 @@
 * [数组大小](chapter21.md)
 * [非空判断](chapter22.md)
 * [下标从0开始](chapter23.md)
+* [功能测试](chapter24.md)
+* [性能测试](chapter25.md)
