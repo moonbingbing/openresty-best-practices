@@ -7,7 +7,7 @@
 * [执行的几个阶段](chapter4.md)
 * [LuaRestyRedisLibrary](redis.md)
    * [select+set_keepalive组合操作引起的数据读写错误](redis-select-keeplive.md)
-   * [select+set_keepalive组合操作引起的数据读写错误](chapter5-2.md)
+   * [redis接口的二次封装](chapter5-2.md)
 * [缓存](chapter6.md)
 * [异常捕获和处理](chapter7.md)
 * [调用外部资源](chapter8.md)
