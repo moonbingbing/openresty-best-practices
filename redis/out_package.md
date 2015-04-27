@@ -74,6 +74,13 @@ end
 ngx.say("dog: ", res)
 ```
 
+列举一下我们对redis封装的要求：
+* new、connect函数合体
+* 默认连接地址允许自定义
+* 每次redis使用完毕后，自动释放redis连接到连接池供他人使用
+* 要具备支持pipeline的场景
+
+
 不卖关子，只要干货，我们二次封装代码是这样干的：
 ```
 local redis_c = require "resty.redis"
