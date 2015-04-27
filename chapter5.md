@@ -1,5 +1,4 @@
 #LuaRestyRedisLibrary
-####select+set_keepalive组合操作引起的数据读写错误
 
 在高并发编程中，我们必须要使用连接池技术，通过减少建连、拆连次数来提高通讯速度。
 
