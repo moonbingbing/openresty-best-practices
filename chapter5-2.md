@@ -1,2 +1,3 @@
-# select+set_keepalive组合操作引起的数据读写错误
+# redis接口的二次封装
+
 
