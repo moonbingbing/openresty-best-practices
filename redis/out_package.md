@@ -76,8 +76,8 @@ ngx.say("dog: ", res)
 
 列举一下我们对redis封装的要求：
 * new、connect函数合体
-* 默认连接地址允许自定义
-* 每次redis使用完毕后，自动释放redis连接到连接池供他人使用
+* 默认redis数据库地址允许自定义
+* 每次redis使用完毕，自动释放redis连接到连接池供其他请求复用
 * 要具备支持pipeline的场景
 
 
