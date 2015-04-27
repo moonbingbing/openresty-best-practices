@@ -49,6 +49,7 @@ end
 如果单独执行这个用例，没有任何问题，用例是成功的。但是这段“没问题”的代码，却导致了诡异的现象。
 
 我们的大部分redis请求的代码应该是类似这样的：
+
 ```
 local redis = require "resty.redis"
 local red = redis:new()

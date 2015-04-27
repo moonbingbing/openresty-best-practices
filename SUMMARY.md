@@ -22,6 +22,7 @@
 	* [热加载代码](ngx_lua/hot_load.md)
 	* [阻塞操作](ngx_lua/block_io.md)
 	* [缓存](ngx_lua/cache.md)
+	* [sleep](ngx_lua/sleep.md)
 * [Lua](lua.md)
 	* [下标从1开始](lua/subscript.md)
 	* [局部变量](lua/local.md)

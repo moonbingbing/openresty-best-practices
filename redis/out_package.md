@@ -1,6 +1,7 @@
 # redis接口的二次封装
 
 先看一下官方的调用示例代码：
+
 ```
 local redis = require "resty.redis"
 local red = redis:new()
@@ -50,6 +51,7 @@ end
 这是一个标准的redis接口调用，如果你的代码中redis被调用频率不高，那么我们对这段代码不会有任何感觉。如果你的项目重度依赖redis，每次都要把创建连接、建立连接、数据操作、关闭连接（放到连接池）这个完整的链路走完，甚至还要考虑不同的return情况，就很快发现代码看上去很不美。
 
 也许我们期望的代码应该是这个样子：
+
 ```
 local red = redis:new()
 local ok, err = red:set("dog", "an animal")
@@ -82,6 +84,7 @@ ngx.say("dog: ", res)
 
 
 不卖关子，只要干货，我们二次封装代码是这样干的：
+
 ```
 local redis_c = require "resty.redis"
 
