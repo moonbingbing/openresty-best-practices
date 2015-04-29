@@ -12,3 +12,5 @@ OpenResty最佳实践
 这本书的定位是最佳实践，并不会对OpenResty做基础的介绍。想了解基础的同学，请不要看书，而是马上安装OpenResty，把[官方网站](http://openresty.org/)的Presentations浏览和实践几遍。
 
 希望你能enjoy OpenResty之旅！
+
+本书源码在 Github 上维护，欢迎参与：[github地址](https://github.com/moonbingbing/openresty-best-practices)。
