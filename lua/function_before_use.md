@@ -12,8 +12,7 @@ end
 
 你会得到一个错误提示：
 
->
-[error] 10514#0: *5 lua entry thread aborted: runtime error: attempt to call global 'add_one' (a nil value)
+> [error] 10514#0: *5 lua entry thread aborted: runtime error: attempt to call global 'add_one' (a nil value)
 
 ---
 
