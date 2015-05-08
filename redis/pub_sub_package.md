@@ -33,7 +33,7 @@ function _M.subscribe( self, channel )
 end
 ```
 
-其实这里的实现是有问题的，各位看官，你能发现这段代码的问题么？给个提示，在高并发订阅场景下，极有可能存在漏掉部分订阅信息。
+其实这里的实现是有问题的，各位看官，你能发现这段代码的问题么？给个提示，在高并发订阅场景下，极有可能存在漏掉部分订阅信息。原因在与每次订阅到内容后，都会把redis对象进行释放，处理完订阅信息后再次去连接redis，在这个时间差里面，很可能有消息已经漏掉了。
 
 正确的代码应该是这样的：  
 
@@ -70,4 +70,24 @@ function _M.subscribe( self, channel )
     
     return do_read_func
 end
+```
+
+调用示例代码：
+
+```
+local red     = redis:new({timeout=1000})  
+local func  = red:subscribe( "channel" )
+if not func then
+  return nil
+end
+
+while true do
+    local res, err = func()
+    if err then
+        func(false)
+    end
+    ... ...
+end
+
+return cbfunc
 ```

@@ -38,6 +38,7 @@
    * [不用标准库](lua/not_use_lib.md)
    * [虚变量](lua/dummy_var.md)
    * [函数在调用代码前定义](lua/function_before_use.md)
+   * [抵制使用module()函数来定义Lua模块](lua/not_use_module.md)
 * [测试](test.md)
    * [单元测试](test/unittest.md)
    * [API测试](test/apitest.md)
