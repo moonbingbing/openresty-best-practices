@@ -28,6 +28,7 @@
    * [调试](ngx_lua/debug.md)
    * [调用so](ngx_lua/ffi.md)
    * [请求中断后的处理](ngx_lua/on_abort.md)
+* [LuaSharedDict](shared.md)
 * [LuaRestyDNSLibrary](dns.md)
 * [Lua](lua.md)
    * [下标从1开始](lua/subscript.md)
