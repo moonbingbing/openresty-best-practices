@@ -29,6 +29,7 @@
    * [调用so](ngx_lua/ffi.md)
    * [请求中断后的处理](ngx_lua/on_abort.md)
 * [LuaSharedDict](shared.md)
+   * [非队列性质](shared/shared_get_keys.md)
 * [LuaRestyDNSLibrary](dns.md)
 * [Lua](lua.md)
    * [下标从1开始](lua/subscript.md)
