@@ -33,7 +33,7 @@
 * [LuaSharedDict](shared.md)
    * [非队列性质](shared/shared_get_keys.md)
 * [LuaRestyDNSLibrary](dns.md)
-   * [使用动态DNS来完成HTTP请求] (dns/use_dynamic_dns.md) 
+   * [使用动态DNS来完成HTTP请求](dns/use_dynamic_dns.md) 
 * [LuaRestyLock](lock.md)
 	* [缓存失效风暴](lock/cache-miss-storm.md)
 * [Lua](lua.md)
