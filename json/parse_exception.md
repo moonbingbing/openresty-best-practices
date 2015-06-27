@@ -1,7 +1,7 @@
 # json解析的异常捕获
 
 首先来看最最普通的一个json解析的例子（被解析的json字符串是错误的，缺少一个双引号）：
-```
+```lua
 -- http://www.kyne.com.au/~mark/software/lua-cjson.php
 -- version: 2.1 devel
 
@@ -26,7 +26,7 @@ coroutine 0:
 ```
 
 这可不是我们期望的，decode失败，居然500错误直接退了。改良了一下我们的代码：
-```
+```lua
 local json = require("cjson")
 
 function json_decode(str)

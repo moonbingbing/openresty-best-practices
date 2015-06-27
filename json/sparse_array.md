@@ -1,7 +1,7 @@
 # 稀疏数组
 
 请看示例代码（注意data的数组下标）：
-```
+```lua
 -- http://www.kyne.com.au/~mark/software/lua-cjson.php
 -- version: 2.1 devel
 
