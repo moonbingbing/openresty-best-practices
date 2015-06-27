@@ -2,22 +2,22 @@
 
 其实针对大多应用场景，DNS是不回频繁变更的。使用最古老的resolver配置方式就可以解决。
 
-奇虎360企业版，由于存在二次分发问题，由于需要支持的系统众多：win、centos、ubuntu等，不同的操作系统获取dns的方法都不太一样。再加上我们使用docker，导致我们在容器内部获取dns变得更加难以精准。
+奇虎360企业版，由于存在二次分发问题，需要支持的系统众多：win、centos、ubuntu等，不同的操作系统获取dns的方法都不太一样。再加上我们使用docker，导致我们在容器内部获取dns变得更加难以精准。
 
 如何能够让Nginx使用随时可以变化的DNS源，就变成了我们的一个需求。
 
-示例url：http://www.haosou.com/?&src=360com
-
-当我们需要在某一个请求内部发起这样一个子查询，采用proxy_pass是不行的（依赖resolver的dns，如果dns有变化，必须要重新加载配置），并且由于proxy_pass不能直接设置keepconn，导致每次请求都是短链接，性能损失严重。
+当我们需要在某一个请求内部发起这样一个http查询，采用proxy_pass是不行的（依赖resolver的dns，如果dns有变化，必须要重新加载配置），并且由于proxy_pass不能直接设置keepconn，导致每次请求都是短链接，性能损失严重。
 
 使用resty.http，目前这个库只支持ip：port的方式定义url，其内部实现并没有支持domain解析。resty.http是支持set_keepalive完成长连接，这样我们只需要让他支持dns解析就能有完美解决方案了。
 
-```
+```lua
+local resolver = require "resty.dns.resolver"
+local http     = require "resty.http"
+
 function get_domain_ip_by_dns( domain )
   -- 这里写死了google的域名服务ip，要根据实际情况做调整（例如放到指定配置或数据库中）
   local dns = "8.8.8.8"
   
-  local resolver = require "resty.dns.resolver"
   local r, err = resolver:new{
       nameservers = {dns, {dns, 53} },
       retrans = 5,  -- 5 retransmissions on receive timeout
