@@ -14,7 +14,7 @@ ngx.say("value --> ", json.encode({dogs={}}))
 
 注意看下encode后key的值类型，"{}" 代表key的值是个object，"[]" 则代表key的值是个数组。对于强类型语言(c/c++, java等)，这时候就有点不爽。因为类型不是他期望的要做容错。对于lua本身，是把数组和字典融合到一起了，所以他是无法区分空数组和空字典的。
 
-Openresty中已经碰都了同样的问题，所以在自带的测试用例中已经给出了相关用法。
+参考openresty-cjson中额外贴出测试案例，我们就很容易找到思路了。
 ```lua
 -- 内容节选lua-cjson-2.1.0.2/tests/agentzh.t
 === TEST 1: empty tables as objects
