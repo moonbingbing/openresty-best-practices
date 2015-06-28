@@ -30,6 +30,7 @@
    * [调用so](ngx_lua/ffi.md)
    * [请求中断后的处理](ngx_lua/on_abort.md)
    * [我的lua代码需要调优么](ngx_lua/lua_opt.md)
+   * [变量的共享范围](ngx_lua/lua-variable-scope.md)
 * [LuaSharedDict](shared.md)
    * [非队列性质](shared/shared_get_keys.md)
 * [LuaRestyDNSLibrary](dns.md)
