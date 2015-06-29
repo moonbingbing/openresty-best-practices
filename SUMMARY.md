@@ -17,7 +17,7 @@
    * [健康监测](postgres/health_check.md)
    * [SQL注入](postgres/sql_inject.md)
 * [LuaNginxModule](ngx_lua.md)
-   * [执行的几个阶段](ngx_lua/phase.md)
+   * [执行阶段概念](ngx_lua/phase.md)
    * [正确的记录日志](ngx_lua/log.md)
    * [热加载代码](ngx_lua/hot_load.md)
    * [阻塞操作](ngx_lua/block_io.md)
