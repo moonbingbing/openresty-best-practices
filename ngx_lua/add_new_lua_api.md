@@ -1,8 +1,8 @@
 # 如何对nginx lua module添加新api
 
-本文真正的目的，绝对不是告诉大家如何在nginx lua module添加新api这么点东西。而是以此为例，告诉大家github的协作流程。我们如何正确有效的用他进行协作。
+本文真正的目的，绝对不是告诉大家如何在nginx lua module添加新api这么点东西。而是以此为例，告诉大家nginx模块开发环境搭建、码字编译、编写测试用例、代码提交、申请代码合并等。给大家顺路普及一下git的使用。
 
-在目前的业务系统中，需要获取当前nginx worker数量的需要。添加一个新的接口ngx.config.workers()。刚好这个功能实现简单，非常适合大家当做例子。Let's go now！
+目前有个应用场景，需要获取当前nginx worker数量的需要，所以添加一个新的接口ngx.config.workers()。由于这个功能实现简单，非常适合大家当做例子。废话不多说，let's fly now！
 
 > 获取openresty默认安装包（辅助搭建基础环境）：
 
