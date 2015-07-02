@@ -32,6 +32,7 @@
    * [我的lua代码需要调优么](ngx_lua/lua_opt.md)
    * [变量的共享范围](ngx_lua/lua-variable-scope.md)
    * [动态限速](ngx_lua/lua-limit.md)
+   * [如何添加自己的lua api](add_new_lua_api.md)
 * [LuaSharedDict](shared.md)
    * [非队列性质](shared/shared_get_keys.md)
 * [LuaRestyDNSLibrary](dns.md)
