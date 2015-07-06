@@ -37,7 +37,7 @@ end
 然后，再在content\_by\_lua\_file指向的.lua文件中调用它：
 
     local my_module = require "my_module"
-    my_module:foo()
+    my_module.foo()
 
 因为Lua module只会在第一次请求时加载一次（除非显式禁用了lua\_code\_cache配置指令），后续请求便可直接复用。
 
