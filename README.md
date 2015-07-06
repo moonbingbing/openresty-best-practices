@@ -13,4 +13,5 @@ OpenResty最佳实践
 
 希望你能enjoy OpenResty之旅！
 
-本书源码在 Github 上维护，欢迎参与：[github地址](https://github.com/moonbingbing/openresty-best-practices)。
+本书源码在 Github 上维护，欢迎参与：[github地址](https://github.com/moonbingbing/openresty-best-practices)。也可以加入QQ群来和我们交流：
+![openresty技术交流群](qq_group.png)

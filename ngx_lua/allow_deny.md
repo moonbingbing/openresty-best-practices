@@ -12,7 +12,7 @@ Nginx的是HTTP 7层协议的实现着，相对普通防火墙从通讯协议有
 * location
 * body中特定标识
 
-> 示例配置（allow、deny） 
+> 示例配置（allow、deny）
 
 ```
 location / {
@@ -77,6 +77,7 @@ access_by_lua '
 ';
 ```
 
-以次类推，我们想要完成域名、Cookie、location、特定body的准入控制，甚至可以做到与本地iptable防火墙联动。我们可以把IP规则存到数据库中，这样我们就再也不用reload数据库了。
+以次类推，我们想要完成域名、Cookie、location、特定body的准入控制，甚至可以做到与本地iptable防火墙联动。
+我们可以把IP规则存到数据库中，这样我们就再也不用reload nginx，在有规则变动的时候，刷新下nginx的缓存就行了。
 
 思路打开，大家后面多尝试各种玩法吧。
