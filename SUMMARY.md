@@ -19,7 +19,7 @@
 * [LuaNginxModule](ngx_lua.md)
    * [执行阶段概念](ngx_lua/phase.md)
    * [正确的记录日志](ngx_lua/log.md)
-   * [热加载代码](ngx_lua/hot_load.md)
+   * [热装载代码](ngx_lua/hot_load.md)
    * [阻塞操作](ngx_lua/block_io.md)
    * [缓存](ngx_lua/cache.md)
    * [sleep](ngx_lua/sleep.md)
