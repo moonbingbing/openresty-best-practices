@@ -18,7 +18,9 @@ The FFI library allows calling external C functions and using C data
 structures from pure Lua code.
 ```
 
-通过FFI的方式加载其他C接口动态库，这样我们就可以尽情玩耍。
+通过FFI的方式加载其他C接口动态库，这样我们就可以有很多有意思的玩法。
+
+当我们碰到CPU密集运算部分，我们可以把他用C的方式实现一个效率最高的版本，对外到处API，打包成动态库，通过FFI来完成API调用。这样我们就可以兼顾程序灵活、执行高效，大大弥补了Luajit自身的不足。
 
 > 使用FFI判断操作系统
 
