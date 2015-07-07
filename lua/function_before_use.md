@@ -29,14 +29,21 @@ foo = function () ... end
 ---
 
 一般地，由于全局变量是每请求的生命期，因此以此种方式定义的函数的生命期也是每请求的。为了避免每请求创建和销毁Lua closure的开销，建议将函数的定义都放置在自己的Lua module中，例如：
+
 ```lua
 -- my_module.lua
 module("my_module", package.seeall)
-function foo() ... end
+function foo() 
+    -- your code 
+end
 ```
+
 然后，再在content\_by\_lua\_file指向的.lua文件中调用它：
+    
+
 ```lua
 local my_module = require "my_module"
-my_module:foo()
+my_module.foo()
 ```
+
 因为Lua module只会在第一次请求时加载一次（除非显式禁用了lua\_code\_cache配置指令），后续请求便可直接复用。
