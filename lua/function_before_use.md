@@ -1,43 +1,62 @@
-# 函数在调用代码前定义
-Lua里面的函数必须放在调用的代码之前，下面的代码是一个常见的错误：
+# 正则表达式
 
+- Lua并不使用POSIX规范的正则表达式来进行模式匹配，而是自己定义了一套语言。最大的区别，其他语言的正则表达式使用'\'符号来进行转义，而lua使用'%'来进行转义。
+
+|符号|匹配模式|
+|--|--|
+| . |任意字符|
+|%a |字母|
+|%c |控制字符|
+|%d |数字|
+|%l |小写字母|
+|%p |标点字符|
+|%s |空白符|
+|%u |大写字母|
+|%w |字母和数字|
+|%x |十六进制数字|
+|%z |代表 0 的字符|
+
+- 其次，lua中并不使用'?'来表示非贪婪匹配，而是定义了不同的字符来表示是否是贪婪匹配。定义如下：
+
+
+|符号 |匹配次数 | 匹配模式|
+|--| ------------------------| ----------------------------------------|
+|+ | 匹配前一字符 1 次或多次 |   非贪婪|
+|* | 匹配前一字符 0 次或多次 |   贪婪|
+|- | 匹配前一字符 0 次或多次 |   非贪婪|
+|? | 匹配前一字符 0 次或 1 次 |  仅用于此，不用于标识是否贪婪、非贪婪。|
+
+
+
+1. *string.find*的基本应用就是用来在目标串内搜索匹配指定的模式的串。函数如果找到匹配的串返回他的开始索引和结束索引，否则返回 nil。find函数第三个参数是可选的：标示目标串中搜索的起始位置。当我们想实现一个迭代器时，可以传进上一次调用时的结束索引，如果返回了一个*nil*值的话，说明查找结束了。
+```lua
+s = "hello world"
+i, j = {string.find(s, "hello")}
+print(i, j) --> 1 5 
 ```
-local i = 100
-i = add_one(i)
 
-local function add_one(i)
-	return i + 1
-end
+2.  当然，我们也可以直接使用返回一个迭代器的函数： *string.gmatch(str, pattern)*
+
+```lua
+s = "hello world from Lua" 
+for w in string.gmatch(s, "%a+") do  
+　print(w)  
+end 
 ```
 
-你会得到一个错误提示：
 
-> [error] 10514#0: *5 lua entry thread aborted: runtime error: attempt to call global 'add_one' (a nil value)
-
----
-
-为什么放在调用后面就找不到呢？原因是Lua里的function 定义本质上是变量赋值，即
-
-    function foo() ... end
-
-等价于
-
-    foo = function () ... end
-
-因此在函数定义之前使用函数相当于在变量赋值之前使用变量，自然会得到nil的错误。
-
----
-
-一般地，由于全局变量是每请求的生命期，因此以此种方式定义的函数的生命期也是每请求的。为了避免每请求创建和销毁Lua closure的开销，建议将函数的定义都放置在自己的Lua module中，例如：
-
-    -- my_module.lua
-    module("my_module", package.seeall)
-    function foo() ... end
-
-然后，再在content\_by\_lua\_file指向的.lua文件中调用它：
-
-    local my_module = require "my_module"
-    my_module.foo()
-
-因为Lua module只会在第一次请求时加载一次（除非显式禁用了lua\_code\_cache配置指令），后续请求便可直接复用。
+3.  *string.gsub* 用来查找匹配模式的串，并将使用替换串其替换掉,但并不修改原字符串，而是返回一个修改后的字符串的副本，函数有目标串，模式串，替换串三个参数，使用范例如下：
+```lua
+a = "Lua is cute"
+b = string.gsub(a, "cute", "great")
+print(a) --> Lua is cute
+print(b) --> Lua is great 
+```
+- 还有一点值得注意的是，'%b' 用来匹配对称的字符，而不是一般正则表达式中的单词的开始、结束。
+'%b' 用来匹配对称的字符，而且采用贪婪匹配。常写为 '%bxy' ，x 和 y 是任意两个不同的字符；x 作为
+匹配的开始，y 作为匹配的结束。比如，'%b()' 匹配以 '(' 开始，以 ')' 结束的字符串：
+```lua
+print(string.gsub("a (enclosed (in) parentheses) line", "%b()", ""))    --> a line
+```
+- 常用的这种模式有：'%b()' ，'%b[]'，'%b%{%}' 和 '%b<>'。不过我们可以使用任何字符作为分隔符。
 
