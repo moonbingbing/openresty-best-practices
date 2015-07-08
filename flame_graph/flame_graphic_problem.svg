@@ -1,0 +1,305 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" width="1200" height="258" onload="init(evt)" viewBox="0 0 1200 258" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs >
+	<linearGradient id="background" y1="0" y2="1" x1="0" x2="0" >
+		<stop stop-color="#eeeeee" offset="5%" />
+		<stop stop-color="#eeeeb0" offset="95%" />
+	</linearGradient>
+</defs>
+<style type="text/css">
+	.func_g:hover { stroke:black; stroke-width:0.5; cursor:pointer; }
+</style>
+<script type="text/ecmascript">
+<![CDATA[
+	var details, svg;
+	function init(evt) { 
+		details = document.getElementById("details").firstChild; 
+		svg = document.getElementsByTagName("svg")[0];
+	}
+	function s(info) { details.nodeValue = "Function: " + info; }
+	function c() { details.nodeValue = ' '; }
+	function find_child(parent, name, attr) {
+		var children = parent.childNodes;
+		for (var i=0; i<children.length;i++) {
+			if (children[i].tagName == name)
+				return (attr != undefined) ? children[i].attributes[attr].value : children[i];
+		}
+		return;
+	}
+	function orig_save(e, attr, val) {
+		if (e.attributes["_orig_"+attr] != undefined) return;
+		if (e.attributes[attr] == undefined) return;
+		if (val == undefined) val = e.attributes[attr].value;
+		e.setAttribute("_orig_"+attr, val);
+	}
+	function orig_load(e, attr) {
+		if (e.attributes["_orig_"+attr] == undefined) return;
+		e.attributes[attr].value = e.attributes["_orig_"+attr].value;
+		e.removeAttribute("_orig_"+attr);
+	}
+	function update_text(e) {
+		var r = find_child(e, "rect");
+		var t = find_child(e, "text");
+		var w = parseFloat(r.attributes["width"].value) -3;
+		var txt = find_child(e, "title").textContent.replace(/\([^(]*\)/,"");
+		t.attributes["x"].value = parseFloat(r.attributes["x"].value) +3;
+		
+		// Smaller than this size won't fit anything
+		if (w < 2*12*0.59) {
+			t.textContent = "";
+			return;
+		}
+		
+		t.textContent = txt;
+		// Fit in full text width
+		if (/^ *$/.test(txt) || t.getSubStringLength(0, txt.length) < w)
+			return;
+		
+		for (var x=txt.length-2; x>0; x--) {
+			if (t.getSubStringLength(0, x+2) <= w) { 
+				t.textContent = txt.substring(0,x) + "..";
+				return;
+			}
+		}
+		t.textContent = "";
+	}
+	function zoom_reset(e) {
+		if (e.attributes != undefined) {
+			orig_load(e, "x");
+			orig_load(e, "width");
+		}
+		if (e.childNodes == undefined) return;
+		for(var i=0, c=e.childNodes; i<c.length; i++) {
+			zoom_reset(c[i]);
+		}
+	}
+	function zoom_child(e, x, ratio) {
+		if (e.attributes != undefined) {
+			if (e.attributes["x"] != undefined) {
+				orig_save(e, "x");
+				e.attributes["x"].value = (parseFloat(e.attributes["x"].value) - x - 10) * ratio + 10;
+				if(e.tagName == "text") e.attributes["x"].value = find_child(e.parentNode, "rect", "x") + 3;
+			}
+			if (e.attributes["width"] != undefined) {
+				orig_save(e, "width");
+				e.attributes["width"].value = parseFloat(e.attributes["width"].value) * ratio;
+			}
+		}
+		
+		if (e.childNodes == undefined) return;
+		for(var i=0, c=e.childNodes; i<c.length; i++) {
+			zoom_child(c[i], x-10, ratio);
+		}
+	}
+	function zoom_parent(e) {
+		if (e.attributes) {
+			if (e.attributes["x"] != undefined) {
+				orig_save(e, "x");
+				e.attributes["x"].value = 10;
+			}
+			if (e.attributes["width"] != undefined) {
+				orig_save(e, "width");
+				e.attributes["width"].value = parseInt(svg.width.baseVal.value) - (10*2);
+			}
+		}
+		if (e.childNodes == undefined) return;
+		for(var i=0, c=e.childNodes; i<c.length; i++) {
+			zoom_parent(c[i]);
+		}
+	}
+	function zoom(node) { 
+		var attr = find_child(node, "rect").attributes;
+		var width = parseFloat(attr["width"].value);
+		var xmin = parseFloat(attr["x"].value);
+		var xmax = parseFloat(xmin + width);
+		var ymin = parseFloat(attr["y"].value);
+		var ratio = (svg.width.baseVal.value - 2*10) / width;
+		
+		// XXX: Workaround for JavaScript float issues (fix me)
+		var fudge = 0.0001;
+		
+		var unzoombtn = document.getElementById("unzoom");
+		unzoombtn.style["opacity"] = "1.0";
+		
+		var el = document.getElementsByTagName("g");
+		for(var i=0;i<el.length;i++){
+			var e = el[i];
+			var a = find_child(e, "rect").attributes;
+			var ex = parseFloat(a["x"].value);
+			var ew = parseFloat(a["width"].value);
+			// Is it an ancestor
+			if (0 == 0) {
+				var upstack = parseFloat(a["y"].value) > ymin;
+			} else {
+				var upstack = parseFloat(a["y"].value) < ymin;
+			}
+			if (upstack) {
+				// Direct ancestor
+				if (ex <= xmin && (ex+ew+fudge) >= xmax) {
+					e.style["opacity"] = "0.5";
+					zoom_parent(e);
+					e.onclick = function(e){unzoom(); zoom(this);};
+					update_text(e);
+				}
+				// not in current path
+				else
+					e.style["display"] = "none";
+			}
+			// Children maybe
+			else {
+				// no common path
+				if (ex < xmin || ex + fudge >= xmax) {
+					e.style["display"] = "none";
+				}
+				else {
+					zoom_child(e, xmin, ratio);
+					e.onclick = function(e){zoom(this);};
+					update_text(e);
+				}
+			}
+		}
+	}
+	function unzoom() {
+		var unzoombtn = document.getElementById("unzoom");
+		unzoombtn.style["opacity"] = "0.0";
+		
+		var el = document.getElementsByTagName("g");
+		for(i=0;i<el.length;i++) {
+			el[i].style["display"] = "block";
+			el[i].style["opacity"] = "1";
+			zoom_reset(el[i]);
+			update_text(el[i]);
+		}
+	}	
+]]>
+</script>
+<rect x="0.0" y="0" width="1200.0" height="258.0" fill="url(#background)"  />
+<text text-anchor="middle" x="600.00" y="24" font-size="17" font-family="Verdana" fill="rgb(0,0,0)"  >Flame Graph</text>
+<text text-anchor="" x="10.00" y="241" font-size="12" font-family="Verdana" fill="rgb(0,0,0)" id="details" > </text>
+<text text-anchor="" x="10.00" y="24" font-size="12" font-family="Verdana" fill="rgb(0,0,0)" id="unzoom" onclick="unzoom()" style="opacity:0.0;cursor:pointer" >Reset Zoom</text>
+<g class="func_g" onmouseover="s('C:lj_cf_package_loader_lua (2 samples, 3.70%)')" onmouseout="c()" onclick="zoom(this)">
+<title>C:lj_cf_package_loader_lua (2 samples, 3.70%)</title><rect x="796.7" y="33" width="43.7" height="15.0" fill="rgb(222,169,18)" rx="2" ry="2" />
+<text text-anchor="" x="799.67" y="43.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >C:lj..</text>
+</g>
+<g class="func_g" onmouseover="s('C:lj_cf_package_require (33 samples, 61.11%)')" onmouseout="c()" onclick="zoom(this)">
+<title>C:lj_cf_package_require (33 samples, 61.11%)</title><rect x="141.1" y="145" width="721.1" height="15.0" fill="rgb(254,192,45)" rx="2" ry="2" />
+<text text-anchor="" x="144.11" y="155.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >C:lj_cf_package_require</text>
+</g>
+<g class="func_g" onmouseover="s('C:lj_cf_package_require (2 samples, 3.70%)')" onmouseout="c()" onclick="zoom(this)">
+<title>C:lj_cf_package_require (2 samples, 3.70%)</title><rect x="796.7" y="49" width="43.7" height="15.0" fill="rgb(247,171,18)" rx="2" ry="2" />
+<text text-anchor="" x="799.67" y="59.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >C:lj..</text>
+</g>
+<g class="func_g" onmouseover="s('work_job.lua:0 (2 samples, 3.70%)')" onmouseout="c()" onclick="zoom(this)">
+<title>work_job.lua:0 (2 samples, 3.70%)</title><rect x="796.7" y="65" width="43.7" height="15.0" fill="rgb(219,10,17)" rx="2" ry="2" />
+<text text-anchor="" x="799.67" y="75.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >work..</text>
+</g>
+<g class="func_g" onmouseover="s('C:lj_cf_package_loader_preload (1 samples, 1.85%)')" onmouseout="c()" onclick="zoom(this)">
+<title>C:lj_cf_package_loader_preload (1 samples, 1.85%)</title><rect x="687.4" y="65" width="21.9" height="15.0" fill="rgb(248,46,1)" rx="2" ry="2" />
+<text text-anchor="" x="690.41" y="75.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >C..</text>
+</g>
+<g class="func_g" onmouseover="s('safe_request.lua:1 (15 samples, 27.78%)')" onmouseout="c()" onclick="zoom(this)">
+<title>safe_request.lua:1 (15 samples, 27.78%)</title><rect x="862.2" y="193" width="327.8" height="15.0" fill="rgb(254,39,15)" rx="2" ry="2" />
+<text text-anchor="" x="865.22" y="203.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >safe_request.lua:1</text>
+</g>
+<g class="func_g" onmouseover="s('C:lj_cf_package_require (13 samples, 24.07%)')" onmouseout="c()" onclick="zoom(this)">
+<title>C:lj_cf_package_require (13 samples, 24.07%)</title><rect x="862.2" y="177" width="284.1" height="15.0" fill="rgb(247,92,16)" rx="2" ry="2" />
+<text text-anchor="" x="865.22" y="187.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >C:lj_cf_package_require</text>
+</g>
+<g class="func_g" onmouseover="s('C:lj_cf_package_require (39 samples, 72.22%)')" onmouseout="c()" onclick="zoom(this)">
+<title>C:lj_cf_package_require (39 samples, 72.22%)</title><rect x="10.0" y="177" width="852.2" height="15.0" fill="rgb(223,66,37)" rx="2" ry="2" />
+<text text-anchor="" x="13.00" y="187.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >C:lj_cf_package_require</text>
+</g>
+<g class="func_g" onmouseover="s('db_base.lua:_M.new (1 samples, 1.85%)')" onmouseout="c()" onclick="zoom(this)">
+<title>db_base.lua:_M.new (1 samples, 1.85%)</title><rect x="840.4" y="81" width="21.8" height="15.0" fill="rgb(206,221,17)" rx="2" ry="2" />
+<text text-anchor="" x="843.37" y="91.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >d..</text>
+</g>
+<g class="func_g" onmouseover="s('C:lj_cf_package_require (5 samples, 9.26%)')" onmouseout="c()" onclick="zoom(this)">
+<title>C:lj_cf_package_require (5 samples, 9.26%)</title><rect x="1037.0" y="145" width="109.3" height="15.0" fill="rgb(243,106,50)" rx="2" ry="2" />
+<text text-anchor="" x="1040.04" y="155.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >C:lj_cf_packa..</text>
+</g>
+<g class="func_g" onmouseover="s('C:lj_cf_package_require (10 samples, 18.52%)')" onmouseout="c()" onclick="zoom(this)">
+<title>C:lj_cf_package_require (10 samples, 18.52%)</title><rect x="621.9" y="81" width="218.5" height="15.0" fill="rgb(240,30,13)" rx="2" ry="2" />
+<text text-anchor="" x="624.85" y="91.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >C:lj_cf_package_require</text>
+</g>
+<g class="func_g" onmouseover="s('C:lj_cf_package_loader_lua (6 samples, 11.11%)')" onmouseout="c()" onclick="zoom(this)">
+<title>C:lj_cf_package_loader_lua (6 samples, 11.11%)</title><rect x="10.0" y="161" width="131.1" height="15.0" fill="rgb(231,175,2)" rx="2" ry="2" />
+<text text-anchor="" x="13.00" y="171.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >C:lj_cf_package_..</text>
+</g>
+<g class="func_g" onmouseover="s('all (54 samples, 100%)')" onmouseout="c()" onclick="zoom(this)">
+<title>all (54 samples, 100%)</title><rect x="10.0" y="209" width="1180.0" height="15.0" fill="rgb(222,173,46)" rx="2" ry="2" />
+<text text-anchor="" x="13.00" y="219.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  ></text>
+</g>
+<g class="func_g" onmouseover="s('logic_func.lua:0 (33 samples, 61.11%)')" onmouseout="c()" onclick="zoom(this)">
+<title>logic_func.lua:0 (33 samples, 61.11%)</title><rect x="141.1" y="161" width="721.1" height="15.0" fill="rgb(225,141,38)" rx="2" ry="2" />
+<text text-anchor="" x="144.11" y="171.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >logic_func.lua:0</text>
+</g>
+<g class="func_g" onmouseover="s('C:lj_cf_package_loader_lua (11 samples, 20.37%)')" onmouseout="c()" onclick="zoom(this)">
+<title>C:lj_cf_package_loader_lua (11 samples, 20.37%)</title><rect x="381.5" y="97" width="240.4" height="15.0" fill="rgb(238,103,26)" rx="2" ry="2" />
+<text text-anchor="" x="384.48" y="107.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >C:lj_cf_package_loader_lua</text>
+</g>
+<g class="func_g" onmouseover="s('C:lj_cf_package_loader_lua (3 samples, 5.56%)')" onmouseout="c()" onclick="zoom(this)">
+<title>C:lj_cf_package_loader_lua (3 samples, 5.56%)</title><rect x="621.9" y="65" width="65.5" height="15.0" fill="rgb(250,104,43)" rx="2" ry="2" />
+<text text-anchor="" x="624.85" y="75.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >C:lj_cf..</text>
+</g>
+<g class="func_g" onmouseover="s('C:lj_cf_package_loader_lua (10 samples, 18.52%)')" onmouseout="c()" onclick="zoom(this)">
+<title>C:lj_cf_package_loader_lua (10 samples, 18.52%)</title><rect x="141.1" y="129" width="218.5" height="15.0" fill="rgb(218,49,1)" rx="2" ry="2" />
+<text text-anchor="" x="144.11" y="139.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >C:lj_cf_package_loader_lua</text>
+</g>
+<g class="func_g" onmouseover="s('safe_request.lua:safe_read_body (2 samples, 3.70%)')" onmouseout="c()" onclick="zoom(this)">
+<title>safe_request.lua:safe_read_body (2 samples, 3.70%)</title><rect x="1146.3" y="177" width="43.7" height="15.0" fill="rgb(223,3,5)" rx="2" ry="2" />
+<text text-anchor="" x="1149.30" y="187.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >safe..</text>
+</g>
+<g class="func_g" onmouseover="s('C:lj_cf_package_loader_lua (4 samples, 7.41%)')" onmouseout="c()" onclick="zoom(this)">
+<title>C:lj_cf_package_loader_lua (4 samples, 7.41%)</title><rect x="1058.9" y="129" width="87.4" height="15.0" fill="rgb(253,210,16)" rx="2" ry="2" />
+<text text-anchor="" x="1061.89" y="139.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >C:lj_cf_pa..</text>
+</g>
+<g class="func_g" onmouseover="s('get_serial_id.lua:1 (39 samples, 72.22%)')" onmouseout="c()" onclick="zoom(this)">
+<title>get_serial_id.lua:1 (39 samples, 72.22%)</title><rect x="10.0" y="193" width="852.2" height="15.0" fill="rgb(218,119,54)" rx="2" ry="2" />
+<text text-anchor="" x="13.00" y="203.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >get_serial_id.lua:1</text>
+</g>
+<g class="func_g" onmouseover="s('C:lj_cf_package_loader_lua (4 samples, 7.41%)')" onmouseout="c()" onclick="zoom(this)">
+<title>C:lj_cf_package_loader_lua (4 samples, 7.41%)</title><rect x="709.3" y="33" width="87.4" height="15.0" fill="rgb(236,109,14)" rx="2" ry="2" />
+<text text-anchor="" x="712.26" y="43.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >C:lj_cf_pa..</text>
+</g>
+<g class="func_g" onmouseover="s('C:ngx_http_lua_ngx_req_read_body (2 samples, 3.70%)')" onmouseout="c()" onclick="zoom(this)">
+<title>C:ngx_http_lua_ngx_req_read_body (2 samples, 3.70%)</title><rect x="1146.3" y="161" width="43.7" height="15.0" fill="rgb(236,179,43)" rx="2" ry="2" />
+<text text-anchor="" x="1149.30" y="171.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >C:ng..</text>
+</g>
+<g class="func_g" onmouseover="s('C:lj_cf_package_loader_c (1 samples, 1.85%)')" onmouseout="c()" onclick="zoom(this)">
+<title>C:lj_cf_package_loader_c (1 samples, 1.85%)</title><rect x="1037.0" y="129" width="21.9" height="15.0" fill="rgb(254,36,41)" rx="2" ry="2" />
+<text text-anchor="" x="1040.04" y="139.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >C..</text>
+</g>
+<g class="func_g" onmouseover="s('db.lua:0 (22 samples, 40.74%)')" onmouseout="c()" onclick="zoom(this)">
+<title>db.lua:0 (22 samples, 40.74%)</title><rect x="381.5" y="129" width="480.7" height="15.0" fill="rgb(218,112,48)" rx="2" ry="2" />
+<text text-anchor="" x="384.48" y="139.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >db.lua:0</text>
+</g>
+<g class="func_g" onmouseover="s('db_base.lua:0 (4 samples, 7.41%)')" onmouseout="c()" onclick="zoom(this)">
+<title>db_base.lua:0 (4 samples, 7.41%)</title><rect x="709.3" y="65" width="87.4" height="15.0" fill="rgb(209,128,12)" rx="2" ry="2" />
+<text text-anchor="" x="712.26" y="75.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >db_base.lu..</text>
+</g>
+<g class="func_g" onmouseover="s('C:lj_cf_package_require (4 samples, 7.41%)')" onmouseout="c()" onclick="zoom(this)">
+<title>C:lj_cf_package_require (4 samples, 7.41%)</title><rect x="709.3" y="49" width="87.4" height="15.0" fill="rgb(238,1,38)" rx="2" ry="2" />
+<text text-anchor="" x="712.26" y="59.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >C:lj_cf_pa..</text>
+</g>
+<g class="func_g" onmouseover="s('C:lj_cf_package_require (22 samples, 40.74%)')" onmouseout="c()" onclick="zoom(this)">
+<title>C:lj_cf_package_require (22 samples, 40.74%)</title><rect x="381.5" y="113" width="480.7" height="15.0" fill="rgb(226,157,17)" rx="2" ry="2" />
+<text text-anchor="" x="384.48" y="123.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >C:lj_cf_package_require</text>
+</g>
+<g class="func_g" onmouseover="s('common.lua:0 (5 samples, 9.26%)')" onmouseout="c()" onclick="zoom(this)">
+<title>common.lua:0 (5 samples, 9.26%)</title><rect x="1037.0" y="161" width="109.3" height="15.0" fill="rgb(205,86,53)" rx="2" ry="2" />
+<text text-anchor="" x="1040.04" y="171.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >common.lua:0</text>
+</g>
+<g class="func_g" onmouseover="s('C:lj_cf_package_loader_lua (8 samples, 14.81%)')" onmouseout="c()" onclick="zoom(this)">
+<title>C:lj_cf_package_loader_lua (8 samples, 14.81%)</title><rect x="862.2" y="161" width="174.8" height="15.0" fill="rgb(214,52,52)" rx="2" ry="2" />
+<text text-anchor="" x="865.22" y="171.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >C:lj_cf_package_loader..</text>
+</g>
+<g class="func_g" onmouseover="s('C:lj_cf_package_loader_preload (1 samples, 1.85%)')" onmouseout="c()" onclick="zoom(this)">
+<title>C:lj_cf_package_loader_preload (1 samples, 1.85%)</title><rect x="359.6" y="129" width="21.9" height="15.0" fill="rgb(244,73,14)" rx="2" ry="2" />
+<text text-anchor="" x="362.63" y="139.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >C..</text>
+</g>
+<g class="func_g" onmouseover="s('db.lua:0 (11 samples, 20.37%)')" onmouseout="c()" onclick="zoom(this)">
+<title>db.lua:0 (11 samples, 20.37%)</title><rect x="621.9" y="97" width="240.3" height="15.0" fill="rgb(207,12,2)" rx="2" ry="2" />
+<text text-anchor="" x="624.85" y="107.5" font-size="12" font-family="Verdana" fill="rgb(0,0,0)"  >db.lua:0</text>
+</g>
+</svg>
