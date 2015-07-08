@@ -11,33 +11,43 @@
 2.  *module*函数压栈操作引发的副作用，污染了全局环境变量。例如*module("filename")*会创建一个*filename*的*table*，并将这个*table*注入全局环境变量中，这样使得没有引用它的文件也能调用*helloworld*模块的方法。
 
 比较推荐的模块定义方法是：
+
 ```lua
---定义一个用于复数计算的模块
-local moduleName = ...
+-- square.lua 长方形模块
+local _M = {}           -- 局部的变量
+_M._VERSION = '1.0'     -- 模块版本
 
-local M = {}    -- 局部的变量
-_G[moduleName] = M     -- 将这个局部变量最终赋值给模块名
+local mt = { __index = _M }
 
-package.loaded[moduleName] = M  --将模块table直接赋值给package.loaded，避免了在模块文件末尾return语句的麻烦。
-
-function M.new(r, i) return {r = r, i = i} end
-
--- 定义一个常量i
-M.i = M.new(0, 1)
-
-function M.add(c1, c2)
-    return M.new(c1.r + c2.r, c1.i + c2.i)
+function _M.new(self, width, height)
+    return setmetatable({ width=width, height=height }, mt)
 end
 
-function M.sub(c1, c2)
-    return M.new(c1.r - c2.r, c1.i - c2.i)
+function _M.get_square(self)
+    return self.width * self.height
 end
 
---不用return M，因为前面已经将其载入package.loaded表中了
+function _M.get_circumference(self)
+    return (self.width + self.height) * 2
+end
 
+return _M
 ```
 
--  另一个跟lua的module模块相关需要注意的点是，每次require一个模块，这个模块的生命周期将会一直持续到该次回话(session)结束，或者直到被显式地调用如下语句：
+> 引用示例代码：
+
 ```lua
-package.loaded.yourModuleName = nil
+local square = require "square" 
+
+local s1 = square:new(1, 2)
+print(s1:get_square())          --output: 2
+print(s1:get_circumference())   --output: 6
 ```
+
+-  另一个跟lua的module模块相关需要注意的点是，当lua_code_cache on开启是，require加载的模块是会被缓存下来的，这样我们的模块就会以最高效的方式运行，直到被显式地调用如下语句：
+
+```lua
+package.loaded["square"] = nil
+```
+
+我们可以利用这个特性代码来做一些进阶玩法。
