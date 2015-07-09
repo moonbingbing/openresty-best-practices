@@ -22,7 +22,7 @@ if not logger.initted() then
     local ok, err = logger.init{
         host = 'xxx',
         port = 1234,
-        flush_limit = 1,
+        flush_limit = 1,   --日志长度大于flush_limit的时候会将msg信息推送一次
         drop_limit = 99999,
     }
     if not ok then
@@ -44,6 +44,47 @@ end
 
 * 缓存无效：如果flush_limit的值稍大一些（例如 2000），会导致某些体积比较小的日志出现莫名其妙的丢失，所以我们只能把flush_limit调整的很小
 * 自己拼写msg所有内容，比较辛苦
+
+那么我们来看[lua-resty-logger-socket](https://github.com/cloudflare/lua-resty-logger-socket)这个库的log函数是如何实现的呢，代码如下：
+```lua 
+function _M.log(msg)  
+   ...
+
+    if (debug) then
+        ngx.update_time()
+        ngx_log(DEBUG, ngx.now(), ":log message length: " .. #msg)
+    end
+
+    local msg_len = #msg
+
+    if (is_exiting()) then
+        exiting = true
+        _write_buffer(msg)
+        _flush_buffer()
+        if (debug) then
+            ngx_log(DEBUG, "Nginx worker is exiting")
+        end
+        bytes = 0
+    elseif (msg_len + buffer_size < flush_limit) then  -- 历史日志大小+本地日志大小小于推送上限
+        _write_buffer(msg)
+        bytes = msg_len
+    elseif (msg_len + buffer_size <= drop_limit) then
+        _write_buffer(msg)
+        _flush_buffer()
+        bytes = msg_len
+    else
+        _flush_buffer()
+        if (debug) then
+            ngx_log(DEBUG, "logger buffer is full, this log message will be "
+                    .. "dropped")
+        end
+        bytes = 0
+        --- this log message doesn't fit in buffer, drop it  
+          
+        ...
+```
+
+由于在content_by_lua阶段变量的生命周期会随着会话的终结而终结，所以当日志量小于flush_limit的情况下这些日志就不能被累积，也不会触发_flush_buffer函数，所以小日志会丢失。
 
 这些坑回头看来这么明显，所有的问题都是因为我们把lua/log.lua用错阶段了，应该放到log_by_lua阶段，所有的问题都不复存在。
 
