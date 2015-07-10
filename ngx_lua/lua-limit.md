@@ -48,3 +48,14 @@ location /download_internal/ {
 
 经过测试，绝对达到要求。有了这个东东，我们就可以在lua上直接操作限速变量实时生效。再也不用之前笨拙的reload方式了。
 
+PS: ngx.var.limit_rate 限速是基于请求的，如果相同终端发起两个连接，那么终端的最大速度将是limit_rate的两倍，原文如下：  
+
+```
+Syntax: limit_rate rate;
+Default:    
+limit_rate 0;
+Context: http, server, location, if in location    
+
+Limits the rate of response transmission to a client. The rate is specified in bytes per second. The zero value disables rate limiting. The limit is set per a request, and so if a client simultaneously opens two connections, the overall rate will be twice as much as the specified limit.
+```
+
