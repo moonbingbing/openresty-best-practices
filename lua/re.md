@@ -3,9 +3,19 @@
 
 *Lua*中的正则表达式与Nginx中的正则表达式相比，有5%-15%的性能损失，而且Lua将表达式编译成Pattern之后，并不会将Pattern缓存，而是每此使用都重新编译一遍，潜在地降低了性能。*Nginx*中的正则表达式可以通过参数缓存编译过后的Pattern，不会有类似的性能损失。
 
-<!-- suhang， 补充一个ngx.re.match如何使用缓存的例子
-参考：http://wiki.nginx.org/HttpLuaModule#ngx.re.match
- -->
+o选项参数用于提高性能，指明该参数之后，被编译的Pattern将会在worker进程中缓存，并且被当前所有的worker进程所共享。Pattern缓存的上限值通过lua_regex_cache_max_entries来修改。
+
+ ```
+# nginx.conf
+location /test {
+    content_by_lua '
+        local regex = "\\\\d+"
+        local m = ngx.re.match("hello, 1234", regex, "o")  --参数"o"是开启缓存必须的
+        if m then ngx.say(m[0]) else ngx.say("not matched!") end
+    ';
+}
+# 在网址中输入"yourURL/test"，即会在网页中显示1234。
+```
 
 *Lua*中正则表达式语法上最大的区别，*Lua*使用*'%'*来进行转义，而其他语言的正则表达式使用*'\'*符号来进行转义。其次，*Lua*中并不使用*'?'*来表示非贪婪匹配，而是定义了不同的字符来表示是否是贪婪匹配。定义如下：
 
@@ -30,29 +40,22 @@
 |%x  |十六进制数字 |
 |%z  |代表 0 的字符|
 
-####Lua正则简单汇总
 -  *string.find* 的基本应用是在目标串内搜索匹配指定的模式的串。函数如果找到匹配的串返回他的开始索引和结束索引，否则返回 *nil*。*find*函数第三个参数是可选的：标示目标串中搜索的起始位置。当我们想实现一个迭代器时，可以传进上一次调用时的结束索引，如果返回了一个*nil*值的话，说明查找结束了.
   
 
 ```lua
 local s = "hello world"
-local i, j = string.find(s, "hello")
+local i, j = {string.find(s, "hello")}
 print(i, j) --> 1 5 
 ```
 
-- *string.gmatch* 我们也可以使用返回迭代器的方式
+- 当然，我们也可以直接使用返回一个迭代器的函数：*string.gmatch(str, pattern)*
 
 ```lua
 local s = "hello world from Lua" 
 for w in string.gmatch(s, "%a+") do  
-    print(w)  
+　print(w)  
 end 
-
--- output :
---    hello
---    world
---    from
---    Lua
 ```
 
 -  *string.gsub* 用来查找匹配模式的串，并将使用替换串其替换掉,但并不修改原字符串，而是返回一个修改后的字符串的副本，函数有目标串，模式串，替换串三个参数，使用范例如下：
