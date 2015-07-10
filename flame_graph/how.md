@@ -20,7 +20,7 @@
 3. 使用[ngx-sample-lua-bt](https://github.com/openresty/nginx-systemtap-toolkit)抓取栈信息,并用fix-lua-bt工具处理；
 >./ngx-sample-lua-bt -p 9768 --luajit20 -t 5 > tmp.bt  
 ./fix-lua-bt tmp.bt > a.bt
-4. 使用[stackcollapse-stap.pl和](https://github.com/brendangregg/FlameGraph)；
+4. 使用[stackcollapse-stap.pl和flamegraph.pl](https://github.com/brendangregg/FlameGraph)；
 >./stackcollapse-stap.pl a.bt > a.cbt  
 ./flamegraph.pl a.cbt > a.svg
 5. a.svg即是火焰图，拖入浏览器即可，
