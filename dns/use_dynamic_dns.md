@@ -77,12 +77,12 @@ function http_request_with_dns( url, param )
         return {status=ngx.HTTP_SERVICE_UNAVAILABLE}
     end
 
-	 -- 
-    httpc:set_keepalive(1000, 100)
+    -- httpc:request_uri 内部已经调用了keepalive，默认支持长连接
+    -- httpc:set_keepalive(1000, 100)
     return res
 end
 ```
 
-动态DNS，域名访问，长连接，这些都具备了，貌似可以安稳一下。在压力测试中发现这里面有个机制不太好，就是对于指定域名解析，每次都要和DNS服务回话询问IP地址，实际上这个是不需要的。普通的浏览器，都会对DNS的结果进行一定的缓存，那么这里也必须要使用了。
+动态DNS，域名访问，长连接，这些都具备了，貌似可以安稳一下。在压力测试中发现这里面有个机制不太好，就是对于指定域名解析，每次都要和DNS服务回话询问IP地址，实际上这是不需要的。普通的浏览器，都会对DNS的结果进行一定的缓存，那么这里也必须要使用了。
 
 对于缓存实现代码，请参考ngx_lua相关章节，肯定会有惊喜等着你挖掘碰撞。
