@@ -5,13 +5,19 @@
 
 o选项参数用于提高性能，指明该参数之后，被编译的Pattern将会在worker进程中缓存，并且被当前worker进程的每次请求所共享。Pattern缓存的上限值通过lua_regex_cache_max_entries来修改。
 
- ```
+```
 # nginx.conf
 location /test {
     content_by_lua '
-        local regex = "\\\\d+"
-        local m = ngx.re.match("hello, 1234", regex, "o")  --参数"o"是开启缓存必须的
-        if m then ngx.say(m[0]) else ngx.say("not matched!") end
+        local regex = [[\\d+]]
+
+        -- 参数"o"是开启缓存必须的
+        local m = ngx.re.match("hello, 1234", regex, "o")  
+        if m then 
+            ngx.say(m[0]) 
+        else 
+            ngx.say("not matched!") 
+        end
     ';
 }
 # 在网址中输入"yourURL/test"，即会在网页中显示1234。
@@ -55,7 +61,7 @@ print(i, j) --> 1 5
 ```lua
 local s = "hello world from Lua" 
 for w in string.gmatch(s, "%a+") do  
-    print(w)  
+    print(w)
 end 
 
 -- output :
@@ -79,7 +85,8 @@ print(b) --> Lua is great
 匹配的开始，y 作为匹配的结束。比如，'%b()' 匹配以 '(' 开始，以 ')' 结束的字符串：
 
 ```lua
-print(string.gsub("a (enclosed (in) parentheses) line", "%b()", ""))    --> a line
+--> a line
+print(string.gsub("a (enclosed (in) parentheses) line", "%b()", "")) 
 ```
 
 -  常用的这种模式有：'%b()' ，'%b[]'，'%b%{%}' 和 '%b<>'。不过我们可以使用任何字符作为分隔符。
