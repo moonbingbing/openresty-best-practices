@@ -39,3 +39,13 @@ end
 如果需要在Lua中处理错误，必须使用函数pcall（protected call）来包装需要执行的代码。
 pcall接收一个函数和要传递给后者的参数，并执行，执行结果：有错误、无错误；返回值true或者或false, errorinfo。pcall以一种"保护模式"来调用第一个参数，因此pcall可以捕获函数执行中的任何错误。有兴趣的同学，请更多了解下Lua中的异常处理。
 
+另外，可以使用CJSON 2.1.0，该版本新增一个cjson.safe模块接口，该接口兼容cjson模块，并且在解析错误时不抛出异常，而是返回nil。
+```lua
+local json = require("cjson.safe")
+local str  = [[ {"key:"value"} ]]
+
+local t    = json.decode(str)
+if t then
+    ngx.say(" --> ", type(t))
+done
+```
