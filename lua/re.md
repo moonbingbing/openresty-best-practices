@@ -88,5 +88,3 @@ print(b) --> Lua is great
 --> a line
 print(string.gsub("a (enclosed (in) parentheses) line", "%b()", ""))
 ```
-
--  常用的这种模式有：'%b\(\)' ，'%b\[\]'，'%b%\{%\}' 和 '%b<>'。不过我们可以使用任何字符作为分隔符。
