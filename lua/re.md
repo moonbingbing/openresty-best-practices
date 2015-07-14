@@ -13,10 +13,10 @@ location /test {
 
         -- 参数"o"是开启缓存必须的
         local m = ngx.re.match("hello, 1234", regex, "o")  
-        if m then 
-            ngx.say(m[0]) 
-        else 
-            ngx.say("not matched!") 
+        if m then
+            ngx.say(m[0])
+        else
+            ngx.say("not matched!")
         end
     ';
 }
@@ -48,21 +48,21 @@ location /test {
 
 ####Lua正则简单汇总
 -  *string.find* 的基本应用是在目标串内搜索匹配指定的模式的串。函数如果找到匹配的串，就返回它的开始索引和结束索引，否则返回 *nil*。*find*函数第三个参数是可选的：标示目标串中搜索的起始位置，例如当我们想实现一个迭代器时，可以传进上一次调用时的结束索引，如果返回了一个*nil*值的话，说明查找结束了.
-  
+
 
 ```lua
 local s = "hello world"
 local i, j = string.find(s, "hello")
-print(i, j) --> 1 5 
+print(i, j) --> 1 5
 ```
 
 - *string.gmatch* 我们也可以使用返回迭代器的方式
 
 ```lua
-local s = "hello world from Lua" 
+local s = "hello world from Lua"
 for w in string.gmatch(s, "%a+") do  
     print(w)
-end 
+end
 
 -- output :
 --    hello
@@ -77,7 +77,7 @@ end
 local a = "Lua is cute"
 local b = string.gsub(a, "cute", "great")
 print(a) --> Lua is cute
-print(b) --> Lua is great 
+print(b) --> Lua is great
 ```
 
 -  还有一点值得注意的是，'%b' 用来匹配对称的字符，而不是一般正则表达式中的单词的开始、结束。
@@ -86,8 +86,7 @@ print(b) --> Lua is great
 
 ```lua
 --> a line
-print(string.gsub("a (enclosed (in) parentheses) line", "%b()", "")) 
+print(string.gsub("a (enclosed (in) parentheses) line", "%b()", ""))
 ```
 
--  常用的这种模式有：'%b()' ，'%b[]'，'%b%{%}' 和 '%b<>'。不过我们可以使用任何字符作为分隔符。
-
+-  常用的这种模式有：'%b\(\)' ，'%b\[\]'，'%b%\{%\}' 和 '%b<>'。不过我们可以使用任何字符作为分隔符。
