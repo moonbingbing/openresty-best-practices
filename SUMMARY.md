@@ -69,4 +69,5 @@
 * [火焰图](flame_graph.md)
    * [什么时候使用](flame_graph/when.md)
    * [显示的是什么](flame_graph/what.md)
+   * [如何安装火焰图生成工具](flame_graph/install.md)
    * [如何定位问题](flame_graph/how.md)
