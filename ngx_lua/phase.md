@@ -1,6 +1,9 @@
 # 执行阶段概念
 
-首先我们先做个测试：
+`Nginx`处理一个请求，它的处理流程请参考下图：
+![nginx_internet_request](step.png)
+
+我们OpenResty做个测试，示例代码如下：
 ```
 location /mixed {
     set_by_lua $a 'ngx.log(ngx.ERR, "set_by_lua")';
