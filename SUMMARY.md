@@ -35,7 +35,7 @@
    * [如何添加自己的lua api](ngx_lua/add_new_lua_api.md)
 * [LuaSharedDict](shared.md)
    * [非队列性质](shared/shared_get_keys.md)
-* [LuaRestyDNSLibrary](dns.md)
+* LuaRestyDNSLibrary
    * [使用动态DNS来完成HTTP请求](dns/use_dynamic_dns.md)
 * [LuaRestyLock](lock.md)
 	* [缓存失效风暴](lock/cache-miss-storm.md)
