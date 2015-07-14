@@ -38,6 +38,7 @@
    * [如何添加自己的lua api](ngx_lua/add_new_lua_api.md)
 * [LuaRestyDNSLibrary](dns.md)
    * [使用动态DNS来完成HTTP请求](dns/use_dynamic_dns.md)
+* [KeepAlive](keepalive.md)
 * [LuaRestyLock](lock.md)
 	* [缓存失效风暴](lock/cache-miss-storm.md)
 * [Lua](lua.md)
