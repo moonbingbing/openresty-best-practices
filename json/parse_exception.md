@@ -47,5 +47,5 @@ local str  = [[ {"key:"value"} ]]
 local t    = json.decode(str)
 if t then
     ngx.say(" --> ", type(t))
-done
+end
 ```
