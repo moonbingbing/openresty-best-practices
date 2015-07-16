@@ -7,3 +7,4 @@
 
 
 
+关于[Github](https://github.com/openresty/nginx-systemtap-toolkit)上提供的由perl脚本完成的栈抓取的程序是一个傻瓜化的stap脚本，如果有需要可以自行使用stap进行栈的抓取并生成火焰图，各位看官可以自行尝试。

@@ -17,7 +17,7 @@ local http     = require "resty.http"
 function get_domain_ip_by_dns( domain )
   -- 这里写死了google的域名服务ip，要根据实际情况做调整（例如放到指定配置或数据库中）
   local dns = "8.8.8.8"
-  
+
   local r, err = resolver:new{
       nameservers = {dns, {dns, 53} },
       retrans = 5,  -- 5 retransmissions on receive timeout
@@ -34,7 +34,7 @@ function get_domain_ip_by_dns( domain )
   end
 
   if answers.errcode then
-      return nil, "server returned error code: " .. answers.errcode .. ": " .. answers.errstr       
+      return nil, "server returned error code: " .. answers.errcode .. ": " .. answers.errstr
   end
 
   for i, ans in ipairs(answers) do

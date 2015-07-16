@@ -46,7 +46,7 @@ end
 * 自己拼写msg所有内容，比较辛苦
 
 那么我们来看[lua-resty-logger-socket](https://github.com/cloudflare/lua-resty-logger-socket)这个库的log函数是如何实现的呢，代码如下：
-```lua 
+```lua
 function _M.log(msg)  
    ...
 
@@ -80,7 +80,7 @@ function _M.log(msg)
         end
         bytes = 0
         --- this log message doesn't fit in buffer, drop it  
-          
+
         ...
 ```
 
@@ -121,4 +121,3 @@ function _M.log(msg)
 ```
 
 更多有关ngx.ctx信息，请看[这里](http://wiki.nginx.org/HttpLuaModuleZh#ngx.ctx)。
-
