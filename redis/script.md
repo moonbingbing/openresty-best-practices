@@ -1,7 +1,7 @@
 # script压缩复杂请求
-从[pipeline那一章节](https://github.com/moonbingbing/openresty-best-practices/blob/master/redis/pipeline.md)，我们知道对于多个简单的redis命令可以汇聚到一个请求中，提升服务端的并发能力。然而，在有些场景下，我们每次命令的输入需要引用上个命令的输出，可能还要对第一个命令的输出做一些加工，再把加工结果当成第二个命令的输入。pipeline难以处理这样的场景。庆幸的是，我们可以用redis里的script来压缩这些复杂命令。
+从[pipeline那一章节](https://github.com/moonbingbing/openresty-best-practices/blob/master/redis/pipeline.md)，我们知道对于多个简单的redis命令可以汇聚到一个请求中，提升服务端的并发能力。然而，在有些场景下，我们每次命令的输入需要引用上个命令的输出，甚至可能还要对第一个命令的输出做一些加工，再把加工结果当成第二个命令的输入。pipeline难以处理这样的场景。庆幸的是，我们可以用redis里的script来压缩这些复杂命令。
 
-script的核心思想是在redis命令里嵌入lua代码，来实现一些复杂操作。Redis中和脚本相关的命令有：
+script的核心思想是在redis命令里嵌入Lua脚本，来实现一些复杂操作。Redis中和脚本相关的命令有：
 - EVAL
 - EVALSHA
 - SCRIPT EXISTS
@@ -9,7 +9,7 @@ script的核心思想是在redis命令里嵌入lua代码，来实现一些复杂
 - SCRIPT KILL
 - SCRIPT LOAD
 
-官网上给出了这些命令的基本语法，看兴趣的可以到[这里](http://redis.io/commands/eval)查阅。其中EVAL的基本语法如下：
+官网上给出了这些命令的基本语法，感兴趣的同学可以到[这里](http://redis.io/commands/eval)查阅。其中EVAL的基本语法如下：
 >EVAL script numkeys key [key ...] arg [arg ...]
 
 EVAL的第一个参数*script*是一段 Lua 脚本程序。 这段Lua脚本不需要（也不应该）定义函数。它运行在 Redis 服务器中。
