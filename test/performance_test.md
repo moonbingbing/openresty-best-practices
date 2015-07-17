@@ -91,13 +91,13 @@ X-Counter: 232
 ...(应答包 省略)
 ```
 
-wrk是个非常成功的作品，它的实现更是从个个开源作品中挖掘牛X东西融入自身，如果你每天还在用C/C++，那么wrk的成功，对你应该有绝对的借鉴意义，多抬头，多看牛X代码，我们绝对可以创造奇迹。
+wrk是个非常成功的作品，它的实现更是从多个开源作品中挖掘牛X东西融入自身，如果你每天还在用C/C++，那么wrk的成功，对你应该有绝对的借鉴意义，多抬头，多看牛X代码，我们绝对可以创造奇迹。
 
 引用[wrk](https://github.com/wg/wrk)官方结尾：
 
 ```
 wrk contains code from a number of open source projects including the 'ae'
- event loop from redis, the nginx/joyent/node.js 'http-parser', and Mike 
+ event loop from redis, the nginx/joyent/node.js 'http-parser', and Mike
  Pall's LuaJIT.
 ```
 
