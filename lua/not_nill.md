@@ -11,7 +11,7 @@ person = nil
 
 print(person.name)
 ```
-上面这个例子把nil的错误引用显而易见地抛了出来，执行后，会提示这样的错误：
+上面这个例子把nil的错误用法显而易见地展示出来，执行后，会提示这样的错误：
 ```
 stdin:1:attempt to index global 'person' (a nil value)
 stack traceback:
@@ -85,7 +85,7 @@ end
 d == nil
 _G.next(a) == nil
 ```
-因此，我们要判断一个table是否为{},不能采用#table == 0的方式来判断。可以用可以用下面这样的方法来判断：
+因此，我们要判断一个table是否为{},不能采用#table == 0的方式来判断。可以用下面这样的方法来判断：
 ```
 function isTableEmpty(t)
 	if t == nil or _G.next(t) == nil then
