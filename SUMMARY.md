@@ -36,7 +36,7 @@
    * [动态限速](ngx_lua/lua-limit.md)
    * [shared.dict 非队列性质](ngx_lua/shared_get_keys.md)
    * [如何添加自己的lua api](ngx_lua/add_new_lua_api.md)
-   * [正确使用长链接](keepalive.md)
+   * [正确使用长链接](ngx_lua/keepalive.md)
 * [LuaRestyDNSLibrary](dns.md)
    * [使用动态DNS来完成HTTP请求](dns/use_dynamic_dns.md)
 * [LuaRestyLock](lock.md)
