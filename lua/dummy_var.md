@@ -30,15 +30,15 @@ print ( finish )                              --输出 2
 > 在for循环中的使用：
 
 ```lua
-local table = {1, 3, 5}
+local t = {1, 3, 5}
 
-for i,v in ipairs(table) do
+for i,v in ipairs(t) do
     print(i,v)                   --输出1  1
                                  --2  3
                                  --3  5
 end
 
-for _,v in ipairs(table) do
+for _,v in ipairs(t) do
     print(v)                --输出1
                             --3
                             --5
@@ -52,7 +52,7 @@ end
 local _M = { _VERSION = '0.04' }
 local mt = { __index = _M }
 
-function _M.new(_, param)
+function _M.new(_, param)  
   local self = {
         param=param
       }
