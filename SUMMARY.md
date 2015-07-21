@@ -52,6 +52,7 @@
    * [函数在调用代码前定义](lua/function_before_use.md)
    * [抵制使用module()函数来定义Lua模块](lua/not_use_module.md)
    * [点号与冒号操作符的区别](lua/dot_diff.md)
+   * [控制结构for的使用](lua/for.md)
 * [测试](test.md)
    * [单元测试](test/unittest.md)
    * [API测试](test/apitest.md)
