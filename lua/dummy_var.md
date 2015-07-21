@@ -45,23 +45,3 @@ for _,v in ipairs(t) do
 end
 
 ```
-
-> 在函数定义中的使用：
-
-```lua
-local _M = { _VERSION = '0.04' }
-local mt = { __index = _M }
-
-function _M.new(_, param)  
-  local self = {
-        param=param
-      }
-
-  return setmetatable(self, mt)
-end
-
-return _M
-
-```
-
-
