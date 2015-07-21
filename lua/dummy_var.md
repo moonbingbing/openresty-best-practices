@@ -9,7 +9,7 @@
 -- p，若匹配不成功，返回nil，若匹配成功，返回第一次匹配成功
 -- 的起止下标。
 
-local start, finish = string.find("hello", "he") -- start值为起始下标，finish
+local start, finish = string.find("hello", "he") --start值为起始下标，finish
                                                  -- 值为结束下标
 print ( start, finish )                          -- 输出 1   2
 
@@ -32,34 +32,16 @@ print ( finish )                              --输出 2
 ```lua
 local t = {1, 3, 5}
 
-for i,v in ipairs(table_name) do
-    print(i,v)
+for i,v in ipairs(t) do
+    print(i,v)                   --输出1  1
+                                 --2  3
+                                 --3  5
 end
 
-for _,v in ipairs(table_name) do
-    print(v)
+for _,v in ipairs(t) do
+    print(v)                --输出1
+                            --3
+                            --5
 end
 
 ```
-
-> 在函数定义中的使用：
-
-```lua
-local _M = { _VERSION = '0.04' }
-local mt = { __index = _M }
-
-function _M.new(_, param)
-  local self = {
-        param=param
-      }
-
-  return setmetatable(self, mt)
-end
-
--- ...
-
-return _M
-
-```
-
-
