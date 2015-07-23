@@ -26,7 +26,7 @@ end
 5
 ```
 
-步长可以是正整数，也可以是负整数：
+...
 
 ```lua
 for i=1,10,2 do
@@ -39,18 +39,19 @@ end
 5
 7
 9
+```
 
 
-for i=5, 1, -1 do
+
+> 以下是这种循环的一个典型示例：
+
+```lua
+for i=10, 1, -1 do
   print(i)
 end
 
 -- output:
-5
-4
-3
-2
-1
+...
 ```
 
 如果不想给循环设置上限的话，可以使用常量math.huge：
@@ -92,7 +93,9 @@ for k in pairs(t) do
 end
 ```
 
-从外观上看泛型for比较简单，但其实它是非常强大的。通过不同的迭代器，几乎可以遍历所有的东西，而且写出的代码极具可读性。标准库提供了几种迭代器，包括用于迭代文件中每行的（io.lines）、迭代table元素的（pairs）、迭代数组元素的（ipairs）、迭代字符串中单词的（string.gmatch）等。
+从外观上看泛型for比较简单，但其实它是非常强大的。通过不同的迭代器，几乎可以遍历所有的东西，
+而且写出的代码极具可读性。标准库提供了几种迭代器，包括用于迭代文件中每行的（io.lines）、
+迭代table元素的（pairs）、迭代数组元素的（ipairs）、迭代字符串中单词的（string.gmatch）等。
 
 泛型for循环与数字型for循环有两个相同点：（1）**循环变量是循环体的局部变量**；（2）**决不应该对
 循环变量作任何赋值**。
@@ -100,7 +103,7 @@ end
 
 ```lua
 local days = {
-  "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+  "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
 }
 ```
 
@@ -109,15 +112,15 @@ local days = {
 一周中每天的名称作为索引，位置数字作为值：
 
 ```lua
-local revDays = {
-  ["Monday"] = 1,
-  ["Tuesday"] = 2,
-  ["Wednesday"] = 3,
-  ["Thursday"] = 4,
-  ["Friday"] = 5,
-  ["Saturday"] = 6,
-  ["Sunday"] = 7
-}
+  local revDays = {
+    ["Sunday"] = 1,
+    ["Monday"] = 2,
+    ["Tuesday"] = 3,
+    ["Wednesday"] = 4,
+    ["Thursday"] = 5,
+    ["Friday"] = 6,
+    ["Saturday"] = 7
+  }
 ```
 
 接下来，要找出一个名称所对应的需要，只需用名字来索引这个reverse table即可：

@@ -2,7 +2,7 @@
 
 大家在使用Lua的时候，一定会遇到不少和nil有关的坑吧。有时候不小心引用了一个没有赋值的变量，这时它的值默认为nil。如果对一个nil进行索引的话，会导致异常。
 如下：
-```lua
+```
 local person = {name = "Bob", sex = "M"}
 
 -- do something
