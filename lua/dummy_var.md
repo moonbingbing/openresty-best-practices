@@ -9,7 +9,7 @@
 -- p，若匹配不成功，返回nil，若匹配成功，返回第一次匹配成功
 -- 的起止下标。
 
-local start, finish = string.find("hello", "he") -- start值为起始下标，finish
+local start, finish = string.find("hello", "he") --start值为起始下标，finish
                                                  -- 值为结束下标
 print ( start, finish )                          -- 输出 1   2
 
@@ -25,41 +25,23 @@ print ( finish )                              --输出 2
 
 代码倒数第二行，定义了一个用local修饰的`虚变量`（即 单个下划线）。使用这个虚变量接收string.find()第一个返回值，静默丢掉，这样就直接得到第二个返回值了。
 
-虚变量不仅仅可以被用在返回值，还可以用在迭代、函数输入等。
+虚变量不仅仅可以被用在返回值，还可以用在迭代等。
 
 > 在for循环中的使用：
 
 ```lua
 local t = {1, 3, 5}
 
-for i,v in ipairs(table_name) do
-    print(i,v)
-end
+for i,v in ipairs(t) do
+    print(i,v)                   
+end                          --输出1  1
+                                -- 2  3
+                                -- 3  5
 
-for _,v in ipairs(table_name) do
-    print(v)
-end
-
-```
-
-> 在函数定义中的使用：
-
-```lua
-local _M = { _VERSION = '0.04' }
-local mt = { __index = _M }
-
-function _M.new(_, param)
-  local self = {
-        param=param
-      }
-
-  return setmetatable(self, mt)
-end
-
--- ...
-
-return _M
+for _,v in ipairs(t) do
+    print(v)                
+end                        --输出 1
+                               -- 3
+                               -- 5
 
 ```
-
-
