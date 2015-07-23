@@ -10,11 +10,13 @@ script的核心思想是在redis命令里嵌入Lua脚本，来实现一些复杂
 - SCRIPT LOAD
 
 官网上给出了这些命令的基本语法，感兴趣的同学可以到[这里](http://redis.io/commands/eval)查阅。其中EVAL的基本语法如下：
+
 >EVAL script numkeys key [key ...] arg [arg ...]
 
 EVAL的第一个参数*script*是一段 Lua 脚本程序。 这段Lua脚本不需要（也不应该）定义函数。它运行在 Redis 服务器中。
 EVAL的第二个参数*numkeys*是参数的个数，后面的参数*key*（从第三个参数），表示在脚本中所用到的那些 Redis 键(key)，这些键名参数可以在 Lua 中通过全局变量 KEYS 数组，用 1 为基址的形式访问( KEYS[1] ， KEYS[2] ，以此类推)。
 在命令的最后，那些不是键名参数的附加参数*arg [arg ...]* ，可以在 Lua 中通过全局变量 ARGV 数组访问，访问的形式和 KEYS 变量类似( ARGV[1] 、 ARGV[2] ，诸如此类)。下面是执行eval命令的简单例子：
+
 ```
 eval "return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}" 2 key1 key2 first second
 1) "key1"
@@ -24,6 +26,7 @@ eval "return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}" 2 key1 key2 first second
 ```
 
 openresty中已经对redis的所有原语操作进行了封装。下面我们以EVAL为例，来看一下openresty中如何利用script来压缩请求：
+
 ```
 # you do not need the following line if you are using
     # the ngx_openresty bundle:
