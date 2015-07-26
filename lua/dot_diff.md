@@ -34,7 +34,8 @@ function obj.fun1(self)
 	print(self.x)
 end
 ```
-参见[ 官方文档 ](http://www.lua.org/manual/5.1/manual.html#2.5.9)中的以下片段
+参见[ 官方文档 ](http://www.lua.org/manual/5.1/manual.html#2.5.9)中的以下片段:
+“
 
 The colon syntax is used for defining methods, that is, functions that have an implicit extra parameter self. Thus, the statement
 
@@ -42,6 +43,6 @@ The colon syntax is used for defining methods, that is, functions that have an i
 is syntactic sugar for
 
      t.a.b.c.f = function (self, params) body end
-
+”
 
 冒号的操作，只有当变量是类对象时才需要。有关如何使用Lua构造类，大家可参考相关章节。
