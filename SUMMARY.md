@@ -2,10 +2,10 @@
 
 * [序](README.md)
 * [Lua入门]()
-      * [Lua简介]()
+      * [Lua简介](lua/brief.md)
          * [Lua是什么]()
          * [Lua与Luajit的区别]()
-         * [Lua环境搭建]()
+         * [Lua环境搭建](lua/build_env.md)
          * [搭建Lua运行环境]()
          * [Hello world程序]()
       * [基础数据类型]()
