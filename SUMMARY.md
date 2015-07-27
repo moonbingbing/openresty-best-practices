@@ -26,7 +26,7 @@
          * [repeat]()
          * [for]()
          * [break，return]()
-      * [Lua函数]()
+      * [Lua函数](lua/function.md)
          * [函数的定义]()
          * [多重返回值]()
          * [变长参数]()
