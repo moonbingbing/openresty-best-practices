@@ -13,7 +13,7 @@ Lua的算术运算符如下表所示：
 
 >示例代码：test1.lua
 
-```
+```lua
 print(1 + 2)    -->打印 3
 print(3 - 4)    -->打印 -1
 print(5 * 6)    -->打印 30
@@ -35,7 +35,7 @@ print(5 % 3)    -->打印 2
 
 >示例代码：test2.lua
 
-```
+```lua
 print(1 < 2)    -->打印 true
 print(1 == 2)   -->打印 false
 print(1 ~= 2)   -->打印 true
@@ -55,7 +55,7 @@ print (a == b)  -->打印 false
 
 >示例代码：test3.lua
 
-```
+```lua
 local c = nil
 local d = 0
 local e = 100
@@ -87,7 +87,7 @@ Lua操作符的优先级如下表所示(从高到低)：
 
 >示例：
 
-```
+```lua
 local a, b = 1, 2
 local x, y = 3, 4
 local i = 10
