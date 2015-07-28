@@ -7,14 +7,8 @@
             internal;
 
             default_type text/html;
-            set_by_lua $query_sql '
-                if ngx.var.arg_sql then
-                    return ngx.unescape_uri(ngx.var.arg_sql)
-                end
-                
-                local ngx_share     = ngx.shared.ngx_cache_sql
-                return ngx_share:get(ngx.var.arg_id)
-                ';
+            set_by_lua $query_sql 'return ngx.unescape_uri(ngx.var.arg_sql)';
+
             postgres_pass   pg_server;
             rds_json          on;
             rds_json_buffer_size 16k;
@@ -27,7 +21,7 @@
 这里有很多指令要素：
 
 * internal 这个指令指定所在的 location 只允许使用于处理内部请求，否则返回 404 。
-* set\_by\_lua 这一段内嵌的 lua 代码用于计算出 $query_sql 变量的值，即要发送给 PostgreSQL 处理的 SQL 语句。
+* set\_by\_lua 这一段内嵌的 lua 代码用于计算出 $query_sql 变量的值，即后续通过指令 postgres_query 发送给 PostgreSQL 处理的 SQL 语句。这里使用了GET请求的 query 参数作为 SQL 语句输入。
 * postgres\_pass 这个指令可以指定一组提供后台服务的 PostgreSQL 数据库的 upstream 块。
 * rds\_json 这个指令是 ngx\_rds\_json 提供的，用于指定 ngx\_rds\_json 的 output 过滤器的开关状态，其模块作用就是一个用于把 rds 格式数据转换成 json 格式的 output filter。这个指令在这里出现意思是让 ngx\_rds\_json 模块帮助 ngx\_postgres 模块把模块输出数据转换成 json 格式的数据。
 * rds_json_buffer_size 这个指令指定 ngx\_rds\_json 用于每个连接的数据转换的内存大小. 默认是 4/8k,适当加大此参数，有利于减少 CPU 消耗。
@@ -35,4 +29,47 @@
 * postgres_connect_timeout 设置连接超时时间。
 * postgres_result_timeout 设置结果返回超时时间。
 
- 
+这样的配置就完成了初步的可以提供其他 location 调用的 location 了。但这里还差一个配置没说明白，就是这一行：
+postgres_pass   pg_server; 
+
+其实这一行引入了 名叫 pg_server 的 upstream 块，其定义应该像如下：
+		
+		upstream pg_server {
+		        postgres_server  192.168.1.2:5432 dbname=pg_database
+		                user=postgres password=postgres;
+		        postgres_keepalive max=800 mode=single overflow=reject;
+		}
+
+这里有一些指令要素：
+
+* postgres_server 这个指令是必须带的，但可以配置多个，用于配置服务器连接参数，可以分解成若干参数：
+    - 直接跟在后面的应该是服务器的 IP:Port
+    - dbname 是服务器要连接的 PostgreSQL 的数据库名称。
+    - user 是用于连接 PostgreSQL 服务器的账号名称。
+    - password 是账号名称对应的密码。
+
+* postgres_keepalive 这个指令用于配置长连接连接池参数，长连接连接池有利于提高通讯效率，可以分解为若干参数：
+    - max 是工作进程可以维护的连接池最大长连接数量。
+    - mode 是后端匹配模式，在postgres_server 配置了多个的时候发挥作用，有 single 和 multi 两种值，一般使用 single 即可。
+    - overflow 是当长连接数量到达 max 之后的处理方案，有 ignore 和 reject 两种值。
+        + ignore 允许创建新的连接与数据库通信，但完成通信后马上关闭此连接。
+        + reject 拒绝访问并返回 503 Service Unavailable
+
+这样就构成了我们 PostgreSQL 后端通讯的通用 location，在使用 lua 业务编码的过程中可以直接使用如下代码连接数据库：
+
+    function test()
+        local res = ngx.location.capture('/postgres',
+            { args = {sql = "SELECT * FROM test" } }
+        )
+
+        local status = res.status
+        local body = json.decode(res.body)
+
+        if status == 200 then
+            status = true
+        else
+            status = false
+        end
+        return status, body
+    end
+
