@@ -22,5 +22,9 @@ return _M
 
 在我们的应用中，对于操作系统版本差异、操作系统位数差异、同时支持不通数据库使用等，几乎都是使用这个方法完成的，十分值得推荐。
 
-额外说个点，github上有个项目[cloudflare/lua-resty-json](https://github.com/cloudflare/lua-resty-json)，从官方资料上介绍decode的速度更快，我们也做了小范围应用。所以上面的decode json对象来源，就可以改成这个库。世界总是有新鲜玩意，多了解多发发现，然后再充实自己吧。
+额外说个点，github上有个项目[cloudflare/lua-resty-json](https://github.com/cloudflare/lua-resty-json)，从官方资料上介绍decode的速度更快，我们也做了小范围应用。所以上面的json_decode对象来源，就可以改成这个库。
+
+外面总是有新鲜玩意，多抬头多发现，充实自己，站在巨人肩膀上，总是能够更容易够到高峰。
+
+
 
