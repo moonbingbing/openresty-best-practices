@@ -15,7 +15,7 @@
          * [string]()
          * [table]()
          * [function]()
-      * [运算符](lua/operator.md)
+      * [表达式](lua/operator.md)
          * [算术运算符]()
          * [关系运算符]()
          * [逻辑运算符]()
