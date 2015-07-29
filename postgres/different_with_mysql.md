@@ -1,21 +1,22 @@
 # 和MySQL调用方式的区别
 
-> 我们看看ngx\_postgres模块提供的指令怎么组合的：
+### `ngx\_postgres`模块使用方法
 
+```
+location /postgres {
+    internal;
 
-        location /postgres {
-            internal;
+    default_type text/html;
+    set_by_lua $query_sql 'return ngx.unescape_uri(ngx.var.arg_sql)';
 
-            default_type text/html;
-            set_by_lua $query_sql 'return ngx.unescape_uri(ngx.var.arg_sql)';
-
-            postgres_pass   pg_server;
-            rds_json          on;
-            rds_json_buffer_size 16k;
-            postgres_query  $query_sql;
-            postgres_connect_timeout 1s;
-            postgres_result_timeout 2s;
-        }
+    postgres_pass   pg_server;
+    rds_json          on;
+    rds_json_buffer_size 16k;
+    postgres_query  $query_sql;
+    postgres_connect_timeout 1s;
+    postgres_result_timeout 2s;
+}
+```
 
 
 这里有很多指令要素：
@@ -30,15 +31,20 @@
 * postgres_result_timeout 设置结果返回超时时间。
 
 这样的配置就完成了初步的可以提供其他 location 调用的 location 了。但这里还差一个配置没说明白，就是这一行：
+
+```
 postgres_pass   pg_server; 
+```
 
 其实这一行引入了 名叫 pg_server 的 upstream 块，其定义应该像如下：
-		
-		upstream pg_server {
-		        postgres_server  192.168.1.2:5432 dbname=pg_database
-		                user=postgres password=postgres;
-		        postgres_keepalive max=800 mode=single overflow=reject;
-		}
+
+```		
+upstream pg_server {
+    postgres_server  192.168.1.2:5432 dbname=pg_database
+            user=postgres password=postgres;
+    postgres_keepalive max=800 mode=single overflow=reject;
+}
+```
 
 这里有一些指令要素：
 
@@ -57,19 +63,27 @@ postgres_pass   pg_server;
 
 这样就构成了我们 PostgreSQL 后端通讯的通用 location，在使用 lua 业务编码的过程中可以直接使用如下代码连接数据库：
 
-    function test()
-        local res = ngx.location.capture('/postgres',
-            { args = {sql = "SELECT * FROM test" } }
-        )
+```lua
+function test()
+    local res = ngx.location.capture('/postgres',
+        { args = {sql = "SELECT * FROM test" } }
+    )
 
-        local status = res.status
-        local body = json.decode(res.body)
+    local status = res.status
+    local body = json.decode(res.body)
 
-        if status == 200 then
-            status = true
-        else
-            status = false
-        end
-        return status, body
+    if status == 200 then
+        status = true
+    else
+        status = false
     end
+    return status, body
+end
+```
+
+## todo：
+
+### `LuaRestyMySQLLibrary`模块使用方法
+
+### 两者调用的主要区别
 
