@@ -1,7 +1,7 @@
 #String library
 lua字符串库包含很多强大的字符操作函数。字符串库中的所有函数都导出在模块string中。在lua5.1中，它还将这些函数导出作为string类型的方法。这样假设要返回一个字符串转的大写形式，可以写成ans = string.upper(s),也能写成 ans = s:upper()。为了避免与之前版本不兼容，此处使用前者。
-####string.byte(s [, i [, j ]]) 
-返回字符s[i]、s[i]、s[i]、···、s[j]所对应的ascll码。i的默认值为1；j的默认值为i。
+####string.byte(s [, i [, j ]])
+返回字符s[i]、s[i+1]、s[i+2]、···、s[j]所对应的ASCII码。i的默认值为1；j的默认值为i。
 ```lua
 print(string.byte("abc", 1, 3))
 print(string.byte("abc", 3)) --缺少第三个参数，第三个参数默认与第二个相同，此时为3
@@ -51,7 +51,7 @@ print(string.len("hello lua")) -->output  9
 第四个参数默认为false，当其为true时，只会把p看成一个字符串对待。
 ```lua
 print(string.find("abc cba","ab"))
-print(string.find("abc cba","ab",2))    
+print(string.find("abc cba","ab",2))
 --从索引为2的位置开始匹配字符串：ab
 print(string.find("abc cba","ba",-1))   --从索引为7的位置开始匹配字符串：ba
 print(string.find("abc cba","ba",-3))   --从索引为6的位置开始匹配字符串：ba
@@ -82,7 +82,7 @@ today is: 29/07/2015
 ```
 
 ####string.match(s, p [, init])
-在字符串s中匹配字符串p，若匹配成功，则返回目标字符串中与模式匹配的子串；否则返回nil第三个参数init默认为1，并且可以为负整数，当init为负数时，表示从s字符串的string.len(s) + init 索引处开始向后匹配字符串p。
+在字符串s中匹配字符串p，若匹配成功，则返回目标字符串中与模式匹配的子串；否则返回nil。第三个参数init默认为1，并且可以为负整数，当init为负数时，表示从s字符串的string.len(s) + init 索引处开始向后匹配字符串p。
 ```lua
 print(string.match("hello lua","lua"))
 print(string.match("lua lua","lua"，2))  --匹配后面那个lua
