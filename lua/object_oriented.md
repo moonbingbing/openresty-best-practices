@@ -1,6 +1,7 @@
 #Lua面向对象编程
 
 ####类
+
 在 Lua 中，我们可以使用表和函数实现面向对象。将函数和相关的数据放置于同一个表中就形成了一个对象。
 
 ```Lua
@@ -35,6 +36,7 @@ print(b.balance)  -->50
 上面这段代码"setmetatable(o, {\_\_index = self})"这句话值得注意。根据我们在元表这一章学到的知识，我们明白，setmetatable将Account作为新建'o'表的原型，所以当o在自己的表内找不到'balance'、'withdraw'这些方法和变量的时候，便会到\_\_index所指定的Account类型中去寻找。
 
 ####继承
+
 继承可以用元表实现，它提供了在父类中查找存在的方法和变量的机制。
 
 ```Lua
@@ -144,4 +146,5 @@ end
 a = newAccount(100)
 a.deposit(100)
 print(a.getBalance()) --> 200
+print(a.balance)      --> nil
 ```
