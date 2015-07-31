@@ -32,14 +32,16 @@ print(os.time(a))
 ####os.difftime (t2, t1)
 返回t1到t2的时间差，单位为秒。
 
->示例代码：
+>示例代码：（机器不同，结果会有差异）
 
 ```lua
 local t1 = os.time()
+local sum = 0
 for i = 0, 1000000000 do     -- 10^9,你看看需要几秒,lua强吗？
+    sum = sum + i
 end
 local t2 = os.time()
-print(os.difftime(t2, t1))   -->output  5
+print(os.difftime(t2, t1))   -->output  10
 ```
 
 ####os.date ([format [, time]])
