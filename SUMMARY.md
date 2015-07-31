@@ -21,7 +21,7 @@
     * [String库](lua/string_library.md)
     * [Table库](lua/table_library.md)
     * [日期时间函数](time_date_function.md)
-    * [数学库函数]()
+    * [数学库函数](math_library.md)
     * [文件操作]()
 * [Lua高阶]()
     * [元表]()
