@@ -1,15 +1,31 @@
 # 自定义函数
-
 调用回调函数，并把一个数组参数作为回调函数的参数
 
-```
+```lua
 local args = {...} or {}
 methodName(unpack(args, 1, table.maxn(args)))
 ```
 
-# 高级使用
+# 使用场景
+你要调用的函数名是未知的
+函数参数类型和数目也是未知的
+一般常用于在定时器处理逻辑之中
+
+>伪代码
+
+```lua
+addTask(endTime, callback, params)
+
+if os.time() >= endTime then
+	callback(unpack(params, 1, table.maxn(params)))
+end
 
 ```
+
+
+# 小试牛刀
+
+```lua
 local function run(x, y)
     ngx.say('run', x, y)
 end
@@ -29,7 +45,7 @@ doAction(attack, 1111)
 
 我们再新建一个模块  sample
 
-```
+```lua
 local _M = {}
 
 function _M:hello(str)
@@ -52,7 +68,7 @@ return _M
 
 https://github.com/humbut/openresty-best-practices/blob/master/lua/dot_diff.md
 
-```
+```lua
 local sample = require "sample"
 doAction(sample.hello, sample, ' 123')  -- 相当于sample:hello('123')
 doAction(sample.world, ' 321') -- 相当于sample.world('321')
@@ -61,7 +77,7 @@ doAction(sample.world, ' 321') -- 相当于sample.world('321')
 # 实战演练
 以下代码为360公司公共组件之缓存模块，正是利用了部分特性
 
-```
+```lua
 -- {
 --   key="...",           cache key
 --   exp_time=0,          default expire time
