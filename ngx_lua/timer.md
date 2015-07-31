@@ -6,4 +6,3 @@
 批量提交和cron任务。
 
 需要特别注意的是：有一些ngx lua的API不能在这里调用，比如子请求、ngx.req.\*和向下游输出的API(ngx.print、ngx.flush之类)。
-在出现错误的时候，第一个应该做的就是查看nginx的error.log，基本可以定位到大部分问题。
