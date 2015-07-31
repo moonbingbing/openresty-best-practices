@@ -38,6 +38,7 @@
    * [如何添加自己的lua api](ngx_lua/add_new_lua_api.md)
    * [正确使用长链接](ngx_lua/keepalive.md)
    * [如何引用第三方resty库](ngx_lua/how_use_third_lib.md)
+   * [body在location中的传递](ngx_lua/capture.md)
 * [LuaRestyDNSLibrary](dns.md)
    * [使用动态DNS来完成HTTP请求](dns/use_dynamic_dns.md)
 * [LuaRestyLock](lock.md)
