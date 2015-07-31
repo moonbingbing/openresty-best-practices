@@ -34,7 +34,7 @@
       * [模块与包]()
       * [String库](lua/string_library.md)
       * [Table库](lua/table_library.md)
-      * [时间函数]()
+      * [时间和日期函数](lua/time_date_function)
       * [数学库函数]()
       * [文件操作]()
 * [Lua高阶]()
