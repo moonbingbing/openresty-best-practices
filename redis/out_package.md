@@ -68,7 +68,7 @@ ngx.say("dog: ", res)
 * 每次redis使用完毕，自动释放redis连接到连接池供其他请求复用
 * 要支持redis的重要优化手段 pipeline
 
-> 不卖关子，只要干货，我们最后是这样干的
+> 不卖关子，只要干货，我们最后是这样干的，可以这里看到[gist代码](https://gist.github.com/moonbingbing/9915c66346e8fddcefb5)
 
 ```lua
 -- file name: resty/redis_iresty.lua
@@ -167,7 +167,7 @@ end
 
 
 -- change connect address as you need
-function _M.connect_mod( self, redis )    
+function _M.connect_mod( self, redis )
     redis:set_timeout(self.timeout)
     return redis:connect("127.0.0.1", 6379)
 end
@@ -175,7 +175,7 @@ end
 
 function _M.set_keepalive_mod( redis )
     -- put it into the connection pool of size 100, with 60 seconds max idle time
-    return redis:set_keepalive(60000, 1000) 
+    return redis:set_keepalive(60000, 1000)
 end
 
 
@@ -221,7 +221,7 @@ function _M.commit_pipeline( self )
         ngx.log(ngx.WARN, "is null")
     end
     -- table.remove (results , 1)
-    
+
     self.set_keepalive_mod(redis)
 
     for i,value in ipairs(results) do
@@ -288,7 +288,7 @@ local function do_command(self, cmd, ... )
     if is_redis_null(result) then
         result = nil
     end
-    
+
     self.set_keepalive_mod(redis)
 
     return result, err
@@ -302,15 +302,15 @@ function _M.new(self, opts)
 
     for i = 1, #commands do
         local cmd = commands[i]
-        _M[cmd] = 
+        _M[cmd] =
                 function (self, ...)
                     return do_command(self, cmd, ...)
                 end
     end
 
-    return setmetatable({ 
-            timeout = timeout, 
-            db_index = db_index, 
+    return setmetatable({
+            timeout = timeout,
+            db_index = db_index,
             _reqs = nil }, mt)
 end
 
@@ -337,4 +337,3 @@ ngx.say("set result: ", ok)
 
 Todo list：
 目前`resty.redis`并没有对redis 3.0的集群API做支持，既然统一了redis的入口、出口，那么对这个`redis_iresty`版本做适当调整完善，就可以支持redis 3.0的集群协议。由于我们目前还没引入redis集群，这里也希望有使用的同学贡献自己的补丁或文章。
-
