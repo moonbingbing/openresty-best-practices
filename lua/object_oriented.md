@@ -32,7 +32,7 @@ print(b.balance)  -->50
 --本来笔者开始是自己写的例子，但发现的确不如lua作者给的例子经典，所以还是沿用作者的代码。
 ```
 
-上面这段代码"setmetatable(o, {\_\_index = self})"这句话值得注意。根据我们在元表这一章学到的知识，我们明白，setmetatable将Account作为新建'o'表的原型，所以当o在自己的表内找不到'balance'、'withdraw'这些方法和变量的时候，便会到__index所指定的Account类型中去寻找。
+上面这段代码"setmetatable(o, {\_\_index = self})"这句话值得注意。根据我们在元表这一章学到的知识，我们明白，setmetatable将Account作为新建'o'表的原型，所以当o在自己的表内找不到'balance'、'withdraw'这些方法和变量的时候，便会到\_\_index所指定的Account类型中去寻找。
 
 ####继承
 继承可以用元表实现，它提供了在父类中查找存在的方法和变量的机制。
@@ -93,4 +93,55 @@ function createClass (...)
 	-- return new class
 	return c
 end
+```
+
+解释一下上面的代码。我们定义了一个通用的创建多重继承类的函数'createClass'，这个函数可以接受多个类。如何让我们新建的多重继承类恰当地访问从不同类中继承来的函数或者成员变量呢？
+我们就用到了'search'函数，该函数接受两个参数，第一个参数是想要访问的类成员的名字，第二个参数是被继承的类列表。
+通过一个for循环在列表的各个类中寻找想要访问成员。
+
+我们再定一个新类，来验证'createClass'的正确性。
+
+```Lua
+Named = {}
+function Named:getname ()
+	return self.name
+end
+function Named:setname (n)
+	self.name = n
+end
+
+NamedAccount = createClass(Account, Named)   --同时继承Account 和 Named两个类
+account = NamedAccount:new{name = "Paul"}    --使用这个多重继承类定义一个实例
+print(account:getname())          --> Pauls
+account:deposit(100)
+print(account.balance)            --> 100
+```
+
+####成员私有性
+
+在面向对象当中，如何将成员内部实现细节对使用者隐藏，也是值得关注的一点。
+在 Lua 中，成员的私有性，使用类似于函数闭包的形式来实现。
+在我们之前的银行账户的例子中，我们使用一个工厂方法来创建新的账户实例，通过工厂方法对外提供的闭包来暴露对外接口。
+而不想暴露在外的例如balace成员变量，则被很好的隐藏起来。
+
+```Lua
+function newAccount (initialBalance)
+	local self = {balance = initialBalance}
+	local withdraw = function (v)
+		self.balance = self.balance - v
+	end
+	local deposit = function (v)
+		self.balance = self.balance + v
+	end
+	local getBalance = function () return self.balance end
+	return {
+		withdraw = withdraw,
+		deposit = deposit,
+		getBalance = getBalance
+	}
+end
+
+a = newAccount(100)
+a.deposit(100)
+print(a.getBalance()) --> 200
 ```
