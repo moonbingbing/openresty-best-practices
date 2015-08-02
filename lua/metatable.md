@@ -13,7 +13,9 @@ mytable = {}
 mymetatable = {}
 setmetatable(mytable,mymetatable)
 ```
+
 上面的代码可以简写成如下的一行代码：
+
 ```lua
 mytable = setmetatable({},{})
 ```
@@ -42,6 +44,7 @@ for _,j in pairs(set3) do
 	io.write(j.." ")  -->输出结果30 50 20 40 10
 end
 ```
+
 除了加法可以被重载之外，Lua提供的所有操作符都可以被重载：
 
 | 元方法 | 含义 |
@@ -73,6 +76,7 @@ end
 
 ####\_\_index
 下面的例子中，我们实现了在表中查找键不存在时转而在元表中查找该键的功能：
+
 ```lua
 mytable = setmetatable({key1 = "value1"}, --原始表
   {__index = function(self, key)       --重载函数
@@ -88,14 +92,16 @@ print(mytable.key1,mytable.key2)  -->value1 metatablevalue
 ```
 
 关于__index元方法，有很多比较高阶的技巧，例如：\_\_index的元方法不需要非是一个函数，他也可以是一个表。
+
 ```lua
 t = setmetatable({[1] = "hello"}, {__index = {[2] = "world"}})
 print(t[1], t[2])  -->hello world
 ```
-第一句代码有点绕，解释一下：先是把{\_\_index = {}}作为元表，但__index接受一个表，而不是函数，这个表中包含[2] = "world"这个键值对。
-所以当t[2]去在自身的表中找不到时，在__index的表中去寻找，然后找到了[2] = "world"这个键值对。
 
-\_\_index还可以实现给表中每一个值附上默认值，和下面将要介绍的__newindex元方法联合监控对表的读取、修改等比较高阶的功能，待读者自己去开发吧。
+第一句代码有点绕，解释一下：先是把{\_\_index = {}}作为元表，但__index接受一个表，而不是函数，这个表中包含[2] = "world"这个键值对。
+所以当t[2]去在自身的表中找不到时，在\_\_index的表中去寻找，然后找到了[2] = "world"这个键值对。
+
+\_\_index还可以实现给表中每一个值附上默认值，和下面将要介绍的\_\_newindex元方法联合监控对表的读取、修改等比较高阶的功能，待读者自己去开发吧。
 
 ####\_\_newindex
 为元表添加"\_\_newindex"后，当访问的键在表中不存在时，此时添加新键值对的行为将由此元方法（newindex）定义。
@@ -116,6 +122,7 @@ print(mytable.key1, ',', mymetatable.newkey1)  -->new value 1 , nil
 解释一下为什么会有上面的行为。如果键已经存在于mytable表中时，只会简单更新相应的键值。而如果键不在表中时，会在另外的表mymetatable中添加该键值对，而不是mytable表。
 
 如果想要在mytable表中新增键值对的话，应使用rawset()函数。
+
 ```lua
 mytable = setmetatable({key1 = "value1"}, {
   __newindex = function(self, key, value)
@@ -127,7 +134,6 @@ mytable.key1 = "new value"
 mytable.key2 = 4
 
 print(mytable.key1,mytable.key2)  -->new value 4
-
 ```
 
 ####\_\_tostring
