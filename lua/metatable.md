@@ -74,7 +74,8 @@ end
 |"__mode"| 用于弱表(*week table*)
 |"__metatable"| 用于保护metatable不被访问 |
 
-####\_\_index
+####\_\_index元方法
+
 下面的例子中，我们实现了在表中查找键不存在时转而在元表中查找该键的功能：
 
 ```lua
@@ -91,50 +92,60 @@ mytable = setmetatable({key1 = "value1"}, --原始表
 print(mytable.key1,mytable.key2)  -->value1 metatablevalue
 ```
 
-关于__index元方法，有很多比较高阶的技巧，例如：\_\_index的元方法不需要非是一个函数，他也可以是一个表。
+关于\_\_index元方法，有很多比较高阶的技巧，例如：\_\_index的元方法不需要非是一个函数，他也可以是一个表。
 
 ```lua
 t = setmetatable({[1] = "hello"}, {__index = {[2] = "world"}})
 print(t[1], t[2])  -->hello world
 ```
 
-第一句代码有点绕，解释一下：先是把{\_\_index = {}}作为元表，但__index接受一个表，而不是函数，这个表中包含[2] = "world"这个键值对。
+第一句代码有点绕，解释一下：先是把{\_\_index = {}}作为元表，但\_\_index接受一个表，而不是函数，这个表中包含[2] = "world"这个键值对。
 所以当t[2]去在自身的表中找不到时，在\_\_index的表中去寻找，然后找到了[2] = "world"这个键值对。
 
-\_\_index还可以实现给表中每一个值附上默认值，和下面将要介绍的\_\_newindex元方法联合监控对表的读取、修改等比较高阶的功能，待读者自己去开发吧。
+\_\_index元方法还可以实现给表中每一个值赋上默认值；和\_\_newindex元方法联合监控对表的读取、修改等比较高阶的功能，待读者自己去开发吧。
 
-####\_\_newindex
-为元表添加"\_\_newindex"后，当访问的键在表中不存在时，此时添加新键值对的行为将由此元方法（newindex）定义。
+####\_\_tostring元方法
 
-```lua
-mymetatable = {}
-mytable = setmetatable({key1 = "value1"}, { __newindex = mymetatable })
-
-print(mytable.key1)  -->value1
-
-mytable.newkey = "new value 2"
-print(mytable.newkey, ',', mymetatable.newkey)  -->nil , new value 2
-
-mytable.key1 = "new value 1"
-print(mytable.key1, ',', mymetatable.newkey1)  -->new value 1 , nil
-```
-
-解释一下为什么会有上面的行为。如果键已经存在于mytable表中时，只会简单更新相应的键值。而如果键不在表中时，会在另外的表mymetatable中添加该键值对，而不是mytable表。
-
-如果想要在mytable表中新增键值对的话，应使用rawset()函数。
+与Java中的toString()函数类似，可以实现自定义的字符串转换。
 
 ```lua
-mytable = setmetatable({key1 = "value1"}, {
-  __newindex = function(self, key, value)
-        rawset(self, key, value)
-  end
-})
-
-mytable.key1 = "new value"
-mytable.key2 = 4
-
-print(mytable.key1,mytable.key2)  -->new value 4
+arr = {1, 2, 3, 4}
+arr = setmetatable(arr, {__tostring = function (self)
+	local result = '{'
+	local sep = ''
+	for _, i in pairs(self) do
+		result = result ..sep .. i
+		sep = ', '
+	end
+	result = result .. '}'
+	return result
+end})
+print(arr)  --> {1, 2, 3, 4}
 ```
 
-####\_\_tostring
-与Java中的toString()函数类似，可以实现自定义的字符串转换。这个元方法比较简单，就不举例了。
+####\_\_call元方法
+
+\_\_call元方法的功能类似于C++中的仿函数，使得普通的表也可以被调用。
+
+```lua
+functor = {}
+function func1(self, arg)
+  print ("called from", arg)
+end
+
+setmetatable(functor, {__call = func1})
+
+functor("functor")  --> called from functor
+print(functor)  --> table: 0x00076fc8   后面这串数字可能不一样
+```
+
+####\_\_metatable元方法
+
+假如我们想保护我们的对象使其使用者既看不到也不能修改 metatables。我们可以对 metatable 设置了\_\_metatable 的值， getmetatable 将返回这个域的值， 而调用 setmetatable将会出错：
+
+```lua
+Object = setmetatable({}, {__metatable = "You cannot access here"})
+
+print(getmetatable(Object)) --> You cannot access here
+setmetatable(Object, {})  --> 引发编译器报错
+```
