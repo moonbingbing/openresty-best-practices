@@ -96,11 +96,12 @@ print(t[1], t[2])  -->hello world
 ```
 
 第一句代码有点绕，解释一下：先是把{\_\_index = {}}作为元表，但\_\_index接受一个表，而不是函数，这个表中包含[2] = "world"这个键值对。
-所以当t[2]去在自身的表中找不到时，在__index的表中去寻找，然后找到了[2] = "world"这个键值对。
+所以当t[2]去在自身的表中找不到时，在\_\_index的表中去寻找，然后找到了[2] = "world"这个键值对。
 
 \_\_index元方法还可以实现给表中每一个值赋上默认值；和\_\_newindex元方法联合监控对表的读取、修改等比较高阶的功能，待读者自己去开发吧。
 
 ####\_\_tostring元方法
+
 与Java中的toString()函数类似，可以实现自定义的字符串转换。
 
 ```lua
@@ -119,6 +120,7 @@ print(arr)  --> {1, 2, 3, 4}
 ```
 
 ####\_\_call元方法
+
 \_\_call元方法的功能类似于C++中的仿函数，使得普通的表也可以被调用。
 
 ```lua
@@ -134,7 +136,8 @@ print(functor)  --> table: 0x00076fc8   后面这串数字可能不一样
 ```
 
 ####\_\_metatable元方法
-假如我们想保护我们的对象使其使用者既看不到也不能修改 metatables。我们可以对 metatable 设置了__metatable 的值， getmetatable 将返回这个域的值， 而调用 setmetatable将会出错：
+
+假如我们想保护我们的对象使其使用者既看不到也不能修改 metatables。我们可以对 metatable 设置了\_\_metatable 的值， getmetatable 将返回这个域的值， 而调用 setmetatable将会出错：
 
 ```lua
 Object = setmetatable({}, {__metatable = "You cannot access here"})
