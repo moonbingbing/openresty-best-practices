@@ -6,7 +6,7 @@
     * [Lua环境搭建](lua/build_env.md)
     * [基础数据类型](lua/class.md)
     * [表达式](lua/operator.md)
-    * [控制结构]()
+    * [控制结构](lua/control_structrues.md)
         * [if/else](lua/if_else.md)
         * [while](lua/while.md)
         * [repeat](lua/repeat.md)
