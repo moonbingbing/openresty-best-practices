@@ -68,7 +68,7 @@ return _M
 
 所以在调用时有些区别 主要是.和:的区别
 
-https://github.com/humbut/openresty-best-practices/blob/master/lua/dot_diff.md
+https://github.com/moonbingbing/openresty-best-practices/blob/master/lua/dot_diff.md
 
 ```lua
 local sample = require "sample"
