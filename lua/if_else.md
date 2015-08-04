@@ -10,6 +10,7 @@ end
 ```
 
 >运行输出：x is a positive number
+
 #### 两个分支： if-else 型
 
 ```lua
@@ -22,6 +23,7 @@ end
 ```
 
 >运行输出：x is a positive number
+
 #### 多个分支： if-elseif-else型
 
 ```lua
