@@ -8,6 +8,7 @@ if x>0 then
     print("x is a positive number")
 end
 --output:x is a positive number
+```
 
 #### 两个分支： if-else 型
 
