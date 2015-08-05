@@ -37,7 +37,7 @@
     * [负载均衡]()
 * [OpenResty]()
     * [Hello World]()
-    * [简单web框架]()
+    * [简单API Server框架]()
     * [与其他location配合]()
 * [LuaRestyRedisLibrary](redis.md)
    * [select+set_keepalive组合操作引起的数据读写错误](redis/select-keeplive.md)
