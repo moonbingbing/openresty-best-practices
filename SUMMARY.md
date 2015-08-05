@@ -39,7 +39,7 @@
    * [空table编码为array还是object](json/array_or_object.md)
    * [跨平台的库选择](json/cross_os.md)
 * [PostgresNginxModule](postgres.md)
-   * [PostgresNginxModule的调用方式](postgres/different_with_mysql.md)
+   * [调用方式简介](postgres/how_to_use.md)
    * [不支持事务](postgres/not_support_transaction.md)
    * [超时](postgres/timeout.md)
    * [健康监测](postgres/health_check.md)

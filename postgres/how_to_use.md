@@ -1,8 +1,8 @@
-# 和MySQL调用方式的区别
+# PostgresNginxModule模块的调用方式
 
 ### `ngx\_postgres`模块使用方法
 
-```
+```nginx
 location /postgres {
     internal;
 
@@ -38,7 +38,7 @@ postgres_pass   pg_server;
 
 其实这一行引入了 名叫 pg_server 的 upstream 块，其定义应该像如下：
 
-```		
+```nginx
 upstream pg_server {
     postgres_server  192.168.1.2:5432 dbname=pg_database
             user=postgres password=postgres;
@@ -81,9 +81,4 @@ function test()
 end
 ```
 
-## todo：
-
-### `LuaRestyMySQLLibrary`模块使用方法
-
-### 两者调用的主要区别
 
