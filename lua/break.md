@@ -13,10 +13,10 @@ while true do
         break
     end
 end
-print("答案是 "..i)
+print("The result is "..i)
 ```
 >运行结果如下：
-答案是 15
+The result is 15
 
 
 在实际应用中，break经常用于嵌套循环中。
