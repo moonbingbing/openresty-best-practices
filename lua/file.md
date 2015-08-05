@@ -4,10 +4,10 @@ lua I/O库提供两种不同的方式处理文件：
 
 1、隐式文件描述：设置一个默认的输入或输出文件，然后在这个文件上进行所有的输入或输出操作。所有的操作函数由io表提供。
 
->打开已经存在的test1.txt文件，并读取里面的内容
+> 打开已经存在的test1.txt文件，并读取里面的内容
 
 ```lua
-file = io.input("D:\\test1.txt")  --使用io.input()函数打开文件
+file = io.input("test1.txt")  --使用io.input()函数打开文件
 
 repeat
     line = io.read()      --逐行读取内容，文件结束时返回nil
@@ -25,24 +25,24 @@ hello
 lua
 ```
 
->在test1.txt文件的最后添加一行"hello world"
+> 在test1.txt文件的最后添加一行"hello world"
 
 ```lua
-file = io.open("D:\\test1.txt", "a+") --使用io.open()函数，以添加模式打开文件
-io.output(file)                    --使用io.output()函数，设置默认输出文件            
-io.write("\nhello world")          --使用io.write()函数，把内容写到文件     
-io.close(file)               
+file = io.open("test1.txt", "a+") --使用io.open()函数，以添加模式打开文件
+io.output(file)                    --使用io.output()函数，设置默认输出文件
+io.write("\nhello world")          --使用io.write()函数，把内容写到文件
+io.close(file)
 ```
 
 在相应目录下打开test1.txt文件，查看文件内容发生的变化。
 
 2、显示文件描述：使用file:XXX()函数方式进行操作,其中file为io.open()返回的文件句柄。
 
->打开已经存在的test2.txt文件，并读取里面的内容
+> 打开已经存在的test2.txt文件，并读取里面的内容
 
 ```lua
-file = io.open("D:\\test2.txt", "r")  --使用io.open()函数，以只读模式打开文件
- 
+file = io.open("test2.txt", "r")  --使用io.open()函数，以只读模式打开文件
+
 for line in file:lines() do          --使用file:lines()函数逐行读取文件
    print(line)
 end
@@ -54,10 +54,10 @@ my test2
 hello lua
 ```
 
->在test2.txt文件的最后添加一行"hello world"
+> 在test2.txt文件的最后添加一行"hello world"
 
 ```lua
-file = io.open("D:\\test2.txt", "a")  --使用io.open()函数，以添加模式打开文件
+file = io.open("test2.txt", "a")  --使用io.open()函数，以添加模式打开文件
 file:write("\nhello world")       --使用file:open()函数，在文件的最后添加一行内容
 file:close()
 ```
