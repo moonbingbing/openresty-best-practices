@@ -106,7 +106,7 @@ print(#b)        --> 12.5
 >附表：Lua 与 C语言语法对应关系
 
 | Idiom |	C code | Lua code |
-| :-- | -- | -- |
+| :--: | :--: | :--: |
 | Pointer dereference |  x = *p;  |  x = p[0] |
 | int *p;	| *p = y; |  p[0] = y |
 | Pointer indexing |   x = p[i];  |	x = p[i] |
