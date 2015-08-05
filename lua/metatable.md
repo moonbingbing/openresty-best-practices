@@ -13,7 +13,9 @@ mytable = {}
 mymetatable = {}
 setmetatable(mytable,mymetatable)
 ```
+
 上面的代码可以简写成如下的一行代码：
+
 ```lua
 mytable = setmetatable({},{})
 ```
@@ -42,6 +44,7 @@ for _,j in pairs(set3) do
 	io.write(j.." ")  -->输出结果30 50 20 40 10
 end
 ```
+
 除了加法可以被重载之外，Lua提供的所有操作符都可以被重载：
 
 | 元方法 | 含义 |
@@ -72,6 +75,7 @@ end
 |"__metatable"| 用于保护metatable不被访问 |
 
 ####\_\_index元方法
+
 下面的例子中，我们实现了在表中查找键不存在时转而在元表中查找该键的功能：
 
 ```lua
