@@ -22,8 +22,8 @@ mytable = setmetatable({},{})
 通过重载"\_\_add"元方法来计算集合的并集实例：
 
 ```lua
-set1 = {10, 20, 30}--互异集合
-set2 = {20, 40, 50}--互异集合
+set1 = {10, 20, 30}--集合
+set2 = {20, 40, 50}--集合
 
 union = function (self, another) --将用于重载__add的函数，注意第一个参数是self
 	local set = {}
@@ -55,7 +55,7 @@ end
 |"__unm"| 一元 - 操作|
 |"__concat"| .. （字符串连接）操作|
 |"__len"| # 操作|
-|"__eq"| == 操作 函数 getcomphandler 定义了 Lua 怎样选择一个处理器来作比较操作 元方法仅仅在参于比较的两个对象类型相同且有对应操作相同的元方法时才起效|
+|"__eq"| == 操作 函数 getcomphandler 定义了 Lua 怎样选择一个处理器来作比较操作 仅在两个对象类型相同且有对应操作相同的元方法时才起效|
 |"__lt"| < 操作|
 |"__le"| <= 操作|
 
@@ -64,11 +64,11 @@ end
 
 | 元方法 | 含义 |
 |:--|:--:|
-|"__index"| 取下标操作用于访问 table[key]
+|"__index"| 取下标操作用于访问 table[key] |
 |"__newindex"| 赋值给指定下标 table[key] = value |
 |"__tostring"| 转换成字符串 |
 |"__call"| 当 Lua 调用一个值时调用|
-|"__mode"| 用于弱表(*week table*)
+|"__mode"| 用于弱表(*week table*) |
 |"__metatable"| 用于保护metatable不被访问 |
 
 ####\_\_index元方法
