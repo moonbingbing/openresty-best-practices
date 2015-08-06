@@ -17,7 +17,7 @@
         * [函数的参数](lua/function_parameter.md)
         * [函数的返回值](lua/function_result.md)
         * [函数回调](lua/call_user_func_array.md)
-    * [模块与包]()
+    * [模块](lua/module.md)
     * [String库](lua/string_library.md)
     * [Table库](lua/table_library.md)
     * [日期时间函数](lua/time_date_function.md)
