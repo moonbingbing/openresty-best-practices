@@ -79,18 +79,7 @@ stack traceback:
 	C:\Users\qgr\Desktop\a.lua:4: in function <C:\Users\qgr\Desktop\a.lua:2>
 	C:\Users\qgr\Desktop\a.lua:9: in main chunk
 	[C]: ?
-2
-4
-6
-8
-10
-12
-14
-16
-18
-20
-10
-10
+x >= i
  ```
 
 从上面这段代码的输出中，我们可以看到全局变量"x"被检测出来。这利用了元表的特性。想了解更多元表的内容，可以查看[元表](/lua/metatable.md)章节。
