@@ -90,4 +90,4 @@ x >= i
 
 从上面这段代码的输出中，我们可以看到全局变量"x"被检测出来。这利用了元表的特性。想了解更多元表的内容，可以查看[元表](/lua/metatable.md)章节。
 
-如果想对Lua文件进行更详细的全局变量检测，可以使用专门的检测工具“lua-releng”，这个开源的程序能对Lua文件中所有全局变量出现的位置、赋值情况等信息详细地打印出来。lua-releng的相关链接：[http://wiki.nginx.org/HttpLuaModule#Lua_Variable_Scope]((http://wiki.nginx.org/HttpLuaModule#Lua_Variable_Scope)
+如果想对Lua文件进行更详细的全局变量检测，可以使用专门的检测工具“lua-releng”，这个开源的程序能对Lua文件中所有全局变量出现的位置、赋值情况等信息详细地打印出来。lua-releng的相关链接：[http://wiki.nginx.org/HttpLuaModule#Lua_Variable_Scope](http://wiki.nginx.org/HttpLuaModule#Lua_Variable_Scope)
