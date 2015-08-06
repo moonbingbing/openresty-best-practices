@@ -53,13 +53,38 @@ ans = mod.add(com1, com2)
 print(ans.r, ans.i)      -->output  1     3
 ```
 
-mod1中包含了一个最简单的模块。在编写代码的过程中，会发现必须显式地将模块名放到每个函数定义中；而且，一个函数在调用同一个模块中的另一个函数时，必须限定被调用函数的名称，然而我们可以稍作变通，在模块中定义一个局部的table类型的变量，通过这个局部的变量来定义和调用模块内的函数，然后将这个局部名称赋予模块的最终的名称。
+mod1中包含了一个最简单的模块。但是模块名是一个全局变量，用这种定义模块是非常危险的，因为引入了全局变量，在引用模块时非常容易覆盖外面的变量。安全的做法是，把模块名称定义成一个局部变量。
+> 把mod1.lua文件改成如下代码。
+
+```lua
+local complex = {}    -- 局部变量，模块名称
+
+function complex.new(r, i)
+   return {r = r, i = i}
+end
+
+complex.i = complex.new(0, 1)  -- 定义一个table型常量i
+
+function complex.add(c1, c2)
+    return complex.new(c1.r + c2.r, c1.i + c2.i)
+end
+
+function complex.sub(c1, c2)
+    return complex.new(c1.r - c2.r, c1.i - c2.i)
+end
+
+return complex  -- 返回模块的table
+```
+
+此时，模块名是一个局部变量，引用模块时不会覆盖外面的变量，只能使用 *local mod = require "mod1"* 这种方式来引用模块。
+
+在编写代码的过程中，会发现必须显式地将模块名放到每个函数定义中；而且，一个函数在调用同一个模块中的另一个函数时，必须限定被调用函数的名称，然而我们可以稍作变通，在模块中定义一个局部的table类型的变量，通过这个局部的变量来定义和调用模块内的函数，然后将这个局部名称赋予模块的最终的名称。
 
 > 把mod1.lua文件改成如下代码。
 
 ```lua
 local M = {}    -- 局部的变量
-complex = M     -- 将这个局部变量最终赋值给模块名
+local complex = M     -- 将这个局部变量最终赋值给模块名
 
 function M.new(r, i)
     return {r = r, i = i}
@@ -91,7 +116,7 @@ end
 
 local M = {}           -- 局部的变量
 _G[moduleName] = M     -- 将这个局部变量最终赋值给模块名
-complex = M
+local complex = M
 
 function M.new(r, i)
     return {r = r, i = i}
@@ -110,10 +135,10 @@ end
 return complex  -- 返回模块的table
 ```
 
-> 把main.lua文件改成如下代码。然后执行main.lua文件
+> 把main.lua文件改成如下代码。然后执行main.lua文件。
 
 ```lua
-require "mod1"
+local mod1 = require "mod1"
 
 com1 = mod1.new(0, 1)
 com2 = mod1.new(1, 2)
@@ -126,38 +151,16 @@ mod1
 1     3
 ```
 
-可以将模块table直接赋值给package.loaded，消除return语句。require会将返回值存储到table package.loaded中。
-
-> 把mod1.lua文件改成如下代码。
-
-```lua
-local moduleName = ...      --用... 接收参数
-
-local M = {}           -- 局部的变量
-_G[moduleName] = M     -- 将这个局部变量最终赋值给模块名
-complex = M
-package.loaded[moduleName] = M
-
-function M.new(r, i)
-    return {r = r, i = i}
-end
-
-M.i = M.new(0, 1)
-
-function M.add(c1, c2)
-    return M.new(c1.r + c2.r, c1.i + c2.i)
-end
-
-function M.sub(c1, c2)
-    return M.new(c1.r - c2.r, c1.i - c2.i)
-end
-```
-
 ####module函数
 
-在Lua5.1中提供了一个新函数module。module(..., package.seeall) 这一行代码会创建一个新的table，将其赋予给模块名对应的全局字段和loaded table，还会将这个table设为主程序块的环境，并且模块还能提供外部访问。
+在Lua5.1中提供了一个新函数module。module(..., package.seeall) 这一行代码会创建一个新的table，将其赋予给模块名对应的全局字段和loaded table，还会将这个table设为主程序块的环境，并且模块还能提供外部访问。但这种写法是不提倡的，官方给出了两点原因：
 
-> 把mod1.lua文件改成如下代码。然后执行main.lua，调用该模块也是可以的。
+1. package.seeall 这种方式破坏了模块的高内聚，原本引入"filename"模块只想调用它的内部函数，但是它却可以读写全局属性，例如 "filename.os"。
+
+2. module 函数压栈操作引发的副作用，污染了全局环境变量。例如 module("filename") 会创建一个 filename 的 table*，并将这个 table 注入全局环境变量中，这样使得没有引用它的文件也能调用 filename 模块的方法。
+
+
+> 把mod1.lua文件改成如下代码。然后执行main.lua，调用该模块也是可以的。（不提倡）
 
 ```lua
 module(..., package.seeall)
