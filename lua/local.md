@@ -101,7 +101,7 @@ stack traceback:
  把lua-releng.pl文件和上述两个文件放在相同目录下，然后进入该目录，运行lua-releng.pl，得到如下结果：
 
  ```
- zhou@zhou-virtual-machine:~/work/conf$ perl lua-releng.pl
+ # ~/work/conf$ perl lua-releng.pl
  WARNING: No "_VERSION" or "version" field found in `foo.lua`.
  Checking use of Lua global variables in file foo.lua...
  	op no.	line	instruction	args	; code
