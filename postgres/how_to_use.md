@@ -1,8 +1,8 @@
-# 和MySQL调用方式的区别
+# PostgresNginxModule模块的调用方式
 
-### `ngx\_postgres`模块使用方法
+### ngx\_postgres模块使用方法
 
-```
+```nginx
 location /postgres {
     internal;
 
@@ -38,7 +38,7 @@ postgres_pass   pg_server;
 
 其实这一行引入了 名叫 pg_server 的 upstream 块，其定义应该像如下：
 
-```		
+```nginx
 upstream pg_server {
     postgres_server  192.168.1.2:5432 dbname=pg_database
             user=postgres password=postgres;
@@ -61,9 +61,11 @@ upstream pg_server {
         + ignore 允许创建新的连接与数据库通信，但完成通信后马上关闭此连接。
         + reject 拒绝访问并返回 503 Service Unavailable
 
-这样就构成了我们 PostgreSQL 后端通讯的通用 location，在使用 lua 业务编码的过程中可以直接使用如下代码连接数据库：
+这样就构成了我们 PostgreSQL 后端通讯的通用 location，在使用 lua 业务编码的过程中可以直接使用如下代码连接数据库（折腾了这么老半天）：
 
 ```lua
+local json = require "cjson"
+
 function test()
     local res = ngx.location.capture('/postgres',
         { args = {sql = "SELECT * FROM test" } }
@@ -81,9 +83,68 @@ function test()
 end
 ```
 
-## todo：
+### 与resty-mysql调用方式的不同
 
-### `LuaRestyMySQLLibrary`模块使用方法
+先来看一下`lua-resty-mysql`模块的调用示例代码。
 
-### 两者调用的主要区别
+```nginx
+# you do not need the following line if you are using
+# the ngx_openresty bundle:
+lua_package_path "/path/to/lua-resty-mysql/lib/?.lua;;";
 
+server {
+    location /test {
+        content_by_lua '
+            local mysql = require "resty.mysql"
+            local db, err = mysql:new()
+            if not db then
+                ngx.say("failed to instantiate mysql: ", err)
+                return
+            end
+
+            db:set_timeout(1000) -- 1 sec
+
+            local ok, err, errno, sqlstate = db:connect{
+                host = "127.0.0.1",
+                port = 3306,
+                database = "ngx_test",
+                user = "ngx_test",
+                password = "ngx_test",
+                max_packet_size = 1024 * 1024 }
+
+            if not ok then
+                ngx.say("failed to connect: ", err, ": ", errno, " ", sqlstate)
+                return
+            end
+
+            ngx.say("connected to mysql.")
+
+            -- run a select query, expected about 10 rows in
+            -- the result set:
+            res, err, errno, sqlstate =
+                db:query("select * from cats order by id asc", 10)
+            if not res then
+                ngx.say("bad result: ", err, ": ", errno, ": ", sqlstate, ".")
+                return
+            end
+
+            local cjson = require "cjson"
+            ngx.say("result: ", cjson.encode(res))
+
+            -- put it into the connection pool of size 100,
+            -- with 10 seconds max idle timeout
+            local ok, err = db:set_keepalive(10000, 100)
+            if not ok then
+                ngx.say("failed to set keepalive: ", err)
+                return
+            end
+        ';
+    }
+}
+```
+
+看过这段代码，大家肯定会说：这才是我熟悉的，我想要的。为什么刚刚`ngx_postgres`模块的调用这么诡异，配置那么复杂，其实这是发展历史造成的。`ngx_postgres`起步比较早，当时`OpenResty`也还没开始流行，所以更多的 Nginx 数据库都是以 ngx_c_module 方式存在。有了`OpenResty`，才让我们具有了使用完整的语言来描述我们业务能力。
+
+后面我们会单独说一说使用`ngx_c_module`的各种不方便，也就是我们所踩过的坑。希望能给大家一个警示，能转到`lua-resty-***`这个方向的，就千万不要和`ngx_c_module`玩，`ngx_c_module`的扩展性、可维护性、升级等各方面都没有`lua-resty-***`好。
+
+这绝对是经验的总结。不服来辩！

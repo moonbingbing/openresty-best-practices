@@ -4,7 +4,7 @@ OpenResty，最擅长的应用场景之一就是API Server。如果我们只有�
 
 > 举例几个简单API接口输出：
 
-```
+```nginx
 server {
     listen       80;
     server_name  localhost;

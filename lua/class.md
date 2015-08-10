@@ -5,7 +5,7 @@ nil是一种类型，Lua将nil用于表示“无效值”。一个变量在第�
 
 ```lua
 local num
-print(nil)        -->output:nil
+print(num)        -->output:nil
 
 num = 100
 print(num)        -->output:100

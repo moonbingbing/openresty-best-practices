@@ -3,13 +3,14 @@ Lua跟其他常见语言一样，提供了while控制结构，语法上也没有
 while型控制结构语法如下：
 
 ```lua
-x=1
-while x<3 do
-    print(x)
-    x=x+1
+x = 1
+sum = 0
+--求1到5的各数相加和
+while x <=5 do
+    sum = sum + x
+    x = x + 1
 end
---[[output:
-1
-2
-]]
+print(sum)
 ```
+
+>运行输出：15
