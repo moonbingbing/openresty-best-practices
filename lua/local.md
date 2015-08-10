@@ -94,7 +94,7 @@ stack traceback:
 	[C]: ?
 ```
 
-在 *update_A()* 函数使用全局变量"A"时，抛出异常。这利用了模块，想了解更多元表的内容，可以查看[模块](/lua/module.md)章节。
+在 *update_A()* 函数使用全局变量"A"时，抛出异常。这利用了模块，想了解更多模块的内容，可以查看[模块](/lua/module.md)章节。
 
  Lua 上下文中应当严格避免使用自己定义的全局变量。可以使用一个 lua-releng 工具来扫描 Lua 代码，定位使用 Lua 全局变量的地方。lua-releng 的相关链接：[http://wiki.nginx.org/HttpLuaModule#Lua_Variable_Scope](http://wiki.nginx.org/HttpLuaModule#Lua_Variable_Scope)
 
