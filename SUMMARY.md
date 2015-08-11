@@ -36,12 +36,17 @@
     * [反向代理](ngx/reverse_proxy.md)
     * [负载均衡]()
 * [OpenResty]()
+<<<<<<< HEAD
     * [环境搭建]()
+=======
+    * [环境搭建](OpenResty/install.md)
+>>>>>>> 0dba0b662726a5b1685099ffb491386e4840ef39
         * [Windows平台]()
-        * [CentOS平台]()
-        * [Ubuntu平台]()
+        * [CentOS平台](OpenResty/install_on_CentOS.md)
+        * [Ubuntu平台](OpenResty/install_on_Ubuntu.md)
         * [Mac OS X平台]()
-    * [Hello World]()
+        * [DockerHub]()
+    * [Hello World](OpenResty/helloworld.md)
     * [简单API Server框架]()
     * [与其他location配合]()
 * [LuaRestyRedisLibrary](redis.md)
