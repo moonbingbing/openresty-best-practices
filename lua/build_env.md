@@ -40,7 +40,8 @@ LuaJIT 2.0.3 -- Copyright (C) 2005-2014 Mike Pall. http://luajit.org/
 
 ####选择一个好用的代码编辑器：Sublime Text
 
-一个好的代码编辑器可以让我们编写代码时更加顺手，虽然Lua有相应的IDE编辑环境，但是我们建议您使用Sublime作为您的代码编辑器。Sublime文本编辑器有很多可选的插件包，可以帮助我们编写代码。本书的代码都是在Sublime上编辑运行的。
+一个好的代码编辑器可以让我们编写代码时更加顺手，虽然Lua有相应的IDE编辑环境，但是我们建议您使用Sublime作为您
+的代码编辑器。Sublime文本编辑器有很多可选的插件包，可以帮助我们的代码编写。本书的代码都是在Sublime上进行编辑的。
 
 
 #Hello World程序
