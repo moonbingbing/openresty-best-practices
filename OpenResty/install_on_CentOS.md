@@ -42,7 +42,7 @@
 
 ####设置环境变量
 
-为了后面启动OpenResty的命令简单一些，不用在OpenResty的安装目录下进行启动，我们通过设置环境变量来简化操作。将OpenResty目录下的nginx/sbin目录添加到PATH中。就是打开 /etc/profile，加入```export PATH="$PATH:/opt/openresty/nginx/sbin```，若你的安装目录不一样，则做相应修改。注意：这一步操作需要重启才会生效。
+为了后面启动OpenResty的命令简单一些，不用在OpenResty的安装目录下进行启动，我们通过设置环境变量来简化操作。将OpenResty目录下的nginx/sbin目录添加到PATH中。就是打开文件 /etc/profile，在文件末尾加入```export PATH=$PATH:/opt/openresty/nginx/sbin```，若你的安装目录不一样，则做相应修改。注意：这一步操作需要重启才会生效。
 
 接下来，我们就可以进入到后面的章节[HelloWorld](helloworld.md)学习。
 
