@@ -1,4 +1,14 @@
 #Lua基础数据类型
+函数type能够返回一个值或一个变量所属的类型。
+
+```lua
+print(type("hello world")) -->output:string
+print(type(print))         -->output:function
+print(type(true))          -->output:boolean
+print(type(360.0))         -->output:number
+print(type(nil))           -->output:nil
+```
+
 #### nil
 
 nil是一种类型，Lua将nil用于表示“无效值”。一个变量在第一次赋值前的默认值是nil，将nil赋予给一个全局变量就等同于删除它。
@@ -46,7 +56,7 @@ not c
 
 ####number
 
-数字，包括整数与浮点数
+number类型用于表示实数。lua没有整数与浮点数之分，因为，lua中的数字可以表示任何二进制32位整数，而不会产生四舍五入带来的错误。
 
 ```lua
 local order = 3
@@ -55,19 +65,36 @@ local score = 98.5
 
 ####string
 
-字符串
+lua中有三种方式表示字符串:
+
+1、使用一对匹配的单引号。例：'hello'。
+
+2、使用一对匹配的双引号。例："abclua"。
+
+3、使用一对匹配的双方括号，且左右两边包含相等的等号。使用这种方式表示字符串，可以消除转义字符等对字符串的影响。例：[[\a\n\\\\]]、[==[\a\s]]abc\n]==]。
+
+另外，lua的字符串是不可改变的值，不能像在c语言中那样直接修改字符串的某个字符，而是根据修改要求来创建一个新的字符串。lua也不能通过下标来访问字符串的某个字符。想了解更多关于字符串的操作，请查看[String库](lua/string_library.md)章节。
 
 ```lua
-local website = "www.google.com"
+local str1 = 'hello world'            --使用一对单引号表示字符串
+local str2 = "hello lua"              --使用一对双引号表示字符串
+local str3 = [["add\name",'hello']]   --使用一对双方括号表示字符串
+local str4 = [=[string have a "[[]]"]=] --当字符串包含双方括号时，可以在左右
+                                        --两边添加相等的等号，来表示字符串。
+print(str1)    -->output:hello world
+print(str2)    -->output:hello lua
+print(str3)    -->output:"add\name",'hello'
+print(str4)    -->output:string have a "[[]]"
+
 ```
 
 ####table
 
-表，关联数组，索引可为字符串string或(整)数number类型
+表，关联数组，索引可为字符串string或(整)数number类型。想了解更多关于table的操作，请查看[Table库](lua/table_library.md)章节。
 
 ```lua
 local corp = {
-    web = "www.example.com",
+    web = "www.google.com",
     telephone = "12345678",
     staff = {"Jack", "Scott", "Gary"},
     100876,
@@ -76,7 +103,6 @@ local corp = {
 }
 
 print(corp.web)               -->output:www.google.com
-local key = "telephone"
 print(corp[key])              -->output:12345678
 print(corp[2])                -->output:100191
 print(corp["City"])           -->output:"Beijing"
@@ -86,7 +112,7 @@ print(corp.staff[1])          -->output:Jack
 
 ####function
 
-在Lua中，**函数**也是一种数据类型，函数可以存储在变量中，可以通过参数传递给其他函数，还可以作为其他函数的返回值。
+在Lua中，**函数** 也是一种数据类型，函数可以存储在变量中，可以通过参数传递给其他函数，还可以作为其他函数的返回值。
 > 示例
 
 ```lua
@@ -97,4 +123,12 @@ function foo()
     local y = 20
     return x + y
 end
+
+local a = foo    --把函数赋给变量
+
+print(a())
+
+--output:
+in the function
+30
 ```
