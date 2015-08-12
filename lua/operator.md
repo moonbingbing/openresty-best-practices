@@ -99,11 +99,17 @@ print(not d)    -->打印 false
 
 ####字符串连接
 
-在lua中连接两个字符串，可以使用操作符“..”（两个点）。如果其任意一个操作数是数字的话，lua会将这个数字转换成字符串。注意，连接操作符只会创建一个新字符串，而不会改变原操作数。
+在lua中连接两个字符串，可以使用操作符“..”（两个点）。如果其任意一个操作数是数字的话，lua会将这个数字转换成字符串。注意，连接操作符只会创建一个新字符串，而不会改变原操作数。也可以使用string库函数string.format连接字符串。
 
 ```lua
 print("Hello " .. "World")    -->打印 Hello World
 print(0 .. 1)                 -->打印 01
+
+str1 = string.format("%s-%s","hello","world")
+print(str1)              -->打印 hello-world
+
+str2 = string.format("%d-%s-%.2f",123,"world",1.21)
+print(str2)              -->打印 123-world-1.21
 ```
 
 ####优先级
