@@ -9,7 +9,7 @@ print(type(360.0))         -->output:number
 print(type(nil))           -->output:nil
 ```
 
-#### nil
+#### nil（空）
 
 nil是一种类型，Lua将nil用于表示“无效值”。一个变量在第一次赋值前的默认值是nil，将nil赋予给一个全局变量就等同于删除它。
 
@@ -21,7 +21,7 @@ num = 100
 print(num)        -->output:100
 ```
 
-#### boolean
+#### boolean（布尔）
 
 布尔类型，可选值true/false；Lua中nil和false为“假”，其它所有值均为“真”。
 
@@ -30,31 +30,25 @@ local a = true
 local b = 0
 local c = nil
 if a then
-    print("a")
+    print("a")        -->output: a
 else
-    print("not a")
+    print("not a")    --这个没有执行
 end
 
 if b then
-    print("b")
+    print("b")        -->output: b
 else
-    print("not b")
+    print("not b")    --这个没有执行
 end
 
 if c then
-    print("c")
+    print("c")        --这个没有执行
 else
-    print("not c")
+    print("not c")    -->output: not c
 end
-
-------output:
-a
-b
-not c
 ```
 
-
-####number
+####number（数字）
 
 number类型用于表示实数。lua没有整数与浮点数之分，因为，lua中的数字可以表示任何二进制32位整数，而不会产生四舍五入带来的错误。
 
@@ -63,7 +57,7 @@ local order = 3
 local score = 98.5
 ```
 
-####string
+####string（字符串）
 
 lua中有三种方式表示字符串:
 
@@ -88,18 +82,19 @@ print(str4)    -->output:string have a "[[]]"
 
 ```
 
-####table
+####table(表)
 
-表，关联数组，索引可为字符串string或(整)数number类型。想了解更多关于table的操作，请查看[Table库](lua/table_library.md)章节。
+table类型实现了“关联数组”。“关联数组” 是一种具有特殊索引方式的数组，索引可为字符串string或(整)数number类型。
 
 ```lua
 local corp = {
-    web = "www.google.com",
-    telephone = "12345678",
-    staff = {"Jack", "Scott", "Gary"},
-    100876,
-    100191,
-    ["City"] = "Beijing"
+    web = "www.google.com",   --索引为字符串，key = "web", value = "www.google.com"
+    telephone = "12345678",   --索引为字符串
+    staff = {"Jack", "Scott", "Gary"}, --索引为字符串，值也是一个表
+    100876,              --相当于 [1] = 100876，此时索引为数字,key = 1, value = 100876
+    100191,              --相当于 [2] = 100191，此时索引为数字
+    [10] = 360           --直接把数字索引给出
+    ["City"] = "Beijing" --索引为字符串
 }
 
 print(corp.web)               -->output:www.google.com
@@ -107,10 +102,13 @@ print(corp[key])              -->output:12345678
 print(corp[2])                -->output:100191
 print(corp["City"])           -->output:"Beijing"
 print(corp.staff[1])          -->output:Jack
+print(corp[10])               -->output:360
 
 ```
 
-####function
+想了解更多关于table的操作，请查看[Table库](lua/table_library.md)章节。
+
+####function(函数)
 
 在Lua中，**函数** 也是一种数据类型，函数可以存储在变量中，可以通过参数传递给其他函数，还可以作为其他函数的返回值。
 > 示例
