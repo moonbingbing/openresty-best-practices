@@ -30,13 +30,13 @@ local a = true
 local b = 0
 local c = nil
 if a then
-    print("a")        -->output: a
+    print("a")        -->output:a
 else
     print("not a")    --这个没有执行
 end
 
 if b then
-    print("b")        -->output: b
+    print("b")        -->output:b
 else
     print("not b")    --这个没有执行
 end
@@ -44,17 +44,19 @@ end
 if c then
     print("c")        --这个没有执行
 else
-    print("not c")    -->output: not c
+    print("not c")    -->output:not c
 end
 ```
 
 ####number（数字）
 
-number类型用于表示实数。lua没有整数与浮点数之分，因为，lua中的数字可以表示任何二进制32位整数，而不会产生四舍五入带来的错误。
+number类型用于表示实数，和c/c++里面的double类型一样。可以使用数学函数math.floor（向下取整）和math.ceil（向上取整）进行取整操作。
 
 ```lua
-local order = 3
+local order = 3.0
 local score = 98.5
+print(math.floor(order))   -->output:3
+print(math.ceil(score))    -->output:99
 ```
 
 ####string（字符串）
