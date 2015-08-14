@@ -17,7 +17,7 @@ Lua的算术运算符如下表所示：
 
 ```lua
 print(1 + 2)       -->打印 3
-print(5 / 10)      -->打印 0。 整数相除的结果是向下取整
+print(5 / 10)      -->打印 0.5。 这是lua不同于c语言的
 print(5.0 / 10)    -->打印 0.5。 浮点数相除的结果是浮点数
 -- print(10 / 0)   -->注意除数不能为0，计算的结果会出错
 print(2 ^ 10)      -->打印 1024。 求2的10次方
@@ -75,6 +75,11 @@ a~=b
 |   or    | 逻辑或    |
 |   not   | 逻辑非    |
 
+lua中的and和or是不同于c语言的。在c语言中，and和or只得到两个值1和0，其中1表示真，0表示假。而lua中and的执行过程是这样的：
+
+- a and b 如果a为nil，则返回a，否则返回b;
+- a or b 如果a为nil，则返回b，否则返回a。
+
 >示例代码：test3.lua
 
 ```lua
@@ -91,6 +96,21 @@ print(not d)    -->打印 false
 ```
 
 **注意：所有逻辑操作符将false和nil视作假，其他任何值视作真，对于and和or，“短路求值”，对于not，永远只返回true或者false**
+
+####字符串连接
+
+在lua中连接两个字符串，可以使用操作符“..”（两个点）。如果其任意一个操作数是数字的话，lua会将这个数字转换成字符串。注意，连接操作符只会创建一个新字符串，而不会改变原操作数。也可以使用string库函数string.format连接字符串。
+
+```lua
+print("Hello " .. "World")    -->打印 Hello World
+print(0 .. 1)                 -->打印 01
+
+str1 = string.format("%s-%s","hello","world")
+print(str1)              -->打印 hello-world
+
+str2 = string.format("%d-%s-%.2f",123,"world",1.21)
+print(str2)              -->打印 123-world-1.21
+```
 
 ####优先级
 
