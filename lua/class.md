@@ -67,7 +67,7 @@ lua中有三种方式表示字符串:
 
 2、使用一对匹配的双引号。例："abclua"。
 
-3、使用一对匹配的双方括号，且左右两边包含相等的等号。使用这种方式表示字符串，可以消除转义字符等对字符串的影响。
+3、使用一对匹配的双方括号，且左右两边包含相等的等号。使用这种方式表示字符串，可以消除转义字符等对字符串的影响。例：[[abc\nbc]]，里面的"\n"不会被转义；[==[abc]]abc]==],因为左右有等号，中间的"]]"不会与左边的"[==["匹配。
 
 另外，lua的字符串是不可改变的值，不能像在c语言中那样直接修改字符串的某个字符，而是根据修改要求来创建一个新的字符串。lua也不能通过下标来访问字符串的某个字符。想了解更多关于字符串的操作，请查看[String库](lua/string_library.md)章节。
 
@@ -75,7 +75,7 @@ lua中有三种方式表示字符串:
 local str1 = 'hello world'
 local str2 = "hello lua"
 local str3 = [["add\name",'hello']]
-local str4 = [=[string have a "[[]]"]=]
+local str4 = [=[string have a "[[]]"]=]  --只要双方括号左右等号相等即可
 
 print(str1)    -->output:hello world
 print(str2)    -->output:hello lua
