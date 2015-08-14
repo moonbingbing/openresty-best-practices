@@ -4,7 +4,7 @@
 
 上一小结有关订阅部分的代码，请看：
 
-```
+```lua
 function _M.subscribe( self, channel )
     local redis, err = redis_c:new()
     if not redis then
@@ -37,7 +37,7 @@ end
 
 正确的代码应该是这样的：  
 
-```
+```lua
 function _M.subscribe( self, channel )
     local redis, err = redis_c:new()
     if not redis then
@@ -74,7 +74,7 @@ end
 
 调用示例代码：
 
-```
+```lua
 local red     = redis:new({timeout=1000})  
 local func  = red:subscribe( "channel" )
 if not func then
