@@ -18,13 +18,12 @@
     }
 
     return nil;
-
 ```
 
 假设我们在用户登录使用上 SQL 语句查询账号是否账号密码正确，用户可以通过 GET 方式请求并发送登录信息比如：
 
 ```
-    http://localhost/login?name=person&password=12345
+#    http://localhost/login?name=person&password=12345
 ```
 
 那么我们上面的代码通过 ngx.var.arg_name 和 ngx.var.arg_password 获取查询参数，并且与 SQL 语句格式进行字符串拼接，最终 sql_normal 会是这个样子的：
