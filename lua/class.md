@@ -67,16 +67,16 @@ lua中有三种方式表示字符串:
 
 2、使用一对匹配的双引号。例："abclua"。
 
-3、使用一对匹配的双方括号，且左右两边包含相等的等号。使用这种方式表示字符串，可以消除转义字符等对字符串的影响。例：[[\a\n\\\\]]、[==[\a\s]]abc\n]==]。
+3、使用一对匹配的双方括号，且左右两边包含相等的等号。使用这种方式表示字符串，可以消除转义字符等对字符串的影响。例：[[abc\nbc]]，里面的"\n"不会被转义；[==[abc]]abc]==],因为左右有等号，中间的"]]"不会与左边的"[==["匹配。
 
 另外，lua的字符串是不可改变的值，不能像在c语言中那样直接修改字符串的某个字符，而是根据修改要求来创建一个新的字符串。lua也不能通过下标来访问字符串的某个字符。想了解更多关于字符串的操作，请查看[String库](lua/string_library.md)章节。
 
 ```lua
-local str1 = 'hello world'            --使用一对单引号表示字符串
-local str2 = "hello lua"              --使用一对双引号表示字符串
-local str3 = [["add\name",'hello']]   --使用一对双方括号表示字符串
-local str4 = [=[string have a "[[]]"]=] --当字符串包含双方括号时，可以在左右
-                                        --两边添加相等的等号，来表示字符串。
+local str1 = 'hello world'
+local str2 = "hello lua"
+local str3 = [["add\name",'hello']]
+local str4 = [=[string have a "[[]]"]=]  --只要双方括号左右等号相等即可
+
 print(str1)    -->output:hello world
 print(str2)    -->output:hello lua
 print(str3)    -->output:"add\name",'hello'
@@ -96,13 +96,13 @@ local corp = {
     100876,              --相当于 [1] = 100876，此时索引为数字,key = 1, value = 100876
     100191,              --相当于 [2] = 100191，此时索引为数字
     [10] = 360           --直接把数字索引给出
-    ["City"] = "Beijing" --索引为字符串
+    ["city"] = "Beijing" --索引为字符串
 }
 
 print(corp.web)               -->output:www.google.com
 print(corp[key])              -->output:12345678
 print(corp[2])                -->output:100191
-print(corp["City"])           -->output:"Beijing"
+print(corp["city"])           -->output:"Beijing"
 print(corp.staff[1])          -->output:Jack
 print(corp[10])               -->output:360
 
