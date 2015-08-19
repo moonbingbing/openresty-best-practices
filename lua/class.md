@@ -108,7 +108,7 @@ print(corp[10])               -->output:360
 
 ```
 
-想了解更多关于table的操作，请查看[Table库](lua/table_library.md)章节。
+想了解更多关于table的操作，请查看[Table库](table_library.md)章节。
 
 ####function(函数)
 
