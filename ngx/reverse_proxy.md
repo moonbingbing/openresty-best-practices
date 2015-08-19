@@ -36,7 +36,7 @@ http {
     server {
         listen 8866;
 
-        ##如果uri的请求是"/"，则反向代理到https://github.com
+        ##1.用户访问http://ip:port，则反向代理到https://github.com
         location / {
             proxy_pass  https://github.com;
             proxy_redirect     off;
@@ -45,6 +45,7 @@ http {
             proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
         }
 
+        ##2.用户访问http://ip:port/README.md，则反向代理到https://github.com/.../README.md
         location /README.md {
             proxy_pass https://github.com/moonbingbing/openresty-best-practices/blob/master/README.md;
             proxy_set_header  X-Real-IP  $remote_addr;
@@ -92,9 +93,7 @@ $ nginx -p ~/proxy_dir -c conf/nginx.conf
 
 location项对请求URI进行匹配，location后面配置了匹配规则。例如上面的例子中，如果请求的URI是```localhost:8866/```，则会匹配location /这一项；如果请求的URI是```localhost:8866/README.md```,则会比配```location /README.md```这项。
 
-上面这个例子只是针对一个确定的URI做了反向代理，有的读者会有疑惑：如果对每个页面都进行这样的配置，那将会出现大量重复的配置，工作量很大，
-能否做**批量**的配置呢？答案是可以的，这需要配合使用location的正则匹配功能。例如，如果想对以/images/开头的URI都反向代理到某一个页面，
-则location的写法是:```location ^~ /images/```
+上面这个例子只是针对一个确定的URI做了反向代理，有的读者会有疑惑：如果对每个页面都进行这样的配置，那将会出现大量重复的配置，工作量很大，能否做**批量**的配置呢？答案是可以的，这需要配合使用location的正则匹配功能。具体实现方法可参考本书的[URL匹配章节](nginx/match_uri.md)。
 
 （2）proxy_pass
 
@@ -108,4 +107,4 @@ proxy_pass后面跟着一个URL，用来将请求反向代理到URL参数指定�
 
 ####正向代理
 
-既然有反向代理，自然也有正向代理。简单来说，正向代理就像一个跳板，例如一个用户访问不了某网站（例如www.google.com），但是他能访问一个代理服务器，这个代理服务器能访问www.google.com，于是用户可以先连上代理服务器，告诉它需要访问的内容，代理服务器去取回来返回给用户。例如一些常见的翻墙工具、游戏代理就是利用正向代理的原理工作的。
+既然有反向代理，自然也有正向代理。简单来说，正向代理就像一个跳板，例如一个用户访问不了某网站（例如www.google.com），但是他能访问一个代理服务器，这个代理服务器能访问www.google.com，于是用户可以先连上代理服务器，告诉它需要访问的内容，代理服务器去取回来返回给用户。例如一些常见的翻墙工具、游戏代理就是利用正向代理的原理工作的，我们需要在这些正向代理工具上配置服务器的IP地址等信息。
