@@ -67,21 +67,20 @@ lua中有三种方式表示字符串:
 
 2、使用一对匹配的双引号。例："abclua"。
 
-3、使用一对匹配的双方括号，且左右两边包含相等的等号。使用这种方式表示字符串，可以消除转义字符等对字符串的影响。例：[[\a\n\\\\]]、[==[\a\s]]abc\n]==]。
+3、字符串还可以用一种长括号（即[[ ]]）括起来的方式定义。 我们把两个正的方括号（即[[ ）间插入 n 个等号定义为第 n 级正长括号。 就是说，0 级正的长括号写作 [[ ， 一级正的长括号写作 [=[ ，如此等等。 反的长括号也作类似定义； 举个例子，4 级反的长括号写作 ]====] 。 一个长字符串可以由任何一级的正的长括号开始，而由第一个碰到的同级反的长括号结束。 整个词法分析过程将不受分行限制，不处理任何转意符，并且忽略掉任何不同级别的长括号。 这种方式描述的字符串可以包含任何东西，当然特定级别的反长括号除外。 例：[[abc\nbc]]，里面的"\n"不会被转义。
 
 另外，lua的字符串是不可改变的值，不能像在c语言中那样直接修改字符串的某个字符，而是根据修改要求来创建一个新的字符串。lua也不能通过下标来访问字符串的某个字符。想了解更多关于字符串的操作，请查看[String库](lua/string_library.md)章节。
 
 ```lua
-local str1 = 'hello world'            --使用一对单引号表示字符串
-local str2 = "hello lua"              --使用一对双引号表示字符串
-local str3 = [["add\name",'hello']]   --使用一对双方括号表示字符串
-local str4 = [=[string have a "[[]]"]=] --当字符串包含双方括号时，可以在左右
-                                        --两边添加相等的等号，来表示字符串。
+local str1 = 'hello world'
+local str2 = "hello lua"
+local str3 = [["add\name",'hello']]
+local str4 = [=[string have a [[]].]=]
+
 print(str1)    -->output:hello world
 print(str2)    -->output:hello lua
 print(str3)    -->output:"add\name",'hello'
-print(str4)    -->output:string have a "[[]]"
-
+print(str4)    -->output:string have a [[]].
 ```
 
 ####table(表)
@@ -96,13 +95,13 @@ local corp = {
     100876,              --相当于 [1] = 100876，此时索引为数字,key = 1, value = 100876
     100191,              --相当于 [2] = 100191，此时索引为数字
     [10] = 360,          --直接把数字索引给出
-    ["City"] = "Beijing" --索引为字符串
+    ["city"] = "Beijing" --索引为字符串
 }
 
 print(corp.web)               -->output:www.google.com
 print(corp["telephone"])      -->output:12345678
 print(corp[2])                -->output:100191
-print(corp["City"])           -->output:"Beijing"
+print(corp["city"])           -->output:"Beijing"
 print(corp.staff[1])          -->output:Jack
 print(corp[10])               -->output:360
 
