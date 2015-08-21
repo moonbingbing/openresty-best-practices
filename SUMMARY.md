@@ -28,7 +28,7 @@
     * [面向对象编程]()
     * [FFI]()
 * [Nginx]()
-    * [Nginx 新手起步]()
+    * [Nginx 新手起步](ngx/nginx_brief.md)
     * [如何匹配 URI]()
     * [if 是邪恶的]()
     * [静态文件服务]()
