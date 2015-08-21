@@ -37,7 +37,7 @@
     * [负载均衡]()
 * [OpenResty]()
     * [环境搭建](OpenResty/install.md)
-        * [Windows平台]()
+        * [Windows平台](OpenResty/install_on_Windows.md)
         * [CentOS平台](OpenResty/install_on_CentOS.md)
         * [Ubuntu平台](OpenResty/install_on_Ubuntu.md)
         * [Mac OS X平台]()
