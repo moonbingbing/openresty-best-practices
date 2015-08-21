@@ -8,11 +8,13 @@
 
 4、验证nginx是否成功启动：
 
-使用tasklist /fi "imagename eq nginx.exe"命令查看nginx进程，下面是在我电脑上的截图，其中一个是master进程，另一个是worker进程。
+   * a、使用tasklist /fi "imagename eq nginx.exe"命令查看nginx进程，下面是在我电脑上的截图，其中一个是master进程，另一个是worker进程。
 
-![nginx进程](install_on_Windows01.PNG)
+  ![nginx进程](install_on_Windows01.PNG)
 
-在浏览器的地址栏输入localhost，加载nginx的欢迎页面。成功加载说明nginx正在运行。
+   * b、在浏览器的地址栏输入localhost，加载nginx的欢迎页面。成功加载说明nginx正在运行。下面是在我电脑上的截图：
+
+  ![nginx的欢迎页面](install_on_Windows02.PNG)
 
 另外当nginx成功启动后，master进程的pid存放在logs\nginx.pid文件中。
 
