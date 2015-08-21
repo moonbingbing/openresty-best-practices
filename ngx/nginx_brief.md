@@ -1,4 +1,4 @@
-## 初始Nginx
+## 初识Nginx
 
 #### Nginx是什么
 
