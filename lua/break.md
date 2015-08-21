@@ -11,7 +11,7 @@ while true do
     if sum > 100 then
         break
     end
-    i = i + 1;
+    i = i + 1
 end
 print("The result is " .. i)  -->output:The result is 14
 ```
@@ -38,6 +38,6 @@ end
 
 sum = add(10, 20)
 print("The sum is " .. sum)  -->output:The sum is 30
-answer = is_positive(-10);
+answer = is_positive(-10)
 print(answer)                -->output:-10 is non-positive
 ```
