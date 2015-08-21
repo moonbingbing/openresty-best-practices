@@ -36,7 +36,7 @@
     * [反向代理](ngx/reverse_proxy.md)
     * [负载均衡]()
 * [OpenResty]()
-    * [环境搭建](openResty/install.md)
+    * [环境搭建](openresty/install.md)
         * [Windows平台](openresty/install_on_windows.md)
         * [CentOS平台](openresty/install_on_centos.md)
         * [Ubuntu平台](openresty/install_on_ubuntu.md)
