@@ -104,7 +104,7 @@ end
 
 local function sub()
     ngx.update_time()
-    ngx.sleep(ngx.time()%3) --模拟后端阻塞时间
+    ngx.sleep(ngx.time()%0.003) --模拟后端阻塞时间
     count = count - 1
 end
 
