@@ -21,3 +21,39 @@ server {
 ```
 
 本章节内容好少，只是想通过一个真实的例子，来提醒大家，做OpenResty开发，[ngx lua的文档](http://wiki.nginx.org/HttpLuaModule)是你的首选，lua语言的库都是同步阻塞的，用的时候要三思。
+
+再来一个例子来说明阻塞API的调用对nginx并发性能的影响
+```
+location /sleep_1 {
+    default_type 'text/plain';
+    content_by_lua '
+        ngx.sleep(0.01)
+        ngx.say("ok")
+    ';
+}
+
+location /sleep_2 {
+    default_type 'text/plain';
+    content_by_lua '
+        function sleep(n)
+            os.execute("sleep " .. n)
+        end
+        sleep(0.01)
+        ngx.say("ok")
+    ';
+}
+```
+
+ab测试一下
+```
+➜  nginx git:(master) ab -c 10 -n 20  http://127.0.0.1/sleep_1
+...
+Requests per second:    860.33 [#/sec] (mean)
+...
+➜  nginx git:(master) ab -c 10 -n 20  http://127.0.0.1/sleep_2
+...
+Requests per second:    56.87 [#/sec] (mean)
+...
+```
+
+可以看到，如果不使用ngx_lua提供的sleep函数，nginx并发处理性能会下降15倍左右。
