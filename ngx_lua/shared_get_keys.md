@@ -10,14 +10,14 @@ ngx.shared.DICT的实现是采用红黑树实现，当申请的缓存被占用�
 
 这样数据结构的在带有队列性质的业务逻辑下会出现的一些问题：
 
-我们用shared作为缓存，接纳终端输入并存储,然后在另外一个线程中按照固定的速度去处理这些输入，代码如下:
+我们用shared作为缓存，接纳终端输入并存储，然后在另外一个线程中按照固定的速度去处理这些输入，代码如下:
 
 ```
 
 -- [ngx.thread.spawn](http://wiki.nginx.org/HttpLuaModule#ngx.thread.spawn) #1 存储线程 理解为生产者
 
 	....
-	local cache_str = string.format([[%s&%s&%s&%s&%s&%s&%s]], net, name, ip, 
+	local cache_str = string.format([[%s&%s&%s&%s&%s&%s&%s]], net, name, ip,
                     mac, ngx.var.remote_addr, method, md5)
 	local ok, err = ngx_nf_data:safe_set(mac, cache_str, 60*60)  --这些是缓存数据
 	if not ok then
@@ -28,10 +28,10 @@ ngx.shared.DICT的实现是采用红黑树实现，当申请的缓存被占用�
 
 -- [ngx.thread.spawn](http://wiki.nginx.org/HttpLuaModule#ngx.thread.spawn) #2 取线程 理解为消费者
 
-	while not ngx.worker.exiting() do 
+	while not ngx.worker.exiting() do
 		local keys = ngx_share:get_keys(50)  -- 一秒处理50个数据
 
-		for index, key in pairs(keys) do 
+		for index, key in pairs(keys) do
 			str = ((nil ~= str) and str..[[#]]..ngx_share:get(key)) or ngx_share:get(key)
 			ngx_share:delete(key)  --干掉这个key
 		end
@@ -51,4 +51,3 @@ ngx.shared.DICT的实现是采用红黑树实现，当申请的缓存被占用�
 3.修改ngx_shared:get_keys()的使用方法，即是不带参数；
 
 方法3和2本质上都是一样的，由于业务已经上线，方法1周期太长，于是采用方法2解决，在后续的业务中不再使用shared.DICT来暂存队列性质的数据
-
