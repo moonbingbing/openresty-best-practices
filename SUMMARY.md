@@ -32,7 +32,7 @@
     * [如何匹配 URI]()
     * [if 是邪恶的]()
     * [静态文件服务]()
-    * [日志服务]()
+    * [日志服务](ngx/nginx_log.md)
     * [反向代理](ngx/reverse_proxy.md)
     * [负载均衡]()
 * [OpenResty]()
