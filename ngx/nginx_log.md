@@ -54,12 +54,18 @@ error_log主要记录客户端访问Nginx出错时的日志，格式不支持自
 
 error_log指令用来指定错误日志，语法: error_log path(存放路径) level(日志等级); 其中path表示错误日志存放路径，level表示错误日志等级，日志等级包括debug、info、notice、warn、error、crit，从左至右，日志详细程度逐级递减，即debug最详细，crit最少，默认为crit。
 
-注意：error_log off并不能关闭错误日志记录，此时日志信息会被写入到文件名为off的文件当中。如果要关闭错误日志记录，Linux系统可以使用如下配置：
+注意：error_log off并不能关闭错误日志记录，此时日志信息会被写入到文件名为off的文件当中。如果要关闭错误日志记录，可以使用如下配置：
 
->把存储位置设置到Linux的黑洞中去 ,Windows系统不行
+>Linux系统把存储位置设置为空设备
 
 ```
 error_log /dev/null;  
 ```
 
-另外Linux系统可以使用tail命令方便的查阅正在改变的文件,tail -f filename会把filename里最尾部的内容显示在屏幕上,并且不断刷新,使你看到最新的文件内容。
+>Windows系统把存储位置设置为空设备
+
+```
+error_log nul;  
+```
+
+另外Linux系统可以使用tail命令方便的查阅正在改变的文件,tail -f filename会把filename里最尾部的内容显示在屏幕上,并且不断刷新,使你看到最新的文件内容。Windows系统没有这个命令，你可以在网上找到动态查看文件的工具。
