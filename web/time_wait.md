@@ -33,7 +33,7 @@ HTTP/1.1 200 OK
 Date: Wed, 08 Jul 2015 02:53:54 GMT
 Content-Type: text/plain
 Connection: close
-Server: 360 web server
+Server: 360 Web server
 
 hello world
 ```
@@ -63,7 +63,7 @@ Date: Mon, 06 Jul 2015 09:35:34 GMT
 Content-Type: text/plain
 Transfer-Encoding: chunked
 Connection: close
-Server: 360 web server
+Server: 360 Web server
 Content-Encoding: gzip
 ```
 这个请求包是http1.1的协议，也声明了Connection: Keep-Alive，为什么还会被nginx主动关闭呢？
