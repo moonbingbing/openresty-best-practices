@@ -1,6 +1,6 @@
 # 跨平台的库选择
 
-大家看过上面三个json的例子就发现，都是围绕cjson库的。原因也比较简单，就是cjson是默认绑定到openresty上的。所以在linux环境下我们也默认的使用了他。在360天擎项目中，linux用户只是很少量的一部分。大部分用户更多的是windows操作系统，但cjson目前还没有windows版本。所以对于windows用户，我们只能选择dkjson（编解码效率没有cjson快，优势是纯lua，完美跨任何平台）。
+大家看过上面三个json的例子就发现，都是围绕cjson库的。原因也比较简单，就是cjson是默认绑定到openresty上的。所以在linux环境下我们也默认的使用了他。在360天擎项目中，linux用户只是很少量的一部分。大部分用户更多的是windows操作系统，但cjson目前还没有windows版本。所以对于windows用户，我们只能选择dkjson（编解码效率没有cjson快，优势是纯Lua，完美跨任何平台）。
 
 并且我们的代码肯定不会因为win、linux的并存而写两套程序。那么我们就必须要把json处理部分封装一下，隐藏系统差异造成的差异化处理。
 

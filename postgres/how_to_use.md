@@ -22,7 +22,7 @@ location /postgres {
 这里有很多指令要素：
 
 * internal 这个指令指定所在的 location 只允许使用于处理内部请求，否则返回 404 。
-* set\_by\_lua 这一段内嵌的 lua 代码用于计算出 $query_sql 变量的值，即后续通过指令 postgres_query 发送给 PostgreSQL 处理的 SQL 语句。这里使用了GET请求的 query 参数作为 SQL 语句输入。
+* set\_by\_lua 这一段内嵌的 Lua 代码用于计算出 $query_sql 变量的值，即后续通过指令 postgres_query 发送给 PostgreSQL 处理的 SQL 语句。这里使用了GET请求的 query 参数作为 SQL 语句输入。
 * postgres\_pass 这个指令可以指定一组提供后台服务的 PostgreSQL 数据库的 upstream 块。
 * rds\_json 这个指令是 ngx\_rds\_json 提供的，用于指定 ngx\_rds\_json 的 output 过滤器的开关状态，其模块作用就是一个用于把 rds 格式数据转换成 json 格式的 output filter。这个指令在这里出现意思是让 ngx\_rds\_json 模块帮助 ngx\_postgres 模块把模块输出数据转换成 json 格式的数据。
 * rds_json_buffer_size 这个指令指定 ngx\_rds\_json 用于每个连接的数据转换的内存大小. 默认是 4/8k,适当加大此参数，有利于减少 CPU 消耗。
@@ -61,7 +61,7 @@ upstream pg_server {
         + ignore 允许创建新的连接与数据库通信，但完成通信后马上关闭此连接。
         + reject 拒绝访问并返回 503 Service Unavailable
 
-这样就构成了我们 PostgreSQL 后端通讯的通用 location，在使用 lua 业务编码的过程中可以直接使用如下代码连接数据库（折腾了这么老半天）：
+这样就构成了我们 PostgreSQL 后端通讯的通用 location，在使用 Lua 业务编码的过程中可以直接使用如下代码连接数据库（折腾了这么老半天）：
 
 ```lua
 local json = require "cjson"

@@ -12,17 +12,17 @@
 
 然后切换至LuaJIT的src目录，运行msvcbuild.bat
 
-将生成的luajit.exe、lua51.dll、jit 复制到打包工具的相对目录下，这样在工具中就可以直接调用luajit –b source_file out_file (一般都是lua后缀，代码不用改动)
+将生成的luajit.exe、lua51.dll、jit 复制到打包工具的相对目录下，这样在工具中就可以直接调用luajit –b source_file out_file (一般都是Lua后缀，代码不用改动)
 
 如果你windows系统中没有安装visual studio或者不想手工编译，可以直接在网上搜索下载已经被别人编译好的LuaJIT。
 
 ####在Linux上搭建环境
 
-本书以Ubuntu为例来说明。首先，使用apt-cache命令查看有哪些版本的luajit可以安装。
+本书以Ubuntu为例来说明。首先，使用apt-cache命令查看有哪些版本的LuaJIT可以安装。
 
 ######安装Luajit
 
-在ubuntun系统上，使用apt-get insall命令安装luajit：
+在ubuntun系统上，使用apt-get insall命令安装LuaJIT：
 
 ```
 sudo apt-get install luajit
@@ -30,7 +30,7 @@ sudo apt-get install luajit
 
 ######验证Luajit是否安装成功
 
-输入**luajit -v**查看luajit版本，如果返回以下类似内容，则说明安装成功：
+输入**luajit -v**查看LuaJIT版本，如果返回以下类似内容，则说明安装成功：
 
 ```
 LuaJIT 2.0.3 -- Copyright (C) 2005-2014 Mike Pall. http://luajit.org/

@@ -6,7 +6,7 @@
 
 那么我们是否可以在生产环境中完成热加载呢？
 
-* 代码有变动时，自动加载最新lua代码，但是nginx本身，不做任何reload
+* 代码有变动时，自动加载最新Lua代码，但是nginx本身，不做任何reload
 * 自动加载后的代码，享用lua_code_cache on带来的高效特性
 
 
@@ -45,7 +45,7 @@ https://github.com/openresty/lua-nginx-module#lua-coroutine-yieldingresuming
 这样的 Lua 模块应避免手动从 package.loaded 卸载。当然，如果你永不手工卸载这样的模块，只是动态加载的话，倒也无所谓了。但在我们的 Lua WAF 的场景，已动态加载的一些 Lua 模块还需要被热替换掉（但不重新创建 Lua VM）。 
 
 
-##自定义lua script的动态装载实现 
+##自定义Lua script的动态装载实现 
 
 > [引自Openresty讨论组](https://groups.google.com/forum/#!searchin/openresty/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BDlua%E8%84%9A%E6%9C%AC/openresty/-MZ9AzXaaG8/TeXTyLCuoYUJ)
 

@@ -30,7 +30,7 @@ b = Account:new()
 b:deposit(50)
 print(a.balance)  -->100
 print(b.balance)  -->50
---本来笔者开始是自己写的例子，但发现的确不如lua作者给的例子经典，所以还是沿用作者的代码。
+--本来笔者开始是自己写的例子，但发现的确不如Lua作者给的例子经典，所以还是沿用作者的代码。
 ```
 
 上面这段代码"setmetatable(o, {\_\_index = self})"这句话值得注意。根据我们在元表这一章学到的知识，我们明白，setmetatable将Account作为新建'o'表的原型，所以当o在自己的表内找不到'balance'、'withdraw'这些方法和变量的时候，便会到\_\_index所指定的Account类型中去寻找。

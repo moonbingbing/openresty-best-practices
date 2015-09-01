@@ -87,4 +87,4 @@ openresty中已经对redis的所有原语操作进行了封装。下面我们以
       }
 ```
 
-从上面的例子可以看到，我们要根据一个对象的id来查询该id所属gourp的信息时，我们的第一个命令是从redis中读取id为1（id的值可以通过参数的方式传递到script中）的对象的信息（由于这些信息一般json格式存在redis中，因此我们要做一个解码操作，将info转换成lua对象）。然后提取信息中的groupid字段，以groupid作为key查询groupinfo。这样我们就可以把两个get放到一个TCP请求中，做到减少TCP请求数量，减少网络延时的效果啦。
+从上面的例子可以看到，我们要根据一个对象的id来查询该id所属gourp的信息时，我们的第一个命令是从redis中读取id为1（id的值可以通过参数的方式传递到script中）的对象的信息（由于这些信息一般json格式存在redis中，因此我们要做一个解码操作，将info转换成Lua对象）。然后提取信息中的groupid字段，以groupid作为key查询groupinfo。这样我们就可以把两个get放到一个TCP请求中，做到减少TCP请求数量，减少网络延时的效果啦。

@@ -118,4 +118,4 @@ stack traceback:
  Checking line length exceeding 80...
 
 ```
-结果显示：在foo.lua文件中，第7行设置了一个全局变量update_A（注意：在lua中函数也是变量），第8行设置了一个全局变量A；在use_foo.lua文件中，第1行设置了一个全局变量A，第4行使用了两次全局变量A，第8行使用了一次全局变量A。
+结果显示：在foo.lua文件中，第7行设置了一个全局变量update_A（注意：在Lua中函数也是变量），第8行设置了一个全局变量A；在use_foo.lua文件中，第1行设置了一个全局变量A，第4行使用了两次全局变量A，第8行使用了一次全局变量A。

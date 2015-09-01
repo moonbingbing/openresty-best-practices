@@ -7,7 +7,7 @@ Lua是一个可扩展的轻量级脚本语言，它是用C语言编写的。**Lu
 >一个完整的Lua解释器不过200k
 
 ####Lua和Luajit的区别
-LuaJIT是采用C语言写的Lua的解释器。LuaJIT被设计成全兼容标准Lua 5.1, 因此LuaJIT代码的语法和标准Lua的语法没多大区别。LuaJIT和Lua的一个区别是，LuaJIT的运行速度比标准Lua快数十倍，可以说是一个lua的高效率版本。
+LuaJIT是采用C语言写的Lua的解释器。LuaJIT被设计成全兼容标准Lua 5.1, 因此LuaJIT代码的语法和标准Lua的语法没多大区别。LuaJIT和Lua的一个区别是，LuaJIT的运行速度比标准Lua快数十倍，可以说是一个Lua的高效率版本。
 
 若无特殊说明，我们接下来的章节都是基于LuaJIT进行介绍的。
 

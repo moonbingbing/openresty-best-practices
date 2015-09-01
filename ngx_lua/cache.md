@@ -12,7 +12,7 @@
 
 我们介绍下在OpenResty里面，有哪些缓存的方法。
 
-####使用[lua shared dict](http://wiki.nginx.org/HttpLuaModule#ngx.shared.DICT)
+####使用[Lua shared dict](http://wiki.nginx.org/HttpLuaModule#ngx.shared.DICT)
 
 我们看下面这段代码：
 
@@ -43,7 +43,7 @@ lua_shared_dict my_cache 128m;
 
 如同它的名字一样，这个cache是nginx所有worker之间共享的，内部使用的LRU算法（最近经常使用）来判断缓存是否在内存占满时被清除。
 
-####使用[lua LRU cache](https://github.com/openresty/lua-resty-lrucache)
+####使用[Lua LRU cache](https://github.com/openresty/lua-resty-lrucache)
 
 直接复制下春哥的示例代码：
 
@@ -53,7 +53,7 @@ local _M = {}
 -- alternatively: local lrucache = require "resty.lrucache.pureffi"
 local lrucache = require "resty.lrucache"
 
--- we need to initialize the cache on the lua module level so that
+-- we need to initialize the cache on the Lua module level so that
 -- it can be shared by all the requests served by each nginx worker process:
 local c = lrucache.new(200)  -- allow up to 200 items in the cache
 if not c then
@@ -79,4 +79,4 @@ return _M
 
 shared.dict 使用的是共享内存，每次操作都是全局锁，如果高并发环境，不同worker之间容易引起竞争。所以单个shared.dict的体积不能过大。lrucache是worker内使用的，由于nginx是单进程方式存在，所以永远不会触发锁，效率上有优势，并且没有shared.dict的体积限制，内存上也更弹性，但不同worker之间数据不同享，同一缓存数据可能被冗余存储。
 
-你需要考虑的，一个是lua lru cache提供的API比较少，现在只有get、set和delete，而ngx shared dict还可以add、replace、incr、get_stale（在key过期时也可以返回之前的值）、get_keys（获取所有key，虽然不推荐，但说不定你的业务需要呢）；第二个是内存的占用，由于ngx shared dict是workers之间共享的，所以在多worker的情况下，内存占用比较少。
+你需要考虑的，一个是Lua lru cache提供的API比较少，现在只有get、set和delete，而ngx shared dict还可以add、replace、incr、get_stale（在key过期时也可以返回之前的值）、get_keys（获取所有key，虽然不推荐，但说不定你的业务需要呢）；第二个是内存的占用，由于ngx shared dict是workers之间共享的，所以在多worker的情况下，内存占用比较少。
