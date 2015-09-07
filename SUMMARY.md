@@ -83,6 +83,8 @@
    * [正确使用长链接](ngx_lua/keepalive.md)
    * [如何引用第三方resty库](ngx_lua/how_use_third_lib.md)
    * [body在location中的传递](ngx_lua/capture.md)
+   * [典型应用场景][ngx_lua/use_case.md]
+   * [Nginx内置变量][ngx_lua/inline_var.md]
 * [LuaRestyDNSLibrary](dns.md)
    * [使用动态DNS来完成HTTP请求](dns/use_dynamic_dns.md)
 * [LuaRestyLock](lock.md)
