@@ -85,7 +85,7 @@
    * [body在location中的传递](ngx_lua/capture.md)
    * [典型应用场景][ngx_lua/use_case.md]
    * [Nginx内置变量][ngx_lua/inline_var.md]
-* [LuaRestyDNSLibrary](dns.md)
+* LuaRestyDNSLibrary
    * [使用动态DNS来完成HTTP请求](dns/use_dynamic_dns.md)
 * [LuaRestyLock](lock.md)
 	* [缓存失效风暴](lock/cache-miss-storm.md)
