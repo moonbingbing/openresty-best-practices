@@ -1,7 +1,11 @@
 # Summary
 
 * [序](README.md)
-* [Lua入门]()
+* [入门篇](README.md)
+    * [WEB发展]
+    * [OpenResty简介]
+    * [如何找到交流伙伴]
+* [Lua入门]
     * [Lua简介](lua/brief.md)
     * [Lua环境搭建](lua/build_env.md)
     * [基础数据类型](lua/class.md)
@@ -23,28 +27,50 @@
     * [日期时间函数](lua/time_date_function.md)
     * [数学库函数](lua/math_library.md)
     * [文件操作](lua/file.md)
-* [Lua高阶]()
-    * [元表]()
-    * [面向对象编程]()
-    * [FFI]()
-* [Nginx]()
+* [Lua高阶]
+    * [元表](lua/metatable.md)
+    * [面向对象编程](lua/object_oriented.md)
+    * [FFI](lua/FFI.md)
+    * [下标从1开始](lua/subscript.md)
+    * [局部变量](lua/local.md)
+    * [判断数组大小](lua/array_size.md)
+    * [非空判断](lua/not_nill.md)
+    * [正则表达式](lua/re.md)
+    * [不用标准库](lua/not_use_lib.md)
+    * [虚变量](lua/dummy_var.md)
+    * [函数在调用代码前定义](lua/function_before_use.md)
+    * [抵制使用module()函数来定义Lua模块](lua/not_use_module.md)
+    * [点号与冒号操作符的区别](lua/dot_diff.md)
+    * [控制结构for的使用](lua/for.md)
+* [Nginx]
     * [Nginx 新手起步](ngx/nginx_brief.md)
-    * [如何匹配 URI]()
-    * [if 是邪恶的]()
-    * [静态文件服务]()
+    * [如何匹配 URI todo]
+    * [if 是邪恶的 todo]
+    * [静态文件服务 todo]
     * [日志服务](ngx/nginx_log.md)
     * [反向代理](ngx/reverse_proxy.md)
-    * [负载均衡]()
-* [OpenResty]()
+    * [负载均衡 todo]
+* [OpenResty]
+    * [OpenResty基础]
+    * [简介]
     * [环境搭建](openresty/install.md)
         * [Windows平台](openresty/install_on_windows.md)
         * [CentOS平台](openresty/install_on_centos.md)
         * [Ubuntu平台](openresty/install_on_ubuntu.md)
-        * [Mac OS X平台]()
-        * [DockerHub]()
+        * [Mac OS X平台]
+        * [DockerHub]
     * [Hello World](openresty/helloworld.md)
-    * [简单API Server框架]()
-    * [与其他location配合]()
+    * [简单API Server框架]
+    * [与其他location配合]
+    * [获取uri参数]
+    * [获取请求body]
+    * [输出响应体]
+    * [日志输出]
+    * [获取Nginx内置绑定变量]
+    * [子查询]
+    * [在不同阶段共享变量]
+    * [防止SQL注入]
+    * [自定义模块]
 * [LuaRestyRedisLibrary](redis.md)
    * [select+set_keepalive组合操作引起的数据读写错误](redis/select-keeplive.md)
    * [redis接口的二次封装（简化建连、拆连等细节）](redis/out_package.md)
@@ -89,18 +115,7 @@
    * [使用动态DNS来完成HTTP请求](dns/use_dynamic_dns.md)
 * [LuaRestyLock](lock.md)
 	* [缓存失效风暴](lock/cache-miss-storm.md)
-* [Lua](lua.md)
-   * [下标从1开始](lua/subscript.md)
-   * [局部变量](lua/local.md)
-   * [判断数组大小](lua/array_size.md)
-   * [非空判断](lua/not_nill.md)
-   * [正则表达式](lua/re.md)
-   * [不用标准库](lua/not_use_lib.md)
-   * [虚变量](lua/dummy_var.md)
-   * [函数在调用代码前定义](lua/function_before_use.md)
-   * [抵制使用module()函数来定义Lua模块](lua/not_use_module.md)
-   * [点号与冒号操作符的区别](lua/dot_diff.md)
-   * [控制结构for的使用](lua/for.md)
+
 * [测试](test.md)
    * [单元测试](test/unittest.md)
    * [API测试](test/apitest.md)
@@ -121,3 +136,7 @@
    * [显示的是什么](flame_graph/what.md)
    * [如何安装火焰图生成工具](flame_graph/install.md)
    * [如何定位问题](flame_graph/how.md)
+* [杂谈]
+    * [开源文化对360企业安全的影响]
+    * [为什么开源项目大多来自国外]
+    * [编译Windows版本]
