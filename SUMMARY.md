@@ -66,7 +66,7 @@
     * [获取请求body]
     * [输出响应体]
     * [日志输出]
-    * [获取Nginx内置绑定变量]
+    * [获取Nginx内置绑定变量][openresty/inline_var.md]
     * [子查询]
     * [在不同阶段共享变量]
     * [防止SQL注入]
@@ -110,7 +110,6 @@
     * [如何引用第三方resty库](ngx_lua/how_use_third_lib.md)
     * [body在location中的传递](ngx_lua/capture.md)
     * [典型应用场景][ngx_lua/use_case.md]
-    * [Nginx内置变量][ngx_lua/inline_var.md]
 * [LuaRestyDNSLibrary]
     * [使用动态DNS来完成HTTP请求](dns/use_dynamic_dns.md)
 * [LuaRestyLock](lock.md)
