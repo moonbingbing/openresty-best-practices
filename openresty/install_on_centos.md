@@ -1,4 +1,4 @@
-#centOS 平台下OpenResty的安装
+#CentOS 平台下OpenResty的安装
 
 ####源码包准备
 

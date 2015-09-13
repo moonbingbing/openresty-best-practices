@@ -57,7 +57,7 @@
         * [Windows平台](openresty/install_on_windows.md)
         * [CentOS平台](openresty/install_on_centos.md)
         * [Ubuntu平台](openresty/install_on_ubuntu.md)
-        * [Mac OS X平台]
+        * [Mac OS X平台](openresty/install_osx.md)
         * [DockerHub]
     * [Hello World](openresty/helloworld.md)
     * [简单API Server框架]
