@@ -12,7 +12,7 @@ OpenResty安装之后就有配置文件及相关的目录的，为了工作目�
 在conf目录下创建一个文本文件作为配置文件，命名为nginx.conf。
 写入如下内容:
 
-```
+```nginx
 worker_processes  1;
  #指定错误日志文件路径
 error_log logs/error.log;
