@@ -135,6 +135,6 @@
     * [如何安装火焰图生成工具](flame_graph/install.md)
     * [如何定位问题](flame_graph/how.md)
 * [杂谈]
-    * [开源文化对360企业安全的影响]
+    * [开源文化对360企业安全的影响](others/about_qihoo_opensource.md)
     * [为什么开源项目大多来自国外]
     * [编译Windows版本]
