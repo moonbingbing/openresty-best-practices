@@ -66,7 +66,7 @@
     * [获取请求body]
     * [输出响应体]
     * [日志输出]
-    * [获取Nginx内置绑定变量][openresty/inline_var.md]
+    * [获取Nginx内置绑定变量](openresty/inline_var.md)
     * [子查询]
     * [在不同阶段共享变量]
     * [防止SQL注入]
