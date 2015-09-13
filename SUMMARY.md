@@ -45,7 +45,7 @@
 * [Nginx]
     * [Nginx 新手起步](ngx/nginx_brief.md)
     * [如何匹配 URI todo]
-    * [if 是邪恶的 todo]
+    * [if 是邪恶的](ngx/if_is_evil.md)
     * [静态文件服务 todo]
     * [日志服务](ngx/nginx_log.md)
     * [反向代理](ngx/reverse_proxy.md)
