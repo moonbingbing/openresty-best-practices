@@ -1,115 +1,155 @@
 # Nginx 静态文件服务
 
-Nginx 提供了强大的静态文件服务功能，利用 Nginx 的反向代理缓存以及静态文件压缩功能，
-我们可以有效地提高静态文件服务的效率。
-
-#### 反向代理缓存
-
-什么是反向代理？我们知道正向代理是面向客户端的，用户主动使用代理软件连接到代理服务器，起到一个跳板的作用，一般可以用于内网访问外网或者“翻墙”。而反向代理则顾名思义是面向服务端的，用户并不知道我们 Nginx 反向代理服务器的存在，通过增加一层反向代理，对主服务器起到一个保护、缓冲和负载均衡的作用。
-
-而Nginx作为知名的反向代理服务器软件，为我们封装了完备的反向代理功能，我们只需要在配置文件中做出少量的设置，就可以搭建一台反向代理服务器。下面我们给出一个典型的反向代理缓存的配置。
+我们先来看看最简单的本地静态文件服务配置示例：
 
 ```nginx
-http{
-    //反向代理设置
-    upstream realserver{
-        server localhost:4321; #这里我们代理localhost的4321端口
-    }
-    proxy_connect_timeout 5;   #设置与被代理服务器建立连接的超时时间。
-    proxy_read_timeout 60;     #设置接收一个被代理服务器请求的超时时间。
-    proxy_send_timeout 5;      #设置传输一个请求到被代理服务器的超时时间。
-    proxy_buffer_size 16k;     #设置缓冲区大小，若不设置，默认与内存页大小相同。
-    proxy_busy_buffers_size 128k;  #当来自被代理服务器的应答缓冲被开启时，在应答没有被完全
-                                   #读取时，限制被用于发送应答到客户端的缓冲区大小。可以简
-                                   #单地理解成缓冲区上限。
+server {
+        listen       80;
+        server_name www.test.com;
+        charset utf-8;
+        root   /data/www.test.com;
+        index  index.html index.htm;
+       }
+```
 
-    proxy_temp_file_write_size 128k;  #当缓冲区不够用时，设置限制一次写到临时文件中的大小。
-    proxy_temp_path /tmp/proxy_temp_dir;  
-    //代理缓存设置
-    proxy_cache_path /tmp/proxy_cache_dir levels=1:2 keys_zone=cache_one:100m inactive=1d max_size=10g;
-}
+就这些？恩，就这些！如果只是提供简单的对外静态文件，它真的就可以用了。可是他不完美，远远没有发挥 Nginx 的半成功力，为什么这么说呢，看看下面的配置吧，为了大家看着方便，我们把每一项的作用都做了注释。
 
-location / {
-    ##代理设置
-    proxy_pass http://realserver;                ##对应upstream后的名称
-    proxy_setHeader Host $host;
-    proxy_setheader X-Forwarded-For $remote_addr;
+```nginx
+http {
+    # 这个将为打开文件指定缓存，默认是没有启用的，max 指定缓存数量，
+    # 建议和打开文件数一致，inactive 是指经过多长时间文件没被请求后删除缓存。
+    open_file_cache max=204800 inactive=20s;
 
-    ##代理缓存设置
-    proxy_cache cache_one;                       ##对应proxy_cache_path中的keys_zone
-    proxy_cache_valid 200 304 1d;                ##对于200及304的http页面缓存
-    proxy_cache_key $host$uri$is_args$args;      ##缓存的key值
+    # open_file_cache 指令中的inactive 参数时间内文件的最少使用次数，
+    # 如果超过这个数字，文件描述符一直是在缓存中打开的，如上例，如果有一个
+    # 文件在inactive 时间内一次没被使用，它将被移除。
+    open_file_cache_min_uses 1;
+
+    # 这个是指多长时间检查一次缓存的有效信息
+    open_file_cache_valid 30s;
+
+    # 默认情况下，Nginx的gzip压缩是关闭的， gzip压缩功能就是可以让你节省不
+    # 少带宽，但是会增加服务器CPU的开销哦，Nginx默认只对text/html进行压缩 ，
+    # 如果要对html之外的内容进行压缩传输，我们需要手动来设置。
+    gzip on;
+    gzip_min_length 1k;
+    gzip_buffers 4 16k;
+    gzip_http_version 1.0;
+    gzip_comp_level 2;
+    gzip_types text/plain application/x-javascript text/css application/xml;
+
+    server {
+            listen       80;
+            server_name www.test.com;
+            charset utf-8;
+            root   /data/www.test.com;
+            index  index.html index.htm;
+           }
 }
 ```
 
-说明：
-keys_zone=cache_one:100m 表示这个zone名称为cache_one，分配的内存大小为100MB  
-/tmp/proxy_cache_dir 表示cache1这个zone的文件要存放的目录  
-levels=1:2 表示缓存目录的第一级目录是1个字符，第二级目录是2个字符，即/usr/local/nginx/proxy_cache_dir/cache1/a/1b这种形式  
-inactive=1d 表示这个zone中的缓存文件如果在1天内都没有被访问，那么文件会被cache manager进程删除掉  
-max_size=10g 表示这个zone的硬盘容量为10GB  
+我们都知道，应用程序和网站一样，其性能关乎生存。但如何使你的应用程序或者网站性能更好，并没有一个明确的答案。代码质量和架构是其中的一个原因，但是在很多例子中我们看到，你可以通过关注一些十分基础的应用内容分发技术（basic application delivery techniques），来提高终端用户的体验。其中一个例子就是实现和调整应用栈（application stack）的缓存。
 
-上面这个例子主要是给大家介绍文件
+#### 文件缓存漫谈
 
-#### Memcached缓存
+一个web缓存坐落于客户端和“原始服务器（origin server）”中间，它保留了所有可见内容的拷贝。如果一个客户端请求的内容在缓存中存储，则可以直接在缓存中获得该内容而不需要与服务器通信。这样一来，由于web缓存距离客户端“更近”，就可以提高响应性能，并更有效率的使用应用服务器，因为服务器不用每次请求都进行页面生成工作。
 
-计算机世界有个名言：计算机科学领域的任何问题都可以通过增加间接的中间件来解决。
+在浏览器和应用服务器之间，存在多种“潜在”缓存，如：客户端浏览器缓存、中间缓存、内容分发网络（CDN）和服务器上的负载平衡和反向代理。缓存，仅在反向代理和负载均衡的层面，就对性能提高有很大的帮助。
 
-如果上面的配置仍然不能满足你的应用对静态文件服务的需求的话，可以使用Nginx的memcached模块，形成一个三层的缓冲结构。被代理服务器-》Nginx反向代理缓存-》Nginxmemcached缓存。该模块已经被包含在Nginx的模块当中，需要在Nginx编译安装时，通过指定参数的方式来开启。  
-这种方式有好处也有坏处，好处是：如果你的静态文件存储于不同的文件系统下（这在分布式的环境中很常见），那么由于memcached使用内存来进行文件缓存，一来可以避免文件系统的问题，二来内存速度远快于硬盘IO速度。
-坏处是：memcached服务器如果宕掉，内存中的缓冲文件就会全部丢失。但是由于我们这个应用场景下，memcached只是被代理服务器的一个缓冲，所有静态文件在被代理服务器中都有备份，即使memcached服务器宕掉，被代理服务器中的静态文件不会有任何影响，所以这个方案几乎是只有好处没有坏处。
+举个例子说明，去年，我接手了一项任务，这项任务的内容是对一个加载缓慢的网站进行性能优化。首先引起我注意的事情是，这个网站差不多花费了超过1秒钟才生成了主页。经过一系列调试，我发现加载缓慢的原因在于页面被标记为不可缓存，即为了响应每一个请求，页面都是动态生成的。由于页面本身并不需要经常性的变更，并且不涉及个性化，那么这样做其实并没有必要。为了验证一下我的结论，我将页面标记为每5秒缓存一次，仅仅做了这一个调整，就能明显的感受到性能的提升。第一个字节到达的时间降低到几毫秒，同时页面的加载明显要更快。
 
+并不是只有大规模的内容分发网络（CDN）可以在使用缓存中受益——缓存还可以提高负载平衡器、反向代理和应用服务器前端web服务的性能。通过上面的例子，我们看到，缓存内容结果，可以更高效的使用应用服务器，因为不需要每次都去做重复的页面生成工作。此外，Web缓存还可以用来提高网站可靠性。当服务器宕机或者繁忙时，比起返回错误信息给用户，不如通过配置Nginx将已经缓存下来的内容发送给用户。这意味着，网站在应用服务器或者数据库故障的情况下，可以保持部分甚至全部的功能运转。
 
+下一部分讨论如何安装和配置Nginx的基础缓存（Basic Caching）。
 
+#### 如何安装和配置基础缓存
 
-upstream memcacheds {
-        server 127.0.0.1:11211;
+我们只需要两个命令就可以启用基础缓存： [proxy_cache_path](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path) 和 [proxy_cache](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache) 。proxy_cache_path用来设置缓存的路径和配置，proxy_cache用来启用缓存。
+
+```nginx
+proxy_cache_path/path/to/cache levels=1:2 keys_zone=my_cache:10m max_size=10g inactive=60m
+use_temp_path=off;
+
+server {
+    ...
+    location / {
+        proxy_cachemy_cache;
+        proxy_pass http://my_upstream;
+    }
+
 }
-server  {
-        listen       8080;
-        server_name  nm.ttlsa.com;
-        index index.html index.htm index.php;
-        root  /data/wwwroot/test.ttlsa.com/webroot;
- 
-        location /images/ {
-                set $memcached_key $request_uri;
-                add_header X-mem-key  $memcached_key;
-                memcached_pass  memcacheds;
-                default_type text/html;
-                error_page 404 502 504 = @app;
-        }
- 
-        location @app {
-                rewrite ^/.* /nm_ttlsa.php?key=$request_uri;
-        }
- 
-        location ~ .*\.php?$
-        {
-                include fastcgi_params;
-                fastcgi_pass  127.0.0.1:10081;
-                fastcgi_index index.php;
-                fastcgi_connect_timeout 60;
-                fastcgi_send_timeout 180;
-                fastcgi_read_timeout 180;
-                fastcgi_buffer_size 128k;
-                fastcgi_buffers 4 256k;
-                fastcgi_busy_buffers_size 256k;
-                fastcgi_temp_file_write_size 256k;
-                fastcgi_intercept_errors on;
-                fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
-        }
+```
+
+proxy_cache_path 命令中的参数及对应配置说明如下：
+
+1. 用于缓存的本地磁盘目录是 /path/to/cache/
+1. levels 在 /path/to/cache/ 设置了一个两级层次结构的目录。将大量的文件放置在单个目录中会导致文件访问缓慢，所以针对大多数部署，我们推荐使用两级目录层次结构。如果levels参数没有配置，则 Nginx 会将所有的文件放到同一个目录中。
+3. keys_zone设置一个共享内存区，该内存区用于存储缓存键和元数据，有些类似计时器的用途。将键的拷贝放入内存可以使 Nginx 在不检索磁盘的情况下快速决定一个请求是`HIT`还是`MISS`，这样大大提高了检索速度。一个1MB的内存空间可以存储大约8000个key，那么上面配置的10MB内存空间可以存储差不多80000个key。
+4. max_size设置了缓存的上限（在上面的例子中是10G）。这是一个可选项；如果不指定具体值，那就是允许缓存不断增长，占用所有可用的磁盘空间。当缓存达到这个上线，处理器便调用cache manager来移除最近最少被使用的文件，这样把缓存的空间降低至这个限制之下。
+5. inactive指定了项目在不被访问的情况下能够在内存中保持的时间。在上面的例子中，如果一个文件在60分钟之内没有被请求，则缓存管理将会自动将其在内存中删除，不管该文件是否过期。该参数默认值为10分钟（10m）。注意，非活动内容有别于过期内容。 Nginx 不会自动删除由缓存控制头部指定的过期内容（本例中Cache-Control:max-age=120）。过期内容只有在inactive指定时间内没有被访问的情况下才会被删除。如果过期内容被访问了，那么 Nginx 就会将其从原服务器上刷新，并更新对应的inactive计时器。
+6.  Nginx 最初会将注定写入缓存的文件先放入一个临时存储区域，use_temp_path=off命令指示 Nginx 将在缓存这些文件时将它们写入同一个目录下。我们强烈建议你将参数设置为off来避免在文件系统中不必要的数据拷贝。use_temp_path在 Nginx 1.7版本和 Nginx Plus R6中有所介绍。
+
+最终，proxy_cache 命令启动缓存那些URL与location部分匹配的内容（本例中，为`/`）。你同样可以将proxy_cache命令添加到server部分，这将会将缓存应用到所有的那些location中未指定自己的proxy_cache命令的服务中。
+
+#### 陈旧总比没有强
+
+NGINX内容缓存的一个非常强大的特性是：当无法从原始服务器获取最新的内容时，NGINX可以分发缓存中的陈旧（stale，编者注：即过期内容）内容。这种情况一般发生在关联缓存内容的原始服务器宕机或者繁忙时。比起对客户端传达错误信息，NGINX可发送在其内存中的陈旧的文件。NGINX的这种代理方式，为服务器提供额外级别的容错能力，并确保了在服务器故障或流量峰值的情况下的正常运行。为了开启该功能，只需要添加 [proxy_cache_use_stale](http://nginx.org/en/docs/http/ngx_http_proxy_module.html?&_ga=1.14624247.1568941527.1438257987#proxy_cache_use_stale) 命令即可：
+
+```nginx
+location / {
+    ...
+    proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
+}
+```
+
+按照上面例子中的配置，当NGINX收到服务器返回的error，timeout或者其他指定的5xx错误，并且在其缓存中有请求文件的陈旧版本，则会将这些陈旧版本的文件而不是错误信息发送给客户端。
+
+#### 缓存微调
+
+NGINX提供了丰富的可选项配置用于缓存性能的微调。下面是使用了几个配置的例子：
+
+```nginx
+proxy_cache_path /path/to/cache levels=1:2 keys_zone=my_cache:10m max_size=10g inactive=60m
+use_temp_path=off;
+server {
+    ...
+    location / {
+        proxy_cache my_cache;
+        proxy_cache_revalidateon;
+        proxy_cache_min_uses3;
+        proxy_cache_use_staleerror timeoutupdatinghttp_500 http_502 http_503 http_504;
+        proxy_cache_lockon;
+        proxy_pass http://my_upstream;
+    }
+}
+```
+
+这些命令配置了下列的行为：
+
+1. [proxy_cache_revalidate](http://nginx.org/r/proxy_cache_revalidate?_ga=1.80437143.1235345339.1438303904) 指示NGINX在刷新来自服务器的内容时使用GET请求。如果客户端的请求项已经被缓存过了，但是在缓存控制头部中定义为过期，那么NGINX就会在GET请求中包含If-Modified-Since字段，发送至服务器端。这项配置可以节约带宽，因为对于NGINX已经缓存过的文件，服务器只会在该文件请求头中Last-Modified记录的时间内被修改时才将全部文件一起发送。
+2. [proxy_cache_min_uses](http://nginx.org/r/proxy_cache_min_uses?_ga=1.82886422.1235345339.1438303904) 设置了在NGINX缓存前，客户端请求一个条目的最短时间。当缓存不断被填满时，这项设置便十分有用，因为这确保了只有那些被经常访问的内容才会被添加到缓存中。该项默认值为1。
+3. [proxy_cache_use_stale](http://nginx.org/en/docs/http/ngx_http_proxy_module.html?&_ga=1.13131319.1235345339.1438303904#proxy_cache_use_stale) 中的updating参数告知NGINX在客户端请求的项目的更新正在原服务器中下载时发送旧内容，而不是向服务器转发重复的请求。第一个请求陈旧文件的用户不得不等待文件在原服务器中更新完毕。陈旧的文件会返回给随后的请求直到更新后的文件被全部下载。
+4.当 [proxy_cache_lock](http://nginx.org/en/docs/http/ngx_http_proxy_module.html?&_ga=1.86844376.1568941527.1438257987#proxy_cache_lock) 被启用时，当多个客户端请求一个缓存中不存在的文件（或称之为一个MISS），只有这些请求中的第一个被允许发送至服务器。其他请求在第一个请求得到满意结果之后在缓存中得到文件。如果不启用proxy_cache_lock，则所有在缓存中找不到文件的请求都会直接与服务器通信。
+
+#### 跨多硬盘分割缓存
+
+使用NGINX，不需要建立一个RAID（磁盘阵列）。如果有多个硬盘，NGINX可以用来在多个硬盘之间分割缓存。下面是一个基于请求URI跨越两个硬盘之间均分缓存的例子：
+
+```nginx
+proxy_cache_path /path/to/hdd1 levels=1:2 keys_zone=my_cache_hdd1:10m max_size=10g
+
+inactive=60m use_temp_path=off;
+proxy_cache_path /path/to/hdd2 levels=1:2 keys_zone=my_cache_hdd2:10m max_size=10g inactive=60m use_temp_path=off;
+split_clients $request_uri $my_cache {
+    50% "my_cache_hdd1";
+    50% "my_cache_hdd2";
 }
 
-
-
-
-
-#### 静态文件压缩
-
-
-#### alias
-
-在Nginx中配置proxy_pass时，如果是按照^~匹配路径时,要注意proxy_pass后的url最后的/,当加上了/，相当于是绝对根路径，则Nginx不会把location中匹配的路径部分代理走;如果没有/，则会把匹配的路径部分也给代理走。
-
-
-（注：上面这个代码并没有走通，我只是先提交让大家看看我的工作进展）
+server {
+    ...
+    location / {
+        proxy_cache $my_cache;
+        proxy_pass http://my_upstream;
+    }
+}
+```
