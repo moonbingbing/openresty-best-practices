@@ -48,3 +48,78 @@ master管理进程与worker工作进程的分离设计，使得Nginx具有热部
 7、自由的BSD许可协议
 
 BSD许可协议不只是允许用户免费使用Nginx，也允许用户修改Nginx源码，还允许用户用于商业用途。
+
+#### 如何使用 Nginx
+
+Nginx 安装：
+
+不同系统依赖包可能不同，例如pcre，zlib，openssl等。
+
+1. 获取 Nginx，在http://nginx.org/en/download.html上可以获取当前最新的版本。
+2. 解压缩nginx-xx.tar.gz包。
+3. 进入解压缩目录，执行./configure
+4. make & make install
+
+若安装时找不到上述依赖模块，使用--with-openssl=`<openssl_dir>`、--with-pcre=`<pcre_dir>`、--with-zlib=`<zlib_dir>`指定依赖的模块目录。如已安装过，此处的路径为安装目录；若未安装，则此路径为编译安装包路径，nginx将执行模块的默认编译安装。
+
+启动nginx之后，浏览器中输入 http://localhost 可以验证是否安装启动成功。
+
+![](nginx_hello.jpg)
+
+Nginx 配置示例:
+
+安装完成之后，配置目录conf下有以下配置文件，过滤掉了xx.default配置：
+
+```shell
+ubuntu: /opt/nginx-1.7.7/conf$ tree |grep -v default
+.
+├── fastcgi.conf
+├── fastcgi_params
+├── koi-utf
+├── koi-win
+├── mime.types
+├── nginx.conf
+├── scgi_params
+├── uwsgi_params
+└── win-utf
+```
+
+*除了nginx.conf，其余配置文件，一般只需要使用默认提供即可。*
+
+2.1.nginx.conf
+nginx.conf是主配置文件，默认配置去掉注释之后的内容如下图所示：
+
+```
+worker_process      # 表示工作进程的数量，一般设置为cpu的核数
+
+worker_connections  # 表示每个工作进程的最大连接数
+
+server{}            # 块定义了虚拟主机
+
+    listener        # 监听端口
+    
+    server_name     # 监听域名
+    
+    location {}     # 是用来为匹配的 URI 进行配置，URI 即语法中的“/uri/”
+
+    location /{}    # 匹配任何查询，因为所有请求都以 / 开头
+
+        root        # 指定对应uri的资源查找路径，这里html为相对路径，完整路径为
+                    # /opt/nginx-1.7.7/html/
+
+        index       # 指定首页index文件的名称，可以配置多个，以空格分开。如有多
+                    # 个，按配置顺序查找。
+```
+
+![](nginx_conf.jpg)
+
+从配置可以看出，nginx监听了80端口、域名为localhost、跟路径为html文件夹（我的安装路径为/opt/nginx-1.7.7，所以/opt/nginx-1.7.7/html）、默认index文件为index.html， index.htm、服务器错误重定向到50x.html页面。
+
+可以看到/opt/nginx-1.7.7/html/有以下文件：
+
+```shell
+ubuntu:/opt/nginx-1.7.7/html$ ls
+50x.html  index.html
+```
+
+这也是上面在浏览器中输入http://localhost，能够显示欢迎页面的原因。实际上访问的是/opt/nginx-1.7.7/html/index.html文件。
