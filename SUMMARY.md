@@ -49,7 +49,7 @@
     * [静态文件服务](ngx/static_file.md)
     * [日志服务](ngx/nginx_log.md)
     * [反向代理](ngx/reverse_proxy.md)
-    * [负载均衡 todo]
+    * [负载均衡](ngx/balancer.md)
 * [OpenResty]
     * [OpenResty基础]
     * [简介]
@@ -113,7 +113,7 @@
 * [LuaRestyDNSLibrary]
     * [使用动态DNS来完成HTTP请求](dns/use_dynamic_dns.md)
 * [LuaRestyLock](lock.md)
-	  * [缓存失效风暴](lock/cache-miss-storm.md)
+    * [缓存失效风暴](lock/cache-miss-storm.md)
 * [测试](test.md)
     * [单元测试](test/unittest.md)
     * [API测试](test/apitest.md)
