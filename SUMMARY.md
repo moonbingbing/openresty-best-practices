@@ -51,7 +51,7 @@
     * [反向代理](ngx/reverse_proxy.md)
     * [负载均衡](ngx/balancer.md)
 * [OpenResty]
-    * [OpenResty 简介]
+    * [OpenResty 简介](openresty/main.md)
     * [环境搭建](openresty/install.md)
         * [Windows平台](openresty/install_on_windows.md)
         * [CentOS平台](openresty/install_on_centos.md)
