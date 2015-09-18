@@ -6,8 +6,6 @@
 
 案例：
 
-下面设定负载均衡的服务器列表。
-
 ```nginx
 upstream test.net{
     ip_hash;
