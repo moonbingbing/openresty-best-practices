@@ -42,7 +42,7 @@
     * [抵制使用module()函数来定义Lua模块](lua/not_use_module.md)
     * [点号与冒号操作符的区别](lua/dot_diff.md)
     * [控制结构for的使用](lua/for.md)
-* [Nginx]
+* [Nginx](ngx/nginx.md)
     * [Nginx 新手起步](ngx/nginx_brief.md)
     * [location 匹配规则](ngx/nginx_local_pcre.md)
     * [if 是邪恶的](ngx/if_is_evil.md)
