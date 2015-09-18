@@ -51,8 +51,7 @@
     * [反向代理](ngx/reverse_proxy.md)
     * [负载均衡](ngx/balancer.md)
 * [OpenResty]
-    * [OpenResty基础]
-    * [简介]
+    * [OpenResty 简介]
     * [环境搭建](openresty/install.md)
         * [Windows平台](openresty/install_on_windows.md)
         * [CentOS平台](openresty/install_on_centos.md)
@@ -110,7 +109,7 @@
     * [如何引用第三方resty库](ngx_lua/how_use_third_lib.md)
     * [body在location中的传递](ngx_lua/capture.md)
     * [典型应用场景](ngx_lua/use_case.md)
-* [LuaRestyDNSLibrary]
+* [LuaRestyDNSLibrary](dns/main.md)
     * [使用动态DNS来完成HTTP请求](dns/use_dynamic_dns.md)
 * [LuaRestyLock](lock.md)
     * [缓存失效风暴](lock/cache-miss-storm.md)
