@@ -5,7 +5,7 @@
     * [WEB发展]
     * [OpenResty简介]
     * [如何找到交流伙伴]
-* [Lua入门]
+* [Lua 入门](lua/main.md)
     * [Lua简介](lua/brief.md)
     * [Lua环境搭建](lua/build_env.md)
     * [基础数据类型](lua/class.md)
