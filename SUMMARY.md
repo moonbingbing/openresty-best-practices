@@ -3,7 +3,7 @@
 * [序](README.md)
 * [入门篇](README.md)
     * [WEB发展](base/web_evolution.md)
-    * [OpenResty简介]
+    * [OpenResty简介](base/intro.md)
     * [如何找到交流伙伴]
 * [Lua 入门](lua/main.md)
     * [Lua简介](lua/brief.md)
@@ -50,7 +50,7 @@
     * [日志服务](ngx/nginx_log.md)
     * [反向代理](ngx/reverse_proxy.md)
     * [负载均衡](ngx/balancer.md)
-* [OpenResty](openresty/main.md)
+* [OpenResty]
     * [环境搭建](openresty/install.md)
         * [Windows平台](openresty/install_on_windows.md)
         * [CentOS平台](openresty/install_on_centos.md)
