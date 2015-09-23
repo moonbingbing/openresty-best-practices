@@ -58,12 +58,12 @@
         * [Mac OS X平台](openresty/install_osx.md)
         * [DockerHub]
     * [Hello World](openresty/helloworld.md)
-    * [简单API Server框架]
     * [与其他location配合]
     * [获取uri参数]
     * [获取请求body]
     * [输出响应体]
     * [日志输出]
+    * [简单API Server框架](openresty/simple_api.md)
     * [获取Nginx内置绑定变量](openresty/inline_var.md)
     * [子查询]
     * [在不同阶段共享变量]
