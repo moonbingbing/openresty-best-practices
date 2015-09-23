@@ -2,10 +2,10 @@
 
 * [序](README.md)
 * [入门篇](README.md)
-    * [WEB发展]
+    * [WEB发展](base/web_evolution.md)
     * [OpenResty简介]
     * [如何找到交流伙伴]
-* [Lua入门]
+* [Lua 入门](lua/main.md)
     * [Lua简介](lua/brief.md)
     * [Lua环境搭建](lua/build_env.md)
     * [基础数据类型](lua/class.md)
@@ -42,17 +42,15 @@
     * [抵制使用module()函数来定义Lua模块](lua/not_use_module.md)
     * [点号与冒号操作符的区别](lua/dot_diff.md)
     * [控制结构for的使用](lua/for.md)
-* [Nginx]
+* [Nginx](ngx/nginx.md)
     * [Nginx 新手起步](ngx/nginx_brief.md)
     * [location 匹配规则](ngx/nginx_local_pcre.md)
     * [if 是邪恶的](ngx/if_is_evil.md)
     * [静态文件服务](ngx/static_file.md)
     * [日志服务](ngx/nginx_log.md)
     * [反向代理](ngx/reverse_proxy.md)
-    * [负载均衡 todo]
-* [OpenResty]
-    * [OpenResty基础]
-    * [简介]
+    * [负载均衡](ngx/balancer.md)
+* [OpenResty](openresty/main.md)
     * [环境搭建](openresty/install.md)
         * [Windows平台](openresty/install_on_windows.md)
         * [CentOS平台](openresty/install_on_centos.md)
@@ -110,10 +108,10 @@
     * [如何引用第三方resty库](ngx_lua/how_use_third_lib.md)
     * [body在location中的传递](ngx_lua/capture.md)
     * [典型应用场景](ngx_lua/use_case.md)
-* [LuaRestyDNSLibrary]
+* [LuaRestyDNSLibrary](dns/main.md)
     * [使用动态DNS来完成HTTP请求](dns/use_dynamic_dns.md)
 * [LuaRestyLock](lock.md)
-	  * [缓存失效风暴](lock/cache-miss-storm.md)
+    * [缓存失效风暴](lock/cache-miss-storm.md)
 * [测试](test.md)
     * [单元测试](test/unittest.md)
     * [API测试](test/apitest.md)

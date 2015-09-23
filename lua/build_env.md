@@ -20,7 +20,7 @@
 
 本书以Ubuntu为例来说明。首先，使用apt-cache命令查看有哪些版本的LuaJIT可以安装。
 
-######安装Luajit
+######安装LuaJIT
 
 在ubuntun系统上，使用apt-get insall命令安装LuaJIT：
 
@@ -28,7 +28,7 @@
 sudo apt-get install luajit
 ```
 
-######验证Luajit是否安装成功
+######验证LuaJIT是否安装成功
 
 输入**luajit -v**查看LuaJIT版本，如果返回以下类似内容，则说明安装成功：
 

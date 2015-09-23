@@ -15,5 +15,5 @@ OpenResty最佳实践
 
 [点我看书](http://moonbingbing.gitbooks.io/openresty-best-practices/content/index.html)
 
-本书源码在 Github 上维护，欢迎参与：[我要写书](https://github.com/moonbingbing/openresty-best-practices)。也可以加入QQ群来和我们交流：
+本书源码在 Github 上维护，欢迎参与：[我要写书](https://github.com/moonbingbing/openresty-best-practices)。也可以加入QQ群（群号是34782325）来和我们交流：
 ![openresty技术交流群](qq_group.png)
