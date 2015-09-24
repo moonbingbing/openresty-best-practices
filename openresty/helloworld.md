@@ -1,6 +1,6 @@
 #HelloWorld
 
-`HelloWorld` 是我们恒古不变的第一个入门程序。但是 `OpenResty` 不是一门编程语言，跟其他编程语言的 `HelloWorld` 不一样，让我们来看看都有哪些不一样吧。
+`HelloWorld` 是我们亘古不变的第一个入门程序。但是 `OpenResty` 不是一门编程语言，跟其他编程语言的 `HelloWorld` 不一样，让我们来看看都有哪些不一样吧。
 
 ####创建工作目录
 
@@ -34,7 +34,7 @@ http {
 ```
 
 
-####万事具备只欠东风
+####万事俱备只欠东风
 
 我们启动nginx即可，输入命令形式为：```nginx -p work_path/ -c conf/nginx.conf```，其中work_path为OpenResty的工作目录，也就是上面设定的，所以我这里就输入```nginx -p /openresty-test/ -c conf/nginx.conf```。如果没有提示错误，那就证明一切顺利了。如果提示nginx不存在，则需要在环境变量中加入安装路径，可以根据你的操作平台，参考前面的安装章节（一般需要重启生效）。
 
