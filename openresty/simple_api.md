@@ -64,14 +64,25 @@ error_log logs/error.log;   #指定错误日志文件路径
 events {
     worker_connections 1024;
 }
+
 http {
+    # 设置默认 lua 搜索路径，添加 lua 路径
+    lua_package_path 'lua/?.lua;/blah/?.lua;;';
+
+    # 对于开发研究，我们可以对代码 cache 进行关闭，这样我们不必每次都重新加载 nginx。
+    lua_code_cache off;
+
     server {
         listen 6699;
 
         # 在代码路径中使用nginx变量
         # 注意： nginx var 的变量一定要谨慎，否则将会带来非常大的风险
         location ~ ^/api/([-_a-zA-Z0-9/]+) {
-            content_by_lua_file /path/to/lua/app/root/$1.lua;
+            # 准入阶段完成参数验证
+            access_by_lua_file  lua/access_check.lua;
+
+            #内容生成阶段
+            content_by_lua_file lua/$1.lua;
         }
     }
 }
@@ -79,19 +90,19 @@ http {
 > 其他文件内容：
 
 ```lua
---========== /path/to/lua/app/root/addition.lua
+--========== {$prefix}/lua/addition.lua
 local args = ngx.req.get_uri_args()
 ngx.say(args.a + args.b)
 
---========== /path/to/lua/app/root/subtraction.lua
+--========== {$prefix}/lua/subtraction.lua
 local args = ngx.req.get_uri_args()
 ngx.say(args.a - args.b)
 
---========== /path/to/lua/app/root/multiplication.lua
+--========== {$prefix}/lua/multiplication.lua
 local args = ngx.req.get_uri_args()
 ngx.say(args.a * args.b)
 
---========== /path/to/lua/app/root/division.lua
+--========== {$prefix}/lua/division.lua
 local args = ngx.req.get_uri_args()
 ngx.say(args.a / args.b)
 ```
@@ -126,15 +137,22 @@ http {
 > 新增文件内容：
 
 ```lua
---========== /path/to/lua/app/root/comm/param.lua
+--========== {$prefix}/lua/comm/param.lua
 local _M = {}
 
 -- 对输入参数逐个进行校验，只要有一个不是数字类型，则返回 false
-function _M.is_number(...)
+function _M.is_number(n, ...)
+    local arg = {...}
+    if n ~= #arg then
+        return false
+    end
+
+    local num
     for _,v in ipairs(arg) do
-       if "number" ~= type(v) then
+        num = tonumber(v)
+        if nil == num then
             return false
-       end
+        end
     end
 
     return true
@@ -142,7 +160,7 @@ end
 
 return _M
 
---========== /path/to/lua/app/root/access_check.lua
+--========== {$prefix}/lua/access_check.lua
 local param= require("comm.param")
 local args = ngx.req.get_uri_args()
 
@@ -152,4 +170,44 @@ if not param.is_number(args.a, args.b) then
 end
 ```
 
+看看curl测试结果吧：
+
+```shell
+$  nginx  curl '127.0.0.1:6699/api/addition?a=1'
+<html>
+<head><title>400 Bad Request</title></head>
+<body bgcolor="white">
+<center><h1>400 Bad Request</h1></center>
+<hr><center>openresty/1.9.3.1</center>
+</body>
+</html>
+$  nginx  curl '127.0.0.1:6699/api/addition?a=1&b=3'
+4
+```
+
+基本是按照我们预期执行的。参数不全、错误时，会提示400错误。正常处理，可以返回预期结果。
+
+我们来整体看一下目前的目录关系：
+
+```
+.
+├── conf
+│   ├── nginx.conf
+├── logs
+│   ├── error.log
+│   └── nginx.pid
+├── lua
+│   ├── access_check.lua
+│   ├── addition.lua
+│   ├── subtraction.lua
+│   ├── multiplication.lua
+│   ├── division.lua
+│   └── comm
+│       └── param.lua
+└── sbin
+    └── nginx
+```
+
 怎么样，有点 magic 的味道不？其实你的接口越是规范，有固定规律可寻，那么 OpenResty 就总是很容易能找到适合你的位置。当然这里你也可以把 `access_check.lua` 内容分别复制到加、减、乘、除实现的四个 Lua 文件中，肯定也是能用的。这里只是为了给大家提供更多的玩法，偶尔需要的时候我们可以有更多的选择。
+
+本章目的是搭建一个简单API Server，记住这绝对不是终极版本。这里面还有很多需要我们进一步去考虑的地方，但是作为最基本的框架已经有了。
