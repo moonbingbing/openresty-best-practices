@@ -50,6 +50,7 @@
     * [日志服务](ngx/nginx_log.md)
     * [反向代理](ngx/reverse_proxy.md)
     * [负载均衡](ngx/balancer.md)
+    * [陷阱和常见错误](ngx/pitfalls_and_common_mistakes.md)
 * [OpenResty]
     * [环境搭建](openresty/install.md)
         * [Windows平台](openresty/install_on_windows.md)
