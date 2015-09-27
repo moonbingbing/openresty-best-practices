@@ -131,7 +131,7 @@ http {
 
  >[邪恶的if指令](ngx/if_is_evil.md)
 
-#### Server  Name (if)
+#### 用if判断Server Name
 
 糟糕的配置：
 ```lua
@@ -164,3 +164,9 @@ server {
     # [...]
 }
 ```
+除了增强了配置的可读性，这种方法还降低了NGINX的处理要求；我们摆脱了不必要的if指令；
+我们用了$scheme来表示URI中是http还是https协议，避免了硬编码。
+
+#### 用if检查文件是否存在
+使用if指令来判断文件是否存在是很可怕的，如果你在使用新版本的NGINX，
+你应该看看rty_files，这会让你的生活变得更轻松。
