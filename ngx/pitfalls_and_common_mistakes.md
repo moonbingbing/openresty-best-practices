@@ -134,3 +134,24 @@ http {
 #### Server  Name (if)
 
 糟糕的配置：
+```lua
+server {
+    server_name example.com *.example.com;
+        if ($host ~* ^www\.(.+)) {
+            set $raw_domain $1;
+            rewrite ^/(.*)$ $raw_domain/$1 permanent;
+        }
+        # [...]
+    }
+}
+```
+
+这个配置有三个问题。首先是if的使用, 为啥它这么糟糕呢? 你有阅读邪恶的if指令吗?
+当NGINX收到无论来自哪个子域名的何种请求,
+不管域名是www.example.com还是example.com，这个fi指令**总是**会被执行。
+ 因此NGINX
+ 会检查**每个请求**的Host header,这是十分低效的。
+ 你应该避免这种情况，而是使用下面配置里面的两个server指令。
+
+ 推荐的配置：
+ 
