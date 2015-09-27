@@ -170,3 +170,25 @@ server {
 #### 用if检查文件是否存在
 使用if指令来判断文件是否存在是很可怕的，如果你在使用新版本的NGINX，
 你应该看看rty_files，这会让你的生活变得更轻松。
+
+糟糕的配置：
+```lua
+server {
+    root /var/www/example.com;
+    location / {
+        if (!-f $request_filename) {
+            break;
+        }
+    }
+}
+```
+
+推荐的配置：
+```lua
+server {
+    root /var/www/example.com;
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+```
