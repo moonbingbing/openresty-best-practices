@@ -33,7 +33,7 @@
 ```
 
 ### 把root放在location区块内
-错误：
+糟糕的配置：
 ```lua
 server {
     server_name www.example.com;
@@ -55,7 +55,7 @@ server {
 错就错在只要你开始增加其他的location区块，就需要给每一个location区块增加一个root。
 如果没有添加，就会没有root。让我们看下正确的配置。
 
-正确：
+推荐的配置：
 
 ```lua
 server {
@@ -74,7 +74,7 @@ server {
 ```
 
 ### 重复的index指令
-错误：
+糟糕的配置：
 ```lua
 http {
     index index.php index.htm index.html;
@@ -101,7 +101,7 @@ http {
 为什么重复了这么多行不需要的配置呢？简单的使用“index”指令一次就够了。只需要把它放到http
  {}区块里面，下面的就会继承这个配置。
 
-正确：
+推荐的配置：
 ```lua
 http {
     index index.php index.htm index.html;
@@ -130,3 +130,7 @@ http {
 > **注意看这里**：
 
  >[邪恶的if指令](ngx/if_is_evil.md)
+
+#### Server  Name (if)
+
+糟糕的配置：
