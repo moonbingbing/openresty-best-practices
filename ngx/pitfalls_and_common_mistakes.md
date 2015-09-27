@@ -150,8 +150,17 @@ server {
 当NGINX收到无论来自哪个子域名的何种请求,
 不管域名是www.example.com还是example.com，这个fi指令**总是**会被执行。
  因此NGINX
- 会检查**每个请求**的Host header,这是十分低效的。
+ 会检查**每个请求**的Host header，这是十分低效的。
  你应该避免这种情况，而是使用下面配置里面的两个server指令。
 
  推荐的配置：
- 
+ ```lua
+ server {
+    server_name www.example.com;
+    return 301 $scheme://example.com$request_uri;
+}
+server {
+    server_name example.com;
+    # [...]
+}
+```
