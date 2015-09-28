@@ -35,20 +35,13 @@ LuaJIT 2.1.0-beta1 -- Copyright (C) 2005-2015 Mike Pall. http://luajit.org/
 
 如果想了解其他系统安装LuaJIT的步骤，或者安装过程中遇到问题，可以到LuaJIT官网查看：[http://luajit.org/install.html](http://luajit.org/install.html)
 
-# Hello World程序
+#### Hello World 程序
 
-安装好LuaJIT后，我们来运行我们的第一个程序：HelloWorld.lua。
-
->代码
-
-```lua
-print("Hello World")
-```
-
-到 HelloWorld.lua 所在目录下，运行```luajit ./HelloWorld.lua```运行这个 HelloWorld.lua 程序，输出如下结果：
+安装好LuaJIT后，开始我们的第一个 hello world 小程序。首先编写一个 HelloWorld.lua 文件，写入内容后，使用 LuaJIT 运行即可。
 
 ```
-Hello World
+# cat HelloWorld.lua
+print("hello world")
+# luajit HelloWorld.lua
+hello world
 ```
-
-
