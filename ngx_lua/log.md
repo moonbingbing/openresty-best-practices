@@ -114,9 +114,9 @@ function _M.log(msg)
         access_by_lua '
             ngx.ctx.foo = ngx.ctx.foo + 3
         ';
-        content_by_lua '
+        content_by_lua_block {
             ngx.say(ngx.ctx.foo)
-        ';
+        }
     }
 ```
 

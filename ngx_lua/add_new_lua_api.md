@@ -26,7 +26,7 @@ $ make
 
 `注意这里不需要make install`
 
-> 修改自己的源码文件 
+> 修改自己的源码文件
 
 ```
 # ngx_lua-0.9.15/src/ngx_http_lua_config.c
@@ -74,9 +74,9 @@ __DATA__
 === TEST 1: content_by_lua
 --- config
     location /lua {
-        content_by_lua '
+        content_by_lua_block {
             ngx.say("workers: ", ngx.config.workers())
-        ';
+        }
     }
 --- request
 GET /lua
@@ -111,9 +111,9 @@ __DATA__
 === TEST 1: content_by_lua
 --- config
     location /lua {
-        content_by_lua '
+        content_by_lua_block {
             ngx.say("workers: ", ngx.config.workers())
-        ';
+        }
     }
 --- request
 GET /lua
@@ -132,7 +132,7 @@ t/131-config-workers.t .. ok
 All tests successful.
 Files=1, Tests=6,  1 wallclock secs ( 0.04 usr  0.00 sys +  0.18 cusr  0.05 csys =  0.27 CPU)
 Result: PASS
-$ 
+$
 $ prove t/132-config-workers_5.t        # 测试指定脚本
 t/132-config-workers_5.t .. ok
 All tests successful.
@@ -152,5 +152,3 @@ Result: PASS
 
 pull request : [点击查看](https://github.com/openresty/lua-nginx-module/pull/531)
 commit detail: [点击查看](https://github.com/membphis/lua-nginx-module/commit/9d991677c090e1f86fa5840b19e02e56a4a17f86)
-
-

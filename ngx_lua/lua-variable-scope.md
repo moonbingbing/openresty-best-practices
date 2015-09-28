@@ -6,7 +6,7 @@
 ```lua
 -- index.lua
 local uri_args = ngx.req.get_uri_args()
-local mo = require('mo') 
+local mo = require('mo')
 mo.args = uri_args
 ```
 
@@ -21,7 +21,7 @@ local self.jsonp = self.args.jsonp
 local keyList = string.split(self.args.key_list, ',')
 for i=1, #keyList do
     -- do something
-    ngx.say(self.args.kind) 
+    ngx.say(self.args.kind)
 end
 showJs(self.jsonp, valList)
 ```
@@ -39,7 +39,7 @@ Lua module 是 VM 级别共享的，见[这里](https://github.com/openresty/lua
 
 self.jsonp变量一不留神全局共享了，而这肯定不是作者期望的。所以导致了高并发应用场景下偶尔出现异常错误的情况。
 
-每请求的数据在传递和存储时须特别小心，只应通过你自己的函数参数来传递，或者通过 ngx.ctx 表。前者是推荐的玩法，因为效率高得多。 
+每请求的数据在传递和存储时须特别小心，只应通过你自己的函数参数来传递，或者通过 ngx.ctx 表。前者是推荐的玩法，因为效率高得多。
 
 贴一个ngx.ctx的例子：
 ```lua
@@ -50,9 +50,9 @@ self.jsonp变量一不留神全局共享了，而这肯定不是作者期望的�
         access_by_lua '
             ngx.ctx.foo = ngx.ctx.foo + 3
         ';
-        content_by_lua '
+        content_by_lua_block {
             ngx.say(ngx.ctx.foo)
-        ';
+        }
     }
 ```
 
