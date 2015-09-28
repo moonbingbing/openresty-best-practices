@@ -57,11 +57,11 @@
 
         location /sum {
             #处理业务
-            content_by_lua '
+           content_by_lua_block {
                 local a = tonumber(ngx.var.arg_a) or 0
                 local b = tonumber(ngx.var.arg_b) or 0
                 ngx.say("sum:", a + b )
-            ';
+            }
         }
     }
 ```
@@ -94,11 +94,11 @@ sum:23
             ';
 
             #处理业务
-            content_by_lua '
+           content_by_lua_block {
                 local a = tonumber(ngx.var.arg_a) or 0
                 local b = tonumber(ngx.var.arg_b) or 0
                 ngx.say("sum:", a + b )
-            ';
+            }
         }
     }
 ```
@@ -146,5 +146,3 @@ Saving to: '1.cab'
 
 1.cab                6%[===>             ]   8.00K  1.01KB/s   eta 1m 53s
 ```
-
-

@@ -33,7 +33,7 @@ location /postgres {
 这样的配置就完成了初步的可以提供其他 location 调用的 location 了。但这里还差一个配置没说明白，就是这一行：
 
 ```
-postgres_pass   pg_server; 
+postgres_pass   pg_server;
 ```
 
 其实这一行引入了 名叫 pg_server 的 upstream 块，其定义应该像如下：
@@ -94,7 +94,7 @@ lua_package_path "/path/to/lua-resty-mysql/lib/?.lua;;";
 
 server {
     location /test {
-        content_by_lua '
+       content_by_lua_block {
             local mysql = require "resty.mysql"
             local db, err = mysql:new()
             if not db then
@@ -138,7 +138,7 @@ server {
                 ngx.say("failed to set keepalive: ", err)
                 return
             end
-        ';
+        }
     }
 }
 ```

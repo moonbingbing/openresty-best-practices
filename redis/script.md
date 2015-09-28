@@ -36,7 +36,7 @@ openresty中已经对redis的所有原语操作进行了封装。下面我们以
 
     server {
         location /usescript {
-            content_by_lua '
+            content_by_lua_block {
             local redis = require "resty.redis"
             local red = redis:new()
 
@@ -82,7 +82,7 @@ openresty中已经对redis的所有原语操作进行了封装。下面我们以
             --     ngx.say("failed to close: ", err)
             --     return
             -- end
-          ';
+            }
         }
       }
 ```

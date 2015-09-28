@@ -16,34 +16,34 @@ http {
 
         # 加法
         location /addition {
-            content_by_lua '
+           content_by_lua_block {
                 local args = ngx.req.get_uri_args()
                 ngx.say(args.a + args.b)
-            ';
+            }
         }
 
         # 减法
         location /subtraction {
-            content_by_lua '
+            content_by_lua_block {
                 local args = ngx.req.get_uri_args()
                 ngx.say(args.a - args.b)
-            ';
+            }
         }
 
         # 乘法
         location /multiplication {
-            content_by_lua '
+            content_by_lua_block {
                 local args = ngx.req.get_uri_args()
                 ngx.say(args.a * args.b)
-            ';
+            }
         }
 
         # 除法
         location /division {
-            content_by_lua '
+            content_by_lua_block {
                 local args = ngx.req.get_uri_args()
                 ngx.say(args.a / args.b)
-            ';
+            }
         }
     }
 }
