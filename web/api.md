@@ -10,15 +10,21 @@ server {
     server_name  localhost;
 
     location /app/set {
-        content_by_lua "ngx.say('set data')";
+        content_by_lua_block {
+             ngx.say('set data')
+        }
     }
 
     location /app/get {
-        content_by_lua "ngx.say('get data')";
+        content_by_lua_block {
+            ngx.say('get data')
+        }
     }
 
     location /app/del {
-        content_by_lua "ngx.say('del data')";
+        content_by_lua_block {
+            ngx.say('del data')
+        }
     }
 }
 ```
@@ -62,13 +68,19 @@ server {
     server_name  localhost;
 
     location /app/task01 {
-        content_by_lua "ngx.say(ngx.req.get_method() .. ' task01')";
+        content_by_lua_block {
+            ngx.say(ngx.req.get_method() .. ' task01')
+        }
     }
     location /app/task02 {
-        content_by_lua "ngx.say(ngx.req.get_method() .. ' task02')";
+        content_by_lua_block {
+            ngx.say(ngx.req.get_method() .. ' task02')
+        }
     }
     location /app/task03 {
-        content_by_lua "ngx.say(ngx.req.get_method() .. ' task03')";
+        content_by_lua_block {
+            ngx.say(ngx.req.get_method() .. ' task03')
+        }
     }
 }
 ```
@@ -112,6 +124,3 @@ REST 推崇使用 HTTP 返回码来区分返回结果, 但最大的问题在于 
     - 用户名不合法
     - email 冲突
     - email 不合法
-
-
-
