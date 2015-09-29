@@ -241,4 +241,24 @@ location ~* \.php$ {
 这段代码就会被执行起来。
 
 有几个避免这种情况的选择：
+
 * 在php.ini中设置cgi.fix_pathinfo=0。
+这会让PHP解释器只尝试给定的文件路径，如果没有找到这个文件就停止处理。
+
+* 确保NGINX只传递指定的PHP文件去执行
+```lua
+location ~* (file_a|file_b|file_c)\.php$ {
+    fastcgi_pass backend;
+    # [...]
+}
+```
+
+* 对于任何用户可以上传的目录，特别的关闭PHP文件的执行权限
+```lua
+location /uploaddir {
+    location ~ \.php$ {return 403;}
+    # [...]
+}
+```
+
+* 使用 *try_files* 指令
