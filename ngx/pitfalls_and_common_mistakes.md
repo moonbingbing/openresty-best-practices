@@ -222,3 +222,23 @@ try_files $uri $uri/ /index.php;
 
 ### 把不可控制的请求发给PHP
 很多网络上面推荐的和PHP相关的NGINX配置，都是把每一个.php结尾的URI传递给PHP解释器。
+请注意，大部分这样的PHP设置都有严重的安全问题，因为它可能允许执行任意第三方代码。
+
+有问题的配置通常如下：
+```lua
+location ~* \.php$ {
+    fastcgi_pass backend;
+    # [...]
+}
+```
+在这里，每一个.php结尾的请求，都会传递给FastCGI的后台处理程序。
+这样做的问题是，当完整的路径未能指向文件系统里面一个确切的文件时，
+默认的PHP配置试图是猜测你想执行的是哪个文件。
+
+举个例子，如果一个请求中的/forum/avatar/1232.jpg/file.php文件不存在，
+但是/forum/avatar/1232.jpg存在，那么PHP解释器就会取而代之，
+使用/forum/avatar/1232.jpg来解释。如果这里面嵌入了PHP代码，
+这段代码就会被执行起来。
+
+有几个避免这种情况的选择：
+* 在php.ini中设置cgi.fix_pathinfo=0。
