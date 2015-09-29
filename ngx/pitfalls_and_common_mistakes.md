@@ -278,3 +278,107 @@ location ~* \.php$ {
     # [...]
 }
 ```
+
+### 脚本文件名里面的FastCGI路径
+很多外部指南喜欢依赖绝对路径来获取你的信息。这在PHP的配置块里面很常见。
+当你从仓库安装NGINX，通常都是以在配置里面折腾好“include fastcgi_params;”来收尾。
+这个配置文件位于你的NGINX根目录下，通常在/etc/nginx/里面。
+
+推荐的配置：
+```
+fastcgi_param  SCRIPT_FILENAME    $document_root$fastcgi_script_name;
+```
+
+糟糕的配置：
+```
+fastcgi_param  SCRIPT_FILENAME    /var/www/yoursite.com/$fastcgi_script_name;
+```
+
+$document_root$在哪里设置呢？它是server块里面的root指令来设置的。
+你的root指令不在server块内？请看前面关于root指令的陷阱。
+
+### 费力的rewrites
+不要知难而退，rewrite很容易和正则表达式混为一谈。
+实际上，rewrite是很容易的，我们应该努力去保持它们的整洁。
+很简单，不添加冗余代码就行了。
+
+糟糕的配置：
+```
+rewrite ^/(.*)$ http://example.com/$1 permanent;
+```
+
+好点儿的配置：
+```
+rewrite ^ http://example.com$request_uri? permanent;
+```
+
+更好的配置：
+```
+return 301 http://example.com$request_uri;
+```
+
+反复对比下这几个配置。
+第一个rewrite捕获不包含第一个斜杠的完整URI。
+使用内置的变量$request_uri，我们可以有效的完全避免任何捕获和匹配。
+
+### 忽略 http:// 的rewrite
+这个非常简单，rewrites是用相对路径的，除非你告诉NGINX不是相对路径。
+生成绝对路径的rewrite也很简单，加上scheme就行了。
+
+糟糕的配置：
+```
+rewrite ^ example.com permanent;
+```
+
+推荐的配置：
+```
+rewrite ^ http://example.com permanent;
+```
+
+你可以看到我们做的只是在rewrite里面增加了 *http://*。这个很简单而且有效。
+
+### 代理所有东西
+糟糕的配置：
+```
+server {
+    server_name _;
+    root /var/www/site;
+    location / {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_pass unix:/tmp/phpcgi.socket;
+    }
+}
+```
+
+推荐的配置：
+```
+server {
+    server_name _;
+    root /var/www/site;
+    location / {
+        try_files $uri $uri/ @proxy;
+    }
+    location @proxy {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_pass unix:/tmp/phpcgi.socket;
+    }
+}
+```
+
+另外一个推荐的配置：
+```
+server {
+    server_name _;
+    root /var/www/site;
+    location / {
+        try_files $uri $uri/ /index.php;
+    }
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_pass unix:/tmp/phpcgi.socket;
+    }
+}
+```
