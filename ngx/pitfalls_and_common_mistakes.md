@@ -261,4 +261,20 @@ location /uploaddir {
 }
 ```
 
-* 使用 *try_files* 指令
+* 使用 *try_files* 指令过滤出文件不存在的情况
+```lua
+location ~* \.php$ {
+    try_files $uri =404;
+    fastcgi_pass backend;
+    # [...]
+}
+```
+
+* 使用嵌套的location过滤出文件不存在的情况
+```lua
+location ~* \.php$ {
+    location ~ \..*/.*\.php$ {return 404;}
+    fastcgi_pass backend;
+    # [...]
+}
+```
