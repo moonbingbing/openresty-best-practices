@@ -19,7 +19,7 @@
         * [函数的定义](lua/function_define.md)
         * [函数的参数](lua/function_parameter.md)
         * [函数的返回值](lua/function_result.md)
-        * [函数回调](lua/call_user_func_array.md)
+        * [全动态函数调用](lua/call_user_func_array.md)
     * [模块](lua/module.md)
     * [String库](lua/string_library.md)
     * [Table库](lua/table_library.md)
