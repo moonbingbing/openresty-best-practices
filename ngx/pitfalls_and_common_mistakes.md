@@ -1,4 +1,4 @@
-# NGINX陷阱和常见错误
+#  NGINX 陷阱和常见错误
 翻译自：https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
 
 >### 警告：
@@ -6,13 +6,13 @@
 >**请阅读下面所有的内容！是所有的！**
 
 不管是新手还是老用户，都可能会掉到一个陷阱中去。下面我们会列出一些我们经常看到，和
-经常需要解释如何解决的问题。在Freenode的#nginx IRC频道中，我们频繁的看到这些问题出现。
+经常需要解释如何解决的问题。在 Freenode 的# NGINX IRC频道中，我们频繁的看到这些问题出现。
 
 ### 本指南说
 最经常看到的是，有人从一些其他的指南中，尝试拷贝、粘贴一个配置片段。并不是说其他所有的指南都是错的，但是里面错误的比例很可怕。
-即使是在Linode库中也有质量较差的信息，一些NGINX社区成员曾经徒劳的试图去纠正。
+即使是在 Linode 库中也有质量较差的信息，一些 NGINX 社区成员曾经徒劳的试图去纠正。
 
-本指南的文档，是社区成员所创建和审查，他们直接和所有类型的NGINX用户在一起工作。
+本指南的文档，是社区成员所创建和审查，他们直接和所有类型的 NGINX 用户在一起工作。
 这个特定的文档之所以存在，是因为社区成员看到有大量普遍和重复出现的问题。
 
 ### 我的问题没有被列出来
@@ -38,29 +38,29 @@
 server {
     server_name www.example.com;
     location / {
-        root /var/www/nginx-default/;
+        root /var/www/nginx -default/;
         # [...]
       }
     location /foo {
-        root /var/www/nginx-default/;
+        root /var/www/nginx -default/;
         # [...]
     }
     location /bar {
-        root /var/www/nginx-default/;
+        root /var/www/nginx -default/;
         # [...]
     }
 }
 ```
-这个是能工作的。把root放在location区块里面会工作，但并不是完全有效的。
-错就错在只要你开始增加其他的location区块，就需要给每一个location区块增加一个root。
-如果没有添加，就会没有root。让我们看下正确的配置。
+这个是能工作的。把 root 放在 location 区块里面会工作，但并不是完全有效的。
+错就错在只要你开始增加其他的 location 区块，就需要给每一个 location 区块增加一个 root 。
+如果没有添加，就会没有 root 。让我们看下正确的配置。
 
 推荐的配置：
 
 ```lua
 server {
     server_name www.example.com;
-    root /var/www/nginx-default/;
+    root /var/www/nginx -default/;
     location / {
         # [...]
     }
@@ -124,12 +124,12 @@ http {
 ```
 
 ### 使用if
-这里篇幅有限，只介绍一部分使用if指令的陷阱。更多陷阱你应该点击看看邪恶的if指令。
-我们看下if指令的几个邪恶的用法。
+这里篇幅有限，只介绍一部分使用 if 指令的陷阱。更多陷阱你应该点击看看邪恶的 if 指令。
+我们看下 if 指令的几个邪恶的用法。
 
 > **注意看这里**：
 
- >[邪恶的if指令](ngx/if_is_evil.md)
+ >[邪恶的 if 指令](ngx/if_is_evil.md)
 
 #### 用if判断Server Name
 
@@ -147,9 +147,9 @@ server {
 ```
 
 这个配置有三个问题。首先是if的使用, 为啥它这么糟糕呢? 你有阅读邪恶的if指令吗?
-当NGINX收到无论来自哪个子域名的何种请求,
+当 NGINX 收到无论来自哪个子域名的何种请求,
 不管域名是www.example.com还是example.com，这个fi指令**总是**会被执行。
- 因此NGINX
+ 因此 NGINX
  会检查**每个请求**的Host header，这是十分低效的。
  你应该避免这种情况，而是使用下面配置里面的两个server指令。
 
@@ -164,11 +164,11 @@ server {
     # [...]
 }
 ```
-除了增强了配置的可读性，这种方法还降低了NGINX的处理要求；我们摆脱了不必要的if指令；
-我们用了$scheme来表示URI中是http还是https协议，避免了硬编码。
+除了增强了配置的可读性，这种方法还降低了 NGINX 的处理要求；我们摆脱了不必要的if指令；
+我们用了 $scheme 来表示 URI 中是 http 还是 https 协议，避免了硬编码。
 
 #### 用if检查文件是否存在
-使用if指令来判断文件是否存在是很可怕的，如果你在使用新版本的NGINX，
+使用if指令来判断文件是否存在是很可怕的，如果你在使用新版本的 NGINX ，
 你应该看看rty_files，这会让你的生活变得更轻松。
 
 糟糕的配置：
@@ -192,11 +192,12 @@ server {
     }
 }
 ```
-我们不再尝试使用if来判断$uri是否存在，用try_files意味着你可以测试一个序列。
-如果$uri不存在，就会尝试$uri/，还不存在的话，在尝试一个回调location。
+我们不再尝试使用 if 来判断$uri是否存在，用 try_files 意味着你可以测试一个序列。
+如果 $uri 不存在，就会尝试 $uri/ ，还不存在的话，在尝试一个回调 location 。
 
-在上面配置的例子里面，如果$uri这个文件存在，就正常服务；如果不存在就检测$uri/这个目录是否存在；如果不存在就按照index.html来处理，你需要保证index.html是存在的。
-try_files的加载是如此简单。这是另外一个你可以完全的消除if指令的实例。
+在上面配置的例子里面，如果 $uri 这个文件存在，就正常服务；
+如果不存在就检测 $uri/ 这个目录是否存在；如果不存在就按照 index.html 来处理，你需要保证 index.html 是存在的。
+try_files的加载是如此简单。这是另外一个你可以完全的消除 if 指令的实例。
 
 ### 前端控制器模式的web应用
 “前端控制器模式”是流行的设计，被用在很多非常流行的PHP软件包里面。
@@ -218,10 +219,10 @@ try_files $uri $uri/ /index.php;
 但是对于一个基础的网站来说，这个配置可以工作的很完美。
 你应该永远从简单开始来搭建你的系统。
 
-如果你不关心目录是否存在这个检测的话，你也可以决定忽略这个目录的检测，去掉“$uri/”这个配置。
+如果你不关心目录是否存在这个检测的话，你也可以决定忽略这个目录的检测，去掉 “$uri/” 这个配置。
 
 ### 把不可控制的请求发给PHP
-很多网络上面推荐的和PHP相关的NGINX配置，都是把每一个.php结尾的URI传递给PHP解释器。
+很多网络上面推荐的和PHP相关的 NGINX 配置，都是把每一个.php结尾的 URI 传递给 PHP 解释器。
 请注意，大部分这样的PHP设置都有严重的安全问题，因为它可能允许执行任意第三方代码。
 
 有问题的配置通常如下：
@@ -231,21 +232,21 @@ location ~* \.php$ {
     # [...]
 }
 ```
-在这里，每一个.php结尾的请求，都会传递给FastCGI的后台处理程序。
+在这里，每一个.php结尾的请求，都会传递给 FastCGI 的后台处理程序。
 这样做的问题是，当完整的路径未能指向文件系统里面一个确切的文件时，
 默认的PHP配置试图是猜测你想执行的是哪个文件。
 
 举个例子，如果一个请求中的/forum/avatar/1232.jpg/file.php文件不存在，
 但是/forum/avatar/1232.jpg存在，那么PHP解释器就会取而代之，
-使用/forum/avatar/1232.jpg来解释。如果这里面嵌入了PHP代码，
+使用/forum/avatar/1232.jpg来解释。如果这里面嵌入了 PHP 代码，
 这段代码就会被执行起来。
 
 有几个避免这种情况的选择：
 
 * 在php.ini中设置cgi.fix_pathinfo=0。
-这会让PHP解释器只尝试给定的文件路径，如果没有找到这个文件就停止处理。
+这会让 PHP 解释器只尝试给定的文件路径，如果没有找到这个文件就停止处理。
 
-* 确保NGINX只传递指定的PHP文件去执行
+* 确保 NGINX 只传递指定的PHP文件去执行
 ```lua
 location ~* (file_a|file_b|file_c)\.php$ {
     fastcgi_pass backend;
@@ -253,7 +254,7 @@ location ~* (file_a|file_b|file_c)\.php$ {
 }
 ```
 
-* 对于任何用户可以上传的目录，特别的关闭PHP文件的执行权限
+* 对于任何用户可以上传的目录，特别的关闭 PHP 文件的执行权限
 ```lua
 location /uploaddir {
     location ~ \.php$ {return 403;}
@@ -270,7 +271,7 @@ location ~* \.php$ {
 }
 ```
 
-* 使用嵌套的location过滤出文件不存在的情况
+* 使用嵌套的 location 过滤出文件不存在的情况
 ```lua
 location ~* \.php$ {
     location ~ \..*/.*\.php$ {return 404;}
@@ -280,9 +281,9 @@ location ~* \.php$ {
 ```
 
 ### 脚本文件名里面的FastCGI路径
-很多外部指南喜欢依赖绝对路径来获取你的信息。这在PHP的配置块里面很常见。
-当你从仓库安装NGINX，通常都是以在配置里面折腾好“include fastcgi_params;”来收尾。
-这个配置文件位于你的NGINX根目录下，通常在/etc/nginx/里面。
+很多外部指南喜欢依赖绝对路径来获取你的信息。这在 PHP 的配置块里面很常见。
+当你从仓库安装 NGINX ，通常都是以在配置里面折腾好“include fastcgi_params;”来收尾。
+这个配置文件位于你的 NGINX 根目录下，通常在/etc/ NGINX /里面。
 
 推荐的配置：
 ```
@@ -294,12 +295,12 @@ fastcgi_param  SCRIPT_FILENAME    $document_root$fastcgi_script_name;
 fastcgi_param  SCRIPT_FILENAME    /var/www/yoursite.com/$fastcgi_script_name;
 ```
 
-$document_root$在哪里设置呢？它是server块里面的root指令来设置的。
-你的root指令不在server块内？请看前面关于root指令的陷阱。
+$document_root$ 在哪里设置呢？它是 server 块里面的 root 指令来设置的。
+你的 root 指令不在 server 块内？请看前面关于 root 指令的陷阱。
 
 ### 费力的rewrites
-不要知难而退，rewrite很容易和正则表达式混为一谈。
-实际上，rewrite是很容易的，我们应该努力去保持它们的整洁。
+不要知难而退， rewrite 很容易和正则表达式混为一谈。
+实际上， rewrite 是很容易的，我们应该努力去保持它们的整洁。
 很简单，不添加冗余代码就行了。
 
 糟糕的配置：
@@ -318,12 +319,12 @@ return 301 http://example.com$request_uri;
 ```
 
 反复对比下这几个配置。
-第一个rewrite捕获不包含第一个斜杠的完整URI。
-使用内置的变量$request_uri，我们可以有效的完全避免任何捕获和匹配。
+第一个 rewrite 捕获不包含第一个斜杠的完整 URI 。
+使用内置的变量 $request_uri ，我们可以有效的完全避免任何捕获和匹配。
 
 ### 忽略 http:// 的rewrite
-这个非常简单，rewrites是用相对路径的，除非你告诉NGINX不是相对路径。
-生成绝对路径的rewrite也很简单，加上scheme就行了。
+这个非常简单， rewrites 是用相对路径的，除非你告诉 NGINX 不是相对路径。
+生成绝对路径的 rewrite 也很简单，加上 scheme 就行了。
 
 糟糕的配置：
 ```
@@ -335,7 +336,7 @@ rewrite ^ example.com permanent;
 rewrite ^ http://example.com permanent;
 ```
 
-你可以看到我们做的只是在rewrite里面增加了 *http://*。这个很简单而且有效。
+你可以看到我们做的只是在 rewrite 里面增加了 *http://*。这个很简单而且有效。
 
 ### 代理所有东西
 糟糕的配置：
@@ -350,6 +351,14 @@ server {
     }
 }
 ```
+
+这个是令人讨厌的配置，你把 **所有东西** 都丢给了 PHP 。
+为什么呢？ Apache 可能要这样子做，但在 NGINX 里你不必这样。
+换个思路，try_files 有一个神奇之处，它是按照特定顺序去尝试文件的。
+这意味着 NGINX 可以先尝试下静态文件，如果没有才继续往后走。
+这样PHP就不用参与到这个处理中，会快很多。
+特别是如果你提供一个1MB图片数千次请求的服务，通过PHP处理还是直接返回静态文件呢？
+让我们看下怎么做到吧。
 
 推荐的配置：
 ```
@@ -382,3 +391,28 @@ server {
     }
 }
 ```
+
+这个很容易，不是吗？你看，如果请求的 URI 存在， NGINX 会处理掉；
+如果不存在，检查下目录是不是存在，是的话也可以被 NGINX 处理；
+只有在 NGINX 不能直接处理请求的URI的时候，才会进入 proxy 这个 location 来处理。
+
+现在，考虑下你的请求中有多少静态内容，比如图片、css、javascript等。这可能会帮你节省很多开销。
+
+### 配置的修改没有起效
+浏览器缓存。你的配置可能是对的，但怎么尝试结果总是不对，百思不得其解。
+罪魁祸首是你的浏览器缓存。当你下载东西的时候，浏览器做了缓存。
+
+怎么修复：
+* 在 Firefox 里面 Ctrl+Shift+Delete ，检查缓存，点击立即清理。可以用你喜欢的搜索引擎找到其他浏览器清理缓存的方法。
+每次更改配置后，都需要清理下缓存（除非你知道这个不必要），这会省很多事儿。
+
+* 使用 curl 。
+
+### VirtualBox
+如果你在 VirtualBox 的虚拟机中运行 NGINX ，而它不工作，可能是因为 sendfile() 引起的麻烦。
+只用简单的注释掉 sendfile 指令，或者设置为 off。 该指令大都会写在  NGINX .conf 文件中：
+ ```
+ sendfile off;
+ ```
+
+ ###
