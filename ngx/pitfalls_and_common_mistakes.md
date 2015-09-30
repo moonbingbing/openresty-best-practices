@@ -450,4 +450,13 @@ server {
  简单点儿说，你应该把 web 的内容**放在 /var/www/ , /srv 或者 /usr/share/www 里面**。
 
  ### 使用默认的 Document Root
- 
+ 在 Ubuntu、 Debian 等操作系统中， NGINX 会被封装成一个易于安装的包，
+ 里面通常会提供一个 『默认』的配置文件作为范例，也通常包含一个 document root 来保存基础的 HTML 文件。
+
+ 大部分这些打包系统，并没有检查默认的 document root 里面的文件是否修改或者存在。
+ 在包升级的时候，可能会导致代码失效。有经验的系统管理员都知道，不要假设默认的 document root
+ 里面的数据在升级的时候会原封不动。
+
+ 你不应该使用默认的 document root 做网站的任何关键文件的目录。
+ 并没有默认的 document root 目录会保持不变这样的约定，你网站的关键数据，
+ 很可能在更新和升级系统提供的 NGINX 包时丢失。
