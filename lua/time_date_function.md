@@ -2,6 +2,11 @@
 
 在Lua中，函数time、date和difftime提供了所有的日期和时间功能。
 
+我们通常不推荐使用这里的标准时间函数，因为这些函数通常会引发不止一个昂贵的系统调用，同时无法为
+LuaJIT JIT 编译，对性能造成较大影响。
+反之，我们推荐使用 ngx_lua 模块提供的带缓存的时间接口，如 `ngx.today`, `ngx.time`, `ngx.utctime`,
+`ngx.localtime`, `ngx.now`, `ngx.http_time`， 以及 `ngx.cookie_time` 等等。
+
 ####os.time ([table])
 如果不使用参数table调用time函数，它会返回当前的时间和日期（它表示从某一时刻到现在的秒数）。如果用table参数，它会返回一个数字，表示该table中所描述的日期和时间（它表示从某一时刻到table中描述日期和时间的秒数）。table的字段如下：
 
