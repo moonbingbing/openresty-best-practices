@@ -1,5 +1,7 @@
 # 下标从1开始
 
+FIXME 这一节的位置很是奇怪。应该分散在 array 类型的 table 一节以及 string 类型的介绍中，或者至少应放置在这两节之前。
+
 -  在*Lua*中，数组下标从1开始计数。
 
 -  官方：Lua lists have a base index of 1 because it was thought to be most friendly for non-programmers, as it makes indices correspond to ordinal element positions.
@@ -15,5 +17,5 @@ print(color[2])                       --> output: yellow
 print(color[3])                       --> output: nil
 ```
 
-
+TODO 应强调，对于 Lua 字符串也是如此。但不适用于 cdata，因为 cdata 使用的是 C 语言的语义。
 
