@@ -1,5 +1,7 @@
 # 局部变量
 
+lua 的设计有一点很奇怪，在一个 block 中的变量，如果之前没有定义过，那么认为它是一个全局变量，而不是这个 block 的局部变量。这一点和别的语言不同。容易造成不小心覆盖了全局同名变量的错误。
+
 #### 定义
 
 Lua中的局部变量要用local关键字来显示定义，不用local显示定义的变量就是全局变量：
@@ -49,26 +51,24 @@ print(x)            --打印10
 > 把下面代码保存在foo.lua文件中。
 
 ```lua
-module(..., package.seeall)  --使用module函数定义模块很不安全。如何定义和使用模块请查看模块章节
+local _M = { _VERSION = '0.01' }  
 
-local function add(a, b)     --两个number型变量相加
+function _M.add(a, b)     --两个number型变量相加
     return a + b
 end
 
-function update_A()    --更新变量值
+function _M.update_A()    --更新变量值
     A = 365
 end
 
-getmetatable(foo).__newindex = function (table, key, val)   --防止foo模块更改全局变量
-   error('attempt to write to undeclared variable "' .. key .. '": ' .. debug.traceback())
-end
+return _M
 ```
 
 > 把下面代码保存在use_foo.lua文件中。该文件和foo.lua在相同目录。
 
 ```lua
 A = 360     --定义全局变量
-local foo = require("foo")  --使用模块foo，如何定义和使用模块请查看模块章节
+local foo = require("foo")
 
 local b = foo.add(A, A)
 print("b = ", b)
@@ -77,45 +77,37 @@ foo.update_A()
 print("A = ", A)
 ```
 
-运行use_foo.lua文件，输出结果如下:
+输出结果:
 
 ```lua
-b =  720
-lua: .\foo.lua:13: attempt to write to undeclared variable "A": stack traceback:
-	.\foo.lua:13: in function <.\foo.lua:12>
-	.\foo.lua:9: in function 'update_A'
-	my.lua:7: in main chunk
-	[C]: ?
-stack traceback:
-	[C]: in function 'error'
-	.\foo.lua:13: in function <.\foo.lua:12>
-	.\foo.lua:9: in function 'update_A'
-	my.lua:7: in main chunk
-	[C]: ?
+#  luajit use_foo.lua
+b =   720
+A =   365
 ```
 
-在 *update_A()* 函数使用全局变量"A"时，抛出异常。这利用了模块，想了解更多模块的内容，可以查看[模块](../lua/module.md)章节。
+无论是做基础模块或是上层应用，肯定都不愿意存在这类灰色情况存在，因为他对我们系统的存在，带来很多不确定性，生产中我们是要尽力避免这种情况的出现。
 
- Lua 上下文中应当严格避免使用自己定义的全局变量。可以使用一个 lua-releng 工具来扫描 Lua 代码，定位使用 Lua 全局变量的地方。lua-releng 的相关链接：[http://wiki.nginx.org/HttpLuaModule#Lua_Variable_Scope](http://wiki.nginx.org/HttpLuaModule#Lua_Variable_Scope)
+Lua 上下文中应当严格避免使用自己定义的全局变量。可以使用一个 lua-releng 工具来扫描 Lua 代码，定位使用 Lua 全局变量的地方。lua-releng 的相关链接：[http://wiki.nginx.org/HttpLuaModule#Lua_Variable_Scope](http://wiki.nginx.org/HttpLuaModule#Lua_Variable_Scope)
 
- 把lua-releng.pl文件和上述两个文件放在相同目录下，然后进入该目录，运行lua-releng.pl，得到如下结果：
+把 lua-releng 文件所在的目录的绝对路径添加进 PATH 环境变量。然后进入你自己的 Lua 文件所在的工作目录，得到如下结果：
 
 ```
- # ~/work/conf$ perl lua-releng.pl
- WARNING: No "_VERSION" or "version" field found in `foo.lua`.
- Checking use of Lua global variables in file foo.lua...
- 	op no.	line	instruction	args	; code
- 	8	[7]	SETGLOBAL	1 -4	; update_A
- 	2	[8]	SETGLOBAL	0 -1	; A
- Checking line length exceeding 80...
- WARNING: No "_VERSION" or "version" field found in `use_foo.lua`.
- Checking use of Lua global variables in file use_foo.lua...
- 	op no.	line	instruction	args	; code
- 	2	[1]	SETGLOBAL	0 -1	; A
- 	7	[4]	GETGLOBAL	2 -1	; A
- 	8	[4]	GETGLOBAL	3 -1	; A
- 	18	[8]	GETGLOBAL	4 -1	; A
- Checking line length exceeding 80...
+#  perl lua-releng.pl
+foo.lua: 0.01 (0.01)
+Checking use of Lua global variables in file foo.lua...
+  op no.  line  instruction args  ; code
+  2 [8] SETGLOBAL 0 -1  ; A
+Checking line length exceeding 80...
+WARNING: No "_VERSION" or "version" field found in `use_foo.lua`.
+Checking use of Lua global variables in file use_foo.lua...
+  op no.  line  instruction args  ; code
+  2 [1] SETGLOBAL 0 -1  ; A
+  7 [4] GETGLOBAL 2 -1  ; A
+  8 [4] GETGLOBAL 3 -1  ; A
+  18  [8] GETGLOBAL 4 -1  ; A
+Checking line length exceeding 80...
 ```
 
-结果显示：在foo.lua文件中，第7行设置了一个全局变量update_A（注意：在Lua中函数也是变量），第8行设置了一个全局变量A；在use_foo.lua文件中，第1行设置了一个全局变量A，第4行使用了两次全局变量A，第8行使用了一次全局变量A。
+结果显示：
+在 foo.lua 文件中，第 8 行设置了一个全局变量 A ；
+在 use_foo.lua 文件中，没有版本信息，并且第 1 行设置了一个全局变量 A，第 4、8 行使用了全局变量 A。
