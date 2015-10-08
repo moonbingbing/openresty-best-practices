@@ -80,7 +80,7 @@ worker_connections  # 表示每个工作进程的最大连接数
 
 server{}            # 块定义了虚拟主机
 
-    listener        # 监听端口
+    listen          # 监听端口
 
     server_name     # 监听域名
 
