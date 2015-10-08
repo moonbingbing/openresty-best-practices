@@ -69,7 +69,8 @@ ubuntu: /opt/nginx-1.7.7/conf$ tree |grep -v default
 
 *除了nginx.conf，其余配置文件，一般只需要使用默认提供即可。*
 
-2.1.nginx.conf
+nginx.conf:
+
 nginx.conf是主配置文件，默认配置去掉注释之后的内容如下图所示：
 
 ```
