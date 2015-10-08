@@ -69,7 +69,8 @@ ubuntu: /opt/nginx-1.7.7/conf$ tree |grep -v default
 
 *除了nginx.conf，其余配置文件，一般只需要使用默认提供即可。*
 
-2.1.nginx.conf
+nginx.conf:
+
 nginx.conf是主配置文件，默认配置去掉注释之后的内容如下图所示：
 
 ```
@@ -79,7 +80,7 @@ worker_connections  # 表示每个工作进程的最大连接数
 
 server{}            # 块定义了虚拟主机
 
-    listener        # 监听端口
+    listen          # 监听端口
 
     server_name     # 监听域名
 
