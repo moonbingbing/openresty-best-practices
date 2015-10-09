@@ -480,6 +480,10 @@ server {
 
 一个更安全的做法是使用主机名对应 IP 地址，而不是主机名。
 这可以防止 NGINX 去查找 IP 地址，也去掉了去内部、外部解析程序的依赖。
+
+例子中的 upstream location 也有同样的问题，虽然有时候在 upstream 里面不可避免要使用到主机名，
+但这是一个不好的实践，需要仔细考虑以防出现问题。
+
 推荐的配置：
 ```lua
 upstream {
@@ -490,4 +494,12 @@ server {
     listen 127.0.0.16:80;
     # [...]
 }
+```
+
+### 在 HTTPS 中使用 SSLv3
+由于 SSLv3 的 [POODLE 漏洞](https://www.openssl.org/~bodo/ssl-poodle.pdf)，
+建议不要在开启 SSL 的网站使用 SSLv3。
+你可以简单粗暴的直接禁止 SSLv3， 用 TLS 来替代：
+```
+ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 ```
