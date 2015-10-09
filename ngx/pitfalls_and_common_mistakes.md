@@ -283,7 +283,7 @@ location ~* \.php$ {
 ### 脚本文件名里面的FastCGI路径
 很多外部指南喜欢依赖绝对路径来获取你的信息。这在 PHP 的配置块里面很常见。
 当你从仓库安装 NGINX ，通常都是以在配置里面折腾好“include fastcgi_params;”来收尾。
-这个配置文件位于你的 NGINX 根目录下，通常在/etc/ NGINX /里面。
+这个配置文件位于你的 NGINX 根目录下，通常在/etc/nginx/里面。
 
 推荐的配置：
 ```
