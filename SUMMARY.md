@@ -59,7 +59,7 @@
         * [Mac OS X平台](openresty/install_osx.md)
         * [DockerHub]
     * [Hello World](openresty/helloworld.md)
-    * [与其他location配合]
+    * [与其他 location 配合](openresty/work_with_location.md)
     * [获取uri参数]
     * [获取请求body]
     * [输出响应体]
