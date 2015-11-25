@@ -97,7 +97,7 @@ server{}            # 块定义了虚拟主机
 
 ![](nginx_conf.jpg)
 
-从配置可以看出，nginx监听了80端口、域名为localhost、跟路径为html文件夹（我的安装路径为/opt/nginx-1.7.7，所以/opt/nginx-1.7.7/html）、默认index文件为index.html， index.htm、服务器错误重定向到50x.html页面。
+从配置可以看出，nginx监听了80端口、域名为localhost、根路径为html文件夹（我的安装路径为/opt/nginx-1.7.7，所以/opt/nginx-1.7.7/html）、默认index文件为index.html， index.htm、服务器错误重定向到50x.html页面。
 
 可以看到/opt/nginx-1.7.7/html/有以下文件：
 
