@@ -1,6 +1,6 @@
-# 如何对nginx lua module添加新api
+# 如何对nginx Lua module添加新api
 
-本文真正的目的，绝对不是告诉大家如何在nginx lua module添加新api这么点东西。而是以此为例，告诉大家nginx模块开发环境搭建、码字编译、编写测试用例、代码提交、申请代码合并等。给大家顺路普及一下git的使用。
+本文真正的目的，绝对不是告诉大家如何在nginx Lua module添加新api这么点东西。而是以此为例，告诉大家nginx模块开发环境搭建、码字编译、编写测试用例、代码提交、申请代码合并等。给大家顺路普及一下git的使用。
 
 目前有个应用场景，需要获取当前nginx worker数量的需要，所以添加一个新的接口ngx.config.workers()。由于这个功能实现简单，非常适合大家当做例子。废话不多说，let's fly now！
 
@@ -26,7 +26,7 @@ $ make
 
 `注意这里不需要make install`
 
-> 修改自己的源码文件 
+> 修改自己的源码文件
 
 ```
 # ngx_lua-0.9.15/src/ngx_http_lua_config.c
@@ -74,9 +74,9 @@ __DATA__
 === TEST 1: content_by_lua
 --- config
     location /lua {
-        content_by_lua '
+        content_by_lua_block {
             ngx.say("workers: ", ngx.config.workers())
-        ';
+        }
     }
 --- request
 GET /lua
@@ -111,9 +111,9 @@ __DATA__
 === TEST 1: content_by_lua
 --- config
     location /lua {
-        content_by_lua '
+        content_by_lua_block {
             ngx.say("workers: ", ngx.config.workers())
-        ';
+        }
     }
 --- request
 GET /lua
@@ -132,7 +132,7 @@ t/131-config-workers.t .. ok
 All tests successful.
 Files=1, Tests=6,  1 wallclock secs ( 0.04 usr  0.00 sys +  0.18 cusr  0.05 csys =  0.27 CPU)
 Result: PASS
-$ 
+$
 $ prove t/132-config-workers_5.t        # 测试指定脚本
 t/132-config-workers_5.t .. ok
 All tests successful.
@@ -152,5 +152,3 @@ Result: PASS
 
 pull request : [点击查看](https://github.com/openresty/lua-nginx-module/pull/531)
 commit detail: [点击查看](https://github.com/membphis/lua-nginx-module/commit/9d991677c090e1f86fa5840b19e02e56a4a17f86)
-
-

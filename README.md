@@ -9,9 +9,13 @@ OpenResty最佳实践
 
 我们选择把这几年的一些浅薄甚至可能是错误的实践，通过gitbook的方式公开出来，一方面有利于团队自身的技术积累，另一方面，也能让更多的高手一起加入，让OpenResty的使用变得更加简单，更多的应用到服务端开发中，毕竟人生苦短，少一些加班，多一些陪家人。
 
-这本书的定位是最佳实践，并不会对OpenResty做基础的介绍。想了解基础的同学，请不要看书，而是马上安装OpenResty，把[官方网站](http://openresty.org/)的Presentations浏览和实践几遍。
+这本书的定位是最佳实践，同时会对OpenResty做简单的基础介绍。但是我们对初学者的建议是，在看书的同时下载并安装OpenResty，把[官方网站](http://openresty.org/)的Presentations浏览和实践几遍。
+
+请**一直**使用最新的Openresty版本来运行本书的代码。
 
 希望你能enjoy OpenResty之旅！
 
-本书源码在 Github 上维护，欢迎参与：[github地址](https://github.com/moonbingbing/openresty-best-practices)。也可以加入QQ群来和我们交流：
+[点我看书](http://moonbingbing.gitbooks.io/openresty-best-practices/content/index.html)
+
+本书源码在 Github 上维护，欢迎参与：[我要写书](https://github.com/moonbingbing/openresty-best-practices)。也可以加入QQ群（群号是34782325）来和我们交流：
 ![openresty技术交流群](qq_group.png)

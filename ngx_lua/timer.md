@@ -5,4 +5,4 @@
 有了这种机制，ngx_lua的功能得到了非常大的扩展，我们有机会做一些更有想象力的功能出来。比如
 批量提交和cron任务。
 
-需要特别注意的是：有一些ngx lua的API不能在这里调用，比如子请求、ngx.req.\*和向下游输出的API(ngx.print、ngx.flush之类)。
+需要特别注意的是：有一些ngx_lua的API不能在这里调用，比如子请求、ngx.req.\*和向下游输出的API(ngx.print、ngx.flush之类)。

@@ -4,7 +4,7 @@ PostgreSQL 是加州大学博客利分校计算机系开发的对象关系型数
 PostgreSQL 支持大部分 SQL 标准，其特性覆盖了 SQL-2/SQL-92 和 SQL-3/SQL-99，并且提供了许多其他现代特点，如复杂查询、外键、触发器、视图、事务完整性、多版本并行控制系统（MVCC）等。
 PostgreSQL 可以使用许多方法扩展，比如，通过增加新的数据类型、函数、操作符、聚集函数、索引方法、过程语言等。
 
-PostgreSQL 在灵活的 BSD 风格许可证下发行，任何人都可以根据自己的需要免费使用、修改和分发 PostgreSQL，不管是用于死人、商业、还是学术研究目的。
+PostgreSQL 在灵活的 BSD 风格许可证下发行，任何人都可以根据自己的需要免费使用、修改和分发 PostgreSQL，不管是用于私人、商业、还是学术研究。
 
 
 在360企业安全产品中，PostgreSQL 作为关系型数据库基础组件使用，大量的企业安全信息均分解为若干个对象和关系表存储于 PostgreSQL，Openresty 使用 ngx_postgres 模块，与 PostgreSQL 通讯。

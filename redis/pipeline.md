@@ -22,7 +22,7 @@
 
     server {
         location /withoutpipeline {
-            content_by_lua '
+           content_by_lua_block {
                 local redis = require "resty.redis"
                 local red = redis:new()
 
@@ -56,11 +56,11 @@
                     ngx.say("failed to set keepalive: ", err)
                     return
                 end
-            ';
+            }
         }
 
         location /withpipeline {
-            content_by_lua '
+            content_by_lua_block {
                 local redis = require "resty.redis"
                 local red = redis:new()
 
@@ -106,7 +106,7 @@
                     ngx.say("failed to set keepalive: ", err)
                     return
                 end
-            ';
+            }
         }
     }
 ```
@@ -114,4 +114,3 @@
 在我们实际应用场景中，正确使用pipeline对性能的提升十分明显。我们曾经某个后台应用，逐个处理大约100万条记录需要几十分钟，经过pileline压缩请求数量后，最后时间缩小到20秒左右。做之前能预计提升性能，但是没想到提升如此巨大。
 
 在360企业安全目前的应用中，Redis的使用瓶颈依然停留在网络上，不得不承认Redis的处理效率相当赞。
-
