@@ -23,7 +23,7 @@ print(5.0 / 10)    -->打印 0.5。 浮点数相除的结果是浮点数
 print(2 ^ 10)      -->打印 1024。 求2的10次方
 
 local num = 1357
-print(num%2)       -->打印 1
+print(num % 2)       -->打印 1
 print((num % 2) == 1)) -->打印 true。 判断num是否为奇数
 print((num % 5) == 0)  -->打印 false。判断num是否能被5整数
 ```
@@ -46,10 +46,10 @@ print(1 < 2)    -->打印 true
 print(1 == 2)   -->打印 false
 print(1 ~= 2)   -->打印 true
 local a, b = true, false
-print (a == b)  -->打印 false
+print(a == b)  -->打印 false
 ```
 
-**注意：Lua语言中不等于运算符的写法为：~=**
+**注意：Lua语言中“不等于”运算符的写法为：~=**
 
 >在使用“==”做等于判断时，要注意对于table,userdate和函数，Lua是作引用比较的。也就是说，只有当两个变量引用同一个对象时，才认为它们相等。可以看下面的例子：
 
@@ -66,6 +66,9 @@ end
 a~=b
 ```
 
+由于 Lua 字符串总是会被“内化”，即相同内容的字符串只会被保存一份，因此 Lua 字符串之间的相等性比较可以
+简化为其内部存储地址的比较。这意味着 Lua 字符串的相等性比较总是为 O(1). 而在其他编程语言中，字符串的相
+等性比较则通常为 O(n)，即需要逐个字节（或按若干个连续字节）进行比较。
 
 ####逻辑运算符
 
@@ -75,10 +78,10 @@ a~=b
 |   or    | 逻辑或    |
 |   not   | 逻辑非    |
 
-Lua中的and和or是不同于c语言的。在c语言中，and和or只得到两个值1和0，其中1表示真，0表示假。而Lua中and的执行过程是这样的：
+Lua中的and和or是不同于c语言的。在c语言中，and 和 or 只得到两个值 1 和 0，其中 1 表示真，0 表示假。而 Lua 中 and 的执行过程是这样的：
 
-- a and b 如果a为nil，则返回a，否则返回b;
-- a or b 如果a为nil，则返回b，否则返回a。
+- `a and b` 如果 a 为 nil，则返回 a，否则返回 b;
+- `a or b` 如果 a 为 nil，则返回 b，否则返回 a。
 
 >示例代码：test3.lua
 
@@ -95,11 +98,11 @@ print(not c)    -->打印 true
 print(not d)    -->打印 false
 ```
 
-**注意：所有逻辑操作符将false和nil视作假，其他任何值视作真，对于and和or，“短路求值”，对于not，永远只返回true或者false**
+**注意：所有逻辑操作符将false和nil视作假，其他任何值视作真，对于 and 和 or，“短路求值”，对于not，永远只返回 true 或者 false**
 
 ####字符串连接
 
-在Lua中连接两个字符串，可以使用操作符“..”（两个点）。如果其任意一个操作数是数字的话，Lua会将这个数字转换成字符串。注意，连接操作符只会创建一个新字符串，而不会改变原操作数。也可以使用string库函数string.format连接字符串。
+在Lua中连接两个字符串，可以使用操作符“..”（两个点）。如果其任意一个操作数是数字的话，Lua 会将这个数字转换成字符串。注意，连接操作符只会创建一个新字符串，而不会改变原操作数。也可以使用 string 库函数 `string.format` 连接字符串。
 
 ```lua
 print("Hello " .. "World")    -->打印 Hello World
@@ -111,6 +114,21 @@ print(str1)              -->打印 hello-world
 str2 = string.format("%d-%s-%.2f",123,"world",1.21)
 print(str2)              -->打印 123-world-1.21
 ```
+
+由于 Lua 字符串本质上是只读的，因此字符串连接运算符几乎总会创建一个新的（更大的）字符串。这意味着如果有很多这样的连接操作
+（比如在循环中使用 .. 来拼接最终结果），则性能损耗会非常大。在这种情况下，推荐使用 table 和 `table.concat()` 来进行
+很多字符串的拼接，例如
+
+```lua
+local pieces = {}
+for i, elem in ipairs(my_list) do
+    pieces[i] = my_process(elem)
+end
+local res = table.concat(pieces)
+```
+
+当然，上面的例子还可以使用 LuaJIT 独有的 `table.new` 来恰当地初始化 `pieces` 表的空间，以避免该表的动态生长。
+这个特性我们在后面还会详细讨论。
 
 ####优先级
 

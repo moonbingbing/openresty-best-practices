@@ -48,6 +48,8 @@ print(x)            --打印10
 
 > 把下面代码保存在foo.lua文件中。
 
+FIXME 应避免在我们的用例中使用 `module()` 函数来定义 Lua 模块。
+
 ```lua
 module(..., package.seeall)  --使用module函数定义模块很不安全。如何定义和使用模块请查看模块章节
 
@@ -98,10 +100,10 @@ stack traceback:
 
  Lua 上下文中应当严格避免使用自己定义的全局变量。可以使用一个 lua-releng 工具来扫描 Lua 代码，定位使用 Lua 全局变量的地方。lua-releng 的相关链接：[http://wiki.nginx.org/HttpLuaModule#Lua_Variable_Scope](http://wiki.nginx.org/HttpLuaModule#Lua_Variable_Scope)
 
- 把lua-releng.pl文件和上述两个文件放在相同目录下，然后进入该目录，运行lua-releng.pl，得到如下结果：
+ 把 lua-releng 文件所在的目录的绝对路径添加进 PATH 环境变量。然后进入你自己的 Lua 文件所在的工作目录，得到如下结果：
 
  ```
- # ~/work/conf$ perl lua-releng.pl
+ # ~/work/conf$ lua-releng
  WARNING: No "_VERSION" or "version" field found in `foo.lua`.
  Checking use of Lua global variables in file foo.lua...
  	op no.	line	instruction	args	; code

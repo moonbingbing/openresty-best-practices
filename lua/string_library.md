@@ -1,13 +1,19 @@
 #String library
 Lua字符串库包含很多强大的字符操作函数。字符串库中的所有函数都导出在模块string中。在Lua5.1中，它还将这些函数导出作为string类型的方法。这样假设要返回一个字符串转的大写形式，可以写成ans = string.upper(s),也能写成 ans = s:upper()。为了避免与之前版本不兼容，此处使用前者。
+
+Lua 字符串总是由字节构成的。Lua 核心并不尝试理解具体的字符集编码（比如 GBK 和 UTF-8 这样的多字节字符编码）。
+
+需要特别注意的一点是，Lua 字符串内部用来标识各个组成字节的下标是从 1 开始的，这不同于像 C 和 Perl 这样的编程语言。
+
 ####string.byte(s [, i [, j ]])
-返回字符s[i ]、s[i + 1]、s[i + 2]、···、s[j ]所对应的ASCII码。i的默认值为1；j的默认值为i。
+
+返回字符s[i ]、s[i + 1]、s[i + 2]、···、s[j ]所对应的ASCII码。i的默认值为 1，即第一个字节；j的默认值为i。
 
 >示例代码
 
 ```lua
 print(string.byte("abc", 1, 3))
-print(string.byte("abc", 3)) --缺少第三个参数，第三个参数默认与第二个相同，此时为3
+print(string.byte("abc", 3)) --缺少第三个参数，第三个参数默认与第二个相同，此时为 3
 print(string.byte("abc")) --缺少第二个和第三个参数，此时这两个参数都默认为 1
 
 -->output
@@ -16,21 +22,27 @@ print(string.byte("abc")) --缺少第二个和第三个参数，此时这两个�
 97
 ```
 
+由于 `string.byte` 只返回整数，而并不像 `string.sub` 等函数那样（尝试）创建新的 Lua 字符串，
+因此使用 `string.byte` 来进行字符串相关的扫描和分析是最为高效的，尤其是在被 LuaJIT 2 所 JIT 编译之后。
+
 ####string.char (···)
+
 接收0个或更多的整数（整数范围 ：0~255）；返回这些整数所对应的ASCII码字符组成的字符串。当参数为空时，默认是一个 0。
 
 >示例代码
 
 ```lua
-print(string.char(96,97,98))
+print(string.char(96, 97, 98))
 print(string.char()) --参数为空，默认是一个0，你可以用string.byte(string.char())测试一下
-print(string.char(65,66))
+print(string.char(65, 66))
 
 -->output
 `ab
 
 AB
 ```
+
+此函数特别适合从具体的字节构造出二进制字符串。这经常比使用 `table.concat` 函数和 `..` 连接运算符更加高效。
 
 ####string.upper(s)
 接收一个字符串s，返回一个把所有大写字母变成小写字母的字符串。
@@ -59,19 +71,24 @@ print(string.lower("Hello Lua"))  -->output   hello lua
 print(string.len("hello lua")) -->output  9
 ```
 
+使用此函数是不推荐的。应当总是使用 `#` 运算符来获取 Lua 字符串的长度。
+
+由于 Lua 字符串的长度是专门存放的，并不需要像 C 字符串那样即时计算，因此获取字符串长度的操作总是 `O(1)` 的时间复杂度。
+
 ####string.find(s, p [, init [, plain]])
-在s字符串中第一次匹配 p字符串。若匹配成功，则返回p字符串在s字符串中出现的开始位置和结束位置；若匹配失败，则返回nil。
+
+在s字符串中第一次匹配 p字符串。若匹配成功，则返回 p 模式字符串在 s 字符串中出现的开始位置和结束位置；若匹配失败，则返回nil。
 第三个参数init默认为1，并且可以为负整数，当init为负数时，表示从s字符串的string.len(s) + init 索引处开始向后匹配字符串p。
 第四个参数默认为false，当其为true时，只会把p看成一个字符串对待。
 
 >示例代码
 
 ```lua
-print(string.find("abc cba","ab"))
-print(string.find("abc cba","ab",2))
+print(string.find("abc cba", "ab"))
+print(string.find("abc cba", "ab", 2))
 --从索引为2的位置开始匹配字符串：ab
-print(string.find("abc cba","ba",-1))   --从索引为7的位置开始匹配字符串：ba
-print(string.find("abc cba","ba",-3))   --从索引为6的位置开始匹配字符串：ba
+print(string.find("abc cba", "ba", -1))   --从索引为7的位置开始匹配字符串：ba
+print(string.find("abc cba", "ba", -3))   --从索引为6的位置开始匹配字符串：ba
 print(string.find("abc cba", "(%a+)",1))--从索引为1处匹配最长连续且只含字母的字符串
 print(string.find("abc cba", "(%a+)",1,true)) --从索引为1的位置开始匹配字符串：(%a+)
 
@@ -84,7 +101,12 @@ nil
 nil
 ```
 
+TODO 提及 plain 参数以及它对 LuaJIT 的 JIT 编译的重要性。
+
+TODO 介绍 %a 等模式原语。
+
 ####string.format(formatstring, ···)
+
 按照格式化参数formatstring，返回后面···内容的格式化版本。编写格式化字符串的规则与标准c语言中printf函数的规则基本相同：它由常规文本和指示组成，这些指示控制了每个参数应放到格式化结果的什么位置，及如何放入它们。一个指示由字符'%'加上一个字母组成，这些字母指定了如何格式化参数，例如'd'用于十进制数、'x'用于十六进制数、'o'用于八进制数、'f'用于浮点数、's'用于字符串等。在字符'%'和字母之间可以再指定一些其他选项，用于控制格式的细节。
 
 >示例代码
@@ -102,7 +124,8 @@ today is: 29/07/2015
 ```
 
 ####string.match(s, p [, init])
-在字符串s中匹配字符串p，若匹配成功，则返回目标字符串中与模式匹配的子串；否则返回nil。第三个参数init默认为1，并且可以为负整数，当init为负数时，表示从s字符串的string.len(s) + init 索引处开始向后匹配字符串p。
+
+在字符串s中匹配（模式）字符串p，若匹配成功，则返回目标字符串中与模式匹配的子串；否则返回nil。第三个参数init默认为1，并且可以为负整数，当init为负数时，表示从s字符串的string.len(s) + init 索引处开始向后匹配字符串p。
 
 >示例代码
 
@@ -118,6 +141,8 @@ lua
 nil
 27/7/2015
 ```
+
+`string.match` 目前并不能被 JIT 编译，应尽量使用 ngx_lua 模块提供的 `ngx.re.match` 等接口。
 
 ####string.gmatch(s, p)
 返回一个迭代器函数，通过这个迭代器函数可以遍历到在字符串s中出现模式串p的所有地方。
@@ -151,6 +176,8 @@ to      Lua
 from    world
 ```
 
+此函数目前并不能被 LuaJIT 所 JIT 编译，而只能被解释执行。
+
 ####string.rep(s, n)
 返回字符串s的n次拷贝。
 
@@ -180,6 +207,8 @@ ello Lua
 Lua
 ```
 
+如果你只是想对字符串中的单个字节进行检查，使用 `string.char` 函数通常会更为高效。
+
 ####string.gsub(s, p, r [, n])
 将目标字符串s中所有的子串p替换成字符串r。可选参数n，表示限制替换次数。返回值有两个，第一个是被替换后的字符串，第二个是替换了多少次。
 
@@ -194,6 +223,8 @@ hello hello hello   3
 hello hello Lua     2
 ```
 
+此函数不能为 LuaJIT 所 JIT 编译，而只能被解释执行。一般我们推荐使用 ngx_lua 模块提供的 `ngx.re.gsub` 函数。
+
 ####string.reverse (s)
 接收一个字符串s，返回这个字符串的反转。
 
@@ -203,6 +234,9 @@ hello hello Lua     2
 print(string.reverse("Hello Lua"))  -->output  auL olleH
 ```
 ####字符串连接
+
+FIXME 这个运算符已经在先前的运算符一节介绍过了。同时也不属于目前正在介绍的 string 库。
+
 使用 ".."字符串连接符，能够把多个字符串连接起来。如果连接符两端出现不是字符串，那么会自动转换成字符串。
 
 >示例代码
