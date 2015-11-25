@@ -106,4 +106,4 @@ ubuntu:/opt/nginx-1.7.7/html$ ls
 50x.html  index.html
 ```
 
-这也是上面在浏览器中输入http://localhost，能够显示欢迎页面的原因。实际上访问的是/opt/nginx-1.7.7/html/index.html文件。
+这也是上面在浏览器中输入<http://localhost>，能够显示欢迎页面的原因。实际上访问的是/opt/nginx-1.7.7/html/index.html文件。
