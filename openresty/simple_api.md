@@ -141,11 +141,8 @@ http {
 local _M = {}
 
 -- 对输入参数逐个进行校验，只要有一个不是数字类型，则返回 false
-function _M.is_number(n, ...)
+function _M.is_number(...)
     local arg = {...}
-    if n ~= #arg then
-        return false
-    end
 
     local num
     for _,v in ipairs(arg) do
@@ -164,7 +161,12 @@ return _M
 local param= require("comm.param")
 local args = ngx.req.get_uri_args()
 
-if not param.is_number(args.a, args.b) then
+local values = {}
+for k,v in pairs(args) do
+    table.insert(values, v)
+end
+
+if not param.is_number(unpack(values)) then
     ngx.exit(ngx.HTTP_BAD_REQUEST)
     return
 end
