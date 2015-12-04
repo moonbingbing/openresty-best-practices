@@ -38,4 +38,4 @@ http {
 
 我们启动nginx即可，输入命令形式为：```nginx -p work_path/ -c conf/nginx.conf```，其中work_path为OpenResty的工作目录，也就是上面设定的，所以我这里就输入```nginx -p /openresty-test/ -c conf/nginx.conf```。如果没有提示错误，那就证明一切顺利了。如果提示nginx不存在，则需要在环境变量中加入安装路径，可以根据你的操作平台，参考前面的安装章节（一般需要重启生效）。
 
-在浏览器地址栏中输入localhost:6699/或者在命令行输入```curl http://localhost:6699/```，其中6699要改为上面配置文件指定的相关端口，按下回车键，如果出现 `HelloWorld` 则说明一切顺利了。
+在浏览器地址栏中输入 `localhost:6699/` 或者在命令行输入```curl http://localhost:6699/```，其中 `6699` 要改为上面配置文件指定的相关端口，按下回车键，如果出现 `HelloWorld` 则说明一切顺利了。

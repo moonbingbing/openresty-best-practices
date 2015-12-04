@@ -28,4 +28,4 @@ db_redis.update_user_data(user_stat)
 需要注意的是，***你不能任性的把阻塞的操作加入代码，即使在ngx.eof()之后。*** 虽然已经返回了终端的请求，但是，nginx的worker还在被你占用。所以在keep alive的情况下，本次请求的总时间，会把上一次eof()之后的时间加上。
 如果你加入了阻塞的代码，nginx的高并发就是空谈。
 
-有没有其他的方法来解决这个问题呢？我们会在[ngx.timer.at](/ngx_lua/timer.md)里面给大家介绍更优雅的方案。
+有没有其他的方法来解决这个问题呢？我们会在[ngx.timer.at](../ngx_lua/timer.md)里面给大家介绍更优雅的方案。
