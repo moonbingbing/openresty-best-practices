@@ -25,13 +25,16 @@ http {
         listen 6699;
         location / {
             default_type text/html;
-            content_by_lua_block {
+        
+            content_by_lua_block {  
                 ngx.say("HelloWorld")
             }
         }
     }
 }
 ```
+
+**提示：openresty1.9.3.1及以下版本，请使用content_by_lua命令；在openresty1.9.3.2以上，content_by_lua改成了content_by_lua_block。可使用nginx -V命令查看版本号**
 
 
 ####万事俱备只欠东风
