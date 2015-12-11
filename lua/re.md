@@ -8,7 +8,7 @@ o选项参数用于提高性能，指明该参数之后，被编译的Pattern将
 ```
 # nginx.conf
 location /test {
-    content_by_lua '
+    content_by_lua_block {
         local regex = [[\\d+]]
 
         -- 参数"o"是开启缓存必须的
@@ -18,7 +18,7 @@ location /test {
         else
             ngx.say("not matched!")
         end
-    ';
+    }
 }
 # 在网址中输入"yourURL/test"，即会在网页中显示1234。
 ```

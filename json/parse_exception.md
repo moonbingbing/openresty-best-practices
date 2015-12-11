@@ -29,10 +29,10 @@ coroutine 0:
 ```lua
 local json = require("cjson")
 
-function json_decode(str)
-    local data = nil
-    _, err = pcall(function(str) return json.decode(str) end, str)
-    return data, err
+function json_decode( str )
+    local json_value = nil
+    pcall(function (str) json_value = json.decode(str) end, str)
+    return json_value
 end
 ```
 

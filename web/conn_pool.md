@@ -26,7 +26,7 @@
 ```
 server {
     location /test {
-        content_by_lua '
+        content_by_lua_block {
             local redis = require "resty.redis"
             local red = redis:new()
 
@@ -46,7 +46,7 @@ server {
 
             -- 坑③
             red:set_keepalive(10000, 100)
-        ';
+        }
     }
 }
 ```

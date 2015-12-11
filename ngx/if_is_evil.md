@@ -33,15 +33,15 @@ if ($args ~ post=140){
 location / {
     error_page 418 = @other;
     recursive_error_pages on;
- 
+
     if ($something) {
         return 418;
     }
- 
+
     # some configuration
     ...
 }
- 
+
 location @other {
     # some other configuration
     ...
@@ -52,76 +52,76 @@ location @other {
 
 例子
 
-以下是一些例子用来解释为什么if是邪恶的. 非专业人事指, 请勿模仿!
+以下是一些例子用来解释为什么if是邪恶的. 非专业人士, 请勿模仿!
 
 ```nginx
 # 这里收集了一些出人意料的坑爹配置来展示 location 中的 if 指令是万恶的
 
 # 只有第二个 header 才会在响应中展示
 # 这不是Bug, 只是他的处理流程如此
- 
+
 location /only-one-if {
     set $true 1;
- 
+
     if ($true) {
         add_header X-First 1;
     }
- 
+
     if ($true) {
         add_header X-Second 2;
     }
- 
+
     return 204;
 }
- 
+
 # 因为if, 请求会在未改变uri的情况下下发送到后台的 '/'
- 
+
 location /proxy-pass-uri {
     proxy_pass http://127.0.0.1:8080/;
- 
+
     set $true 1;
- 
+
     if ($true) {
         # nothing
     }
 }
- 
+
 # 因为if, try_files 失效
- 
+
 location /if-try-files {
      try_files  /file  @fallback;
- 
+
      set $true 1;
- 
+
      if ($true) {
          # nothing
      }
 }
- 
+
 # nginx 将会发出段错误信号(SIGSEGV)
- 
+
 location /crash {
- 
+
     set $true 1;
- 
+
     if ($true) {
         # fastcgi_pass here
         fastcgi_pass  127.0.0.1:9000;
     }
- 
+
     if ($true) {
         # no handler here
     }
 }
- 
+
 # alias with captures isn't correcly inherited into implicit nested location created by if
-# alias with captures 不能正确的继承到由if创建的隐式嵌入的location 
- 
+# alias with captures 不能正确的继承到由if创建的隐式嵌入的location
+
 location ~* ^/if-and-alias/(?<file>.*) {
     alias /tmp/$file;
- 
+
     set $true 1;
- 
+
     if ($true) {
         # nothing
     }
@@ -144,4 +144,4 @@ if 指令是 rewrite 模块中的一部分, 是实时生效的指令.另一方�
 我已经警告过你了!
 
 > 文章选自：http://xwsoul.com/posts/761
-
+> TODO:这个文章后面需要自己翻译，可能有版权问题：https://www.nginx.com/resources/wiki/start/topics/depth/ifisevil/

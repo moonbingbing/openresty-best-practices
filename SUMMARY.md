@@ -3,7 +3,7 @@
 * [序](README.md)
 * [入门篇](README.md)
     * [WEB发展](base/web_evolution.md)
-    * [OpenResty简介]
+    * [OpenResty简介](base/intro.md)
     * [如何找到交流伙伴]
 * [Lua 入门](lua/main.md)
     * [Lua简介](lua/brief.md)
@@ -50,7 +50,8 @@
     * [日志服务](ngx/nginx_log.md)
     * [反向代理](ngx/reverse_proxy.md)
     * [负载均衡](ngx/balancer.md)
-* [OpenResty](openresty/main.md)
+    * [陷阱和常见错误](ngx/pitfalls_and_common_mistakes.md)
+* [OpenResty]
     * [环境搭建](openresty/install.md)
         * [Windows平台](openresty/install_on_windows.md)
         * [CentOS平台](openresty/install_on_centos.md)
@@ -58,12 +59,12 @@
         * [Mac OS X平台](openresty/install_osx.md)
         * [DockerHub]
     * [Hello World](openresty/helloworld.md)
-    * [简单API Server框架]
-    * [与其他location配合]
-    * [获取uri参数]
-    * [获取请求body]
+    * [与其他 location 配合](openresty/work_with_location.md)
+    * [获取 uri 参数](openresty/get_url_param.md)
+    * [获取请求 body](openresty/get_url_param.md)
     * [输出响应体]
     * [日志输出]
+    * [简单API Server框架](openresty/simple_api.md)
     * [获取Nginx内置绑定变量](openresty/inline_var.md)
     * [子查询]
     * [在不同阶段共享变量]

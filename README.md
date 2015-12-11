@@ -11,9 +11,11 @@ OpenResty最佳实践
 
 这本书的定位是最佳实践，同时会对OpenResty做简单的基础介绍。但是我们对初学者的建议是，在看书的同时下载并安装OpenResty，把[官方网站](http://openresty.org/)的Presentations浏览和实践几遍。
 
+请**一直**使用最新的Openresty版本来运行本书的代码。
+
 希望你能enjoy OpenResty之旅！
 
 [点我看书](http://moonbingbing.gitbooks.io/openresty-best-practices/content/index.html)
 
-本书源码在 Github 上维护，欢迎参与：[我要写书](https://github.com/moonbingbing/openresty-best-practices)。也可以加入QQ群（群号是34782325）来和我们交流：
-![openresty技术交流群](qq_group.png)
+本书源码在 Github 上维护，欢迎参与：[我要写书](https://github.com/moonbingbing/openresty-best-practices)。也可以加入QQ群（群号是34782325（已满）,481213820（二群））来和我们交流：
+![openresty技术交流群](qq_group.jpg)

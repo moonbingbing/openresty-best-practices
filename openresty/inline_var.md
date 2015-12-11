@@ -46,7 +46,7 @@
 
 很多是吧，其实这还不是全部，`Nginx`一直在不停迭代更新是一个原因，还有一个原因是有些变量太冷门。使用它们，我们将会有很多玩法。
 
-首先，我们在`OpenResty`中如何引用这些变量呢？参考[ngx.var.VARIABLE](http://wiki.nginx.org/HttpLuaModuleZh#ngx.var.VARIABLE)小节。
+首先，我们在`OpenResty`中如何引用这些变量呢？参考[ngx.var.VARIABLE](https://github.com/openresty/lua-nginx-module#ngxvarvariable)小节。
 
 利用这些内置变量，来做一个简单的数学求和运算例子：
 
@@ -57,11 +57,11 @@
 
         location /sum {
             #处理业务
-            content_by_lua '
+           content_by_lua_block {
                 local a = tonumber(ngx.var.arg_a) or 0
                 local b = tonumber(ngx.var.arg_b) or 0
                 ngx.say("sum:", a + b )
-            ';
+            }
         }
     }
 ```
@@ -94,11 +94,11 @@ sum:23
             ';
 
             #处理业务
-            content_by_lua '
+           content_by_lua_block {
                 local a = tonumber(ngx.var.arg_a) or 0
                 local b = tonumber(ngx.var.arg_b) or 0
                 ngx.say("sum:", a + b )
-            ';
+            }
         }
     }
 ```
@@ -146,5 +146,3 @@ Saving to: '1.cab'
 
 1.cab                6%[===>             ]   8.00K  1.01KB/s   eta 1m 53s
 ```
-
-

@@ -21,17 +21,17 @@
     } 
 ```
 
-* 自己从外部数据源（包括文件系统）加载 Lua 源码或字节码，然后使用 loadstring() “eval”进 Lua VM. 可以通过 package.loaded 自己来做缓存，毕竟频繁地加载源码和调用 loadstring()，以及频繁地 JIT 编译还是很昂贵的（类似 lua_code_cache off 的情形）。比如在 CloudFlare 我们从 modsecurity 规则编译出来的 Lua 代码就是通过 KyotoTycoon 动态分发到全球网络中的每一个 nginx 服务器的。无需 reload 或者 binary upgrade. 
+* 自己从外部数据源（包括文件系统）加载 Lua 源码或字节码，然后使用 loadstring() “eval”进 Lua VM. 可以通过 package.loaded 自己来做缓存，毕竟频繁地加载源码和调用 loadstring()，以及频繁地 JIT 编译还是很昂贵的（类似 lua_code_cache off 的情形）。 比如CloudFlare公司采用的方法是从 modsecurity 规则编译出来的 Lua 代码就是通过 KyotoTycoon 动态分发到全球网络中的每一个 nginx 服务器的。无需 reload 或者 binary upgrade. 
 
 ##自定义module的动态装载
 
-对于已经装载的module，我们可以通过package.loaded.* = nil的方式卸载。
+对于已经装载的module，我们可以通过package.loaded.* = nil的方式卸载（注意：如果对应模块是通过本地文件 require 加载的，该方式失效，ngx_lua_module 里面对以文件加载模块的方式做了特殊处理）。
 
 不过，值得提醒的是，因为 require 这个内建函数在标准 Lua 5.1 解释器和 LuaJIT 2 中都被实现为 C 函数，所以你在自己的 loader 里可能并不能调用 ngx_lua 那些涉及非阻塞 IO 的 Lua 函数。因为这些 Lua 函数需要 yield 当前的 Lua 协程，而 yield 是无法跨越 Lua 调用栈上的 C 函数帧的。细节见 
 
 https://github.com/openresty/lua-nginx-module#lua-coroutine-yieldingresuming 
 
-所以直接操纵 package.loaded 是最简单和最有效的做法。我们在 CloudFlare 的 Lua WAF 系统中就是这么做的。 
+所以直接操纵 package.loaded 是最简单和最有效的做法。CloudFlare 的 Lua WAF 系统中就是这么做的。 
 
 不过，值得提醒的是，从 package.loaded 解注册的 Lua 模块会被 GC 掉。而那些使用下列某一个或某几个特性的 Lua 
 模块是不能被安全的解注册的： 

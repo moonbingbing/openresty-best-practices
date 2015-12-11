@@ -52,14 +52,14 @@ print(ans.r, ans.i)      -->output  1     3
 ?     return {r = r, i = i}
 ? end
 
-? complex.i =complex.new(0, 1)  -- 定义一个table型常量i
+? complex.i = complex.new(0, 1)  -- 定义一个table型常量i
 
 ? function complex.add(c1, c2)  --复数加法
-?     return M.new(c1.r + c2.r, c1.i + c2.i)
+?     return complex.new(c1.r + c2.r, c1.i + c2.i)
 ? end
 
 ? function complex.sub(c1, c2)  --复数减法
-?     return M.new(c1.r - c2.r, c1.i - c2.i)
+?     return complex.new(c1.r - c2.r, c1.i - c2.i)
 ? end
 
 ? return complex  -- 返回模块的table

@@ -13,7 +13,7 @@ lua_package_path "/path/to/lua-resty-dns/lib/?.lua;;";
 
  server {
      location = /dns {
-         content_by_lua '
+         content_by_lua_block {
              local resolver = require "resty.dns.resolver"
              local r, err = resolver:new{
                  nameservers = {"8.8.8.8", {"8.8.4.4", 53} },
@@ -42,7 +42,7 @@ lua_package_path "/path/to/lua-resty-dns/lib/?.lua;;";
                          " type:", ans.type, " class:", ans.class,
                          " ttl:", ans.ttl)
              end
-         ';
+         }
      }
  }
 ```

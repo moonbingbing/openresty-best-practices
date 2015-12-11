@@ -13,9 +13,9 @@ lua_package_path "/path/to/lua-resty-redis/lib/?.lua;;";
 
 server {
     location /non_block {
-        content_by_lua '
+        content_by_lua_block {
             ngx.sleep(0.1)
-        ';
+        }
     }
 }
 ```
@@ -26,21 +26,21 @@ server {
 ```
 location /sleep_1 {
     default_type 'text/plain';
-    content_by_lua '
+    content_by_lua_block {
         ngx.sleep(0.01)
         ngx.say("ok")
-    ';
+    }
 }
 
 location /sleep_2 {
     default_type 'text/plain';
-    content_by_lua '
+    content_by_lua_block {
         function sleep(n)
             os.execute("sleep " .. n)
         end
         sleep(0.01)
         ngx.say("ok")
-    ';
+    }
 }
 ```
 
