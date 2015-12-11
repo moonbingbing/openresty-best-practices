@@ -76,7 +76,7 @@ location = /app/test {
 ```nginx
 location ~ ^/static/([-_a-zA-Z0-9/]+).jpg {
     set $image_name $1;
-    content_by_lua_block '
+    content_by_lua '
         ngx.exec("/download_internal/images/" 
                 .. ngx.var.image_name .. ".jpg");
     ';
