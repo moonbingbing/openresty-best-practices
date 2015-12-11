@@ -7,9 +7,9 @@ NgxLuaModule里面尽管提供了十分丰富的API，但他一定不可能满�
 扯一些额外话题，Lua解释器目前有两个最主流分支。
 
 * Lua官方发布的标准版[Lua](http://lua.org/)
-* Google开发维护的[Luajit](http://luajit.org/index.html)
+* Google开发维护的[LuaJIT](http://luajit.org/index.html)
 
-Luajit中加入了Just In Time等编译技术，是的Lua的解释、执行效率有非常大的提升。除此以外，还提供了[FFI](http://luajit.org/ext_ffi.html)。
+LuaJIT中加入了Just In Time等编译技术，是的Lua的解释、执行效率有非常大的提升。除此以外，还提供了[FFI](http://luajit.org/ext_ffi.html)。
 
 > 什么是FFI？
 
@@ -20,7 +20,7 @@ structures from pure Lua code.
 
 通过FFI的方式加载其他C接口动态库，这样我们就可以有很多有意思的玩法。
 
-当我们碰到CPU密集运算部分，我们可以把他用C的方式实现一个效率最高的版本，对外到处API，打包成动态库，通过FFI来完成API调用。这样我们就可以兼顾程序灵活、执行高效，大大弥补了Luajit自身的不足。
+当我们碰到CPU密集运算部分，我们可以把他用C的方式实现一个效率最高的版本，对外到处API，打包成动态库，通过FFI来完成API调用。这样我们就可以兼顾程序灵活、执行高效，大大弥补了LuaJIT自身的不足。
 
 > 使用FFI判断操作系统
 
@@ -100,9 +100,9 @@ local b = a + point(0.5, 8)
 print(#b)        --> 12.5
 ```
 
-> Lua和Luajit对比
+> Lua和LuaJIT对比
 
-可以这么说，Luajit应该是全面胜出，无论是功能、效率都是标准Lua不能比的。目前最新版Openresty默认也都使用Luajit。
+可以这么说，LuaJIT应该是全面胜出，无论是功能、效率都是标准Lua不能比的。目前最新版Openresty默认也都使用LuaJIT。
 
 世界为我所用，总是有惊喜等着你，如果那天你发现自己站在了顶峰，那我们就静下心来改善一下顶峰，把他推到更高吧。
 

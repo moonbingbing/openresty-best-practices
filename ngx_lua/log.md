@@ -12,7 +12,7 @@
 --
 --    server {
 --        location / {
---            content_by_lua lua/log.lua;
+--            content_by_lua_file lua/log.lua;
 --        }
 --    }
 
@@ -95,7 +95,7 @@ function _M.log(msg)
 
     server {
         location / {
-            content_by_lua lua/content.lua;
+            content_by_lua_file lua/content.lua;
             log_by_lua lua/log.lua;
         }
     }
@@ -114,9 +114,9 @@ function _M.log(msg)
         access_by_lua '
             ngx.ctx.foo = ngx.ctx.foo + 3
         ';
-        content_by_lua '
+        content_by_lua_block {
             ngx.say(ngx.ctx.foo)
-        ';
+        }
     }
 ```
 

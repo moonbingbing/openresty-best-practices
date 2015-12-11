@@ -1,5 +1,5 @@
 ##函数定义
-lua 使用关键字*function*定义函数，语法如下：
+Lua 使用关键字*function*定义函数，语法如下：
 
 ```lua
 function function_name (arc)  --arc表示参数列表，函数的参数列表可以为空

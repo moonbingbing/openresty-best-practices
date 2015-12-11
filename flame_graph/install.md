@@ -36,13 +36,13 @@ Pass 5: run completed in 20usr/30sys/354real ms.
 
 ####火焰图绘制
 
-首先，需要下载ngx工具包：[Github地址](https://github.com/openresty/nginx-systemtap-toolkit)，该工具包即是用perl生成stap探测脚本并运行的脚本，如果是要抓lua级别的情况，请使用工具 ngx-sample-lua-bt
+首先，需要下载ngx工具包：[Github地址](https://github.com/openresty/nginx-systemtap-toolkit)，该工具包即是用perl生成stap探测脚本并运行的脚本，如果是要抓Lua级别的情况，请使用工具 ngx-sample-lua-bt
 
 ```
 # ps -ef | grep nginx  （ps：得到类似这样的输出，其中15010即使worker进程的pid，后面需要用到）
 hippo    14857     1  0 Jul01 ?        00:00:00 nginx: master process /opt/openresty/nginx/sbin/nginx -p /home/hippo/skylar_server_code/nginx/main_server/ -c conf/nginx.conf
 hippo    15010 14857  0 Jul01 ?        00:00:12 nginx: worker process
-# ./ngx-sample-lua-bt -p 15010 --luajit20 -t 5 > tmp.bt （-p 是要抓的进程的pid --luajit20|--luajit51 是luajit的版本 -t是探测的时间，单位是秒， 探测结果输出到tmp.bt）
+# ./ngx-sample-lua-bt -p 15010 --luajit20 -t 5 > tmp.bt （-p 是要抓的进程的pid --luajit20|--luajit51 是LuaJIT的版本 -t是探测的时间，单位是秒， 探测结果输出到tmp.bt）
 # ./fix-lua-bt tmp.bt > flame.bt  (处理ngx-sample-lua-bt的输出，使其可读性更佳)
 ```
 
