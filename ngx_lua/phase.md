@@ -32,10 +32,10 @@ log_by_lua
 
 ```
 location /mixed {
-    set_by_lua $a {
+    set_by_lua_block $a {
         ngx.log(ngx.ERR, "set_by_lua")
     }
-    rewrite_by_lua {
+    rewrite_by_lua_block {
         ngx.log(ngx.ERR, "rewrite_by_lua")
     }
 }
