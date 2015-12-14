@@ -155,6 +155,21 @@ function _M.is_number(...)
     return true
 end
 
+-- 对输入参数个数进行校验,如果不是两个，则返回false
+function _M.two_number(...)
+
+    local arg = {...}
+
+    local num = 0;
+    for _, v in ipairs(arg) do 
+        num = num + 1;
+    end
+    if 2 ~= num then 
+        return false
+    end
+    return true
+end
+
 return _M
 
 --========== {$prefix}/lua/access_check.lua
@@ -170,12 +185,17 @@ if not param.is_number(unpack(values)) then
     ngx.exit(ngx.HTTP_BAD_REQUEST)
     return
 end
+
+if not param.two_number(unpack(values)) then 
+    ngx.exit(ngx.HTTP_BAD_REQUEST)
+    return
+end
 ```
 
 看看curl测试结果吧：
 
 ```shell
-$  nginx  curl '127.0.0.1:6699/api/addition?a=1'
+$  curl '127.0.0.1:6699/api/addition?a=1'
 <html>
 <head><title>400 Bad Request</title></head>
 <body bgcolor="white">
@@ -183,7 +203,7 @@ $  nginx  curl '127.0.0.1:6699/api/addition?a=1'
 <hr><center>openresty/1.9.3.1</center>
 </body>
 </html>
-$  nginx  curl '127.0.0.1:6699/api/addition?a=1&b=3'
+$  curl '127.0.0.1:6699/api/addition?a=1&b=3'
 4
 ```
 
