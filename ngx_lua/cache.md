@@ -41,7 +41,7 @@ lua_shared_dict my_cache 128m;
 ```
 
 
-如同它的名字一样，这个cache是nginx所有worker之间共享的，内部使用的LRU算法（最近经常使用）来判断缓存是否在内存占满时被清除。
+如同它的名字一样，这个cache是nginx所有worker之间共享的，内部使用的LRU算法（最近最少使用）来判断缓存是否在内存占满时被清除。
 
 ####使用[Lua LRU cache](https://github.com/openresty/lua-resty-lrucache)
 
