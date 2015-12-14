@@ -16,7 +16,8 @@ location /mixed {
 }
 ```
 
-执行结果日志(截取了一下)：
+
+执行结果日志(截取了一下)： 
 ```
 set_by_lua
 rewrite_by_lua
@@ -26,6 +27,7 @@ header_filter_by_lua
 body_filter_by_lua
 log_by_lua
 ```
+
 
 这几个阶段的存在，应该是openresty不同于其他多数Web server编程的最明显特征了。由于nginx把一个会话分成了很多阶段，这样第三方模块就可以根据自己行为，挂载到不同阶段进行处理达到目的。
 

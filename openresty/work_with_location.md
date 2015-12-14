@@ -13,9 +13,9 @@ location = /sum {
     # 只允许内部调用
     internal;
 
+    # 这里做了一个求和运算只是一个例子，可以在这里完成一些数据库、
+    # 缓存服务器的操作，达到基础模块和业务逻辑分离目的
     content_by_lua_block {
-        # 这里做了一个求和运算只是一个例子，可以在这里完成一些数据库、
-        # 缓存服务器的操作，达到基础模块和业务逻辑分离目的
         ngx.say(tonumber(ngx.arg[1]) + tonumber(ngx.arg[2]))
     }
 }
@@ -76,7 +76,7 @@ location = /app/test {
 ```nginx
 location ~ ^/static/([-_a-zA-Z0-9/]+).jpg {
     set $image_name $1;
-    content_by_lua_block '
+    content_by_lua '
         ngx.exec("/download_internal/images/" 
                 .. ngx.var.image_name .. ".jpg");
     ';

@@ -148,9 +148,8 @@ server {
 
 这个配置有三个问题。首先是if的使用, 为啥它这么糟糕呢? 你有阅读邪恶的if指令吗?
 当 NGINX 收到无论来自哪个子域名的何种请求,
-不管域名是www.example.com还是example.com，这个fi指令**总是**会被执行。
- 因此 NGINX
- 会检查**每个请求**的Host header，这是十分低效的。
+不管域名是www.example.com还是example.com，这个if指令**总是**会被执行。
+ 因此 NGINX 会检查**每个请求**的Host header，这是十分低效的。
  你应该避免这种情况，而是使用下面配置里面的两个server指令。
 
  推荐的配置：
@@ -169,7 +168,7 @@ server {
 
 #### 用if检查文件是否存在
 使用if指令来判断文件是否存在是很可怕的，如果你在使用新版本的 NGINX ，
-你应该看看rty_files，这会让你的生活变得更轻松。
+你应该看看try_files，这会让你的生活变得更轻松。
 
 糟糕的配置：
 ```lua
@@ -216,7 +215,7 @@ try_files $uri $uri/ /index.php?q=$uri&$args;
 try_files $uri $uri/ /index.php;
 ```
 当然在你的开发中可能会有变化，你可能需要基于你的需要设置更复杂的配置。
-但是对于一个基础的网站来说，这个配置可以工作的很完美。
+但是对于一个基础的网站来说，这个配置可以工作得很完美。
 你应该永远从简单开始来搭建你的系统。
 
 如果你不关心目录是否存在这个检测的话，你也可以决定忽略这个目录的检测，去掉 “$uri/” 这个配置。
@@ -446,10 +445,10 @@ server {
 在某些情况下， NGINX 的 workers 甚至是 root 用户运行的。那么，我们现在有你的用户列表，
 以及密码哈希值，我们也知道哈希的方法。这台服务器已经变成我们的肉鸡了。
 
- Filesystem Hierarchy Standard (FHS) 定义了数据应该如何存在。你一定要去阅读下。
- 简单点儿说，你应该把 web 的内容**放在 /var/www/ , /srv 或者 /usr/share/www 里面**。
+Filesystem Hierarchy Standard (FHS) 定义了数据应该如何存在。你一定要去阅读下。
+简单点儿说，你应该把 web 的内容**放在 /var/www/ , /srv 或者 /usr/share/www 里面**。
 
- ### 使用默认的 Document Root
+### 使用默认的 Document Root
  在 Ubuntu、 Debian 等操作系统中， NGINX 会被封装成一个易于安装的包，
  里面通常会提供一个 『默认』的配置文件作为范例，也通常包含一个 document root 来保存基础的 HTML 文件。
 

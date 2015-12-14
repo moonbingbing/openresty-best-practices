@@ -61,7 +61,7 @@ print(string.len("hello lua")) -->output  9
 
 ####string.find(s, p [, init [, plain]])
 在s字符串中第一次匹配 p字符串。若匹配成功，则返回p字符串在s字符串中出现的开始位置和结束位置；若匹配失败，则返回nil。
-第三个参数init默认为1，并且可以为负整数，当init为负数时，表示从s字符串的string.len(s) + init 索引处开始向后匹配字符串p。
+第三个参数init默认为1，并且可以为负整数，当init为负数时，表示从s字符串的string.len(s) + 1 + init 索引处开始向后匹配字符串p。
 第四个参数默认为false，当其为true时，只会把p看成一个字符串对待。
 
 >示例代码
@@ -71,7 +71,7 @@ print(string.find("abc cba","ab"))
 print(string.find("abc cba","ab",2))
 --从索引为2的位置开始匹配字符串：ab
 print(string.find("abc cba","ba",-1))   --从索引为7的位置开始匹配字符串：ba
-print(string.find("abc cba","ba",-3))   --从索引为6的位置开始匹配字符串：ba
+print(string.find("abc cba","ba",-3))   --从索引为5的位置开始匹配字符串：ba
 print(string.find("abc cba", "(%a+)",1))--从索引为1处匹配最长连续且只含字母的字符串
 print(string.find("abc cba", "(%a+)",1,true)) --从索引为1的位置开始匹配字符串：(%a+)
 
@@ -102,7 +102,7 @@ today is: 29/07/2015
 ```
 
 ####string.match(s, p [, init])
-在字符串s中匹配字符串p，若匹配成功，则返回目标字符串中与模式匹配的子串；否则返回nil。第三个参数init默认为1，并且可以为负整数，当init为负数时，表示从s字符串的string.len(s) + init 索引处开始向后匹配字符串p。
+在字符串s中匹配字符串p，若匹配成功，则返回目标字符串中与模式匹配的子串；否则返回nil。第三个参数init默认为1，并且可以为负整数，当init为负数时，表示从s字符串的string.len(s) + 1 + init索引处开始向后匹配字符串p。
 
 >示例代码
 

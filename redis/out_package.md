@@ -144,6 +144,13 @@ local commands = {
     "zscore",            "zunionstore",       "evalsha"
 }
 
+for i = 1, #commands do
+    local cmd = commands[i]
+    _M[cmd] =
+            function (self, ...)
+                return do_command(self, cmd, ...)
+            end
+end
 
 local mt = { __index = _M }
 
@@ -299,14 +306,6 @@ function _M.new(self, opts)
     opts = opts or {}
     local timeout = (opts.timeout and opts.timeout * 1000) or 1000
     local db_index= opts.db_index or 0
-
-    for i = 1, #commands do
-        local cmd = commands[i]
-        _M[cmd] =
-                function (self, ...)
-                    return do_command(self, cmd, ...)
-                end
-    end
 
     return setmetatable({
             timeout = timeout,
