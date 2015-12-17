@@ -17,7 +17,7 @@ location = /sum {
     # 缓存服务器的操作，达到基础模块和业务逻辑分离目的
     content_by_lua_block {
         local args = ngx.req.get_uri_args()
-        ngx.say(tonumber(args.a) , tonumber(args.b))
+        ngx.say(tonumber(args.a) + tonumber(args.b))
     }
 }
 
