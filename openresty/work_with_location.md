@@ -16,7 +16,8 @@ location = /sum {
     # 这里做了一个求和运算只是一个例子，可以在这里完成一些数据库、
     # 缓存服务器的操作，达到基础模块和业务逻辑分离目的
     content_by_lua_block {
-        ngx.say(tonumber(ngx.arg[1]) + tonumber(ngx.arg[2]))
+        local args = ngx.req.get_uri_args()
+        ngx.say(tonumber(args.a) , tonumber(args.b))
     }
 }
 
