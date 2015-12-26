@@ -77,13 +77,14 @@ location = /app/test {
 ```nginx
 location ~ ^/static/([-_a-zA-Z0-9/]+).jpg {
     set $image_name $1;
-    content_by_lua '
-        ngx.exec("/download_internal/images/" 
+    content_by_lua_block {
+        ngx.exec("/download_internal/images/"
                 .. ngx.var.image_name .. ".jpg");
-    ';
+    };
 }
 
 location /download_internal {
+    internal;
     # 这里还可以有其他统一的 download 下载设置，例如限速等
     alias ../download;
 }
