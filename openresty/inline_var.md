@@ -84,14 +84,14 @@ sum:23
 
         location /sum {
             # 使用access阶段完成准入阶段处理
-            access_by_lua '
+            access_by_lua_block {
                 local black_ips = {["127.0.0.1"]=true}
 
                 local ip = ngx.var.remote_addr
                 if true == black_ips[ip] then
                     ngx.exit(ngx.HTTP_FORBIDDEN)
                 end
-            ';
+            };
 
             #处理业务
            content_by_lua_block {
@@ -128,9 +128,9 @@ sum:23
 
 ```nginx
         location /download {
-            access_by_lua '
+            access_by_lua_block {
                 ngx.var.limit_rate = 1000
-            ';
+            };
         }
 ```
 

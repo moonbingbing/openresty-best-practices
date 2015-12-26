@@ -76,7 +76,7 @@ location /test {
             ngx.exit(ngx.HTTP_SERVICE_UNAVAILABLE)
         end
 
-        local data 
+        local data
         while true do
             data = file:read(1024)
             if nil == data then
@@ -113,4 +113,4 @@ local table = {
  hello, world: true or false: nil
 ```
 
-也就是说当我们有非常多碎片数据时，没有必要一定连接成字符串后再进行输出。完全可以直接存放在 table 中，用数组的方式把这些碎片数据统一起来，直接调用 `ngx.print(talbe)` 即可。这种方式效率更高，并且更容易被优化。 
+也就是说当我们有非常多碎片数据时，没有必要一定连接成字符串后再进行输出。完全可以直接存放在 table 中，用数组的方式把这些碎片数据统一起来，直接调用 `ngx.print(table)` 即可。这种方式效率更高，并且更容易被优化。
