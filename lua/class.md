@@ -1,4 +1,5 @@
-#Lua基础数据类型
+# Lua基础数据类型
+
 函数type能够返回一个值或一个变量所属的类型。
 
 ```lua
@@ -48,7 +49,7 @@ else
 end
 ```
 
-####number（数字）
+#### number（数字）
 
 number类型用于表示实数，和c/c++里面的double类型一样。可以使用数学函数math.floor（向下取整）和math.ceil（向上取整）进行取整操作。
 
@@ -59,7 +60,7 @@ print(math.floor(order))   -->output:3
 print(math.ceil(score))    -->output:99
 ```
 
-####string（字符串）
+#### string（字符串）
 
 Lua中有三种方式表示字符串:
 
@@ -83,7 +84,7 @@ print(str3)    -->output:"add\name",'hello'
 print(str4)    -->output:string have a [[]].
 ```
 
-####table(表)
+#### table(表)
 
 table类型实现了“关联数组”。“关联数组” 是一种具有特殊索引方式的数组，索引可为字符串string或(整)数number类型。
 
@@ -109,7 +110,7 @@ print(corp[10])               -->output:360
 
 想了解更多关于table的操作，请查看[Table库](table_library.md)章节。
 
-####function(函数)
+#### function(函数)
 
 在Lua中，**函数** 也是一种数据类型，函数可以存储在变量中，可以通过参数传递给其他函数，还可以作为其他函数的返回值。
 > 示例

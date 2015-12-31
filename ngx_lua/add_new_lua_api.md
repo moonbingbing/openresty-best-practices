@@ -124,6 +124,7 @@ GET /lua
 ```
 
 # 单元测试
+
 ```sh
 $ export PATH=/path/to/your/nginx/sbin:$PATH    #设置nginx查找路径
 $ cd ngx_lua-0.9.15                     # 进入你修改的模块

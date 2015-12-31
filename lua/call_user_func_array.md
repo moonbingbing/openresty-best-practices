@@ -1,4 +1,5 @@
 # 自定义函数
+
 调用回调函数，并把一个数组参数作为回调函数的参数
 
 ```lua
@@ -7,6 +8,7 @@ methodName(unpack(args, 1, table.maxn(args)))
 ```
 
 # 使用场景
+
 你要调用的函数名是未知的
 
 函数参数类型和数目也是未知的
@@ -23,7 +25,6 @@ if os.time() >= endTime then
 end
 
 ```
-
 
 # 小试牛刀
 
@@ -77,6 +78,7 @@ doAction(sample.world, ' 321') -- 相当于sample.world('321')
 ```
 
 # 实战演练
+
 以下代码为360公司公共组件之缓存模块，正是利用了部分特性
 
 ```lua
