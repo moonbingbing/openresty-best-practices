@@ -6,7 +6,7 @@ HTTP响应报文分为三个部分：
 1. 响应头
 1. 响应体
 
-![](http_response_protocal.jpg)
+![](images/http_response_protocal.jpg)
 
 对于 HTTP 响应体的输出，在 OpenResty 中调用 `ngx.say` 或 `ngx.print` 即可。经过查看官方 wiki ，这两者都是输出响应体，区别是 `ngx.say` 会对输出响应体多输出一个 `\n` 。如果你用的是浏览器完成的功能调试，使用这两着是没有区别的。但是如果我们使用各种终端工具，这时候使用 `ngx.say` 明显就更方便了。
 
@@ -60,7 +60,7 @@ HTTP响应报文分为三个部分：
 
 第①个情况，我们要利用 HTTP 1.1 特性 CHUNKED 编码来完成，我们一起来看看 CHUNKED 编码格式样例：
 
-![](http_chunked.png)
+![](images/http_chunked.png)
 
 我们可以利用 CHUNKED 格式，把一个大的响应体拆分成多个小的应答体，分批、有节制的响应给请求方。
 

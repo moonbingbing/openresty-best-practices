@@ -1,7 +1,8 @@
 # 执行阶段概念
 
 `Nginx`处理一个请求，它的处理流程请参考下图：
-![nginx_internet_request](step.png)
+
+![nginx_internet_request](images/step.png)
 
 我们OpenResty做个测试，示例代码如下：
 ```

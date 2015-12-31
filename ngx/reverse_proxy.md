@@ -8,7 +8,7 @@
 
 反向代理服务器，对于客户端而言它就像是原始服务器，并且客户端不需要进行任何特别的设置。客户端向反向代理的命名空间(name-space)中的内容发送普通请求，接着反向代理将判断向何处(原始服务器)转交请求，并将获得的内容返回给客户端，就像这些内容原本就是它自己的一样。如下图所示：
 
-![proxy](/ngx/proxy.png)
+![proxy](images/proxy.png)
 
 ####反向代理的应用场景
 
@@ -83,7 +83,7 @@ $ nginx -p ~/proxy_dir -c conf/nginx.conf
 
 成功启动nginx后，我们打开浏览器，验证下反向代理的效果。在浏览器地址栏中输入：```localhost:8866/README.md```,返回的结果是我们github源代码的README页面。如下图：
 
-![proxy_example](/ngx/proxy_example.png)
+![proxy_example](images/proxy_example.png)
 
 神奇吧？！我们只需要配置一下nginx.conf文件，不用写任何web页面，就可以偷偷地从别的服务器上读取一个页面返回给用户。
 
