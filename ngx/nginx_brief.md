@@ -47,7 +47,7 @@ Nginx 安装：
 
 启动nginx之后，浏览器中输入 http://localhost 可以验证是否安装启动成功。
 
-![](images/nginx_hello.jpg)
+![](../images/nginx_hello.jpg)
 
 Nginx 配置示例:
 
