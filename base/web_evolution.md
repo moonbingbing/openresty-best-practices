@@ -6,7 +6,7 @@
 
 下图是统计数据：
 
-![](openresty-best-practices/images/nginx.png)
+![](../images/nginx.png)
 
 #### select
 
