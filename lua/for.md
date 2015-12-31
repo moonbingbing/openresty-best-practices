@@ -1,7 +1,9 @@
-#控制结构：for
+# 控制结构：for
+
 Lua提供了一组传统的、小巧的控制结构，包括用于条件判断的if、用于迭代的while、repeat和for。本章节主要介绍for的使用。
 
-####数字型for
+#### 数字型for
+
 for语句有两种形式：数字for（numeric for）和范型for（generic for）。
 
 > 数字型for的语法如下：
@@ -68,7 +70,8 @@ for i=1, math.huge do
 end
 ```
 
-####泛型for
+#### 泛型for
+
 泛型for循环通过一个迭代器（iterator）函数来遍历所有值：
 
 ```lua

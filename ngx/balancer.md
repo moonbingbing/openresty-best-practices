@@ -47,7 +47,7 @@ Nginx的负载均衡模块目前支持6种调度算法，下面进行分别介�
 
 #### 配置nginx负载均衡
 
-![实验拓扑](ngx_balance.png)
+![实验拓扑](../images/ngx_balance.png)
 
 > Nginx 配置负载均衡
 
