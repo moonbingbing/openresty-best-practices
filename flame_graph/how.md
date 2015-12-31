@@ -1,7 +1,7 @@
 # 如何定位问题
 
 一个正常的火焰图，应该呈现出如[官网](http://openresty.org/download/user-flamegraph.svg)给出的样例（官网的火焰图是抓C级别函数）：
-![正常](../images/Flame-Graphic.svg)
+![正常](./images/Flame-Graphic.svg)
 
 从上图可以看出，正常业务下的火焰图形状类似的“山脉”，“山脉”的“海拔”表示worker中业务函数的调用深度，“山脉”的“长度”表示worker中业务函数占用cpu的比例。
 
