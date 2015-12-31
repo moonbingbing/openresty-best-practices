@@ -5,7 +5,7 @@
 
 我们需要先回顾下tcp的知识，请看下面的状态转换图（图片来自[「The TCP/IP Guide」](http://www.tcpipguide.com/)）：
 
-![tcp](images/tcp.png)
+![tcp](../images/tcp.png)
 
 因为TCP连接是双向的，所以在关闭连接的时候，两个方向各自都需要关闭。
 先发FIN包的一方执行的是主动关闭；后发FIN包的一方执行的是被动关闭。
