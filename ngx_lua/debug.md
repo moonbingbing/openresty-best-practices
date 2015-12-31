@@ -5,7 +5,7 @@
 对于熟悉用Visual Studio和Eclipse这些强大的集成开发环境的来做C++和Java的同学来说，OpenResty的debug要原始很多，但是对于习惯Python开发的同学来说，又是那么的熟悉。
 张银奎有本[《软件调试》](http://book.douban.com/subject/3088353/)的书，windows客户端程序猿应该都看过，大家可以去试读下，看看里面有多复杂:(
 
-对于OpenResty，坏消息是，没有单步调试这些玩意儿（我们尝试搞出来过ngx Lua的单步调试，但是没人用...）;好消息是，它像Python一样，非常简单，不用复杂的技术，只靠print和log就能定位绝大部分问题，难题有[火焰图](/flame_gragh.md)这个神器。
+对于OpenResty，坏消息是，没有单步调试这些玩意儿（我们尝试搞出来过ngx Lua的单步调试，但是没人用...）;好消息是，它像Python一样，非常简单，不用复杂的技术，只靠print和log就能定位绝大部分问题，难题有[火焰图](../flame_gragh.md)这个神器。
 
 * ####关闭code cache
 这个选项在调试的时候最好关闭。

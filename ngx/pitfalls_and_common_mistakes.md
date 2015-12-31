@@ -142,7 +142,7 @@ http {
 
 > **注意看这里**：
 
- >[邪恶的 if 指令](ngx/if_is_evil.md)
+ >[邪恶的 if 指令](../ngx/if_is_evil.md)
 
 #### 用if判断Server Name
 
