@@ -93,7 +93,7 @@ $ nginx -p ~/proxy_dir -c conf/nginx.conf
 
 location项对请求URI进行匹配，location后面配置了匹配规则。例如上面的例子中，如果请求的URI是```localhost:8866/```，则会匹配location /这一项；如果请求的URI是```localhost:8866/README.md```,则会比配```location /README.md```这项。
 
-上面这个例子只是针对一个确定的URI做了反向代理，有的读者会有疑惑：如果对每个页面都进行这样的配置，那将会出现大量重复的配置，工作量很大，能否做**批量**的配置呢？答案是可以的，这需要配合使用location的正则匹配功能。具体实现方法可参考本书的[URL匹配章节](../nginx/match_uri.md)。
+上面这个例子只是针对一个确定的URI做了反向代理，有的读者会有疑惑：如果对每个页面都进行这样的配置，那将会出现大量重复的配置，工作量很大，能否做**批量**的配置呢？答案是可以的，这需要配合使用location的正则匹配功能。具体实现方法可参考本书的[URL匹配章节](../ngx/match_uri.md)。
 
 （2）proxy_pass
 

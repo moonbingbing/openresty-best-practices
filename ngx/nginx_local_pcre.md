@@ -156,4 +156,4 @@ location ~* \.(txt|doc)${
 }
 ```
 
-一些可用的全局变量，可以参考[获取Nginx内置绑定变量](openresty/inline_var.md)章节。
+一些可用的全局变量，可以参考[获取Nginx内置绑定变量](../openresty/inline_var.md)章节。
