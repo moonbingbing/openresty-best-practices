@@ -14,7 +14,7 @@ print(s, e)  -->output 3  5
 >示例代码：定义一个函数，实现两个变量交换值
 
 ```lua
-function swap(a, b) --定义函数swap，实现两个变量交换值
+local function swap(a, b) --定义函数swap，实现两个变量交换值
    return b, a   --按相反顺序返回变量的值
 end
 
@@ -44,12 +44,13 @@ print(x, y, z)
 1 lua nil
 ```
 
-当一个函数有一个以上返回值，且函数调用不是一系列表达式的最后一个元素，那么函数调用只会产生一个返回值,也就是第一个返回值。
+当一个函数有一个以上返回值，且函数调用不是一个列表表达式的最后一个元素，那么函数调用只会产生一个返回值,也就是第一个返回值。
+
 >示例代码：
 
 ```lua
-function init() --init函数 返回两个值 1和"lua"
-  return 1, "lua"
+local function init() --init函数 返回两个值 1和"lua"
+    return 1, "lua"
 end
 
 local x, y, z = init(), 2  --init函数的位置不在最后，此时只返回 1
@@ -58,3 +59,28 @@ print(x, y, z)   -->output  1  2  nil
 local a, b, c = 2, init()  --init函数的位置在最后，此时返回 1 和 "lua"
 print(a, b, c)   -->output  2  1  lua
 ```
+
+函数调用的实参列表也是一个列表表达式。考虑下面的例子：
+
+```lua
+local function init()
+    return 1, "lua"
+end
+
+print(init(), 2)   -->output  1  2
+print(2, init())   -->output  2  1  lua
+```
+
+如果你确保只取函数返回值的第一个值，可以使用括号运算符，例如
+
+```lua
+local function init()
+    return 1, "lua"
+end
+
+print((init()), 2)   -->output  1  2
+print(2, (init()))   -->output  2  1
+```
+
+值得一提的是，如果实参列表中某个函数会返回多个值，同时调用者又没有显式地使用括号运算符来筛选和过滤，则这样的
+表达式是不能被 LuaJIT 2 所 JIT 编译的，而只能被解释执行。
