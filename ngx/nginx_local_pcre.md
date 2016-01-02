@@ -53,14 +53,18 @@ location / {
 
 那么产生的效果如下：
 
-* 访问根目录/， 比如http://localhost/ 将匹配规则A
-* 访问 http://localhost/login 将匹配规则B，http://localhost/register 则匹配规则H
-* 访问 http://localhost/static/a.html 将匹配规则C
-* 访问 http://localhost/a.gif, http://localhost/b.jpg 将匹配规则D和规则E，但是规则D顺序优先，规则E不起作用，而 http://localhost/static/c.png 则优先匹配到规则C
-* 访问 http://localhost/a.PNG 则匹配规则E，而不会匹配规则D，因为规则E不区分大小写。
-* 访问 http://localhost/a.xhtml 不会匹配规则F和规则G，http://localhost/a.XHTML不会匹配规则G，因为不区分大小写。规则F，规则G属于排除法，符合匹配规则但是不会匹配到，所以想想看实际应用中哪里会用到。
+* 访问根目录/， 比如 `http://localhost/` 将匹配规则A
+* 访问 `http://localhost/login` 将匹配规则B，`http://localhost/register` 则匹配规则H
+* 访问 `http://localhost/static/a.html` 将匹配规则C
+* 访问 `http://localhost/a.gif`, `http://localhost/b.jpg` 将匹配规则D和规则E，但是规则D顺序优先，规则E不起作用，而 `http://localhost/static/c.png` 则优先匹配到规则C
+* 访问 `http://localhost/a.PNG` 则匹配规则E，而不会匹配规则D，因为规则E不区分大小写。
+* 访问 `http://localhost/a.xhtml` 不会匹配规则F和规则G，http://localhost/a.XHTML不会匹配规则G，因为不区分大小写。规则F，规则G属于排除法，符合匹配规则但是不会匹配到，所以想想看实际应用中哪里会用到。
 
+<<<<<<< HEAD
 访问 http://localhost/category/id/1111 则最终匹配到规则H，因为以上规则都不匹配，这个时候应该是nginx转发请求给后端应用服务器，比如FastCGI（php），tomcat（jsp），nginx作为反向代理服务器存在。
+=======
+访问 `http://localhost/category/id/1111` 则最终匹配到规则H，因为以上规则都不匹配，这个时候应该是nginx转发请求给后端应用服务器，比如FastCGI（php），tomcat（jsp），nginx作为方向反向服务器存在。
+>>>>>>> moonbingbing/master
 
 所以实际使用中，个人觉得至少有三个匹配规则定义，如下：
 
@@ -156,4 +160,4 @@ location ~* \.(txt|doc)${
 }
 ```
 
-一些可用的全局变量，可以参考[获取Nginx内置绑定变量](openresty/inline_var.md)章节。
+一些可用的全局变量，可以参考[获取Nginx内置绑定变量](../openresty/inline_var.md)章节。

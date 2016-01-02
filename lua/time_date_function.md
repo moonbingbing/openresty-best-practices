@@ -1,8 +1,9 @@
-#日期时间函数
+# 日期时间函数
 
 在Lua中，函数time、date和difftime提供了所有的日期和时间功能。
 
-####os.time ([table])
+#### os.time ([table])
+
 如果不使用参数table调用time函数，它会返回当前的时间和日期（它表示从某一时刻到现在的秒数）。如果用table参数，它会返回一个数字，表示该table中所描述的日期和时间（它表示从某一时刻到table中描述日期和时间的秒数）。table的字段如下：
 
 |字段名称|取值范围|
@@ -25,7 +26,8 @@ a = { year = 1970, month = 1, day = 1, hour = 8, min = 1 }
 print(os.time(a))   -->output  60
 ```
 
-####os.difftime (t2, t1)
+#### os.difftime (t2, t1)
+
 返回t1到t2的时间差，单位为秒。
 
 >示例代码:
@@ -39,7 +41,8 @@ local t2 = os.time(day2)
 print(os.difftime(t2, t1))   -->output  86400
 ```
 
-####os.date ([format [, time]])
+#### os.date ([format [, time]])
+
 把一个表示日期和时间的数值，转换成更高级的表现形式。其第一个参数format是一个格式化字符串，描述了要返回的时间形式。第二个参数time就是日期和时间的数字表示，缺省时默认为当前的时间。
 使用格式字符 "*t"，创建一个时间表。
 

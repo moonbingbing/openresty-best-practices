@@ -60,7 +60,7 @@
     * [Hello World](openresty/helloworld.md)
     * [与其他 location 配合](openresty/work_with_location.md)
     * [获取 uri 参数](openresty/get_url_param.md)
-    * [获取请求 body](openresty/get_url_param.md)
+    * [获取请求 body](openresty/get_req_body.md)
     * [输出响应体](openresty/response.md)
     * [日志输出]
     * [简单API Server框架](openresty/simple_api.md)
