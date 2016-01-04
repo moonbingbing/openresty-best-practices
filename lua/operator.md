@@ -24,7 +24,7 @@ print(2 ^ 10)      -->打印 1024。 求2的10次方
 
 local num = 1357
 print(num % 2)       -->打印 1
-print((num % 2) == 1)) -->打印 true。 判断num是否为奇数
+print((num % 2) == 1) -->打印 true。 判断num是否为奇数
 print((num % 5) == 0)  -->打印 false。判断num是否能被5整数
 ```
 
