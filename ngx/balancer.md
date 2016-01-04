@@ -47,7 +47,7 @@ Nginx的负载均衡模块目前支持6种调度算法，下面进行分别介�
 
 #### 配置nginx负载均衡
 
-![实验拓扑](ngx_balance.png)
+![实验拓扑](../images/ngx_balance.png)
 
 > Nginx 配置负载均衡
 
@@ -280,4 +280,4 @@ web2.test.com
 web2.test.com
 ```
 
-注，大家可以看到，你不断的刷新页面一直会显示的民Web2，说明ip_hash负载均衡配置成功。
+注，大家可以看到，你不断的刷新页面一直会显示Web2，说明ip_hash负载均衡配置成功。

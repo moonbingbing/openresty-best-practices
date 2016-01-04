@@ -1,4 +1,5 @@
 # script压缩复杂请求
+
 从[pipeline](https://github.com/moonbingbing/openresty-best-practices/blob/master/redis/pipeline.md)章节，我们知道对于多个简单的redis命令可以汇聚到一个请求中，提升服务端的并发能力。然而，在有些场景下，我们每次命令的输入需要引用上个命令的输出，甚至可能还要对第一个命令的输出做一些加工，再把加工结果当成第二个命令的输入。pipeline难以处理这样的场景。庆幸的是，我们可以用redis里的script来压缩这些复杂命令。
 
 script的核心思想是在redis命令里嵌入Lua脚本，来实现一些复杂操作。Redis中和脚本相关的命令有：

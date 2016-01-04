@@ -12,7 +12,7 @@
 
 #### JSON数据格式
 
-这里主要是`JSON DECODE`时，可能存在Crash的问题。我们已经在[json解析的异常捕获](json/parse_exception.md)一章中详细说明了问题本身，以及解决方法。这里就不再重复。
+这里主要是`JSON DECODE`时，可能存在Crash的问题。我们已经在[json解析的异常捕获](../json/parse_exception.md)一章中详细说明了问题本身，以及解决方法。这里就不再重复。
 
 #### 关键字段编码为HEX，长度不定
 

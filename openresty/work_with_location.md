@@ -13,10 +13,11 @@ location = /sum {
     # 只允许内部调用
     internal;
 
+    # 这里做了一个求和运算只是一个例子，可以在这里完成一些数据库、
+    # 缓存服务器的操作，达到基础模块和业务逻辑分离目的
     content_by_lua_block {
-        # 这里做了一个求和运算只是一个例子，可以在这里完成一些数据库、
-        # 缓存服务器的操作，达到基础模块和业务逻辑分离目的
-        ngx.say(tonumber(ngx.arg[1]) + tonumber(ngx.arg[2]))
+        local args = ngx.req.get_uri_args()
+        ngx.say(tonumber(args.a) + tonumber(args.b))
     }
 }
 
@@ -63,7 +64,7 @@ location = /app/test {
 
 我们利用了 `ngx.location.capture_multi` 函数，直接完成了两个子请求并行执行的目的。尤其当两个请求没有相互依赖，用这种方法可以极大提高查询效率。例如两个无依赖查询请求，各自是10ms，顺序执行需要20ms，但是通过并行执行可以在10ms内完成两个请求。实际生产中查询时间可能没这么规整，但思想大同小异，这个特性还是很有用的。
 
-![图例](work_location_flow_1.png)
+![图例](../images/work_location_flow_1.png)
 
 该方法，可以被广泛应用于广告系统（1：N模型，一个请求，后端从N家供应商中获取条件最优广告）、高并发前端页面展示（并行无依赖界面、降级开关等）。
 
@@ -76,13 +77,14 @@ location = /app/test {
 ```nginx
 location ~ ^/static/([-_a-zA-Z0-9/]+).jpg {
     set $image_name $1;
-    content_by_lua_block '
-        ngx.exec("/download_internal/images/" 
+    content_by_lua_block {
+        ngx.exec("/download_internal/images/"
                 .. ngx.var.image_name .. ".jpg");
-    ';
+    };
 }
 
 location /download_internal {
+    internal;
     # 这里还可以有其他统一的 download 下载设置，例如限速等
     alias ../download;
 }
@@ -90,7 +92,7 @@ location /download_internal {
 
 注意，ngx.exec 方法与 ngx.redirect 是完全不同的，前者是个纯粹的内部跳转并且没有引入任何额外 HTTP 信号。 这里的两个 location 更像是流水线上工人之间的协作关系。第一环节的工人对完成自己处理部分后，直接交给第二环节处理人（实际上可以有更多环节）。他们之间的数据流是定向流动的。
 
-![图例](work_location_flow_2.png)
+![图例](../images/work_location_flow_2.png)
 
 ## 外部重定向
 

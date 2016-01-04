@@ -1,64 +1,47 @@
-#搭建Lua环境
+# 搭建Lua环境
 
-####在Windows上搭建环境
+#### 在Windows上搭建环境
 
-######下载安装包
+从 1.9.3.2 版本开始，OpenResty 正式对外同时公布维护了 Windows 版本，其中直接包含了编译好的最新版本 LuaJIT。由于 Windows 操作系统自身相对良好的二进制兼容性，使用者只需要下载、解压两个步骤即可。
 
-前往官网下载LuaJIT源码压缩包，网址：[http://luajit.org/download.html]([http://luajit.org/download.html)。本书以LuaJIT-2.0.4为例。
+打开 [http://openresty.org/](http://openresty.org/) ，选择左侧的 Download 连接，这时候我们就可以下载最新版本的 OpenResty 版本（例如笔者写书时的最新版本：[https://openresty.org/download/ngx_openresty-1.9.7.1-win32.zip](https://openresty.org/download/ngx_openresty-1.9.7.1-win32.zip)）。下载本地成功后，执行解压缩，就能看到下图所示目录结构：
 
-######安装Lua
+![](../images/win_luajit.png)
 
-使用visual studio编译刚才下载好的源码包：开始 –> 程序 –> Microsoft Visual Studio xx –> Visual Studio Tools –> Visual Studio 命令提示。
+双击图中的 LuaJIT.exe ，即可进入命令行模式，在这里我们就可以直接完成简单的 Lua 语法交互了。
 
-然后切换至LuaJIT的src目录，运行msvcbuild.bat
+#### 在 Linux、Mac OS X 上搭建环境
 
-将生成的luajit.exe、lua51.dll、jit 复制到打包工具的相对目录下，这样在工具中就可以直接调用luajit –b source_file out_file (一般都是Lua后缀，代码不用改动)
-
-如果你windows系统中没有安装visual studio或者不想手工编译，可以直接在网上搜索下载已经被别人编译好的LuaJIT。
-
-####在Linux上搭建环境
-
-本书以Ubuntu为例来说明。首先，使用apt-cache命令查看有哪些版本的LuaJIT可以安装。
-
-######安装LuaJIT
-
-在ubuntun系统上，使用apt-get insall命令安装LuaJIT：
+到 LuaJIT 官网 [http://luajit.org/download.html](http://luajit.org/download.html) ，查看当前最新开发版本，例如笔者写书时的最新版本： [http://luajit.org/download/LuaJIT-2.1.0-beta1.tar.gz](http://luajit.org/download/LuaJIT-2.1.0-beta1.tar.gz)。
 
 ```
-sudo apt-get install luajit
+# wget http://luajit.org/download/LuaJIT-2.1.0-beta1.tar.gz
+# tar -xvf LuaJIT-2.1.0-beta1.tar.gz
+# cd LuaJIT-2.1.0-beta1
+# make 
+# sudo make install
 ```
 
-######验证LuaJIT是否安装成功
+大家都知道，在不同平台，可能都有不同的安装工具来简化我们的安装。为什么我们这给大家推荐的是源码这么原始的方式？笔者为了偷懒么？其实不是的。
 
-输入**luajit -v**查看LuaJIT版本，如果返回以下类似内容，则说明安装成功：
+从实际应用性能表现来看， LuaJIT 2.1 虽然目前还是 beta 版本，但是生产运行稳定性已经很不错，并且在运行效率上要比 LuaJIT 2.0 好很多（大家可自行爬文了解一下），所以作为 OpenResty 的默认搭档，已经是 LuaJIT 2.1 很久了。但是针对不同系统的工具包安装工具，他们当前默认绑定推送的都还是 LuaJIT 2.0 ，所以这里就直接给出最符合我们最终方向的安装方法了。
+
+###### 验证 LuaJIT 是否安装成功
 
 ```
-LuaJIT 2.0.3 -- Copyright (C) 2005-2014 Mike Pall. http://luajit.org/
+# luajit -v
+LuaJIT 2.1.0-beta1 -- Copyright (C) 2005-2015 Mike Pall. http://luajit.org/
 ```
 
 如果想了解其他系统安装LuaJIT的步骤，或者安装过程中遇到问题，可以到LuaJIT官网查看：[http://luajit.org/install.html](http://luajit.org/install.html)
 
-####选择一个好用的代码编辑器：Sublime Text
+#### Hello World 程序
 
-一个好的代码编辑器可以让我们编写代码时更加顺手，虽然Lua有相应的IDE编辑环境，但是我们建议您使用Sublime作为您
-的代码编辑器。Sublime文本编辑器有很多可选的插件包，可以帮助我们的代码编写。本书的代码都是在Sublime上进行编辑的。
-
-
-#Hello World程序
-
-安装好LuaJIT后，我们来运行我们的第一个程序：HelloWorld.lua。
-
->代码
+安装好LuaJIT后，开始我们的第一个 hello world 小程序。首先编写一个 HelloWorld.lua 文件，写入内容后，使用 LuaJIT 运行即可。
 
 ```
-function main()
-  print("Hello World")
-end
-
-main()
-```
-
-到HelloWorld.lua所在目录下，运行```luajit ./HelloWorld.lua```运行这个HelloWorld.lua程序，输出如下结果：
-```
-Hello World
+# cat HelloWorld.lua
+print("hello world")
+# luajit HelloWorld.lua
+hello world
 ```

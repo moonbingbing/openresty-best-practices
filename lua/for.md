@@ -1,7 +1,9 @@
-#控制结构：for
+# 控制结构：for
+
 Lua提供了一组传统的、小巧的控制结构，包括用于条件判断的if、用于迭代的while、repeat和for。本章节主要介绍for的使用。
 
-####数字型for
+#### 数字型for
+
 for语句有两种形式：数字for（numeric for）和范型for（generic for）。
 
 > 数字型for的语法如下：
@@ -17,7 +19,7 @@ var从begin变化到finish，每次变化都以step作为步长递增var，并�
 > 示例
 
 ```lua
-for i=1,5 do
+for i = 1, 5 do
   print(i)
 end
 
@@ -32,7 +34,7 @@ end
 ...
 
 ```lua
-for i=1,10,2 do
+for i = 1, 10, 2 do
   print(i)
 end
 
@@ -44,12 +46,10 @@ end
 9
 ```
 
-
-
 > 以下是这种循环的一个典型示例：
 
 ```lua
-for i=10, 1, -1 do
+for i = 10, 1, -1 do
   print(i)
 end
 
@@ -60,7 +60,7 @@ end
 如果不想给循环设置上限的话，可以使用常量math.huge：
 
 ```lua
-for i=1, math.huge do
+for i = 1, math.huge do
     if (0.3*i^3 - 20*i^2 - 500 >=0) then
       print(i)
       break
@@ -68,7 +68,8 @@ for i=1, math.huge do
 end
 ```
 
-####泛型for
+#### 泛型for
+
 泛型for循环通过一个迭代器（iterator）函数来遍历所有值：
 
 ```lua
@@ -161,3 +162,8 @@ k:  Saturday  v: 6
 ```
 
 这个循环会为每个元素进行赋值，其中变量k为key(1、2、...)，变量v为value("Sunday"、"Monday"、...)。
+
+值得一提是，在 LuaJIT 2.1 中，`ipairs()` 内建函数是可以被 JIT 编译的，而 `pairs()` 
+则只能被解释执行。因此在性能敏感的场景，应当合理安排数据结构，避免对哈希表进行遍历。
+（事实上，即使未来 `pairs` 可以被 JIT 编译，哈希表的遍历本身也不会有数组遍历那么高效，毕竟哈希表
+就不是为遍历而设计的数据结构。）

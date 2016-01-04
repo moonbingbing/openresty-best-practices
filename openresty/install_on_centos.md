@@ -1,10 +1,10 @@
-#CentOS 平台下OpenResty的安装
+# CentOS 平台下OpenResty的安装
 
-####源码包准备
+#### 源码包准备
 
 我们首先要在[官网](http://openresty.org/)下载OpenResty的源码包。官网上会提供很多的版本，各个版本有什么不同也会有说明，我们可以按需选择下载。笔者选择下载的源码包为ngx_openresty-1.7.10.1.tar.gz。
 
-####相关库的安装
+#### 相关库的安装
 
 将这些相关的库perl 5.6.1+,libreadline, libpcre, libssl安装在系统中。
 按照以下步骤：<p>
@@ -14,7 +14,7 @@
 3. 输入以下命令```yum install readline-devel pcre-devel openssl-devel perl```，一次性安装需要的库。
 4. 相关库安装成功。安装成功后会有“Complete！”字样。
 
-####OpenResty的安装
+#### OpenResty的安装
 
 1. 在命令行中切换到源码包所在目录。
 2. 输入命令```tar xzvf ngx_openresty-1.7.10.1.tar.gz```，按回车键解压源码包。若你下载的源码包版本不一样，将相应的版本号改为你所下载的即可，或者直接拷贝源码包的名字到命令中。此时当前目录下会出现一个ngx _ openresty-1.7.10.1文件夹。
@@ -40,9 +40,10 @@
 8. 安装。输入```gmake install```.
 9. 上面的步骤顺利完成之后，安装已经完成。可以在你指定的安装目录下看到一些相关目录及文件。
 
-####设置环境变量
+#### 设置环境变量
 
-为了后面启动OpenResty的命令简单一些，不用在OpenResty的安装目录下进行启动，我们通过设置环境变量来简化操作。将OpenResty目录下的nginx/sbin目录添加到PATH中。就是打开文件 /etc/profile，在文件末尾加入```export PATH=$PATH:/opt/openresty/nginx/sbin```，若你的安装目录不一样，则做相应修改。注意：这一步操作需要重启才会生效。
+为了后面启动OpenResty的命令简单一些，不用在OpenResty的安装目录下进行启动，我们通过设置环境变量来简化操作。将OpenResty目录下的nginx/sbin目录添加到PATH中。就是打开文件 /etc/profile，在文件末尾加入```export PATH=$PATH:/opt/openresty/nginx/sbin```，若你的安装目录不一样，则做相应修改。
+注意：这一步操作需要重新加载环境变量才会生效，可通过命令```source /etc/profile```或者重启服务器等方式实现。
 
 接下来，我们就可以进入到后面的章节[HelloWorld](helloworld.md)学习。
 

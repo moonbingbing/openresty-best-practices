@@ -1,6 +1,6 @@
-#局部变量
+# 局部变量
 
-####定义
+#### 定义
 
 Lua中的局部变量要用local关键字来显示定义，不用local显示定义的变量就是全局变量：
 
@@ -9,7 +9,7 @@ g_var = 1         -- global var
 local l_var = 2   -- local var
 ```
 
-####作用域
+#### 作用域
 
 局部变量的生命周期是有限的，它的作用域仅限于声明它的块（block）。  一个块是一个控制结构的执行体、或者是一个函数的执行体再或者是一个程序块（chunk）。我们可以通过下面这个例子来理解一下局部变量作用域的问题：
 
@@ -36,7 +36,7 @@ end
 print(x)            --打印10
 ```
 
-####使用局部变量的好处
+#### 使用局部变量的好处
 
 使用局部变量的一个好处是，局部变量可以避免将一些无用的名称引入全局环境，避免全局环境的污染。另外，访问局部变量比访问全局变量更快。同时，由于局部变量出了作用域之后生命周期结束，这样可以被垃圾回收器及时释放。
 
@@ -44,7 +44,7 @@ print(x)            --打印10
 
 “尽量使用局部变量”是一种良好的编程风格。然而，初学者在使用Lua时，很容易忘记加上“local”来定义局部变量，这时变量就会自动变成全局变量，很可能导致程序出现意想不到的问题。那么我们怎么检测哪些变量是全局变量呢？我们如何防止全局变量导致的影响呢？下面给出一段代码，利用元表的方式来自动检查全局变量，并打印必要的调试信息：
 
-####检查模块的函数使用全局变量
+#### 检查模块的函数使用全局变量
 
 > 把下面代码保存在foo.lua文件中。
 
@@ -94,13 +94,13 @@ stack traceback:
 	[C]: ?
 ```
 
-在 *update_A()* 函数使用全局变量"A"时，抛出异常。这利用了模块，想了解更多模块的内容，可以查看[模块](/lua/module.md)章节。
+在 *update_A()* 函数使用全局变量"A"时，抛出异常。这利用了模块，想了解更多模块的内容，可以查看[模块](../lua/module.md)章节。
 
  Lua 上下文中应当严格避免使用自己定义的全局变量。可以使用一个 lua-releng 工具来扫描 Lua 代码，定位使用 Lua 全局变量的地方。lua-releng 的相关链接：[http://wiki.nginx.org/HttpLuaModule#Lua_Variable_Scope](http://wiki.nginx.org/HttpLuaModule#Lua_Variable_Scope)
 
  把lua-releng.pl文件和上述两个文件放在相同目录下，然后进入该目录，运行lua-releng.pl，得到如下结果：
 
- ```
+```
  # ~/work/conf$ perl lua-releng.pl
  WARNING: No "_VERSION" or "version" field found in `foo.lua`.
  Checking use of Lua global variables in file foo.lua...
@@ -116,6 +116,6 @@ stack traceback:
  	8	[4]	GETGLOBAL	3 -1	; A
  	18	[8]	GETGLOBAL	4 -1	; A
  Checking line length exceeding 80...
-
 ```
+
 结果显示：在foo.lua文件中，第7行设置了一个全局变量update_A（注意：在Lua中函数也是变量），第8行设置了一个全局变量A；在use_foo.lua文件中，第1行设置了一个全局变量A，第4行使用了两次全局变量A，第8行使用了一次全局变量A。

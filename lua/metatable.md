@@ -1,4 +1,4 @@
-#元表
+# 元表
 
 在Lua中，元表 *(metatable)* 的表现行为类似于C++语言中的函数（操作符）重载，例如我们可以重载"\_\_add"元方法 *(metamethod)* ，来计算两个Lua数组的并集；或者重载"\_\_index"方法，来定义我们自己的Hash函数。
 Lua 提供了两个十分重要的用来处理元表的方法，如下：
@@ -20,7 +20,7 @@ setmetatable(mytable,mymetatable)
 mytable = setmetatable({},{})
 ```
 
-####修改表的操作符行为
+#### 修改表的操作符行为
 通过重载"\_\_add"元方法来计算集合的并集实例：
 
 ```lua
@@ -83,8 +83,6 @@ mytable = setmetatable({key1 = "value1"}, --原始表
   {__index = function(self, key)       --重载函数
     if key == "key2" then
       return "metatablevalue"
-    else
-      return self[key]
     end
   end
 })

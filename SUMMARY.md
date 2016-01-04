@@ -4,7 +4,6 @@
 * [入门篇](README.md)
     * [WEB发展](base/web_evolution.md)
     * [OpenResty简介](base/intro.md)
-    * [如何找到交流伙伴]
 * [Lua 入门](lua/main.md)
     * [Lua简介](lua/brief.md)
     * [Lua环境搭建](lua/build_env.md)
@@ -20,7 +19,7 @@
         * [函数的定义](lua/function_define.md)
         * [函数的参数](lua/function_parameter.md)
         * [函数的返回值](lua/function_result.md)
-        * [函数回调](lua/call_user_func_array.md)
+        * [全动态函数调用](lua/call_user_func_array.md)
     * [模块](lua/module.md)
     * [String库](lua/string_library.md)
     * [Table库](lua/table_library.md)
@@ -61,8 +60,8 @@
     * [Hello World](openresty/helloworld.md)
     * [与其他 location 配合](openresty/work_with_location.md)
     * [获取 uri 参数](openresty/get_url_param.md)
-    * [获取请求 body](openresty/get_url_param.md)
-    * [输出响应体]
+    * [获取请求 body](openresty/get_req_body.md)
+    * [输出响应体](openresty/response.md)
     * [日志输出]
     * [简单API Server框架](openresty/simple_api.md)
     * [获取Nginx内置绑定变量](openresty/inline_var.md)

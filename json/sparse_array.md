@@ -1,6 +1,7 @@
 # 稀疏数组
 
 请看示例代码（注意data的数组下标）：
+
 ```lua
 -- http://www.kyne.com.au/~mark/software/lua-cjson.php
 -- version: 2.1 devel
@@ -15,6 +16,7 @@ ngx.say(json.encode(data))
 ```
 
 运行日志报错结果：
+
 ```
 2015/06/27 00:23:13 [error] 2714#0: *40 lua entry thread aborted: runtime error: ...ork/git/github.com/lua-resty-memcached-server/t/test.lua:13: Cannot serialise table: excessively sparse array
 stack traceback:

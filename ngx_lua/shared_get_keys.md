@@ -1,4 +1,4 @@
-ngx.shared.DICT 非队列性质
+# ngx.shared.DICT 非队列性质
 ===========
 
 执行阶段和主要函数请参考[维基百科 HttpLuaModule#ngx.shared.DICT](http://wiki.nginx.org/HttpLuaModule#ngx.shared.DICT)

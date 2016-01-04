@@ -1,7 +1,8 @@
 # 执行阶段概念
 
 `Nginx`处理一个请求，它的处理流程请参考下图：
-![nginx_internet_request](step.png)
+
+![nginx_internet_request](../images/step.png)
 
 我们OpenResty做个测试，示例代码如下：
 ```
@@ -16,7 +17,9 @@ location /mixed {
 }
 ```
 
-执行结果日志(截取了一下)：
+
+执行结果日志(截取了一下)： 
+
 ```
 set_by_lua
 rewrite_by_lua
@@ -42,6 +45,7 @@ log_by_lua
 实际上我们只使用其中一个阶段content_by_lua，也可以完成所有的处理。但这样做，会让我们的代码比较臃肿，越到后期越发难以维护。把我们的逻辑放在不同阶段，分工明确，代码独立，后期发力可以有很多有意思的玩法。
 
 举一个例子，如果在最开始的开发中，使用的是http明文协议，后面需要修改为aes加密协议，利用不同的执行阶段，我们可以非常简单的实现：
+
 ```
 # 明文协议版本
 location /mixed {

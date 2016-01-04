@@ -3,6 +3,7 @@
 > 本章内容来自openresty讨论组 [这里](https://groups.google.com/forum/#!topic/openresty/3ylMdtvUJqg)
 
 先看两段代码：
+
 ```lua
 -- index.lua
 local uri_args = ngx.req.get_uri_args()
@@ -34,7 +35,8 @@ showJs(self.jsonp, valList)
 
 基于以上情况，个人判断会不会是在生产服务器大量用户请求中，不同请求参数串掉了，但是如果这样，是否应该会出现我本次的获取参数是某个其他用户的值，那么for循环中的值也应该固定的，而不会是一会儿是我自己请求中的参数值，一会儿是其他用户请求中的参数值。
 
-###问题在哪里？
+### 问题在哪里？
+
 Lua module 是 VM 级别共享的，见[这里](https://github.com/openresty/lua-nginx-module#data-sharing-within-an-nginx-worker)。
 
 self.jsonp变量一不留神全局共享了，而这肯定不是作者期望的。所以导致了高并发应用场景下偶尔出现异常错误的情况。
@@ -42,6 +44,7 @@ self.jsonp变量一不留神全局共享了，而这肯定不是作者期望的�
 每请求的数据在传递和存储时须特别小心，只应通过你自己的函数参数来传递，或者通过 ngx.ctx 表。前者是推荐的玩法，因为效率高得多。
 
 贴一个ngx.ctx的例子：
+
 ```lua
     location /test {
         rewrite_by_lua '
@@ -58,18 +61,24 @@ self.jsonp变量一不留神全局共享了，而这肯定不是作者期望的�
 
 Then GET /test will yield the output
 
-
 ### NGX_LUA的三种变量范围
+
 ##### 进程间
+
 所有Nginx的工作进程共享变量，使用指令lua_shared_dict定义
+
 ##### 进程内
+
 Lua源码中声明为全局变量，就是声明变量的时候不使用local关键字，这样的变量在同一个进程内的所有请求都是共享的
+
 ##### 每请求
+
 Lua源码中声明变量的时候使用local关键字，和ngx.ctx类似，变量的生命周期只存在同一个请求中
 
 关于进程的变量，有两个前提条件，一是ngx_lua使用LuaJIT编译，二是声明全局变量的模块是require引用。LuaJIT会缓存模块中的全局变量，下面用一个例子来说明这个问题。
 
 nginx.conf
+
 ```
 location /index {
     content_by_lua_file conf/lua/web/index.lua;
@@ -77,6 +86,7 @@ location /index {
 ```
 
 index.lua
+
 ```
 local ngx = require "ngx"
 local var = require "var"
