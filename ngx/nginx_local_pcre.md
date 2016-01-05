@@ -103,10 +103,10 @@ location / {
 
 2、下面是可以用作判断的全局变量
 
-    例：http://localhost:88/test1/test2/test.php
+    例：http://localhost:88/test1/test2/test.php?k=v
     $host：localhost
     $server_port：88
-    $request_uri：http://localhost:88/test1/test2/test.php
+    $request_uri：/test1/test2/test.php?k=v
     $document_uri：/test1/test2/test.php
     $document_root：D:\nginx/html
     $request_filename：D:\nginx/html/test1/test2/test.php
