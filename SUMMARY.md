@@ -101,6 +101,7 @@
     * [请求中断后的处理](ngx_lua/on_abort.md)
     * [我的lua代码需要调优么](ngx_lua/lua_opt.md)
     * [变量的共享范围](ngx_lua/lua-variable-scope.md)
+    * [modlue 是邪恶的](ngx/module_is_evil.md)
     * [动态限速](ngx_lua/lua-limit.md)
     * [shared.dict 非队列性质](ngx_lua/shared_get_keys.md)
     * [如何添加自己的lua api](ngx_lua/add_new_lua_api.md)
