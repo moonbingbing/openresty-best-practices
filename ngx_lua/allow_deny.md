@@ -46,7 +46,7 @@ if ($country == ZZ){
 }
 ```
 
-使用geo，让我们有更多的分之条件。注意：在Nginx的配置中，尽量少用或者不用if，因为"if is evil"。[点击查看](http://wiki.nginx.org/IfIsEvil)
+使用geo，让我们有更多的分支条件。注意：在Nginx的配置中，尽量少用或者不用if，因为"if is evil"。[点击查看](http://wiki.nginx.org/IfIsEvil)
 
 目前为止所有的控制，都是用Nginx模块完成，执行效率、配置明确是它的优点。缺点也比较明显，修改配置代价比较高（reload服务）。并且无法完成与第三方服务的对接功能交互（例如调用iptable）。
 

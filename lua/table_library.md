@@ -2,7 +2,26 @@
 
 table库是由一些辅助函数构成的，这些函数将table作为数组来操作。
 
-TODO 介绍 table 的 nil 空洞问题，以及 table 长度的不确定性。
+#### 下标从 1 开始
+
+在*Lua*中，数组下标从1开始计数。
+
+官方：Lua lists have a base index of 1 because it was thought to be most friendly for non-programmers, as it makes indices correspond to ordinal element positions.
+
+确实，对于我们数数来说，总是从 1 开始数的，而从 0 开始对于描述偏移量这样的东西有利。 而Lua 最初设计是一种类似 XML 的数据描述语言，所以索引（index）反应的是数据在里面的位置，而不是偏移量。
+
+在初始化一个数组的时候，若不显式地用键值对方式赋值，则会默认用数字作为下标，从 1 开始。由于在*Lua*内部实际采用哈希表和数组分别保存键值对、普通值，所以不推荐混合使用这两种赋值方式。
+
+```lua
+local color={first="red", "blue", third="green", "yellow"} 
+print(color["first"])                 --> output: red
+print(color[1])                       --> output: blue
+print(color["third"])                 --> output: green
+print(color[2])                       --> output: yellow
+print(color[3])                       --> output: nil
+```
+
+从其他语言过来的开发者会觉得比较坑的一点是，当我们把 table 当作栈或者队列使用的时候，容易犯错，追加到 table 的末尾用的是s[#s+1] = something，而不是s[#s] = something，而且如果这个 something 是一个nil的话，会导致这一次压栈（或者入队列）没有存入任何东西，#s 的值没有变。如果 s = { 1, 2, 3, 4, 5, 6 }，你令s[4] = nil，#s 会令你“匪夷所思”地变成 3。
 
 #### table.getn 获取长度
 

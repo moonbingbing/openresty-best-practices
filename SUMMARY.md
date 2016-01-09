@@ -29,7 +29,6 @@
 * [Lua高阶]
     * [元表](lua/metatable.md)
     * [面向对象编程](lua/object_oriented.md)
-    * [下标从1开始](lua/subscript.md)
     * [局部变量](lua/local.md)
     * [判断数组大小](lua/array_size.md)
     * [非空判断](lua/not_nill.md)

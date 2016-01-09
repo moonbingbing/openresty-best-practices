@@ -34,7 +34,7 @@ log_by_lua
 
 这样我们就可以根据我们的需要，在不同的阶段直接完成大部分典型处理了。
 
-* set_by_lua: 流程分之处理判断变量初始化
+* set_by_lua: 流程分支处理判断变量初始化
 * rewrite_by_lua: 转发、重定向、缓存等功能(例如特定请求代理到外网)
 * access_by_lua: IP准入、接口权限等情况集中处理(例如配合iptable完成简单防火墙)
 * content_by_lua: 内容生成
