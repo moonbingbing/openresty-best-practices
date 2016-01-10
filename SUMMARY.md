@@ -38,6 +38,7 @@
     * [函数在调用代码前定义](lua/function_before_use.md)
     * [抵制使用module()函数来定义Lua模块](lua/not_use_module.md)
     * [点号与冒号操作符的区别](lua/dot_diff.md)
+    * [module 是邪恶的]
     * [FFI](lua/FFI.md)
     * [控制结构for的使用](lua/for.md)
 * [Nginx](ngx/nginx.md)
@@ -100,7 +101,6 @@
     * [请求中断后的处理](ngx_lua/on_abort.md)
     * [我的lua代码需要调优么](ngx_lua/lua_opt.md)
     * [变量的共享范围](ngx_lua/lua-variable-scope.md)
-    * [module 是邪恶的](ngx/module_is_evil.md)
     * [动态限速](ngx_lua/lua-limit.md)
     * [shared.dict 非队列性质](ngx_lua/shared_get_keys.md)
     * [如何添加自己的lua api](ngx_lua/add_new_lua_api.md)
