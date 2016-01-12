@@ -103,7 +103,7 @@ nil
 nil
 ```
 
-对于 LuaJIT 这里有个性能优化点，对于 string.find 方法，当只有字符串查找匹配是，是可以被 JIT 编译器优化的，有关 JIT 可以编译优化清单，大家可以参考 [http://wiki.luajit.org/NYI](http://wiki.luajit.org/NYI) 。对于普通的字符串匹配，可以使用 JIT 技术优化，性能提升是非常明显的，通常是 100 倍量级。 这里有个的例子，大家可以参考 [https://groups.google.com/forum/m/#!topic/openresty-en/rwS88FGRsUI](https://groups.google.com/forum/m/#!topic/openresty-en/rwS88FGRsUI)。
+对于 LuaJIT 这里有个性能优化点，对于 string.find 方法，当只有字符串查找匹配时，是可以被 JIT 编译器优化的，有关 JIT 可以编译优化清单，大家可以参考 [http://wiki.luajit.org/NYI](http://wiki.luajit.org/NYI) 。对于普通的字符串匹配，可以使用 JIT 技术优化，性能提升是非常明显的，通常是 100 倍量级。 这里有个的例子，大家可以参考 [https://groups.google.com/forum/m/#!topic/openresty-en/rwS88FGRsUI](https://groups.google.com/forum/m/#!topic/openresty-en/rwS88FGRsUI)。
 
 #### string.format(formatstring, ···)
 
