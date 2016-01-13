@@ -2,7 +2,8 @@
 
 #### 源码包准备
 
-我们首先要在[官网](http://openresty.org/)下载OpenResty的源码包。官网上会提供很多的版本，各个版本有什么不同也会有说明，我们可以按需选择下载。笔者选择下载的源码包为ngx_openresty-1.9.3.1.tar.gz。
+我们首先要在[官网](http://openresty.org/)下载OpenResty的源码包。官网上会提供很多的版本，各个版本有什么不同也会有说明，我们可以按需选择下载。
+笔者选择下载的源码包为ngx_openresty-1.9.7.1.tar.gz。
 
 #### 相关依赖包的安装
 
@@ -28,15 +29,15 @@ make && make install
 
 ####（1）将软件包拷贝到Ubuntu系统中
 
-首先通过WinScp或者XFTP等文件传输工具将之前下载的OpenResty包传输到你的Ubuntu系统上，如果你的Ubuntu系统可以直接联网的话，你也可以通过```wget https://openresty.org/download/ngx_openresty-1.9.3.1.tar.gz```命令直接从官网下载OpenResty到当前目录。
+首先通过WinScp或者XFTP等文件传输工具将之前下载的OpenResty包传输到你的Ubuntu系统上，如果你的Ubuntu系统可以直接联网的话，你也可以通过```wget https://openresty.org/download/ngx_openresty-1.9.7.1.tar.gz```命令直接从官网下载OpenResty到当前目录。
 
 ####（2）解压openresty软件包
 
 ```
-tar xzvf ngx_openresty-1.9.3.1.tar.gz
+tar xzvf ngx_openresty-1.9.7.1.tar.gz
 ```
 
-一般来说这个命令不会出错，解压之后你会得到一个名为ngx_openresty-1.9.3.1的文件夹，如果解压出错，请尝试重新下载OpenResty。
+一般来说这个命令不会出错，解压之后你会得到一个名为ngx_openresty-1.9.7.1的文件夹，如果解压出错，请尝试重新下载OpenResty。
 
 ####（3）配置安装目录及需要激活的组件
 
@@ -44,10 +45,10 @@ tar xzvf ngx_openresty-1.9.3.1.tar.gz
 1）OpenResty安装目录： --prefix，不指定则默认为/usr/local/openresty  
 2）激活某些组件： with-xxxx  
 3）禁用某些组件： without-xxxx  
-OpenResty是在Nginx的基础之上，集成了大量优秀的第三方模块形成的，在OpenResty中，大多数的组件都是默认激活的，只有少数几个组件需要手动指定激活，可以通过下述选项激活这几个组件： 
-  
+OpenResty是在Nginx的基础之上，集成了大量优秀的第三方模块形成的，在OpenResty中，大多数的组件都是默认激活的，只有少数几个组件需要手动指定激活，可以通过下述选项激活这几个组件：
+
 ```
---with-lua51 
+--with-lua51
 --with-http_drizzle_module
 --with-http_postgres_module
 --with-http_iconv_module
@@ -56,7 +57,7 @@ OpenResty是在Nginx的基础之上，集成了大量优秀的第三方模块形
 一个完整的配置命令如下：
 
 ```
-./configure --prefix=/opt/openresty\ 
+./configure --prefix=/opt/openresty\
 	        --without-http_redis2_module \
 	        --with-http_postgres_module
 ```
@@ -139,4 +140,3 @@ nginx -s reload
 ```
 
 接下来，我们就可以进入到后面的章节[HelloWorld](helloworld.md)学习。
-
