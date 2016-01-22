@@ -64,7 +64,7 @@ http {
 
 ```lua
 ngx.STDERR     -- 标准输出 
-ngx.EMERG      -- 合并
+ngx.EMERG      -- 紧急报错
 ngx.ALERT      -- 报警
 ngx.CRIT       -- 严重，系统故障，触发运维告警系统
 ngx.ERR        -- 错误，业务不可恢复性错误
