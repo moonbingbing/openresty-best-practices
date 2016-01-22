@@ -26,6 +26,8 @@ server {
                     ngx.say("failed to auth: ", err)
                     return
                 end
+            elseif err then
+                ngx.say("failed to get reused times: ", err)
             end
 
             ok, err = red:set("dog", "an animal")
@@ -36,7 +38,7 @@ server {
 
             ngx.say("set result: ", ok)
 
-            -- 连接池大小是100个，并且设置最大的控制时间是 10 秒
+            -- 连接池大小是100个，并且设置最大的空闲时间是 10 秒
             local ok, err = red:set_keepalive(10000, 100)
             if not ok then
                 ngx.say("failed to set keepalive: ", err)
