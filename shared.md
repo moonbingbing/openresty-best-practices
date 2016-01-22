@@ -2,7 +2,7 @@
 
 ngx.shared.DICT是基于红黑树结构和LRU算法的kv存储，不支持数据持久化，提供有限的数据类型的支持。
 
-适用范围：cache，会话间同步数据；  
+适用范围：cache，请求间同步数据；  
 不适用：数据持久化，日志记录，大容量数据，队列性质的暂存；
 
 OpenResty中[lua-resty-lock](https://github.com/openresty/lua-resty-lock)组件也是基于shared.DICT实现的
