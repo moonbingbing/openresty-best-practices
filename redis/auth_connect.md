@@ -1,15 +1,11 @@
 # 访问有授权验证的 Redis
 
-对于有授权验证的 redis ，正确的访问方法，请参考下面的例子：
+对于有授权验证的 redis ，正确的认证方法，请参考下面例子：
 
 ```nginx
-# you do not need the following line if you are using
-# the ngx_openresty bundle:
-lua_package_path "/path/to/lua-resty-redis/lib/?.lua;;";
-
 server {
     location /test {
-        content_by_lua {
+        content_by_lua_block {
             local redis = require "resty.redis"
             local red = redis:new()
 
@@ -21,7 +17,7 @@ server {
                 return
             end
 
-            -- 请注意这里 auth 的调用
+            -- 请注意这里 auth 的调用过程
             local count
             count, err = red:get_reused_times()
             if 0 == count then
