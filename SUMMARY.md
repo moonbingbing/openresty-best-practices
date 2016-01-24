@@ -38,7 +38,7 @@
     * [函数在调用代码前定义](lua/function_before_use.md)
     * [抵制使用 module() 函数来定义 Lua 模块](lua/not_use_module.md)
     * [点号与冒号操作符的区别](lua/dot_diff.md)
-    * [module 是邪恶的]
+    * [module 是邪恶的](lua/module_is_evil.md)
     * [FFI](lua/FFI.md)
     * [控制结构for的使用](lua/for.md)
 * [Nginx](ngx/nginx.md)
