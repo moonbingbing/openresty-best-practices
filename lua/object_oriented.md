@@ -25,8 +25,7 @@ end
 
 function _M.new (self, balance) 
 	balance = balance or 0
-	setmetatable({balance = balance}, mt)
-	return o
+	return setmetatable({balance = balance}, mt)
 end
 
 return _M
@@ -49,29 +48,7 @@ print(b.balance)  -->50
 
 #### 继承
 
-继承可以用元表实现，它提供了在父类中查找存在的方法和变量的机制。
-
-```Lua
---定义继承
---定义继承
-SpecialAccount = Account:new({limit = 1000}) --开启一个特殊账户类型，这个类型的账户可以取款超过余额限制1000元
-function SpecialAccount:withdraw (v)
-	if v - self.balance >= self:getLimit() then
-		error("insufficient funds")
-	end
-	self.balance = self.balance - v
-end
-
-function SpecialAccount:getLimit ()
-	return self.limit or 0
-end
-
-spacc = SpecialAccount:new()
-spacc:withdraw(100)
-print(spacc.balance)  --> -100
-acc = Account:new()
-acc:withdraw(100)     --> 超出账户余额限制，抛出一个错误
-```
+继承可以用元表实现，它提供了在父类中查找存在的方法和变量的机制。在 Lua 中是不推荐使用继承方式完成构造的，这样做引入的问题可能比解决的问题要多，所以我们也就不再举例。
 
 #### 成员私有性
 
