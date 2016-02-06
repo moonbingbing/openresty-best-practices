@@ -112,6 +112,15 @@
     * [使用动态 DNS 来完成 HTTP 请求](dns/use_dynamic_dns.md)
 * [LuaRestyLock](lock.md)
     * [缓存失效风暴](lock/cache-miss-storm.md)
+* [stream_lua_module]
+    * [TCP 代理负载]
+    * [基本用法]
+    * [故障细节]
+* [balancer_by_lua]
+    * [自定义 upstream 选举]
+* [OpenSSL 与 OpenResty]
+    * [什么是 HTTPS]
+    * [懒惰动态加载证书]
 * [测试](test.md)
     * [单元测试](test/unittest.md)
     * [API 测试](test/apitest.md)
