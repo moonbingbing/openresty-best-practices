@@ -108,6 +108,7 @@
     * [如何引用第三方 resty 库](ngx_lua/how_use_third_lib.md)
     * [body 在 location 中的传递](ngx_lua/capture.md)
     * [典型应用场景](ngx_lua/use_case.md)
+    * [Nginx 状态查看器]
 * [LuaRestyDNSLibrary](dns/main.md)
     * [使用动态 DNS 来完成 HTTP 请求](dns/use_dynamic_dns.md)
 * [LuaRestyLock](lock.md)
