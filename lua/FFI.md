@@ -114,25 +114,10 @@ print(#b)        --> 12.5
 ```
 
 
->附表：Lua 与 C语言语法对应关系
+>附表：Lua 与 C 语言语法对应关系
 
-| Idiom |	C code | Lua code |
-| :--: | :--: | :--: |
-| Pointer dereference |  x = *p;  |  x = p[0] |
-| int *p;	| *p = y; |  p[0] = y |
-| Pointer indexing |   x = p[i];  |	x = p[i] |
-| int i, *p;	  | p[i+1] = y; | p[i+1] = y |
-| Array indexing | x = a[i];  | 	x = a[i] |
-| int i, a[]; | a[i+1] = y; | a[i+1] = y |
-| struct/union dereference |  x = s.field;  | 	x = s.field |
-| struct foo s; | s.field = y; |  s.field = y |
-| struct/union pointer deref. | x = sp->field; | x = s.field |
-| struct foo *sp; | sp->field = y; | s.field = y |
-| int i, *p; | y = p - i;  | y = p - i |
-| Pointer difference |    x = p1 - p2; |  x = p1 - p2 |
-| Array element pointer | x = &a[i]; |  x = a+i |
+![Lua 与 C 语言语法对应关系](images/ffi.png)
 
 #### 内存问题
 
 todo：介绍 FFI 就必须从必要的 C 基础，包括内存管理的细节，说起，同时也须介绍包括 Valgrind 在内的内存问题调试工具的细节（by agentzh），后面重点补充。
-
