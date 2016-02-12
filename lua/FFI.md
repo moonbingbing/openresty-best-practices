@@ -116,7 +116,7 @@ print(#b)        --> 12.5
 
 >附表：Lua 与 C 语言语法对应关系
 
-![Lua 与 C 语言语法对应关系](images/ffi.png)
+![Lua 与 C 语言语法对应关系](../images/ffi.png)
 
 #### 内存问题
 
