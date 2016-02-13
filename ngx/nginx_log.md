@@ -29,24 +29,9 @@ access_log logs/access.log  myformat;
 
 定义日志使用的字段及其作用：
 
-|字段|作用|
-|:----|:----|
-|$remote_addr与$http_x_forwarded_for | 记录客户端IP地址 |
-|$remote_user| 记录客户端用户名称 |
-|$request| 记录请求的URI和HTTP协议 |
-|$status | 记录请求状态 |
-|$body_bytes_sent | 发送给客户端的字节数，不包括响应头的大小 |
-|$bytes_sent| 发送给客户端的总字节数 |
-|$connection | 连接的序列号 |
-|$connection_requests | 当前通过一个连接获得的请求数量 |
-|$msec | 日志写入时间。单位为秒，精度是毫秒 |
-|$pipe | 如果请求是通过HTTP流水线(pipelined)发送，pipe值为“p”，否则为“.” |
-|$http_referer | 记录从哪个页面链接访问过来的 |
-|$http_user_agent | 记录客户端浏览器相关信息 |
-|$request_length | 请求的长度（包括请求行，请求头和请求正文）|
-|$request_time | 请求处理时间，单位为秒，精度毫秒 |
-|$time_iso8601 | ISO8601标准格式下的本地时间 |
-|$time_local | 记录访问时间与时区 |
+![日志](../images/log_1.png)
+![日志](../images/log_2.png)
+
 
 ## error_log(错误日志)
 

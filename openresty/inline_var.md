@@ -36,7 +36,7 @@
 |$request_completion        |如果请求成功，设为"OK"；如果请求未完成或者不是一系列请求中最后一部分则设为空|
 |$request_filename          |当前请求的文件路径名，比如/opt/nginx/www/test.php|
 |$request_method            |请求的方法，比如"GET"、"POST"等|
-|$request_uri               |请求的URI，带参数; 比如http://localhost:88/test1/|test2/test.php|
+|$request_uri               |请求的URI，带参数|
 |$scheme                    |所用的协议，比如http或者是https|
 |$server_addr               |服务器地址，如果没有用listen指明服务器地址，使用这个变量将发起一次系统调用以取得地址(造成资源浪费)|
 |$server_name                |请求到达的服务器名|
