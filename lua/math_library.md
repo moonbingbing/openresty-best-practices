@@ -1,30 +1,9 @@
 #数学库
 Lua数学库由一组标准的数学函数构成。数学库的引入丰富了Lua编程语言的功能，同时也方便了程序的编写。常用数学函数见下表：
 
-|函数名|函数功能|
-|:----|:------|
-|math.rad(x)|角度x转换成弧度|
-|math.deg(x)|弧度x转换成角度|
-|math.max(x, ...)| 返回参数中值最大的那个数，参数必须是number型|
-|math.min(x, ...) |返回参数中值最小的那个数，参数必须是number型|
-|math.random ([m [, n]])|不传入参数时，返回 一个在区间[0,1)内均匀分布的伪随机实数；只使用一个整数参数m时，返回一个在区间[1, m]内均匀分布的伪随机整数；使用两个整数参数时，返回一个在区间[m, n]内均匀分布的伪随机整数|
-|math.randomseed (x)|为伪随机数生成器设置一个种子x，相同的种子将会生成相同的数字序列|
-|math.abs(x)|返回x的绝对值|
-|math.fmod(x, y)|返回 x对y取余数|
-|math.pow(x, y)|返回x的y次方|
-|math.sqrt(x)|返回x的算术平方根|
-|math.exp(x)| 返回自然数e的x次方|
-|math.log(x)| 返回x的自然对数|
-|math.log10(x)|返回以10为底，x的对数|
-|math.floor(x)|返回最大且不大于x的整数|
-|math.ceil(x)|返回最小且不小于x的整数|
-|math.pi |圆周率|
-|math.sin(x)|求弧度x的正弦值|
-|math.cos(x)|求弧度x的余弦值|
-|math.tan(x)|求弧度x的正切值|
-|math.asin(x)|求x的反正弦值|
-|math.acos(x)|求x的反余弦值|
-|math.atan(x)|求x的反正切值|
+![数学函数表1](../images/math_1.png)
+![数学函数表2](../images/math_2.png)
+
 
 >示例代码：
 
