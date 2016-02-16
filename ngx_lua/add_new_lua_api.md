@@ -29,15 +29,17 @@ $ make
 > 修改自己的源码文件 
 
 ```
-# ngx_lua-0.9.15/src/ngx_http_lua_config.c
+# vi build/ngx_lua-0.9.15/src/ngx_http_lua_config.c
 ```
 
 > 编译变化文件
 
 ```sh
-$ rm ./nginx-1.7.10/objs/addon/src/ngx_http_lua_config.o
+$ rm build/nginx-1.7.10/objs/addon/src/ngx_http_lua_config.o
 $ make
 ```
+
+`注意这里仅仅是修改了build目录下的文件，make clean后会失效，真实开发请修改bundle目录下的文件`
 
 # 搭建测试模块
 > 安装perl cpan [点击查看](http://www.cnblogs.com/itech/archive/2009/08/10/1542832.html)
