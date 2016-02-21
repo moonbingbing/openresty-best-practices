@@ -20,7 +20,7 @@ server {
 }
 ```
 
-本章节内容好少，只是想通过一个真实的例子，来提醒大家，做OpenResty开发，[ngx-lua的文档](http://wiki.nginx.org/HttpLuaModule)是你的首选，Lua语言的库都是同步阻塞的，用的时候要三思。
+本章节内容好少，只是想通过一个真实的例子，来提醒大家，做OpenResty开发，[ngx-lua 的文档](https://github.com/openresty/lua-nginx-module)是你的首选，Lua语言的库都是同步阻塞的，用的时候要三思。
 
 再来一个例子来说明阻塞API的调用对nginx并发性能的影响
 ```

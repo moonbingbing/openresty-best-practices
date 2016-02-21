@@ -10,9 +10,9 @@
 
 ### OpenResty的缓存
 
-我们介绍下在OpenResty里面，有哪些缓存的方法。
+我们介绍下在 OpenResty 里面，有哪些缓存的方法。
 
-#### 使用[Lua shared dict](http://wiki.nginx.org/HttpLuaModule#ngx.shared.DICT)
+#### 使用 [Lua shared dict](https://github.com/openresty/lua-nginx-module#ngxshareddict)
 
 我们看下面这段代码：
 

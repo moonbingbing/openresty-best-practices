@@ -87,7 +87,7 @@ A =   365
 
 无论是做基础模块或是上层应用，肯定都不愿意存在这类灰色情况存在，因为他对我们系统的存在，带来很多不确定性，生产中我们是要尽力避免这种情况的出现。
 
-Lua 上下文中应当严格避免使用自己定义的全局变量。可以使用一个 lua-releng 工具来扫描 Lua 代码，定位使用 Lua 全局变量的地方。lua-releng 的相关链接：[http://wiki.nginx.org/HttpLuaModule#Lua_Variable_Scope](http://wiki.nginx.org/HttpLuaModule#Lua_Variable_Scope)
+Lua 上下文中应当严格避免使用自己定义的全局变量。可以使用一个 lua-releng 工具来扫描 Lua 代码，定位使用 Lua 全局变量的地方。lua-releng 的相关链接：[https://github.com/openresty/lua-nginx-module#lua-variable-scope](https://github.com/openresty/lua-nginx-module#lua-variable-scope)
 
 把 lua-releng 文件所在的目录的绝对路径添加进 PATH 环境变量。然后进入你自己的 Lua 文件所在的工作目录，得到如下结果：
 

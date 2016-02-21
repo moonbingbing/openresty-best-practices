@@ -120,4 +120,4 @@ function _M.log(msg)
     }
 ```
 
-更多有关ngx.ctx信息，请看[这里](http://wiki.nginx.org/HttpLuaModuleZh#ngx.ctx)。
+更多有关ngx.ctx信息，请看[这里](https://github.com/openresty/lua-nginx-module#ngxctx)。

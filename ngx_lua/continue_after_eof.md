@@ -15,7 +15,7 @@ if user_stat then
    local ret = db_redis.update_user_data(user_stat)
 end
 ```
-没错，最关键的一行代码就是[ngx.eof()](http://wiki.nginx.org/HttpLuaModule#ngx.eof)， 它可以即时关闭连接，把数据返回给终端，后面的数据库操作还会运行。比如上面代码中的
+没错，最关键的一行代码就是[ngx.eof()](https://github.com/openresty/lua-nginx-module#ngxeof)， 它可以即时关闭连接，把数据返回给终端，后面的数据库操作还会运行。比如上面代码中的
 ```lua
 local response, user_stat = logic_func.get_response(request)
 ```
