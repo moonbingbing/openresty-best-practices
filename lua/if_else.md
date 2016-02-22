@@ -1,6 +1,6 @@
-# 控制结构：if-else
+# 控制结构 if-else
 
-if-else是我们熟知的一种控制结构。Lua 跟其他语言一样，提供了if-else的控制结构。因为是大家熟悉的语法，本节只简单介绍一下它的使用方法。
+if-else 是我们熟知的一种控制结构。Lua 跟其他语言一样，提供了if-else 的控制结构。因为是大家熟悉的语法，本节只简单介绍一下它的使用方法。
 
 #### 单个 if 分支 型
 
@@ -11,9 +11,9 @@ if x > 0 then
 end
 ```
 
->运行输出：x is a positive number
+> 运行输出：x is a positive number
 
-#### 两个分支： if-else 型
+#### 两个分支 if-else 型
 
 ```lua
 x = 10
@@ -24,9 +24,9 @@ else
 end
 ```
 
->运行输出：x is a positive number
+> 运行输出：x is a positive number
 
-#### 多个分支： if-elseif-else型
+#### 多个分支 if-elseif-else 型
 
 ```lua
 score = 90
@@ -40,9 +40,9 @@ else
 end
 ```
 
->运行输出：Congratulations, you have passed it,your score greater or equal to 60
+> 运行输出：Congratulations, you have passed it,your score greater or equal to 60
 
-与C语言的不同之处是elseif是连在一起的，若不else与if写成"else if"则相当于在else 里嵌套,如下代码：
+与 C 语言的不同之处是 elseif 是连在一起的，若不 else 与 if 写成 "else if" 则相当于在 else 里嵌套,如下代码：
 
 ```lua
 score = 0
@@ -51,7 +51,7 @@ if score == 100 then
 elseif score >= 60 then
     print("Congratulations, you have passed it,your score greater or equal to 60")
 else
-    if score > 0 then  
+    if score > 0 then
         print("Your score is better than 0")
     else
         print("My God, your score turned out to be 0")
@@ -59,4 +59,4 @@ else
 end
 ```
 
->运行输出：My God, your score turned out to be 0
+> 运行输出：My God, your score turned out to be 0
