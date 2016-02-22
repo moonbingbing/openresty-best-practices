@@ -2,7 +2,7 @@
 
 * [序](README.md)
 * [入门篇](README.md)
-    * [WEB 发展](base/web_evolution.md)
+    * [Socket 编程发展](base/web_evolution.md)
     * [OpenResty 简介](base/intro.md)
 * [Lua 入门](lua/main.md)
     * [Lua简介](lua/brief.md)
