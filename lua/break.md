@@ -1,4 +1,5 @@
-# break,return 关键字
+# break，return 关键字
+
 #### break
 语句 `break` 用来终止 `while`、`repeat` 和 `for` 三种循环的执行，并跳出当前循环体，
 继续执行当前循环之后的语句。下面举一个 `while` 循环中的 `break` 的例子来说明：
@@ -29,7 +30,7 @@ print("The result is " .. i)  -->output:The result is 14
 ```lua
 local function add(x, y)
     return x + y
-    --print("add: I will return the result " .. (x + y)) 
+    --print("add: I will return the result " .. (x + y))
     --因为前面有个return，若不注释该语句，则会报错
 end
 
