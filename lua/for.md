@@ -1,16 +1,16 @@
-# 控制结构：for
+# for 控制结构
 
-Lua 提供了一组传统的、小巧的控制结构，包括用于条件判断的 if、用于迭代的 while、repeat 和 for。本章节主要介绍 for 的使用。
+Lua 提供了一组传统的、小巧的控制结构，包括用于条件判断的 if 用于迭代的 while、repeat 和 for，本章节主要介绍 for 的使用。
 
-#### 数字型 for
+#### for 数字型
 
 for 语句有两种形式：数字 for（numeric for）和范型 for（generic for）。
 
-> 数字型for的语法如下：
+> 数字型 for 的语法如下：
 
 ```lua
 for var = begin, finish, step do
---body
+    --body
 end
 ```
 
@@ -68,7 +68,7 @@ for i = 1, math.huge do
 end
 ```
 
-#### 泛型 for
+#### for 泛型
 
 泛型 for 循环通过一个迭代器（iterator）函数来遍历所有值：
 
@@ -93,7 +93,7 @@ Lua 的基础库提供了 ipairs，这是一个用于遍历数组的迭代器函
 ```lua
 -- 打印table t中所有的key
 for k in pairs(t) do
-  print(k)
+    print(k)
 end
 ```
 
@@ -109,12 +109,13 @@ end
 
 ```lua
 local days = {
-  "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+  "Sunday", "Monday", "Tuesday", "Wednesday",
+  "Thursday", "Friday", "Saturday"
 }
 ```
 
 现在要将一个名称转换成它在一周中的位置。为此，需要根据给定的名称来搜索这个 table。然而
-在Lua中，通常更有效的方法是创建一个“逆向table”。例如这个逆向 table 叫 revDays，它以
+在 Lua 中，通常更有效的方法是创建一个“逆向 table”。例如这个逆向 table 叫 revDays，它以
 一周中每天的名称作为索引，位置数字作为值：
 
 ```lua
@@ -129,18 +130,19 @@ local days = {
   }
 ```
 
-接下来，要找出一个名称所对应的需要，只需用名字来索引这个reverse table即可：
+接下来，要找出一个名称所对应的需要，只需用名字来索引这个 reverse table 即可：
 
 ```lua
 local x = "Tuesday"
 print(revDays[x])  -->3
 ```
 
-当然，不必手动声明这个逆向table，而是通过原来的table自动地构造出这个逆向table：
+当然，不必手动声明这个逆向 table，而是通过原来的 table 自动地构造出这个逆向table：
 
 ```lua
 local days = {
-   "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Sunday"
+   "Monday", "Tuesday", "Wednesday", "Thursday",
+   "Friday", "Saturday","Sunday"
 }
 
 local revDays = {}
@@ -165,7 +167,5 @@ k:  Saturday  v: 6
 
 这个循环会为每个元素进行赋值，其中变量 k 为 key(1、2、...)，变量 v 为 value("Sunday"、"Monday"、...)。
 
-值得一提是，在 LuaJIT 2.1 中，`ipairs()` 内建函数是可以被 JIT 编译的，而 `pairs()` 
-则只能被解释执行。因此在性能敏感的场景，应当合理安排数据结构，避免对哈希表进行遍历。
-（事实上，即使未来 `pairs` 可以被 JIT 编译，哈希表的遍历本身也不会有数组遍历那么高效，毕竟哈希表
-就不是为遍历而设计的数据结构。）
+值得一提是，在 LuaJIT 2.1 中，`ipairs()` 内建函数是可以被 JIT 编译的，而 `pairs()` 则只能被解释执行。因此在性能敏感的场景，应当合理安排数据结构，避免对哈希表进行遍历。事实上，即使未来 `pairs` 可以被 JIT 编译，哈希表的遍历本身也不会有数组遍历那么高效，毕竟哈希表就不是为遍历而设计的数据结构。
+
