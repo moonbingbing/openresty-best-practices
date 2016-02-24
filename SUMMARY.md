@@ -18,7 +18,7 @@
     * [Lua函数](lua/function_descrip.md)
         * [函数的定义](lua/function_define.md)
         * [函数的参数](lua/function_parameter.md)
-        * [函数的返回值](lua/function_result.md)
+        * [函数返回值](lua/function_result.md)
         * [全动态函数调用](lua/call_user_func_array.md)
     * [模块](lua/module.md)
     * [String 库](lua/string_library.md)
