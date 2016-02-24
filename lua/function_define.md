@@ -67,15 +67,15 @@ no parameter
 由于函数定义等价于变量赋值，我们也可以把函数名替换为某个 Lua 表的某个字段，例如
 
 ```lua
-function Foo.bar(a, b, c)
+function foo.bar(a, b, c)
     -- body ...
 end
 ```
 
-此时我们是把一个函数类型的值赋给了 `Foo` 表的 `bar` 字段。换言之，上面的定义等价于
+此时我们是把一个函数类型的值赋给了 `foo` 表的 `bar` 字段。换言之，上面的定义等价于
 
 ```lua
-Foo.bar = function (a, b, c)
+foo.bar = function (a, b, c)
     print(a, b, c)
 end
 ```
