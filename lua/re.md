@@ -6,8 +6,7 @@
 
 `ngx.re.*` 中的 `o` 选项，指明该参数，被编译的 Pattern 将会在工作进程中缓存，并且被当前工作进程的每次请求所共享。Pattern 缓存的上限值通过 `lua_regex_cache_max_entries` 来修改。
 
-```
-# nginx.conf
+```nginx
 location /test {
     content_by_lua_block {
         local regex = [[\\d+]]
@@ -63,7 +62,9 @@ print(b) --> Lua is great
 '%b' 用来匹配对称的字符，而且采用贪婪匹配。常写为 '%bxy' ，x 和 y 是任意两个不同的字符；x 作为
 匹配的开始，y 作为匹配的结束。比如，'%b()' 匹配以 '(' 开始，以 ')' 结束的字符串：
 
-```lua
---> a line
-print(string.gsub("a (enclosed (in) parentheses) line", "%b()", ""))
+```shell
+➜ lua
+Lua 5.1.5  Copyright (C) 1994-2012 Lua.org, PUC-Rio
+> print(string.gsub("a (enclosed (in) parentheses) line", "%b()", ""))
+a  line 1
 ```
