@@ -1,30 +1,54 @@
 # 判断数组大小
 
-### Lua数组需要注意的细节
+table.getn(t) 等价于 #t 但计算的是数组元素，不包括 hash 键值。而且数组是以第一个 nil 元素来判断数组结束。 `#` 只计算 array 的元素个数，它实际上调用了对象的 metatable 的`__len`函数。对于有 `__len` 方法的函数返回函数返回值，不然就返回数组成员数目。
 
-Lua中，数组的实现方式其实类似于C++中的map，对于数组中所有的值，都是以键值对的形式来存储（无论是显式还是隐式）， *Lua* 内部实际采用哈希表和数组分别保存键值对、普通值，所以不推荐混合使用这两种赋值方式。尤其需要注意的一点是：Lua数组中允许nil值的存在，但是数组默认结束标志却是nil。这类比于C语言中的字符串，字符串中允许'\0'存在，但当读到'\0'时，就认为字符串已经结束了。
+### Lua 数组需要注意的细节
 
+Lua 中，数组的实现方式其实类似于 C++ 中的 map，对于数组中所有的值，都是以键值对的形式来存储（无论是显式还是隐式）， *Lua* 内部实际采用哈希表和数组分别保存键值对、普通值，所以不推荐混合使用这两种赋值方式。尤其需要注意的一点是：Lua数组中允许 nil 值的存在，但是数组默认结束标志却是 nil。这类比于 C 语言中的字符串，字符串中允许 '\0' 存在，但当读到 '\0' 时，就认为字符串已经结束了。
 
-初始化是例外，在Lua相关源码中，初始化数组时首先判断数组的长度，若长度大于0，并且最后一个值不为nil，返回包括nil的长度；若最后一个值为nil，则返回截至第一个非nil值的长度。
+初始化是例外，在 Lua 相关源码中，初始化数组时首先判断数组的长度，若长度大于 0，并且最后一个值不为 nil，返回包括 nil 的长度；若最后一个值为 nil，则返回截至第一个非 nil 值的长度。
 
-
-注意！！一定不要使用#操作符来计算包含nil的数组长度，这是一个未定义的操作，不一定报错，但不能保证结果如你所想。如果你要删除一个数组中的元素，请使用remove函数，而不是用nil赋值。
-
+注意：一定不要使用`#`操作符来计算包含 nil 的数组长度，这是一个未定义的操作，不一定报错，但不能保证结果如你所想。如果你要删除一个数组中的元素，请使用 remove 函数，而不是用 nil 赋值。
 
 ```lua
-local arr1 = {1, 2, 3, [5]=5}
-print(#arr1)               -- output: 3
+-- test.lua
+local tblTest1 = { 1, a = 2, 3 }
+print("Test1 " .. #(tblTest1))
 
-local arr2 = {1, 2, 3, nil, nil}
-print(#arr2)               -- output: 3
+local tblTest2 = { 1, nil }
+print("Test2 " .. #(tblTest2))
 
-local arr3 = {1, nil, 2}
-arr3[5] = 5
-print(#arr3)               -- output: 1
+local tblTest3 = { 1, nil, 2 }
+print("Test3 " .. #(tblTest3))
 
-local arr4 = {1,[3]=2}
-arr4[4] = 4
-print(#arr4)               -- output: 4
+local tblTest4 = { 1, nil, 2, nil }
+print("Test4 " .. #(tblTest4))
+
+local tblTest5 = { 1, nil, 2, nil, 3, nil }
+print("Test5 " .. #(tblTest5))
+
+local tblTest6 = { 1, nil, 2, nil, 3, nil, 4, nil }
+print("Test6 " .. #(tblTest6))
 ```
 
-按照我们上面的分析，应该为1，但这里却是4，所以一定不要使用#操作符来计算包含nil的数组长度。
+我们分别使用 Lua 和 LuaJIT 来执行一下：
+
+```bash
+➜ luajit test.lua
+Test1 2
+Test2 1
+Test3 1
+Test4 1
+Test5 1
+Test6 1
+
+➜ lua test.lua
+Test1 2
+Test2 1
+Test3 3
+Test4 1
+Test5 3
+Test6 1
+```
+
+这一段的输出结果，就是这么 **匪夷所思**。不要在 lua 的 table 中使用 nil 值，**如果一个元素要删除，直接 remove，不要用 nil 去代替**。
