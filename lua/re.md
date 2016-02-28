@@ -62,9 +62,8 @@ print(b) --> Lua is great
 '%b' 用来匹配对称的字符，而且采用贪婪匹配。常写为 '%bxy' ，x 和 y 是任意两个不同的字符；x 作为
 匹配的开始，y 作为匹配的结束。比如，'%b()' 匹配以 '(' 开始，以 ')' 结束的字符串：
 
-```shell
-➜ lua
-Lua 5.1.5  Copyright (C) 1994-2012 Lua.org, PUC-Rio
-> print(string.gsub("a (enclosed (in) parentheses) line", "%b()", ""))
-a  line 1
+```lua
+print(string.gsub("a (enclosed (in) parentheses) line", "%b()", ""))
+
+-- output: a  line 1
 ```
