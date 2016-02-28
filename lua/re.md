@@ -9,7 +9,7 @@
 ```nginx
 location /test {
     content_by_lua_block {
-        local regex = [[\\d+]]
+        local regex = [[\d+]]
 
         -- 参数 "o" 是开启缓存必须的
         local m = ngx.re.match("hello, 1234", regex, "o")
@@ -20,7 +20,13 @@ location /test {
         end
     }
 }
-# 在网址中输入"yourURL/test"，即会在网页中显示1234。
+```
+
+测试结果如下：
+
+```shell
+➜  ~ curl 127.0.0.1/test
+1234
 ```
 
 #### Lua 正则简单汇总
