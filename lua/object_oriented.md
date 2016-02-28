@@ -1,21 +1,21 @@
-# Lua面向对象编程
+# Lua 面向对象编程
 
 #### 类
 
 在 Lua 中，我们可以使用表和函数实现面向对象。将函数和相关的数据放置于同一个表中就形成了一个对象。
 
-请看文件名为 `account.lua` 的源码，这是账户：
+请看文件名为 `account.lua` 的源码：
 
 ```Lua
 local _M = {}
 
 local mt = { __index = _M }
 
-function _M.deposit (self, v)  
+function _M.deposit (self, v)
 	self.balance = self.balance + v
 end
 
-function _M.withdraw (self, v) 
+function _M.withdraw (self, v)
 	if self.balance > v then
 		self.balance = self.balance - v
 	else
@@ -23,13 +23,15 @@ function _M.withdraw (self, v)
 	end
 end
 
-function _M.new (self, balance) 
+function _M.new (self, balance)
 	balance = balance or 0
 	return setmetatable({balance = balance}, mt)
 end
 
 return _M
 ```
+
+> 引用代码示例：
 
 ```
 local account = require("account")
@@ -40,15 +42,49 @@ a:deposit(100)
 local b = account:new()
 b:deposit(50)
 
-print(a.balance)  -->100
-print(b.balance)  -->50
+print(a.balance)  --> output: 100
+print(b.balance)  --> output: 50
 ```
 
-上面这段代码 "setmetatable({balance = balance}, mt)"， 其中 mt 代表 `{ __index = _M }` ，这句话值得注意。根据我们在元表这一章学到的知识，我们明白，setmetatable 将 _M 作为新建表的原型，所以在自己的表内找不到 'deposit'、'withdraw' 这些方法和变量的时候，便会到 \_\_index 所指定的 _M 类型中去寻找。
+上面这段代码 "setmetatable({balance = balance}, mt)"， 其中 mt 代表 `{ __index = _M }` ，这句话值得注意。根据我们在元表这一章学到的知识，我们明白，setmetatable 将 `_M` 作为新建表的原型，所以在自己的表内找不到 'deposit'、'withdraw' 这些方法和变量的时候，便会到 \_\_index 所指定的 _M 类型中去寻找。
 
 #### 继承
 
-继承可以用元表实现，它提供了在父类中查找存在的方法和变量的机制。在 Lua 中是不推荐使用继承方式完成构造的，这样做引入的问题可能比解决的问题要多，所以我们也就不再举例。
+继承可以用元表实现，它提供了在父类中查找存在的方法和变量的机制。在 Lua 中是不推荐使用继承方式完成构造的，这样做引入的问题可能比解决的问题要多，下面一个是字符串操作类库，给大家演示一下。
+
+```lua
+---------- s_base.lua
+local _M = {}
+
+local mt = { __index = _M }
+
+function _M.upper (s)
+	return string.upper(s)
+end
+
+return _M
+
+---------- s_more.lua
+local s_base = require("s_base")
+
+local _M = {}
+_M = setmetatable(_M, { __index = s_base })
+
+
+function _M.lower (s)
+    return string.lower(s)
+end
+
+return _M
+
+---------- test.lua
+local s_more = require("s_more")
+
+print(s_more.upper("Hello"))   -- output: HELLO 
+print(s_more.lower("Hello"))   -- output: hello
+```
+
+
 
 #### 成员私有性
 
