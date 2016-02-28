@@ -2,7 +2,7 @@
 
 在 Lua 中，函数 time、date 和 difftime 提供了所有的日期和时间功能。
 
-在 OpenResty 的世界里，我们通常不推荐使用这里的标准时间函数，因为这些函数通常会引发不止一个昂贵的系统调用，同时无法为LuaJIT JIT 编译，对性能造成较大影响。反之，我们推荐使用 ngx_lua 模块提供的带缓存的时间接口，如 `ngx.today`, `ngx.time`, `ngx.utctime`,
+在 OpenResty 的世界里，我们通常不推荐使用这里的标准时间函数，因为这些函数通常会引发不止一个昂贵的系统调用，同时无法为 LuaJIT JIT 编译，对性能造成较大影响。我们推荐使用 ngx_lua 模块提供的带缓存的时间接口，如 `ngx.today`, `ngx.time`, `ngx.utctime`,
 `ngx.localtime`, `ngx.now`, `ngx.http_time`， 以及 `ngx.cookie_time` 等。
 
 所以下面的部分函数，简单了解一下即可。
@@ -40,7 +40,7 @@ print(os.difftime(t2, t1))   -->output  86400
 
 把一个表示日期和时间的数值，转换成更高级的表现形式。其第一个参数 format 是一个格式化字符串，描述了要返回的时间形式。第二个参数 time 就是日期和时间的数字表示，缺省时默认为当前的时间。使用格式字符 "*t"，创建一个时间表。
 
->示例代码：
+> 示例代码：
 
 ```lua
 local tab1 = os.date("*t")  --返回一个描述当前日期和时间的表
@@ -70,7 +70,7 @@ tab2 = { hour = 8, min = 6, wday = 5, day = 1, month = 1, year = 1970, sec = 0, 
 该表中除了使用到了 time 函数参数 table 的字段外，这还提供了星期（wday，星期天为1）和一年中的第几天（yday，一月一日为1）。
 除了使用 "*t" 格式字符串外，如果使用带标记（见下表）的特殊字符串，os.data函数会将相应的标记位以时间信息进行填充，得到一个包含时间的字符串。
 
->示例代码：
+> 示例代码：
 
 ```lua
 print(os.date("today is %A, in %B"))
