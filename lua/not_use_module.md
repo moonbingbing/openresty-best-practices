@@ -1,11 +1,11 @@
 # 抵制使用 module() 定义模块
 
-旧式的模块定义方式是通过 *module("filename"[,package.seeall])* 来显示声明一个包，现在官方不推荐再使用这种方式。这种方式将会返回一个由 *filename* 模块函数组成的 *table* ，并且还会定义一个包含该 *table* 的全局变量。
+旧式的模块定义方式是通过 `module("filename"[,package.seeall])*`来显示声明一个包，现在官方不推荐再使用这种方式。这种方式将会返回一个由 `filename` 模块函数组成的 `table` ，并且还会定义一个包含该 `table` 的全局变量。
 
-*module("filename", package.seeall)* 这种写法是不提倡的，官方给出了两点原因：
+`module("filename", package.seeall)` 这种写法是不提倡的，官方给出了两点原因：
 
-1. *package.seeall* 这种方式破坏了模块的高内聚，原本引入 "filename" 模块只想调用它的 *foobar()* 函数，但是它却可以读写全局属性，例如 *"filename.os"*。
-2. *module* 函数压栈操作引发的副作用，污染了全局环境变量。例如 *module("filename")* 会创建一个 *filename* 的 *table* ，并将这个 *table* 注入全局环境变量中，这样使得没有引用它的文件也能调用 *filename* 模块的方法。
+1. `package.seeall` 这种方式破坏了模块的高内聚，原本引入 "filename" 模块只想调用它的 *foobar()* 函数，但是它却可以读写全局属性，例如 `"filename.os"`。
+2. `module` 函数压栈操作引发的副作用，污染了全局环境变量。例如 `module("filename")` 会创建一个 `filename` 的 `table` ，并将这个 `table` 注入全局环境变量中，这样使得没有引用它的文件也能调用 `filename` 模块的方法。
 
 比较推荐的模块定义方法是：
 
