@@ -1,6 +1,6 @@
-# 函数在调用代码前定义
+# 在调用代码前定义函数
 
-Lua里面的函数必须放在调用的代码之前，下面的代码是一个常见的错误：
+Lua 里面的函数必须放在调用的代码之前，下面的代码是一个常见的错误：
 
 ```lua
 local i = 100
@@ -34,13 +34,13 @@ foo = function () ... end
 ```lua
 -- my_module.lua
 module("my_module", package.seeall)
-function foo() 
-    -- your code 
+function foo()
+    -- your code
 end
 ```
 
 然后，再在content\_by\_lua\_file指向的.lua文件中调用它：
-    
+
 
 ```lua
 local my_module = require "my_module"

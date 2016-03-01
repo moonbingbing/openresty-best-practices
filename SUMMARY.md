@@ -35,7 +35,7 @@
     * [正则表达式](lua/re.md)
     * [不用标准库](lua/not_use_lib.md)
     * [虚变量](lua/dummy_var.md)
-    * [函数在调用代码前定义](lua/function_before_use.md)
+    * [调用代码前先定义函数](lua/function_before_use.md)
     * [抵制使用 module() 函数来定义 Lua 模块](lua/not_use_module.md)
     * [点号与冒号操作符的区别](lua/dot_diff.md)
     * [module 是邪恶的](lua/module_is_evil.md)
