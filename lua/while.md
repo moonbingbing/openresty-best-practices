@@ -34,6 +34,7 @@ local i
 for i, v in ipairs(t) do
     if 11 == v then
         print("index[" .. i .. "] have right value[11]")
+        break
     end
 end
 ```
