@@ -4,8 +4,10 @@ Lua 是所有脚本语言中最快、最简洁的，我们爱她的快、她的�
 
 由于 `lua_code_cache off` 情况下，缓存的代码会伴随请求完结而释放。module 的最大好处缓存这时候是无法发挥的，所以本章的内容都是基于 `lua_code_cache on` 的情况下。
 
+先看看下面代码：
+
 ```lua
--- 
+--
 local ngx_socket_tcp = ngx.socket.tcp           -- ①
 
 local _M = { _VERSION = '0.06' }                -- ②
