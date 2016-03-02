@@ -45,7 +45,7 @@ setmetatable(set1, {__add = union}) -- 重载 set1 表的 __add 元方法
 
 local set3 = set1 + set2
 for _, j in pairs(set3) do
-	io.write(j.." ")               -->output：30 50 20 40 10
+	io.write(j.." ")               -->output：10 30 20 40 50
 end
 ```
 
