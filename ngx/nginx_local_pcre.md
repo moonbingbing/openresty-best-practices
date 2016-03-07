@@ -115,7 +115,7 @@ server {
     server_name start.igrow.cn;
     index index.html index.php;
     root html;
-    if ($http_host !~ “^star\.igrow\.cn$&quot {
+    if ($http_host !~ “^star\.igrow\.cn$") {
         rewrite ^(.*) http://star.igrow.cn$1 redirect;
     }
 }
