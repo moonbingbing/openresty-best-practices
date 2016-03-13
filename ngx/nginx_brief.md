@@ -69,11 +69,9 @@ ubuntu: /opt/nginx-1.7.7/conf$ tree |grep -v default
 
 除了 `nginx.conf`，其余配置文件，一般只需要使用默认提供即可。
 
-nginx.conf:
-
 nginx.conf是主配置文件，默认配置去掉注释之后的内容如下图所示：
 
-```
+```nginx
 worker_process      # 表示工作进程的数量，一般设置为cpu的核数
 
 worker_connections  # 表示每个工作进程的最大连接数
@@ -95,9 +93,11 @@ server{}            # 块定义了虚拟主机
                     # 个，按配置顺序查找。
 ```
 
+> 真实用例
+
 ![](../images/nginx_conf.jpg)
 
-从配置可以看出，nginx 监听了 80 端口、域名为 localhost、根路径为 html 文件夹（我的安装路径为/opt/nginx-1.7.7，所以/opt/nginx-1.7.7/html）、默认 index 文件为 index.html，index.htm 服务器错误重定向到 50x.html 页面。
+从配置可以看出，nginx 监听了 80 端口、域名为 localhost、根路径为 html 文件夹（我的安装路径为 /opt/nginx-1.7.7，所以 /opt/nginx-1.7.7/html）、默认 index 文件为 index.html，index.htm 服务器错误重定向到 50x.html 页面。
 
 可以看到 /opt/nginx-1.7.7/html/ 有以下文件：
 
