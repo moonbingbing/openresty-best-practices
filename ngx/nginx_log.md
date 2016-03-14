@@ -1,8 +1,8 @@
-# 日志服务
+# 日志
 
-Nginx日志主要有两种：access_log(访问日志)、error_log(错误日志)。
+Nginx 日志主要有两种：access_log(访问日志)、error_log(错误日志)。
 
-## access_log(访问日志)
+## access_log 访问日志
 
 access_log主要记录客户端访问Nginx的每一个请求，格式可以自定义。通过access_log，你可以得到用户地域来源、跳转来源、使用终端、某个URL访问量等相关信息。
 
@@ -44,13 +44,13 @@ error_log指令用来指定错误日志，语法: error_log path(存放路径) l
 >Linux系统把存储位置设置为空设备
 
 ```
-error_log /dev/null;  
+error_log /dev/null;
 ```
 
 >Windows系统把存储位置设置为空设备
 
 ```
-error_log nul;  
+error_log nul;
 ```
 
 另外Linux系统可以使用tail命令方便的查阅正在改变的文件,tail -f filename会把filename里最尾部的内容显示在屏幕上,并且不断刷新,使你看到最新的文件内容。Windows系统没有这个命令，你可以在网上找到动态查看文件的工具。

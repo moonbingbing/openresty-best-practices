@@ -46,7 +46,7 @@
     * [location 匹配规则](ngx/nginx_local_pcre.md)
     * [if 是邪恶的](ngx/if_is_evil.md)
     * [静态文件服务](ngx/static_file.md)
-    * [日志服务](ngx/nginx_log.md)
+    * [日志](ngx/nginx_log.md)
     * [反向代理](ngx/reverse_proxy.md)
     * [负载均衡](ngx/balancer.md)
     * [陷阱和常见错误](ngx/pitfalls_and_common_mistakes.md)
