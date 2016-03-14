@@ -133,7 +133,7 @@ server {
 
 #### 跨多硬盘分割缓存
 
-使用 Nginx ，不需要建立一个RAID（磁盘阵列）。如果有多个硬盘， Nginx 可以用来在多个硬盘之间分割缓存。下面是一个基于请求 URI 跨越两个硬盘之间均分缓存的例子：
+使用 Nginx 不需要建立一个RAID（磁盘阵列）。如果有多个硬盘， Nginx 可以用来在多个硬盘之间分割缓存。下面是一个基于请求 URI 跨越两个硬盘之间均分缓存的例子：
 
 ```nginx
 proxy_cache_path /path/to/hdd1 levels=1:2 keys_zone=my_cache_hdd1:10m max_size=10g
