@@ -40,7 +40,7 @@
     * [点号与冒号操作符的区别](lua/dot_diff.md)
     * [module 是邪恶的](lua/module_is_evil.md)
     * [FFI](lua/FFI.md)
-    * [Not Yet Implemented]
+    * [什么是 JIT ？]
 * [Nginx](ngx/nginx.md)
     * [Nginx 新手起步](ngx/nginx_brief.md)
     * [location 匹配规则](ngx/nginx_local_pcre.md)
