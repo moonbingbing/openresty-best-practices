@@ -1,6 +1,6 @@
 # 日志
 
-Nginx 日志主要有两种：access_log(访问日志)和 error_log(错误日志)。
+Nginx 日志主要有两种：access_log(访问日志) 和 error_log(错误日志)。
 
 ### access_log 访问日志
 
@@ -35,22 +35,32 @@ access_log logs/access.log  myformat;
 
 ## error_log 错误日志
 
-error_log 主要记录客户端访问 Nginx 出错时的日志，格式不支持自定义。通过查看错误日志，你可以得到系统某个服务或 server 的性能瓶颈等。因此，将日志好好利用，你可以得到很多有价值的信息。
+error_log 主要记录客户端访问 Nginx 出错时的日志，格式不支持自定义。通过查看错误日志，你可以得到系统某个服务或 server 的性能瓶颈等。因此，将日志利用好，你可以得到很多有价值的信息。
 
 error_log 指令用来指定错误日志，语法: `error_log path level`; 其中 path 表示错误日志存放路径，level 表示错误日志等级，日志等级包括 debug、info、notice、warn、error、crit，从左至右，日志详细程度逐级递减，即 debug 最详细，crit 最少，默认为 crit。
 
 注意：`error_log off` 并不能关闭错误日志记录，此时日志信息会被写入到文件名为 off 的文件当中。如果要关闭错误日志记录，可以使用如下配置：
 
->Linux系统把存储位置设置为空设备
+>Linux 系统把存储位置设置为空设备
 
 ```nginx
+
 error_log /dev/null;
+
+http {
+    # ...
+}
 ```
 
->Windows系统把存储位置设置为空设备
+>Windows 系统把存储位置设置为空设备
 
 ```nginx
+
 error_log nul;
+
+http {
+    # ...
+}
 ```
 
 另外 Linux 系统可以使用 tail 命令方便的查阅正在改变的文件,`tail -f filename`会把 filename 里最尾部的内容显示在屏幕上,并且不断刷新,使你看到最新的文件内容。Windows 系统没有这个命令，你可以在网上找到动态查看文件的工具。
