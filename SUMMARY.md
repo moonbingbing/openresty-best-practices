@@ -40,7 +40,7 @@
     * [点号与冒号操作符的区别](lua/dot_diff.md)
     * [module 是邪恶的](lua/module_is_evil.md)
     * [FFI](lua/FFI.md)
-    * [什么是 JIT ？]
+    * [什么是 JIT]
 * [Nginx](ngx/nginx.md)
     * [Nginx 新手起步](ngx/nginx_brief.md)
     * [location 匹配规则](ngx/nginx_local_pcre.md)
@@ -142,5 +142,10 @@
     * [显示的是什么](flame_graph/what.md)
     * [如何安装火焰图生成工具](flame_graph/install.md)
     * [如何定位问题](flame_graph/how.md)
-* [杂谈]
-    * [开源文化对 奇虎360 企业安全的影响](others/about_qihoo_opensource.md)
+* [OpenResty 周边]
+    * [Vanilla/香草]
+        * 介绍
+        * 组织结构
+        * 性能指标
+        * Demo 示例
+    * [Mashape/kong]
