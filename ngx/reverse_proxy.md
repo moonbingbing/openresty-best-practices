@@ -16,11 +16,11 @@
 
 Nginx 的其中一个用途是做 HTTP 反向代理，下面简单介绍 Nginx 作为反向代理服务器的方法。
 
->场景描述：访问本地服务器上的 README.md 文件 [http://localhost:8866/README.md](http://localhost:8866/README.md)，本地服务器进行反向代理，从 [https://github.com/moonbingbing/openresty-best-practices/blob/master/README.md](https://github.com/moonbingbing/openresty-best-practices/blob/master/README.md)获取页面内容。
+>场景描述：访问本地服务器上的 README.md 文件 [http://localhost:8866/README.md](http://localhost:8866/README.md)，本地服务器进行反向代理，从 [https://github.com/moonbingbing/openresty-best-practices/blob/master/README.md](https://github.com/moonbingbing/openresty-best-practices/blob/master/README.md) 获取页面内容。
 
 nginx.conf 配置示例：
 
-```
+```nginx
 worker_processes 1;
 
 pid logs/nginx.pid;
