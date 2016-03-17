@@ -145,9 +145,12 @@
     * [如何定位问题](flame_graph/how.md)
 * [OpenResty 周边]
     * [Vanilla/香草]
-        * 介绍
+        * 为什么要开发Vanilla
+        * Vanilla致力解决的问题
+        * Vanilla介绍
         * 组织结构
         * 性能指标
         * Demo 示例
+        * 新浪移动的OpenResty之路
     * [Mashape/kong]
     * [如何添加自己的lua api](others/add_new_lua_api.md)
