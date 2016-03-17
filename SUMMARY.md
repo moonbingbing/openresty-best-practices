@@ -67,7 +67,6 @@
     * [子查询](openresty/sub_request.md)
     * [在不同阶段共享变量](openresty/share_var.md)
     * [防止 SQL 注入](openresty/safe_sql.md)
-    * [怎样理解 cosocket]
 * [LuaRestyRedisLibrary](redis.md)
     * [访问有授权验证的 Redis](redis/auth_connect.md)
     * [select+set_keepalive 组合操作引起的数据读写错误](redis/select-keeplive.md)
@@ -103,12 +102,13 @@
     * [变量的共享范围](ngx_lua/lua-variable-scope.md)
     * [动态限速](ngx_lua/lua-limit.md)
     * [shared.dict 非队列性质](ngx_lua/shared_get_keys.md)
-    * [如何添加自己的lua api](ngx_lua/add_new_lua_api.md)
     * [正确使用长链接](ngx_lua/keepalive.md)
     * [如何引用第三方 resty 库](ngx_lua/how_use_third_lib.md)
     * [body 在 location 中的传递](ngx_lua/capture.md)
     * [典型应用场景](ngx_lua/use_case.md)
     * [Nginx 状态查看器]
+    * [怎样理解 cosocket]
+    * [如何使用高速缓存]
 * [LuaRestyDNSLibrary](dns/main.md)
     * [使用动态 DNS 来完成 HTTP 请求](dns/use_dynamic_dns.md)
 * [LuaRestyLock](lock.md)
@@ -137,6 +137,7 @@
     * [C10K 编程](web/c10k.md)
     * [TIME_WAIT 问题](web/time_wait.md)
     * [与 Docker 使用的网络瓶颈](web/docker.md)
+    *
 * [火焰图](flame_graph.md)
     * [什么时候使用](flame_graph/when.md)
     * [显示的是什么](flame_graph/what.md)
@@ -149,3 +150,4 @@
         * 性能指标
         * Demo 示例
     * [Mashape/kong]
+    * [如何添加自己的lua api](others/add_new_lua_api.md)
