@@ -144,13 +144,15 @@
     * [如何安装火焰图生成工具](flame_graph/install.md)
     * [如何定位问题](flame_graph/how.md)
 * [OpenResty 周边]
-    * [Vanilla/香草]
+    * [Vanilla/香草](web/vanilla/intro.md)
         * 为什么要开发Vanilla
         * Vanilla致力解决的问题
-        * Vanilla介绍
         * 组织结构
         * 性能指标
         * Demo 示例
         * 新浪移动的OpenResty之路
+        * [Vanilla项目实践]
+            * 新浪移动评论项目
+            * 新浪移动独立产品Vanilla改造
     * [Mashape/kong]
     * [如何添加自己的lua api](others/add_new_lua_api.md)
