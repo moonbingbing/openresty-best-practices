@@ -14,7 +14,12 @@ for var = begin, finish, step do
 end
 ```
 
-var 从 begin 变化到 finish，每次变化都以 step 作为步长递增 var，并执行一次“执行体”。第三个表达式 step 是可选的，若不指定的话，Lua 会将步长默认为 1。
+关于数字 for 需要关注以下几点：
+1.var 从 begin 变化到 finish，每次变化都以 step 作为步长递增 var
+2.begin、 finish、 step 三个表达式只会在循环开始时执行一次
+3.第三个表达式 step 是可选的， 默认为 1
+4.控制变量 var 的作用域仅在 for 循环内，需要在外面控制，则需将值赋给一个新的变量
+5.循环过程中不要改变控制变量的值，那样会带来不可预知的影响
 
 > 示例
 

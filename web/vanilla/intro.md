@@ -7,4 +7,5 @@ V0.1.0-rc4.0
 
 ## 项目地址
 Github：https://github.com/idevz/vanilla
+
 GitOSC：http://git.oschina.net/idevz/vanilla
