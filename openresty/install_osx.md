@@ -1,4 +1,4 @@
-# Mac OS X 平台下 OpenResty 安装
+# Mac OS X 平台安装
 
 #### 源码包准备
 
