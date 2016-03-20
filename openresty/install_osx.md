@@ -6,13 +6,14 @@
 
 #### 相关库的安装
 
-将这些相关的库 PCRE 安装在系统中。按照以下步骤：
+将这些相关库安装到系统中，推荐如 Homebrew 这类包管理方式完成包管理：
 
-1. 用你喜欢的方式打开命令终端(例如笔者喜欢的[iTerm2](http://www.iterm2.com))。
-2. 推荐如 Homebrew 这类包管理方式完成包管理。
-3. 输入以下命令```brew install pcre```，完成 PCRE 包。
+```shell
+$ brew update
+$ brew install pcre openssl
+```
 
-#### OpenResty的安装
+#### OpenResty 安装
 
 1. 在命令行中切换到源码包所在目录。
 1. 输入命令```tar xzvf ngx_openresty-1.9.7.1.tar.gz```，按回车键解压源码包。若你下载的源码包版本不一样，
@@ -20,8 +21,8 @@
 此时当前目录下会出现一个`ngx_openresty-1.9.7.1`文件夹。
 1. 在命令行中切换工作目录到`ngx_openresty-1.9.7.1`。输入命令```cd ngx_openresty-1.9.7.1```。
 1. 配置安装目录及需要激活的组件。使用选项 --prefix=install_path ，指定其安装目录（默认为/usr/local/openresty）。
-使用选项 --with-Components 激活组件， --without则是禁止组件，你可以根据自己实际需要选择 with 及 without 。
-输入如下命令，OpenResty将配置安装在/opt/openresty目录下（注意使用root用户）,并激活 LuaJIT、HTTP\_iconv\_module 并禁止 http\_redis2\_module 组件。
+使用选项 --with-Components 激活组件， --without 则是禁止组件，你可以根据自己实际需要选择 with 及 without 。
+输入如下命令，OpenResty 将配置安装在 /opt/openresty 目录下（注意使用root用户），激活 LuaJIT、HTTP\_iconv\_module 并禁止 http\_redis2\_module 组件。
 
     ```
     ./configure --prefix=/opt/openresty\
@@ -50,4 +51,4 @@
 为了后面启动`OpenResty`的命令简单一些，不用在`OpenResty`的安装目录下进行启动，我们通过设置环境变量来简化操作。
 将`OpenResty`目录下的 nginx/sbin 目录添加到 PATH 中。
 
-接下来，我们就可以进入到后面的章节[Hello World](helloworld.md)学习。
+接下来，我们就可以进入到后面的章节 [Hello World](helloworld.md) 学习。
