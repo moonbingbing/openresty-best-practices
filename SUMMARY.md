@@ -144,7 +144,7 @@
     * [如何安装火焰图生成工具](flame_graph/install.md)
     * [如何定位问题](flame_graph/how.md)
 * [OpenResty 周边]
-    * [Vanilla/香草](web/vanilla/intro.md)
+    * [Vanilla/香草](others/vanilla/intro.md)
         * 为什么要开发Vanilla
         * Vanilla致力解决的问题
         * 组织结构
