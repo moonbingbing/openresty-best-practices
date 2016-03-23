@@ -67,6 +67,7 @@
     * [子查询](openresty/sub_request.md)
     * [在不同阶段共享变量](openresty/share_var.md)
     * [防止 SQL 注入](openresty/safe_sql.md)
+    * [如何发起新 HTTP 请求]
 * [LuaRestyRedisLibrary](redis.md)
     * [访问有授权验证的 Redis](redis/auth_connect.md)
     * [select+set_keepalive 组合操作引起的数据读写错误](redis/select-keeplive.md)
@@ -137,7 +138,6 @@
     * [C10K 编程](web/c10k.md)
     * [TIME_WAIT 问题](web/time_wait.md)
     * [与 Docker 使用的网络瓶颈](web/docker.md)
-    *
 * [火焰图](flame_graph.md)
     * [什么时候使用](flame_graph/when.md)
     * [显示的是什么](flame_graph/what.md)
