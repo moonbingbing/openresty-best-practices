@@ -12,9 +12,9 @@ Roberto Ierusalimschy：我差不多也是这样。当我使用调试器时，�
 
 ### 标准日志输出
 
-OpenResty 的标准日志输出原句为 `ngx.log(log_level, ...)` ，我们几乎可以在任何 ngx_lua 阶段进行日志的输出。
+OpenResty 的标准日志输出原句为 `ngx.log(log_level, ...)` ，几乎可以在任何 ngx_lua 阶段进行日志的输出。
 
-下面看几个例子：
+请看下面的示例：
 
 ```nginx
 #user  nobody;
@@ -45,7 +45,7 @@ http {
 }
 ```
 
-访问网页，生成日志结果如下：
+访问网页，生成日志（logs/error.log 文件）结果如下：
 
 ```shell
 2016/01/22 16:43:34 [error] 61610#0: *10 [lua] content_by_lua(nginx.conf:26):5:
@@ -56,9 +56,9 @@ http {
  host: "127.0.0.1"
 ```
 
-大家可以在单行日志中获取很多有用的信息，例如：时间、日志级别、请求ID、错误代码位置、内容、客户端 IP 、请求参数等等，这些信息都是环境信息，我们可以用来辅助完成更多其他操作。这样的话，我们就可以根据需要，任意添加日志内容输出了。
+大家可以在单行日志中获取很多有用的信息，例如：时间、日志级别、请求ID、错误代码位置、内容、客户端 IP 、请求参数等等，这些信息都是环境信息，可以用来辅助完成更多其他操作。当然我们也可以根据自己需要定义日志格式，具体可以参考 nginx 的 [log_format](http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format) 章节。
 
-细心的读者发现了，中间的两行日志哪里去了？这里不卖关子，其实是日志输出级别的原因。我们上面的例子，日志输出级别使用的 error，只有等于或大于这个级别的日志才会输出。这里还有一个知识点就是 OpenResty 里面的 print 语句是 INFO 级别。
+细心的读者发现了，中间的两行日志哪里去了？这里不卖关子，其实是日志输出级别的原因。上面的例子，日志输出级别使用的 error，只有等于或大于这个级别的日志才会输出。这里还有一个知识点就是 OpenResty 里面的 `print` 语句是 INFO 级别。
 
 有关 Nginx 的日志级别，请看下表：
 
@@ -84,7 +84,7 @@ ngx.DEBUG      -- 调试
 
 [lua-resty-logger-socket](https://github.com/cloudflare/lua-resty-logger-socket) 的目标是替代 Nginx 标准的 [ngx_http_log_module](http://nginx.org/en/docs/http/ngx_http_log_module.html) 以非阻塞 IO 方式推送 access log 到远程服务器上。对远程服务器的要求是支持 [syslog-ng](http://www.balabit.com/network-security/syslog-ng) 的日志服务。
 
-我们来看一下官方示例：
+引用官方示例：
 
 ```nginx
 lua_package_path "/path/to/lua-resty-logger-socket/lib/?.lua;;";
