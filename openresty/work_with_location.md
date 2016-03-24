@@ -1,10 +1,10 @@
 # 与其他 location 配合
 
-nginx 世界的 location 是异常强大的，毕竟 nginx 的主要应用场景是在负载均衡、API server，在不同服务节点、location 之间跳转是家常便饭。利用不同 location 的功能组合，我们可以完成内部调用、流水线方式跳转、外部重定向等几大不同方式，下面将给大家介绍几个主要应用，就当抛砖引玉。
+nginx 世界的 location 是异常强大的，毕竟 nginx 的主要应用场景是在负载均衡、API server，在不同 server、location 之间跳转更是家常便饭。利用不同 location 的功能组合，我们可以完成内部调用、流水线方式跳转、外部重定向等几大不同方式，下面将给大家介绍几个主要应用，就当抛砖引玉。
 
 ## 内部调用
 
-例如对数据库、缓存的统一接口，我们是可以把它们放到统一的 location 中，外部可以通过 location 完成访问。通常情况下，为了保护这些内部接口，我们都会把这些接口设置为 internal 。我们可以用这个思路把不同基础方法作为内部接口，外部通过内部调用进行使用。基础模块、外部逻辑可以达到基本处理逻辑。
+例如对数据库、内部公共函数的统一接口，可以把它们放到统一的 location 中。通常情况下，为了保护这些内部接口，都会把这些接口设置为 internal 。这么做的最主要好处就是可以让这个内部接口相对独立，不受外界干扰。
 
 示例代码：
 
@@ -31,12 +31,13 @@ location = /app/test {
 }
 ```
 
-紧接着，我们稍微扩充一下，就做到了并行请求的效果，看示例代码：
+紧接着，稍微扩充一下，并行请求的效果，示例如下：
 
 ```nginx
 location = /sum {
     internal;
     content_by_lua_block {
+        ngx.sleep(0.1)
         local args = ngx.req.get_uri_args()
         ngx.print(tonumber(args.a) + tonumber(args.b))
     }
@@ -45,24 +46,55 @@ location = /sum {
 location = /subduction {
     internal;
     content_by_lua_block {
+        ngx.sleep(0.1)
         local args = ngx.req.get_uri_args()
         ngx.print(tonumber(args.a) - tonumber(args.b))
     }
 }
 
-location = /app/test {
+location = /app/test_parallels {
     content_by_lua_block {
+        local start_time = ngx.now()
         local res1, res2 = ngx.location.capture_multi( {
                         {"/sum", {args={a=3, b=8}}},
                         {"/subduction", {args={a=3, b=8}}}
                     })
         ngx.say("status:", res1.status, " response:", res1.body)
         ngx.say("status:", res2.status, " response:", res2.body)
+        ngx.say("time used:", ngx.now() - start_time)
+    }
+}
+
+location = /app/test_queue {
+    content_by_lua_block {
+        local start_time = ngx.now()
+        local res1 = ngx.location.capture_multi( {
+                        {"/sum", {args={a=3, b=8}}}
+                    })
+        local res2 = ngx.location.capture_multi( {
+                        {"/subduction", {args={a=3, b=8}}}
+                    })
+        ngx.say("status:", res1.status, " response:", res1.body)
+        ngx.say("status:", res2.status, " response:", res2.body)
+        ngx.say("time used:", ngx.now() - start_time)
     }
 }
 ```
 
-我们利用了 `ngx.location.capture_multi` 函数，直接完成了两个子请求并行执行的目的。尤其当两个请求没有相互依赖，用这种方法可以极大提高查询效率。例如两个无依赖查询请求，各自是10ms，顺序执行需要20ms，但是通过并行执行可以在10ms内完成两个请求。实际生产中查询时间可能没这么规整，但思想大同小异，这个特性还是很有用的。
+测试结果：
+
+```shell
+➜  ~ curl 127.0.0.1/app/test_parallels
+status:200 response:11
+status:200 response:-5
+time used:0.10099983215332
+➜  ~ curl 127.0.0.1/app/test_queue
+status:200 response:11
+status:200 response:-5
+time used:0.20199990272522
+```
+
+利用 `ngx.location.capture_multi` 函数，直接完成了两个子请求并行执行。当两个请求没有相互依赖，这种方法可以极大提高查询效率。两个无依赖请求，各自是 100ms，顺序执行需要 200ms，但通过并行执行可以在 100ms 完成两个请求。实际生产中查询时间可能没这么规整，但思想大同小异，这个特性是很有用的。
 
 ![图例](../images/work_location_flow_1.png)
 
@@ -90,7 +122,7 @@ location /download_internal {
 }
 ```
 
-注意，ngx.exec 方法与 ngx.redirect 是完全不同的，前者是个纯粹的内部跳转并且没有引入任何额外 HTTP 信号。 这里的两个 location 更像是流水线上工人之间的协作关系。第一环节的工人对完成自己处理部分后，直接交给第二环节处理人（实际上可以有更多环节）。他们之间的数据流是定向流动的。
+注意，ngx.exec 方法与 ngx.redirect 是完全不同的，前者是个纯粹的内部跳转并且没有引入任何额外 HTTP 信号。 这里的两个 location 更像是流水线上工人之间的协作关系。第一环节的工人对完成自己处理部分后，直接交给第二环节处理人（实际上可以有更多环节），它们之间的数据流是定向的。
 
 ![图例](../images/work_location_flow_2.png)
 
@@ -101,21 +133,21 @@ location /download_internal {
 ```nginx
 location = /foo {
     content_by_lua_block {
-        ngx.say([[i'm foo]])
+        ngx.say([[I am foo]])
     }
 }
 
-location = /app/test {
+location = / {
     rewrite_by_lua_block {
-        return ngx.redirect('/foo');  
+        return ngx.redirect('/foo');
     }
 }
 ```
 
-我们来使用 curl 工具发个测试用例，可以发现：
+执行测试，结果如下：
 
 ```shell
-➜  ~  curl 127.0.0.1:8866/app/test -i
+➜  ~  curl 127.0.0.1 -i
 HTTP/1.1 302 Moved Temporarily
 Server: openresty/1.9.3.2rc3
 Date: Sun, 22 Nov 2015 11:04:03 GMT
@@ -131,7 +163,8 @@ Location: /foo
 <hr><center>openresty/1.9.3.2rc3</center>
 </body>
 </html>
-➜  ~  curl 127.0.0.1:8866/foo -i
+
+➜  ~  curl 127.0.0.1/foo -i
 HTTP/1.1 200 OK
 Server: openresty/1.9.3.2rc3
 Date: Sun, 22 Nov 2015 10:43:51 GMT
@@ -139,9 +172,9 @@ Content-Type: text/html
 Transfer-Encoding: chunked
 Connection: keep-alive
 
-i'm foo
+I am foo
 ```
 
-当我们使用浏览器访问页面 `http://127.0.0.1:8866/app/test` 就可以发现浏览器会自动跳转到 `http://127.0.0.1:8866/foo` 。
+当我们使用浏览器访问页面 `http://127.0.0.1` 就可以发现浏览器会自动跳转到 `http://127.0.0.1/foo` 。
 
 与之前两个应用实例不同的，外部重定向是可以跨域名的。例如从 A 网站跳转到 B 网站是绝对允许的。在 CDN 场景的大量下载应用中，一般分为调度、存储两个重要环节。调度就是通过根据请求方 IP 、下载文件等信息寻找最近、最快节点，应答跳转给请求方完成下载。
