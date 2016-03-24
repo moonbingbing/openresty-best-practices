@@ -50,20 +50,20 @@ http {
 ```shell
 2016/01/22 16:43:34 [error] 61610#0: *10 [lua] content_by_lua(nginx.conf:26):5:
  num:55, client: 127.0.0.1, server: , request: "GET /hello HTTP/1.1",
- host: "127.0.0.1:8866"
+ host: "127.0.0.1"
 2016/01/22 16:43:34 [error] 61610#0: *10 [lua] content_by_lua(nginx.conf:26):7:
- object:nil, client: 127.0.0.1, server: , request: "GET /hello HTTP/1.1", 
- host: "127.0.0.1:8866"
+ object:nil, client: 127.0.0.1, server: , request: "GET /hello HTTP/1.1",
+ host: "127.0.0.1"
 ```
 
 大家可以在单行日志中获取很多有用的信息，例如：时间、日志级别、请求ID、错误代码位置、内容、客户端 IP 、请求参数等等，这些信息都是环境信息，我们可以用来辅助完成更多其他操作。这样的话，我们就可以根据需要，任意添加日志内容输出了。
 
-细心的读者发现了，中间的两行日志哪里去了？这里不卖关子，其实是日志输出级别的原因。我们上面的例子，日志输出级别使用的 error，只有等于或大于这个级别的日志才会输出。这里还有一个知识点就是 OpenResty 里面的 print 语句是 INFO 级别。 
+细心的读者发现了，中间的两行日志哪里去了？这里不卖关子，其实是日志输出级别的原因。我们上面的例子，日志输出级别使用的 error，只有等于或大于这个级别的日志才会输出。这里还有一个知识点就是 OpenResty 里面的 print 语句是 INFO 级别。
 
 有关 Nginx 的日志级别，请看下表：
 
 ```lua
-ngx.STDERR     -- 标准输出 
+ngx.STDERR     -- 标准输出
 ngx.EMERG      -- 紧急报错
 ngx.ALERT      -- 报警
 ngx.CRIT       -- 严重，系统故障，触发运维告警系统

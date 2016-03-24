@@ -34,7 +34,7 @@
 验证一下：
 
 ```shell
-➜  ~  curl 'http://127.0.0.1:8866/sum?a=11&b=12'
+➜  ~  curl 'http://127.0.0.1/sum?a=11&b=12'
 sum:23
 ```
 
@@ -71,11 +71,11 @@ sum:23
 测试 shell ：
 
 ```shell
-➜  ~  curl '192.168.1.104:8866/sum?a=11&b=12'
+➜  ~  curl '192.168.1.104/sum?a=11&b=12'
 sum:23
 ➜  ~
 ➜  ~
-➜  ~  curl '127.0.0.1:8866/sum?a=11&b=12'
+➜  ~  curl '127.0.0.1/sum?a=11&b=12'
 <html>
 <head><title>403 Forbidden</title></head>
 <body bgcolor="white">
@@ -102,9 +102,9 @@ sum:23
 我们来下载这个文件：
 
 ```shell
-➜  ~  wget '127.0.0.1:8866/download/1.cab'
---2015-09-13 13:59:51--  http://127.0.0.1:8866/download/1.cab
-Connecting to 127.0.0.1:8866... connected.
+➜  ~  wget '127.0.0.1/download/1.cab'
+--2015-09-13 13:59:51--  http://127.0.0.1/download/1.cab
+Connecting to 127.0.0.1... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 135802 (133K) [application/octet-stream]
 Saving to: '1.cab'

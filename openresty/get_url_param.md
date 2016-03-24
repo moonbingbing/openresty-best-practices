@@ -33,7 +33,7 @@ server {
 输出结果：
 
 ```shell
-➜  ~  curl '127.0.0.1:8866/test?a=1&b=2%26' -d 'c=3&d=4%26'
+➜  ~  curl '127.0.0.1/test?a=1&b=2%26' -d 'c=3&d=4%26'
 [GET]  key:b v:2&
 [GET]  key:a v:1
 [POST] key:d v:4&
@@ -57,8 +57,8 @@ server {
        content_by_lua_block {
            local res = ngx.location.capture(
                     '/test',
-                    { 
-                       method = ngx.HTTP_POST, 
+                    {
+                       method = ngx.HTTP_POST,
                        args = ngx.encode_args{a=1, b='2&'},
                        body = ngx.encode_args{c=3, d='4&'}
                    }
@@ -72,7 +72,7 @@ server {
 输出结果：
 
 ```shell
-➜  ~  curl '127.0.0.1:8866/test2'
+➜  ~  curl '127.0.0.1/test2'
 [GET]  key:b v:2&
 [GET]  key:a v:1
 [POST] key:d v:4&
@@ -85,8 +85,8 @@ server {
 
 ```lua
 local res = ngx.location.capture('/test',
-         { 
-            method = ngx.HTTP_POST, 
+         {
+            method = ngx.HTTP_POST,
             args = 'a=1&b=2%26',  -- 注意这里的 %26 ,代表的是 & 字符
             body = 'c=3&d=4%26'
         }

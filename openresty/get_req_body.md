@@ -24,7 +24,7 @@ http {
 测试结果：
 
 ```shell
-➜  ~  curl 127.0.0.1:8866/test -d jack
+➜  ~  curl 127.0.0.1/test -d jack
 hello nil
 ```
 
@@ -51,7 +51,7 @@ http {
 再次测试，符合我们预期：
 
 ```shell
-➜  ~  curl 127.0.0.1:8866/test -d jack
+➜  ~  curl 127.0.0.1/test -d jack
 hello jack
 ```
 
@@ -114,7 +114,7 @@ http {
 测试结果：
 
 ```nginx
-➜  ~  curl 127.0.0.1:8866/test -d jack
+➜  ~  curl 127.0.0.1/test -d jack
 >> temp file: /Users/rain/Downloads/nginx/client_body_temp/0000000018
 hello jack
 ```
