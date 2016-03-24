@@ -36,7 +36,7 @@ http {
 
 	## 下面配置反向代理的参数
     server {
-        listen 8866;
+        listen    80;
 
         ## 1. 用户访问 http://ip:port，则反向代理到 https://github.com
         location / {

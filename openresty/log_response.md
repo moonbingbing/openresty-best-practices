@@ -29,7 +29,7 @@ events {
 
 http {
     server {
-        listen 8866;
+        listen    80;
         location / {
             content_by_lua_block {
                 local num = 55

@@ -17,7 +17,7 @@
 
 ```nginx
     server {
-        listen       8866;
+        listen    80;
         server_name  localhost;
 
         location /sum {
@@ -44,7 +44,7 @@ sum:23
 
 ```nginx
     server {
-        listen       8866;
+        listen    80;
         server_name  localhost;
 
         location /sum {

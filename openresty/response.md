@@ -16,7 +16,7 @@ HTTP响应报文分为三个部分：
 
 ```nginx
     server {
-        listen       8866;
+        listen    80;
 
         location /test {
             content_by_lua_block {
@@ -34,7 +34,7 @@ HTTP响应报文分为三个部分：
 
 ```nginx
     server {
-        listen       8866;
+        listen    80;
         lua_code_cache off;
 
         location /test {

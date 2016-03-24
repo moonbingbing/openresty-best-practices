@@ -9,7 +9,7 @@
 ```nginx
 http {
     server {
-        listen       8866;
+        listen    80;
 
         location /test {
             content_by_lua_block {
@@ -33,7 +33,7 @@ hello nil
 ```nginx
 http {
     server {
-        listen       8866;
+        listen    80;
 
         # 默认读取 body
         lua_need_request_body on;
@@ -60,7 +60,7 @@ hello jack
 ```nginx
 http {
     server {
-        listen 8866;
+        listen    80;
 
         location /test {
             content_by_lua_block {
@@ -80,7 +80,7 @@ ngx.req.get_body_data 读请求体，会偶尔出现读取不到直接返回 nil
 ```nginx
 http {
     server {
-        listen       8866;
+        listen    80;
 
         # 强制请求 body 到临时文件中
         client_body_in_file_only on;

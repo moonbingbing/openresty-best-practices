@@ -10,7 +10,7 @@
 
 ```nginx
 server {
-   listen       8866;
+   listen    80;
    server_name  localhost;
 
    location /test {
@@ -50,7 +50,7 @@ server {
 
 ```nignx
 server {
-   listen       8866;
+   listen    80;
    server_name  localhost;
 
    location /test2 {
