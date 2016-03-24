@@ -1,6 +1,6 @@
 # 获取请求 body
 
-在 Nginx 的典型应用场景中，几乎都是只读取 HTTP 头即可，例如负载均衡、反向代理等场景。但是对于 API Server 或者 Web Application ，对 body 可以说就比较敏感了。由于 OpenResty 基于 Nginx ，所以天然的对请求 body 的读取细节与其他 Web 框架有些不同。
+在 Nginx 的典型应用场景中，几乎都是只读取 HTTP 头即可，例如负载均衡、正反向代理等场景。但是对于 API Server 或者 Web Application ，对 body 可以说就比较敏感了。由于 OpenResty 基于 Nginx ，所以天然的对请求 body 的读取细节与其他成熟 Web 框架有些不同。
 
 ### 最简单的 “Hello \*\*\*\*”
 
@@ -55,7 +55,7 @@ http {
 hello jack
 ```
 
-如果你只是某个接口需要读取 body（并非全局行为），那么这时候也可以显示调用 ngx.req.read_body 接口，参看下面示例：
+如果你只是某个接口需要读取 body（并非全局行为），那么这时候也可以显示调用 ngx.req.read_body() 接口，参看下面示例：
 
 ```nginx
 http {
@@ -73,16 +73,24 @@ http {
 }
 ```
 
-### body 偶尔读取不到?
+### body 偶尔读取不到？
 
-ngx.req.get_body_data 读请求体，会偶尔出现读取不到直接返回 nil 的情况。追其原因还是 Nginx 对内存的使用太小气，一旦请求 body 体积大于 [client_max_body_size](http://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size) ，Nginx 将直接把文件写入到临时文件，以此来减少对内存的依赖。这时候我们的读取代码，就要参考下面代码：
+ngx.req.get_body_data() 读请求体，会偶尔出现读取不到直接返回 nil 的情况。
+
+如果请求体尚未被读取，请先调用 [ngx.req.read_body](#ngxreqread_body) (或打开 [lua_need_request_body](#lua_need_request_body) 选项强制本模块读取请求体，此方法不推荐）。
+
+如果请求体已经被存入临时文件，请使用 [ngx.req.get_body_file](#ngxreqget_body_file) 函数代替。
+
+如需要强制在内存中保存请求体，请设置 [client_body_buffer_size](http://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_buffer_size) 和 [client_max_body_size](http://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size) 为同样大小。
+
+参考下面代码：
 
 ```nginx
 http {
     server {
         listen    80;
 
-        # 强制请求 body 到临时文件中
+        # 强制请求 body 到临时文件中（仅仅为了演示）
         client_body_in_file_only on;
 
         location /test {
@@ -119,7 +127,7 @@ http {
 hello jack
 ```
 
-由于 Nginx 诞生第一天主力是解决负载均衡场景，所以它默认是不读取 body 的行为，会对 API Server 和 Web Application 场景造成一些影响。无论如何，根据需要正确读取、丢弃 body 对你来说都是至关重要的。
+由于 Nginx 是为了解决负载均衡场景诞生的，所以它默认是不读取 body 的行为，会对 API Server 和 Web Application 场景造成一些影响。根据需要正确读取、丢弃 body 对 OpenResty 开发是至关重要的。
 
 
 
