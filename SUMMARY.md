@@ -65,7 +65,7 @@
     * [简单API Server框架](openresty/simple_api.md)
     * [使用 Nginx 内置绑定变量](openresty/inline_var.md)
     * [子查询](openresty/sub_request.md)
-    * [在不同阶段共享变量](openresty/share_var.md)
+    * [不同阶段共享变量](openresty/share_var.md)
     * [防止 SQL 注入](openresty/safe_sql.md)
     * [如何发起新 HTTP 请求]
 * [LuaRestyRedisLibrary](redis.md)
