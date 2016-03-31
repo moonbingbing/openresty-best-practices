@@ -68,7 +68,7 @@
     * [不同阶段共享变量](openresty/share_var.md)
     * [防止 SQL 注入](openresty/safe_sql.md)
     * [如何发起新 HTTP 请求]
-* [LuaRestyRedisLibrary](redis.md)
+* [LuaRestyRedisLibrary]
     * [访问有授权验证的 Redis](redis/auth_connect.md)
     * [select+set_keepalive 组合操作引起的数据读写错误](redis/select-keeplive.md)
     * [redis 接口的二次封装（简化建连、拆连等细节）](redis/out_package.md)
