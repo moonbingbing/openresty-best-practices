@@ -4,7 +4,7 @@
 
 ### SQL 注入例子
 
-我们下面给了一个完整的可复现的 SQL 注入例子，实际上注入的 SQL 语句写法有很多，下例是比较简单的。
+下面给了一个完整的可复现的 SQL 注入例子，实际上注入的 SQL 语句写法有很多，下例是比较简单的。
 
 ```lua
 location /test {
@@ -89,11 +89,11 @@ location /test {
 
 其他变种，大家可以自行爬行搜索引擎了解。
 
-### OpenResty 中如何解决
+### OpenResty 中如何规避
 
-其实大家可以大概网络爬行一下看看如何解决 SQL 注入，我们可以发现实现放法很多，比如替换各种关键字等。在 OpenResty 中，其实就简单很多了，我们只需要对输入参数进行一层过滤即可。
+其实大家可以大概网络爬行一下看看如何解决 SQL 注入，可以发现实现放法很多，比如替换各种关键字等。在 OpenResty 中，其实就简单很多了，只需要对输入参数进行一层过滤即可。
 
-对于 MySQL ，我们可以调用 `ndk.set_var.set_quote_sql_str` ，进行一次过滤即可。
+对于 MySQL ，可以调用 `ndk.set_var.set_quote_sql_str` ，进行一次过滤即可。
 
 ```lua
 -- for MySQL
@@ -107,7 +107,7 @@ if not res then
 end
 ```
 
-如果恰巧你使用的是 PostgreSQL ，我们可以调用 `ndk.set_var.set_quote_pgsql_str` 过滤输入变量。读者这时候可以再次把这段代码放到刚刚的示例代码中，如果您可以得到下面的错误，恭喜您，以正确的姿势防止 SQL 注入。
+如果恰巧你使用的是 PostgreSQL ，调用 `ndk.set_var.set_quote_pgsql_str` 过滤输入变量。读者这时候可以再次把这段代码放到刚刚的示例代码中，如果您可以得到下面的错误，恭喜您，以正确的姿势防止 SQL 注入。
 
     bad result: You have an error in your SQL syntax; check the manual that
     corresponds to your MySQL server version for the right syntax to use near
