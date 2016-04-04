@@ -67,7 +67,7 @@
     * [子查询](openresty/sub_request.md)
     * [不同阶段共享变量](openresty/share_var.md)
     * [防止 SQL 注入](openresty/safe_sql.md)
-    * [如何发起新 HTTP 请求]
+    * [如何发起新 HTTP 请求](openresty/how_request_http.md)
 * [LuaRestyRedisLibrary]
     * [访问有授权验证的 Redis](redis/auth_connect.md)
     * [select+set_keepalive 组合操作引起的数据读写错误](redis/select-keeplive.md)
