@@ -108,7 +108,7 @@
     * [body 在 location 中的传递](ngx_lua/capture.md)
     * [典型应用场景](ngx_lua/use_case.md)
     * [Nginx 状态查看器]
-    * [怎样理解 cosocket]
+    * [怎样理解 cosocket](ngx_lua/whats_cosocket.md)
     * [如何使用高速缓存]
 * [LuaRestyDNSLibrary](dns/main.md)
     * [使用动态 DNS 来完成 HTTP 请求](dns/use_dynamic_dns.md)
