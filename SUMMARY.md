@@ -125,6 +125,7 @@
     * [懒惰动态加载证书]
 * [测试](test.md)
     * [单元测试](test/unittest.md)
+    * [代码覆盖率](test/coverage.md)
     * [API 测试](test/apitest.md)
     * [性能测试](test/performance_test.md)
     * [持续集成](test/ci.md)
