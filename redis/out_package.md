@@ -144,13 +144,6 @@ local commands = {
     "zscore",            "zunionstore",       "evalsha"
 }
 
-for i = 1, #commands do
-    local cmd = commands[i]
-    _M[cmd] =
-            function (self, ...)
-                return do_command(self, cmd, ...)
-            end
-end
 
 local mt = { __index = _M }
 
@@ -299,6 +292,15 @@ local function do_command(self, cmd, ... )
     self.set_keepalive_mod(redis)
 
     return result, err
+end
+
+
+for i = 1, #commands do
+    local cmd = commands[i]
+    _M[cmd] =
+            function (self, ...)
+                return do_command(self, cmd, ...)
+            end
 end
 
 
