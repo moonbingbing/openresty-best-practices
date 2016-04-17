@@ -20,17 +20,17 @@ rewrite指令的flag可以设置为break、last、redirect、permanent。在ngin
 
 ```nginx
 location /download/ {
-  rewrite  ^(/download/)/text1/(.*)\..*$  $1/txt1/$2.txt  last;
-  rewrite  ^(/download/)/text2/(.*)\..*$  $1/txt2/$2.txt  last;
-  rewrite  ^(/download/)/text3/(.*)\..*$  $1/txt3/$2.txt  last;
+    rewrite  ^(/download/)/text1/(.*)\..*$  $1/txt1/$2.txt  last;
+    rewrite  ^(/download/)/text2/(.*)\..*$  $1/txt2/$2.txt  last;
+    rewrite  ^(/download/)/text3/(.*)\..*$  $1/txt3/$2.txt  last;
 }
 ```
 
 ```nginx
 location /download/ {
-  rewrite  ^(/download/)/text1/(.*)\..*$  $1/txt1/$2.txt  break;
-  rewrite  ^(/download/)/text2/(.*)\..*$  $1/txt2/$2.txt  break;
-  rewrite  ^(/download/)/text3/(.*)\..*$  $1/txt3/$2.txt  break;
+    rewrite  ^(/download/)/text1/(.*)\..*$  $1/txt1/$2.txt  break;
+    rewrite  ^(/download/)/text2/(.*)\..*$  $1/txt2/$2.txt  break;
+    rewrite  ^(/download/)/text3/(.*)\..*$  $1/txt3/$2.txt  break;
 }
 ```
 txt文件中的信息都是：“文件名” + “：” + “文件路径”。我们用 `/download/text1/test.txt` 来向服务器发起请求。
@@ -57,7 +57,7 @@ rewrite指令有如下两点值得注意的细节：
 
 ```nginx
 location ~* /conf/(.*?)$ {
-echo "test$1";
+    echo "test$1";
     rewrite .* /download_internal/$1 last;
 }
 
