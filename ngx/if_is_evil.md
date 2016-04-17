@@ -15,10 +15,10 @@
 
 ```nginx
 if ($request_method = POST) {
-  return 405;
+    return 405;
 }
 if ($args ~ post=140){
-  rewrite ^ http://example.com/ permanent;
+    rewrite ^ http://example.com/ permanent;
 }
 ```
 
@@ -86,13 +86,13 @@ location /proxy-pass-uri {
 # 因为if, try_files 失效
 
 location /if-try-files {
-     try_files  /file  @fallback;
+    try_files  /file  @fallback;
 
-     set $true 1;
+    set $true 1;
 
-     if ($true) {
-         # nothing
-     }
+    if ($true) {
+        # nothing
+    }
 }
 
 # nginx 将会发出段错误信号(SIGSEGV)

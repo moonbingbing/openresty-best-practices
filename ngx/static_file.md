@@ -73,7 +73,7 @@ use_temp_path=off;
 server {
     ...
     location / {
-        proxy_cachemy_cache;
+        proxy_cache my_cache;
         proxy_pass http://my_upstream;
     }
 
@@ -115,10 +115,10 @@ server {
     ...
     location / {
         proxy_cache my_cache;
-        proxy_cache_revalidateon;
-        proxy_cache_min_uses3;
-        proxy_cache_use_staleerror timeoutupdatinghttp_500 http_502 http_503 http_504;
-        proxy_cache_lockon;
+        proxy_cache_revalidate on;
+        proxy_cache_min_uses 3;
+        proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
+        proxy_cache_lock on;
         proxy_pass http://my_upstream;
     }
 }

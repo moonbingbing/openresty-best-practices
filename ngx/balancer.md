@@ -25,9 +25,9 @@ upstream test.net{
     server 192.168.10.16:8080;
 }
 server {
-  location / {
-    proxy_pass  http://test.net;
-  }
+    location / {
+        proxy_pass  http://test.net;
+    }
 }
 ```
 
@@ -63,18 +63,18 @@ Nginx 的负载均衡模块目前支持 6 种调度算法，下面进行分别�
 
 ```nginx
 upstream webservers {
-      server 192.168.18.201 weight=1;
-      server 192.168.18.202 weight=1;
-  }
-  server {
-      listen       80;
-      server_name  localhost;
-      #charset koi8-r;
-      #access_log  logs/host.access.log  main;
-      location / {
-              proxy_pass      http://webservers;
-              proxy_set_header  X-Real-IP  $remote_addr;
-      }
+    server 192.168.18.201 weight=1;
+    server 192.168.18.202 weight=1;
+}
+server {
+    listen       80;
+    server_name  localhost;
+    #charset koi8-r;
+    #access_log  logs/host.access.log  main;
+    location / {
+        proxy_pass      http://webservers;
+        proxy_set_header  X-Real-IP  $remote_addr;
+    }
 }
 ```
 
@@ -146,9 +146,9 @@ Web2:
 
 ```nginx
 upstream webservers {
-        server 192.168.18.201 weight=1 max_fails=2 fail_timeout=2;
-        server 192.168.18.202 weight=1 max_fails=2 fail_timeout=2;
-    }
+    server 192.168.18.201 weight=1 max_fails=2 fail_timeout=2;
+    server 192.168.18.202 weight=1 max_fails=2 fail_timeout=2;
+}
 ```
 
 重新加载一下配置文件:
@@ -202,11 +202,11 @@ PS：大家可以看到，现在又可以重新访问，说明 nginx 的健康�
 
 ```nginx
 server {
-                listen 8080;
-                server_name localhost;
-                root /data/www/errorpage;
-                index index.html;
-        }
+    listen 8080;
+    server_name localhost;
+    root /data/www/errorpage;
+    index index.html;
+}
 ```
 
 > index.html 文件内容：
@@ -220,10 +220,10 @@ server {
 
 ```nginx
 upstream webservers {
-        server 192.168.18.201 weight=1 max_fails=2 fail_timeout=2;
-        server 192.168.18.202 weight=1 max_fails=2 fail_timeout=2;
-        server 127.0.0.1:8080 backup;
-    }
+    server 192.168.18.201 weight=1 max_fails=2 fail_timeout=2;
+    server 192.168.18.202 weight=1 max_fails=2 fail_timeout=2;
+    server 127.0.0.1:8080 backup;
+}
 ```
 
 重新加载配置文件：
@@ -262,11 +262,11 @@ ip_hash：每个请求按访问IP的hash结果分配，这样来自同一个IP�
 ```shell
 # vim /etc/nginx/nginx.conf
 upstream webservers {
-        ip_hash;
-        server 192.168.18.201 weight=1 max_fails=2 fail_timeout=2;
-        server 192.168.18.202 weight=1 max_fails=2 fail_timeout=2;
-        #server 127.0.0.1:8080 backup;
-    }
+    ip_hash;
+    server 192.168.18.201 weight=1 max_fails=2 fail_timeout=2;
+    server 192.168.18.202 weight=1 max_fails=2 fail_timeout=2;
+    #server 127.0.0.1:8080 backup;
+}
 ```
 
 注，当负载调度算法为ip_hash时，后端服务器在负载均衡调度中的状态不能有 backup。有人可能会问，为什么呢？大家想啊，如果负载均衡把你分配到 backup 服务器上，你能访问到页面吗？不能，所以了不能配置 backup 服务器。
