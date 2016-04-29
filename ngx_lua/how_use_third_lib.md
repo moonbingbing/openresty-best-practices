@@ -8,7 +8,7 @@ openresty 引用第三方 resty 库非常简单，只需要将相应的文件拷
 
 验证代码如下：
 
-```
+```nginx
 
 server {
     
