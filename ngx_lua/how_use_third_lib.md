@@ -18,16 +18,18 @@ server {
     resolver 8.8.8.8;
     
     location /baidu {
-        content_by_lua_block '
+        content_by_lua_block {
             local http = require "resty.http"
             local httpc = http.new()
             local res, err = httpc:request_uri("http://www.baidu.com")
             if res.status == ngx.HTTP_OK then
                 ngx.say(res.body)
+            else
+                ngx.exit(res.status)
             end
-        ';
+        }
     }
 }
 ```
 
-访问 [http://127.0.0.1:8080/baidu](http://127.0.0.1:8080/baidu) , 如果出现的是百度的首页，说明你配置成功了
+访问 [http://127.0.0.1:8080/baidu](http://127.0.0.1:8080/baidu) , 如果出现的是百度的首页，说明你配置成功了。
