@@ -1,10 +1,10 @@
 # 如何引用第三方resty库
 
-openresty 引用第三方 resty 库非常简单，只需要将相应的文件拷贝到 resty 目录下即可
+openresty 引用第三方 resty 库非常简单，只需要将相应的文件拷贝到 resty 目录下即可。
 
-我们以 resty.http ( [https://github.com/pintsized/lua-resty-http](https://github.com/pintsized/lua-resty-http)) 库为例
+我们以 resty.http ( [https://github.com/pintsized/lua-resty-http](https://github.com/pintsized/lua-resty-http)) 库为例。
 
-只要将 lua-resty-http/lib/resty/ 目录下的 http.lua 和 http_headers.lua两个文件拷贝到 /usr/local/openresty/lualib/resty目录下即可(假设你的openresty安装目录为 /usr/local/openresty).
+只要将 lua-resty-http/lib/resty/ 目录下的 http.lua 和 http_headers.lua两个文件拷贝到 /usr/local/openresty/lualib/resty目录下即可(假设你的openresty安装目录为 /usr/local/openresty)。
 
 验证代码如下：
 
