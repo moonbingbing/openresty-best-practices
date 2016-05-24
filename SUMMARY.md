@@ -155,5 +155,14 @@
         * [Vanilla项目实践]
             * 新浪移动评论项目
             * 新浪移动独立产品Vanilla改造
-    * [Mashape/kong]
+    * [Mashape/kong](others/kong/intro.md)
+        * Kong名字的来历(others/kong/origin.md)
+        * 国内外有哪些公司使用类似的API Gateway
+        * 为什么要使用Lua开发
+        * 代码组织结构
+        * Lua面向对象编程实践
+        * 集群功能是怎么实现的
+        * 支持哪些数据库
+        * 性能指标
+        * 开发自定义插件
     * [如何添加自己的lua api](others/add_new_lua_api.md)
