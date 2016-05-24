@@ -158,7 +158,6 @@
     * [Mashape/kong](others/kong/intro.md)
         * Kong名字的来历(others/kong/origin.md)
         * 国内外有哪些公司使用类似的API Gateway
-        * 为什么要使用Lua开发
         * 代码组织结构
         * Lua面向对象编程实践
         * 集群功能是怎么实现的
