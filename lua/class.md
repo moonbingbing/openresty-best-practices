@@ -56,8 +56,8 @@ end
 Number 类型用于表示实数，和 C/C++ 里面的 double 类型很类似。可以使用数学函数 math.floor（向下取整）和 math.ceil（向上取整）进行取整操作。
 
 ```lua
-local order = 3.9
-local score = 98.5
+local order = 3.99
+local score = 98.01
 print(math.floor(order))   -->output:3
 print(math.ceil(score))    -->output:99
 ```
