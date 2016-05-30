@@ -21,7 +21,7 @@ docker run -d -p 80:80 openresty
 最终我们绕过这个默认的桥接网卡，使用`--net`参数即可完成。
 
 ```
-docker run -d -p --net=host 80:80 openresty
+docker run -d --net=host openresty
 ```
 
 多么简单，就这么一个参数，居然困扰了我们好几天。一度怀疑我们是否要忍受引入docker带来的低效率网络。所以有时候多出来交流、学习，真的可以让我们学到好多。虽然这个点是我们自己挖出来的，但是在交流过程中还学到了很多好东西。
