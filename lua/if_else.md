@@ -42,7 +42,7 @@ end
 
 > 运行输出：Congratulations, you have passed it,your score greater or equal to 60
 
-与 C 语言的不同之处是 elseif 是连在一起的，若不 else 与 if 写成 "else if" 则相当于在 else 里嵌套，如下代码：
+与 C 语言的不同之处是 else与if 是连在一起的，若将 else 与 if 写成 "else if" 则相当于在 else 里嵌套另一个if语句，如下代码：
 
 ```lua
 score = 0
