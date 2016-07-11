@@ -85,7 +85,7 @@ location / {
 #### ReWrite语法
 
 * last          – 基本上都用这个 Flag
-* break         – 中止 Rewirte，不在继续匹配
+* break         – 中止 Rewirte，不再继续匹配
 * redirect      – 返回临时重定向的 HTTP 状态 302
 * permanent     – 返回永久重定向的 HTTP 状态 301
 
