@@ -8,9 +8,9 @@
 luarocks install luacov
 ```
 
-当然，你也可以通过 [github 上的源码](https://github.com/keplerproject/luacov) 编译来安装。这个方式你可以修改 LuaCov 的一些默认配置。
+当然，你也可以通过 [github 上的 luacov 源码](https://github.com/keplerproject/luacov) 编译来安装。使用的有效文件都在 src 目录下，把 default.lua, hook.lua, luacov.lua, reporter.lua, runner.lua, stats.lua 这几个文件放于 luacov 文件夹下即可, 当然还要设置好 lua_package_path , 不然没法找到这些文件。
 
-比如 LuaCov 的分析文件是按照 100 条一批来写入的，如果你的代码量不大，可能就会不准确。你可以修改 /src/luacov/defaults.lua 里面的 savestepsize，改为 2，来适应你的应用场景。
+这个方式你还可以修改 LuaCov 的一些默认配置。比如 LuaCov 的分析文件是按照 100 条一批来写入的，如果你的代码量不大，可能就会不准确。你可以修改 /src/luacov/defaults.lua 里面的 savestepsize，改为 2，来适应你的应用场景。
 
 在 OPenResty 里面使用 LuaCov，只用在 nginx.conf 中增加  init_by_lua_block（只能放在 http 上下文中） 既可。
 ```
@@ -21,7 +21,7 @@ init_by_lua_block {
 ```
 这个 \*_bolck 语法在较新的 OpenResty 版本中新引入，如果提示指令不存在，请使用最新的来版本来测试。
 
-重新启动 OpenResty 后，LuaCov 就已经生效了。你可以跑下单元测试，或者访问下 API 接口，在当前工作目录下，就会生成 `luacov.stats.out` 这个统计文件。然后 cd 到这个目录下，运行：
+重新启动 OpenResty 后，LuaCov 就已经生效了。你可以跑下单元测试，或者访问下 API 接口，在当前工作目录下，就会生成 `luacov.stats.out` 这个统计文件。如果没有此文件产生，可以通过观察 logs/error.log 知道可能是由于没有写入权限的问题，使用 chmod 命令设置一下即可。然后 cd 到这个目录下，运行：
 ```
 luacov
 ```
