@@ -8,7 +8,9 @@
 luarocks install luacov
 ```
 
-当然，你也可以通过 [github 上的 luacov 源码](https://github.com/keplerproject/luacov) 编译来安装。使用的有效文件都在 src 目录下，把 default.lua, hook.lua, luacov.lua, reporter.lua, runner.lua, stats.lua 这几个文件放于 luacov 文件夹下即可, 当然还要设置好 lua_package_path , 不然没法找到这些文件。
+当然，你也可以通过 [github 上的 luacov 源码](https://github.com/keplerproject/luacov) 编译来安装。
+
+OpenResty 工程中使用的有效文件都在 src 目录下，把 default.lua, hook.lua, luacov.lua, reporter.lua, runner.lua, stats.lua 这几个文件放于 luacov 文件夹下即可, 当然还要设置好 lua_package_path , 不然没法找到这些文件。
 
 这个方式你还可以修改 LuaCov 的一些默认配置。比如 LuaCov 的分析文件是按照 100 条一批来写入的，如果你的代码量不大，可能就会不准确。你可以修改 /src/luacov/defaults.lua 里面的 savestepsize，改为 2，来适应你的应用场景。
 
