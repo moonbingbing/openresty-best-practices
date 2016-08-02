@@ -4,54 +4,68 @@
 
 > location [=|~|~*|^~] /uri/ { … }
 
-|符号|含义|
-|:------:|:----------------------|
-|=    |开头表示精确匹配|
-|^~   |开头表示 uri 以某个常规字符串开头，理解为匹配 url 路径即可。nginx 不对 url 做编码，因此请求为`/static/20%/aa`，可以被规则`^~ /static/ /aa`匹配到（注意是空格）|
-|~   |开头表示区分大小写的正则匹配|
-|~*   |开头表示不区分大小写的正则匹配|
-|/   |通用匹配，任何请求都会匹配到|
+|模式|含义|
+|--------------|:----------------------|
+|location = /uri  |= 表示精确匹配，只有完全匹配上才能生效|
+|location ^~ /uri  |^~ 开头对URL路径进行前缀匹配，并且在正则之前。|
+|location ~ pattern |开头表示区分大小写的正则匹配|
+|location ~* pattern  |开头表示不区分大小写的正则匹配|
+|location /uri | 不带任何修饰符，也表示前缀匹配，但是在正则匹配之后 |
+|location /   |通用匹配，任何未匹配到其它location的请求都会匹配到，相当于switch中的default|
 
+前缀匹配时，nginx 不对 url 做编码，因此请求为`/static/20%/aa`，可以被规则`^~ /static/ /aa`匹配到（注意是空格）
 
 多个 location 配置的情况下匹配顺序为（参考资料而来，还未实际验证，试试就知道了，不必拘泥，仅供参考）:
 
-* 首先匹配 `=`
-* 其次匹配 `^~`
+* 首先精确匹配 `=`
+* 其次前缀匹配 `^~`
 * 其次是按文件中顺序的正则匹配
+* 然后匹配不带任何修饰的前缀匹配。
 * 最后是交给 `/` 通用匹配
 * 当有匹配成功时候，停止匹配，按当前匹配规则处理请求
+
+*注意：前缀匹配，如果有包含关系时，按最大匹配原则进行匹配。比如在前缀匹配：`location /dir01` 与 `location /dir01/dir02`，如有请求 `http://localhost/dir01/dir02/file` 将最终匹配到 `location /dir01/dir02`*
 
 例子，有如下匹配规则：
 
 ```nginx
 location = / {
-   #规则A
+   echo "规则A";
 }
 location = /login {
-   #规则B
+   echo "规则B";
 }
 location ^~ /static/ {
-   #规则C
+   echo "规则C";
+}
+location ^~ /static/files {
+	echo "规则X";
 }
 location ~ \.(gif|jpg|png|js|css)$ {
-   #规则D
+   echo "规则D";
 }
 location ~* \.png$ {
-   #规则E
+   echo "规则E";
+}
+location /img {
+	echo "规则Y";
 }
 location / {
-   #规则F
+   echo "规则F";
 }
 
 ```
 
 那么产生的效果如下：
 
-* 访问根目录 `/`， 比如 `http://localhost/` 将匹配规则 A
-* 访问 `http://localhost/login` 将匹配规则 B，`http://localhost/register` 则匹配规则 F
-* 访问 `http://localhost/static/a.html` 将匹配规则 C
-* 访问 `http://localhost/a.gif`, `http://localhost/b.jpg` 将匹配规则 D 和规则 E，但是规则 D 顺序优先，规则 E 不起作用，而 `http://localhost/static/c.png` 则优先匹配到规则 C
-* 访问 `http://localhost/a.PNG` 则匹配规则 E，而不会匹配规则 D，因为规则 E 不区分大小写。
+* 访问根目录 `/`， 比如 `http://localhost/` 将匹配`规则A`
+* 访问 `http://localhost/login` 将匹配`规则B`，`http://localhost/register` 则匹配`规则F`
+* 访问 `http://localhost/static/a.html` 将匹配`规则C`
+* 访问 `http://localhost/static/files/a.exe` 将匹配`规则X`，虽然`规则C`也能匹配到，但因为最大匹配原则，最中选中了`规则X`。你可以测试下，去掉规则X，则当前URL会匹配上`规则C`。
+* 访问 `http://localhost/a.gif`, `http://localhost/b.jpg` 将匹配`规则D` 和`规则 E`，但是`规则 D` 顺序优先，`规则 E` 不起作用，而 `http://localhost/static/c.png` 则优先匹配到`规则 C`
+* 访问 `http://localhost/a.PNG` 则匹配`规则 E`，而不会匹配`规则 D`，因为`规则 E` 不区分大小写。
+* 访问 `http://localhost/img/a.gif` 会匹配上`规则D`,虽然`规则Y`也可以匹配上，但是因为正则匹配优先，而忽略了`规则Y`。
+* 访问 `http://localhost/img/a.tiff` 会匹配上`规则Y`。
 
 访问 `http://localhost/category/id/1111` 则最终匹配到规则 F，因为以上规则都不匹配，这个时候应该是 nginx 转发请求给后端应用服务器，比如 FastCGI（php），tomcat（jsp），nginx 作为反向代理服务器存在。
 
