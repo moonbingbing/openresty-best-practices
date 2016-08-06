@@ -157,7 +157,7 @@
             * 新浪移动独立产品Vanilla改造
     * [Mashape/kong]
     * [如何添加自己的lua api](others/add_new_lua_api.md)
-* [零碎知识点记录]
+* 零碎知识点记录
     * [2016 7 月汇总](something/2016_7.md)
         - [Test::Nginx 能指定现成的nginx.conf，而不是自动生成一个吗](something/2016_7.md)
         - [access 日志字符编码问题](something/2016_7.md)
