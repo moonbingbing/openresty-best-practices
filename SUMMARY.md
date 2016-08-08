@@ -110,6 +110,7 @@
     * [Nginx 状态查看器]
     * [怎样理解 cosocket](ngx_lua/whats_cosocket.md)
     * [如何使用高速缓存]
+    * [如何安全启动唯一实例的 timer ](ngx_lua/how_one_instance_time.md)
 * [LuaRestyDNSLibrary](dns/main.md)
     * [使用动态 DNS 来完成 HTTP 请求](dns/use_dynamic_dns.md)
 * [LuaRestyLock](lock.md)
