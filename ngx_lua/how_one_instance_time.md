@@ -20,6 +20,7 @@
 通过 API 描述可以看到，我们可以用它来确定这个 worker 的内部身份，并且这个身份是相对稳定的。即使当前 nginx 进程因为某些原因 crash 了，新 fork 出来的 nginx worker 是会继承这个 worker id 的。
 
 剩下的问题就比较简单了，完全可以把我们的 timer 绑定到某个特定的 worker 上即可。
+下面的例子，演示如何只在 worker.id 为 0 的进程上运行后台 timer。
 
 ```
 init_worker_by_lua '
