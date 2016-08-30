@@ -153,10 +153,10 @@ function check_args_template(args, template)
 end
 
 local args = {name="myname", tel=888888, age=18,
-    mobile_no=13888888888, love_things = ["football", "music"]}
+    mobile_no=13888888888, love_things = {"football", "music"}}
 
-print("valid   check: ", check_args_template(args, {name="", tel=0, love_things=[]}))
-print("unvalid check: ", check_args_template(args, {name="", tel=0, love_things=[], email=""}))
+print("valid   check: ", check_args_template(args, {name="", tel=0, love_things={}}))
+print("unvalid check: ", check_args_template(args, {name="", tel=0, love_things={}, email=""}))
 ```
 
 运行一下上面的代码，结果如下：

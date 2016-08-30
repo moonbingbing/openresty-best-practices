@@ -110,6 +110,7 @@
     * [Nginx 状态查看器]
     * [怎样理解 cosocket](ngx_lua/whats_cosocket.md)
     * [如何使用高速缓存]
+    * [如何安全启动唯一实例的 timer ](ngx_lua/how_one_instance_time.md)
 * [LuaRestyDNSLibrary](dns/main.md)
     * [使用动态 DNS 来完成 HTTP 请求](dns/use_dynamic_dns.md)
 * [LuaRestyLock](lock.md)
@@ -165,3 +166,10 @@
             * 扩展已经存在的插件(others/kong/plugin-upgrad.md)
             * 开发一个新的插件(others/kong/plugin-new.md)
     * [如何添加自己的lua api](others/add_new_lua_api.md)
+* 零碎知识点记录
+    * [2016 7 月汇总](something/2016_7.md)
+        - [Test::Nginx 能指定现成的nginx.conf，而不是自动生成一个吗](something/2016_7.md)
+        - [access 日志字符编码问题](something/2016_7.md)
+        - [share_dict 中的过期时间有时候过期有时候不过期？](something/2016_7.md)
+        - [Lua 变量的传递和内存的使用](something/2016_7.md)
+        - [ngx.log 可不可以选择几个不同的 log path](something/2016_7.md)

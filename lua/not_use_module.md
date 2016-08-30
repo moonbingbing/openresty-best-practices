@@ -1,6 +1,6 @@
 # 抵制使用 module() 定义模块
 
-旧式的模块定义方式是通过 `module("filename"[,package.seeall])*`来显示声明一个包，现在官方不推荐再使用这种方式。这种方式将会返回一个由 `filename` 模块函数组成的 `table` ，并且还会定义一个包含该 `table` 的全局变量。
+旧式的模块定义方式是通过 `module("filename"[,package.seeall])*`来显式声明一个包，现在官方不推荐再使用这种方式。这种方式将会返回一个由 `filename` 模块函数组成的 `table` ，并且还会定义一个包含该 `table` 的全局变量。
 
 `module("filename", package.seeall)` 这种写法是不提倡的，官方给出了两点原因：
 

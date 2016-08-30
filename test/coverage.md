@@ -12,7 +12,7 @@ luarocks install luacov
 
 比如 LuaCov 的分析文件是按照 100 条一批来写入的，如果你的代码量不大，可能就会不准确。你可以修改 /src/luacov/defaults.lua 里面的 savestepsize，改为 2，来适应你的应用场景。
 
-在 OPenResty 里面使用 LuaCov，只用在 nginx.conf 中增加  init_by_lua_block（只能放在 http 上下文中） 既可。
+在 OpenResty 里面使用 LuaCov，只用在 nginx.conf 中增加  init_by_lua_block（只能放在 http 上下文中） 既可。
 ```
 init_by_lua_block {
     require 'luacov.tick'
