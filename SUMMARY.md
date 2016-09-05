@@ -166,4 +166,5 @@
         - [Lua 变量的传递和内存的使用](something/2016_7.md)
         - [ngx.log 可不可以选择几个不同的 log path](something/2016_7.md)
     * [2016-8 月汇总]
-        - [如何在后台开启轻量级线程来定时更新共享内存?](something/2016_8_1.md)
+        - [如何在后台开启轻量级线程来定时更新共享内存](something/2016_8.md)
+        - [如何使用 os.getenv 获取系统环境变量](something/2016_8.md)
