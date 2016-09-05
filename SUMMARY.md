@@ -159,9 +159,11 @@
     * [Mashape/kong]
     * [如何添加自己的lua api](others/add_new_lua_api.md)
 * 零碎知识点记录
-    * [2016 7 月汇总](something/2016_7.md)
+    * [2016-7 月汇总](something/2016_7.md)
         - [Test::Nginx 能指定现成的nginx.conf，而不是自动生成一个吗](something/2016_7.md)
         - [access 日志字符编码问题](something/2016_7.md)
         - [share_dict 中的过期时间有时候过期有时候不过期？](something/2016_7.md)
         - [Lua 变量的传递和内存的使用](something/2016_7.md)
         - [ngx.log 可不可以选择几个不同的 log path](something/2016_7.md)
+    * [2016-8 月汇总]
+        - [如何在后台开启轻量级线程来定时更新共享内存?](something/2016_8_1.md)
