@@ -31,9 +31,9 @@ if not ok then
 end
 ```
 
-这是一个标准的redis接口调用，如果你的代码中redis被调用频率不高，那么这段代码不会有任何问题。但如果你的项目重度依赖redis，工程中有大量的代码在重复这样一个动作，创建连接-->数据操作-->关闭连接（或放到连接池）这个完整的链路调用完毕，甚至还要考虑不同的return情况做不同处理，就很快发现代码中有大量的重复。
+这是一个标准的 redis 接口调用，如果你的代码中 redis 被调用频率不高，那么这段代码不会有任何问题。但如果你的项目重度依赖 redis，工程中有大量的代码在重复创建连接-->数据操作-->关闭连接（或放到连接池）这个完整的链路调用完毕，甚至还要考虑不同的 return 情况做不同处理，就很快发现代码中有大量的重复。
 
-`Lua`是不支持面向对象的。很多人用尽各种招术利用元表来模拟。可是，`Lua`的发明者似乎不想看到这样的情形，因为他们把取长度的`__len`方法以及析构函数`__gc`留给了 C API。纯 Lua 只能望洋兴叹。
+`Lua`是不支持面向对象的。很多人用尽各种招术利用元表来模拟。可是，`Lua`的发明者似乎不想看到这样的情形，因为他们把取长度的`__len`方法以及析构函数`__gc`留给了 C API，纯 Lua 只能望洋兴叹。
 
 > 我们期望的代码应该是这样的：
 
@@ -61,14 +61,14 @@ end
 ngx.say("dog: ", res)
 ```
 
-并且他自身具备以下几个特征：
+期望它自身具备以下几个特征：
 
-* new、connect函数合体，使用时只负责申请，尽量少关心什么时候具体连接、释放
-* 默认redis数据库连接地址，但是允许自定义
-* 每次redis使用完毕，自动释放redis连接到连接池供其他请求复用
-* 要支持redis的重要优化手段 pipeline
+* new、connect 函数合体，使用时只负责申请，尽量少关心什么时候具体连接、释放；
+* 默认 redis 数据库连接地址，但是允许自定义；
+* 每次 redis 使用完毕，自动释放 redis 连接到连接池供其他请求复用；
+* 要支持 redis 的重要优化手段 pipeline；
 
-> 不卖关子，只要干货，我们最后是这样干的，可以这里看到[gist代码](https://gist.github.com/moonbingbing/9915c66346e8fddcefb5)
+> 不卖关子，只要干货，我们最后是这样干的，可以这里看到 [gist代码](https://gist.github.com/moonbingbing/9915c66346e8fddcefb5)
 
 ```lua
 -- file name: resty/redis_iresty.lua
@@ -295,18 +295,19 @@ local function do_command(self, cmd, ... )
 end
 
 
+for i = 1, #commands do
+    local cmd = commands[i]
+    _M[cmd] =
+            function (self, ...)
+                return do_command(self, cmd, ...)
+            end
+end
+
+
 function _M.new(self, opts)
     opts = opts or {}
     local timeout = (opts.timeout and opts.timeout * 1000) or 1000
     local db_index= opts.db_index or 0
-
-    for i = 1, #commands do
-        local cmd = commands[i]
-        _M[cmd] =
-                function (self, ...)
-                    return do_command(self, cmd, ...)
-                end
-    end
 
     return setmetatable({
             timeout = timeout,
@@ -333,7 +334,7 @@ end
 ngx.say("set result: ", ok)
 ```
 
-在最终的示例代码中看到，所有的连接创建、销毁连接、连接池部分，都被完美隐藏了，我们只需要业务就可以了。妈妈再也不用担心我把redis搞垮了。
+在最终的示例代码中看到，所有的连接创建、销毁连接、连接池部分，都被完美隐藏了，我们只需要业务就可以了。妈妈再也不用担心我把 redis 搞垮了。
 
 Todo list：
-目前`resty.redis`并没有对redis 3.0的集群API做支持，既然统一了redis的入口、出口，那么对这个`redis_iresty`版本做适当调整完善，就可以支持redis 3.0的集群协议。由于我们目前还没引入redis集群，这里也希望有使用的同学贡献自己的补丁或文章。
+目前`resty.redis`并没有对redis 3.0的集群API做支持，既然统一了 redis 的入口、出口，那么对这个 `redis_iresty` 版本做适当调整完善，就可以支持 redis 3.0 的集群协议。由于我们目前还没引入 redis 集群，这里也希望有使用的同学贡献自己的补丁或文章。

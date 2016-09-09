@@ -4,21 +4,27 @@ OpenResty，最擅长的应用场景之一就是API Server。如果我们只有�
 
 > 举例几个简单API接口输出：
 
-```
+```nginx
 server {
     listen       80;
     server_name  localhost;
 
     location /app/set {
-        content_by_lua "ngx.say('set data')";
+        content_by_lua_block {
+             ngx.say('set data')
+        }
     }
 
     location /app/get {
-        content_by_lua "ngx.say('get data')";
+        content_by_lua_block {
+            ngx.say('get data')
+        }
     }
 
     location /app/del {
-        content_by_lua "ngx.say('del data')";
+        content_by_lua_block {
+            ngx.say('del data')
+        }
     }
 }
 ```
@@ -43,7 +49,7 @@ REST通常基于使用HTTP，URI，和XML以及HTML这些现有的广泛流行�
 - 资源是由URI来指定。
 - 对资源的操作包括获取、创建、修改和删除资源，这些操作正好对应HTTP协议提供的GET、POST、PUT和DELETE方法。
 - 通过操作资源的表现形式来操作资源。
-- 资源的表现形式则是XML或者HTML，取决于读者是机器还是人，是消费web服务的客户软件还是web浏览器。当然也可以是任何其他的格式。
+- 资源的表现形式则是XML或者HTML，取决于读者是机器还是人，是消费Web服务的客户软件还是Web浏览器。当然也可以是任何其他的格式。
 
 > REST的要求
 
@@ -62,13 +68,19 @@ server {
     server_name  localhost;
 
     location /app/task01 {
-        content_by_lua "ngx.say(ngx.req.get_method() .. ' task01')";
+        content_by_lua_block {
+            ngx.say(ngx.req.get_method() .. ' task01')
+        }
     }
     location /app/task02 {
-        content_by_lua "ngx.say(ngx.req.get_method() .. ' task02')";
+        content_by_lua_block {
+            ngx.say(ngx.req.get_method() .. ' task02')
+        }
     }
     location /app/task03 {
-        content_by_lua "ngx.say(ngx.req.get_method() .. ' task03')";
+        content_by_lua_block {
+            ngx.say(ngx.req.get_method() .. ' task03')
+        }
     }
 }
 ```
@@ -112,6 +124,3 @@ REST 推崇使用 HTTP 返回码来区分返回结果, 但最大的问题在于 
     - 用户名不合法
     - email 冲突
     - email 不合法
-
-
-

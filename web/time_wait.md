@@ -1,9 +1,11 @@
 # TIME_WAIT
+
 这个是高并发服务端常见的一个问题，一般的做法是修改sysctl的参数来解决。
 但是，做为一个有追求的程序猿，你需要多问几个为什么，为什么会出现TIME_WAIT？出现这个合理吗？
 
 我们需要先回顾下tcp的知识，请看下面的状态转换图（图片来自[「The TCP/IP Guide」](http://www.tcpipguide.com/)）：
-![tcp](/web/tcp.png)
+
+![tcp](../images/tcp.png)
 
 因为TCP连接是双向的，所以在关闭连接的时候，两个方向各自都需要关闭。
 先发FIN包的一方执行的是主动关闭；后发FIN包的一方执行的是被动关闭。
@@ -33,7 +35,6 @@ HTTP/1.1 200 OK
 Date: Wed, 08 Jul 2015 02:53:54 GMT
 Content-Type: text/plain
 Connection: close
-Server: 360 web server
 
 hello world
 ```
@@ -63,7 +64,6 @@ Date: Mon, 06 Jul 2015 09:35:34 GMT
 Content-Type: text/plain
 Transfer-Encoding: chunked
 Connection: close
-Server: 360 web server
 Content-Encoding: gzip
 ```
 这个请求包是http1.1的协议，也声明了Connection: Keep-Alive，为什么还会被nginx主动关闭呢？

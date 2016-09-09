@@ -10,8 +10,9 @@
 
 如果我们确定开启了长连接，发现这时候Redis的CPU的占用率还是不高，在这种情况下，就要从Redis的使用方法上进行优化。
 
-如果我们可以把所有单次请求，压缩到一起，如下图：<p>
-![请求示意图](pipeline.png)
+如果我们可以把所有单次请求，压缩到一起，如下图：
+
+![请求示意图](../images/pipeline.png)
 
 很庆幸Redis早就为我们准备好了这道菜，就等着我们吃了，这道菜就叫`pipeline`。pipeline机制将多个命令汇聚到一个请求中，可以有效减少请求数量，减少网络延时。下面是对比使用pipeline的一个例子：
 
@@ -22,7 +23,7 @@
 
     server {
         location /withoutpipeline {
-            content_by_lua '
+           content_by_lua_block {
                 local redis = require "resty.redis"
                 local red = redis:new()
 
@@ -56,11 +57,11 @@
                     ngx.say("failed to set keepalive: ", err)
                     return
                 end
-            ';
+            }
         }
 
         location /withpipeline {
-            content_by_lua '
+            content_by_lua_block {
                 local redis = require "resty.redis"
                 local red = redis:new()
 
@@ -106,12 +107,10 @@
                     ngx.say("failed to set keepalive: ", err)
                     return
                 end
-            ';
+            }
         }
     }
 ```
 
 在我们实际应用场景中，正确使用pipeline对性能的提升十分明显。我们曾经某个后台应用，逐个处理大约100万条记录需要几十分钟，经过pileline压缩请求数量后，最后时间缩小到20秒左右。做之前能预计提升性能，但是没想到提升如此巨大。
-
-在360企业安全目前的应用中，Redis的使用瓶颈依然停留在网络上，不得不承认Redis的处理效率相当赞。
 

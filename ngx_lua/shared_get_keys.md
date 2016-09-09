@@ -1,11 +1,11 @@
-ngx.shared.DICT 非队列性质
+# ngx.shared.DICT 非队列性质
 ===========
 
-执行阶段和主要函数请参考[维基百科 HttpLuaModule#ngx.shared.DICT](http://wiki.nginx.org/HttpLuaModule#ngx.shared.DICT)
+执行阶段和主要函数请参考[维基百科 HttpLuaModule#ngx.shared.DICT](https://github.com/openresty/lua-nginx-module#ngxshareddict)
 
 非队列性质
 ------------
-ngx.shared.DICT的实现是采用红黑树实现，当申请的缓存被占用完后如果有新数据需要存储则采用LRU算法淘汰掉“多余”数据。
+ngx.shared.DICT 的实现是采用红黑树实现，当申请的缓存被占用完后如果有新数据需要存储则采用 LRU 算法淘汰掉“多余”数据。
 
 
 这样数据结构的在带有队列性质的业务逻辑下会出现的一些问题：
@@ -14,7 +14,7 @@ ngx.shared.DICT的实现是采用红黑树实现，当申请的缓存被占用�
 
 ```
 
--- [ngx.thread.spawn](http://wiki.nginx.org/HttpLuaModule#ngx.thread.spawn) #1 存储线程 理解为生产者
+-- [ngx.thread.spawn](https://github.com/openresty/lua-nginx-module#ngxthreadspawn) #1 存储线程 理解为生产者
 
 	....
 	local cache_str = string.format([[%s&%s&%s&%s&%s&%s&%s]], net, name, ip,
@@ -26,7 +26,7 @@ ngx.shared.DICT的实现是采用红黑树实现，当申请的缓存被占用�
 	....
 
 
--- [ngx.thread.spawn](http://wiki.nginx.org/HttpLuaModule#ngx.thread.spawn) #2 取线程 理解为消费者
+-- [ngx.thread.spawn](https://github.com/openresty/lua-nginx-module#ngxthreadspawn) #2 取线程 理解为消费者
 
 	while not ngx.worker.exiting() do
 		local keys = ngx_share:get_keys(50)  -- 一秒处理50个数据

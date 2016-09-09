@@ -1,0 +1,7 @@
+{
+    "name": "OpenResty 最佳实践",
+    "introduction": "本课程里面记录的是作者在使用 OpenResty 过程中，遇到的一些坑和容易犯的错误，比较偏重实际经验的分享。阅读完后能更加了解 OpenResty 这个框架，也能避免很多常见的陷阱。",
+    "path":{
+         "toc" : "SUMMARY.md"
+    }
+}
