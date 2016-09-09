@@ -167,3 +167,6 @@ client:connect({
 	password = "123456"
 })
 ```
+
+See: 
+[http://hambut.com/2016/09/09/how-to-resolve-the-domain-name-in-openresty/](http://hambut.com/2016/09/09/how-to-resolve-the-domain-name-in-openresty/)
