@@ -45,7 +45,7 @@ resolver 8.8.8.8 114.114.114.114 valid=3600s;
 
 我们的代码常常运行在各种云上，为了减少维护成本，我采用了动态读取本机`/etc/resolv.conf`的方法来做。
 
-废话不说，让我们一赌为快。
+废话不说，让我们一睹为快。
 
 
 ```lua
@@ -167,6 +167,14 @@ client:connect({
 	password = "123456"
 })
 ```
+
+## 如何使用 /etc/hosts 自定义域名
+
+还有些同学可能会在`hosts`文件中自定义域名和`ip`，这时候`resolve`是无法正常解析的。
+
+这个时候可以借助`dnsmasq`这个服务来缓存我们的`dns`结果，`hosts`的定义可以被该服务识别。
+
+需要在`nginx`的配置文件中，设置`resolver`为`dnsmasq`服务的监听地址即可。
 
 See: 
 [http://hambut.com/2016/09/09/how-to-resolve-the-domain-name-in-openresty/](http://hambut.com/2016/09/09/how-to-resolve-the-domain-name-in-openresty/)
