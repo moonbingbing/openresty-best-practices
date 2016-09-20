@@ -67,7 +67,10 @@ events {
 
 http {
     # 设置默认 lua 搜索路径，添加 lua 路径
-    lua_package_path 'lua/?.lua;/blah/?.lua;;';
+    # 此处写相对路径时，对启动nginx的路径有要求，必须在nginx目录下启动，require找不到comm.param
+    # 绝对路径当然也没问题，但是不可移植，因此应使用nginx内置变量$prefix作为路径前缀
+    # lua_package_path 'lua/?.lua;/blah/?.lua;;';
+    lua_package_path '$prefix/lua/?.lua;/blah/?.lua;;'
 
     # 对于开发研究，可以对代码 cache 进行关闭，这样不必每次都重新加载 nginx。
     lua_code_cache off;
