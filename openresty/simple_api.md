@@ -130,8 +130,8 @@ http {
         # 在代码路径中使用nginx变量
         # 注意： nginx var 的变量一定要谨慎，否则将会带来非常大的风险
         location ~ ^/api/([-_a-zA-Z0-9/]+) {
-            access_by_lua_file  /path/to/lua/access_check.lua;
-            content_by_lua_file /path/to/lua/$1.lua;
+            access_by_lua_file  lua/access_check.lua;
+            content_by_lua_file lua/$1.lua;
         }
     }
 }
