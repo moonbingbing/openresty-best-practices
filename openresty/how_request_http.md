@@ -45,6 +45,10 @@ http {
 
         location /spe_md5 {
             proxy_pass http://md5_server;   -- ④
+            #For HTTP, the proxy_http_version directive should be set to “1.1” and the “Connection” 
+            #header field should be cleared.（from:http://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive)
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
         }
     }
 
