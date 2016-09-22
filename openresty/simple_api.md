@@ -67,8 +67,10 @@ events {
 
 http {
     # 设置默认 lua 搜索路径，添加 lua 路径
-    # 此处写相对路径时，对启动nginx的路径有要求，必须在nginx目录下启动，require找不到comm.param
-    # 绝对路径当然也没问题，但是不可移植，因此应使用变量$prefix或${prefix}，OR会替换为nginx的prefix path.
+    # 此处写相对路径时，对启动 nginx 的路径有要求，必须在 nginx 目录下启动，require 找不到
+    # comm.param 绝对路径当然也没问题，但是不可移植，因此应使用变量 $prefix 或 
+    # ${prefix}，OR 会替换为 nginx 的 prefix path。
+    
     # lua_package_path 'lua/?.lua;/blah/?.lua;;';
     lua_package_path '$prefix/lua/?.lua;/blah/?.lua;;'
 
