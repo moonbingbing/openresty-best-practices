@@ -75,6 +75,7 @@
     * [redis 接口的二次封装（发布订阅）](redis/pub_sub_package.md)
     * [pipeline 压缩请求数量](redis/pipeline.md)
     * [script 压缩复杂请求](redis/script.md)
+    * [动态生成的 lua-resty-redis 模块方法](redis/dynamic_redis_module_method.md)
 * [LuaCjsonLibrary](json.md)
     * [json解析的异常捕获](json/parse_exception.md)
     * [稀疏数组](json/sparse_array.md)
