@@ -73,7 +73,7 @@ end
 return _M
 ```
 
-可以看出来，这个cache是worker级别的，不会在nginx wokers之间共享。并且，它是预先分配好key的数量，而shared dcit需要自己用key和value的大小和数量，来估算需要把内存设置为多少。
+可以看出来，这个cache是worker级别的，不会在nginx wokers之间共享。并且，它是预先分配好key的数量，而shared dict需要自己用key和value的大小和数量，来估算需要把内存设置为多少。
 
 #### 如何选择？
 
