@@ -1,12 +1,12 @@
-# Summary
+# 目录
 
 * [序](README.md)
 * [入门篇](README.md)
-    * [WEB发展](base/web_evolution.md)
-    * [OpenResty简介](base/intro.md)
+    * [Socket 编程发展](base/web_evolution.md)
+    * [OpenResty 简介](base/intro.md)
 * [Lua 入门](lua/main.md)
-    * [Lua简介](lua/brief.md)
-    * [Lua环境搭建](lua/build_env.md)
+    * [Lua 简介](lua/brief.md)
+    * [Lua 环境搭建](lua/build_env.md)
     * [基础数据类型](lua/class.md)
     * [表达式](lua/operator.md)
     * [控制结构](lua/control_structrues.md)
@@ -18,63 +18,64 @@
     * [Lua函数](lua/function_descrip.md)
         * [函数的定义](lua/function_define.md)
         * [函数的参数](lua/function_parameter.md)
-        * [函数的返回值](lua/function_result.md)
+        * [函数返回值](lua/function_result.md)
         * [全动态函数调用](lua/call_user_func_array.md)
     * [模块](lua/module.md)
-    * [String库](lua/string_library.md)
-    * [Table库](lua/table_library.md)
+    * [String 库](lua/string_library.md)
+    * [Table 库](lua/table_library.md)
     * [日期时间函数](lua/time_date_function.md)
     * [数学库函数](lua/math_library.md)
     * [文件操作](lua/file.md)
 * [Lua高阶]
     * [元表](lua/metatable.md)
     * [面向对象编程](lua/object_oriented.md)
-    * [FFI](lua/FFI.md)
-    * [下标从1开始](lua/subscript.md)
     * [局部变量](lua/local.md)
     * [判断数组大小](lua/array_size.md)
     * [非空判断](lua/not_nill.md)
     * [正则表达式](lua/re.md)
     * [不用标准库](lua/not_use_lib.md)
     * [虚变量](lua/dummy_var.md)
-    * [函数在调用代码前定义](lua/function_before_use.md)
-    * [抵制使用module()函数来定义Lua模块](lua/not_use_module.md)
+    * [抵制使用 module() 定义模块](lua/not_use_module.md)
+    * [调用代码前先定义函数](lua/function_before_use.md)
     * [点号与冒号操作符的区别](lua/dot_diff.md)
-    * [控制结构for的使用](lua/for.md)
+    * [module 是邪恶的](lua/module_is_evil.md)
+    * [FFI](lua/FFI.md)
+    * [什么是 JIT](lua/what_jit.md)
 * [Nginx](ngx/nginx.md)
     * [Nginx 新手起步](ngx/nginx_brief.md)
     * [location 匹配规则](ngx/nginx_local_pcre.md)
     * [if 是邪恶的](ngx/if_is_evil.md)
     * [静态文件服务](ngx/static_file.md)
-    * [日志服务](ngx/nginx_log.md)
+    * [日志](ngx/nginx_log.md)
     * [反向代理](ngx/reverse_proxy.md)
     * [负载均衡](ngx/balancer.md)
     * [陷阱和常见错误](ngx/pitfalls_and_common_mistakes.md)
 * [OpenResty]
     * [环境搭建](openresty/install.md)
-        * [Windows平台](openresty/install_on_windows.md)
-        * [CentOS平台](openresty/install_on_centos.md)
-        * [Ubuntu平台](openresty/install_on_ubuntu.md)
-        * [Mac OS X平台](openresty/install_osx.md)
-        * [DockerHub]
+        * [Windows 平台](openresty/install_on_windows.md)
+        * [CentOS 平台](openresty/install_on_centos.md)
+        * [Ubuntu 平台](openresty/install_on_ubuntu.md)
+        * [Mac OS X 平台](openresty/install_osx.md)
     * [Hello World](openresty/helloworld.md)
     * [与其他 location 配合](openresty/work_with_location.md)
     * [获取 uri 参数](openresty/get_url_param.md)
     * [获取请求 body](openresty/get_req_body.md)
     * [输出响应体](openresty/response.md)
-    * [日志输出]
+    * [日志输出](openresty/log_response.md)
     * [简单API Server框架](openresty/simple_api.md)
-    * [获取Nginx内置绑定变量](openresty/inline_var.md)
-    * [子查询]
-    * [在不同阶段共享变量]
-    * [防止SQL注入]
-    * [自定义模块]
-* [LuaRestyRedisLibrary](redis.md)
-    * [select+set_keepalive组合操作引起的数据读写错误](redis/select-keeplive.md)
-    * [redis接口的二次封装（简化建连、拆连等细节）](redis/out_package.md)
-    * [redis接口的二次封装（发布订阅）](redis/pub_sub_package.md)
-    * [pipeline压缩请求数量](redis/pipeline.md)
-    * [script压缩复杂请求](redis/script.md)
+    * [使用 Nginx 内置绑定变量](openresty/inline_var.md)
+    * [子查询](openresty/sub_request.md)
+    * [不同阶段共享变量](openresty/share_var.md)
+    * [防止 SQL 注入](openresty/safe_sql.md)
+    * [如何发起新 HTTP 请求](openresty/how_request_http.md)
+* [LuaRestyRedisLibrary]
+    * [访问有授权验证的 Redis](redis/auth_connect.md)
+    * [select+set_keepalive 组合操作引起的数据读写错误](redis/select-keeplive.md)
+    * [redis 接口的二次封装（简化建连、拆连等细节）](redis/out_package.md)
+    * [redis 接口的二次封装（发布订阅）](redis/pub_sub_package.md)
+    * [pipeline 压缩请求数量](redis/pipeline.md)
+    * [script 压缩复杂请求](redis/script.md)
+    * [动态生成的 lua-resty-redis 模块方法](redis/dynamic_redis_module_method.md)
 * [LuaCjsonLibrary](json.md)
     * [json解析的异常捕获](json/parse_exception.md)
     * [稀疏数组](json/sparse_array.md)
@@ -97,24 +98,37 @@
     * [禁止某些终端访问](ngx_lua/allow_deny.md)
     * [请求返回后继续执行](ngx_lua/continue_after_eof.md)
     * [调试](ngx_lua/debug.md)
-    * [调用其他C函数动态库](ngx_lua/ffi.md)
+    * [调用其他 C 函数动态库](ngx_lua/ffi.md)
     * [请求中断后的处理](ngx_lua/on_abort.md)
-    * [我的lua代码需要调优么](ngx_lua/lua_opt.md)
+    * [我的 lua 代码需要调优么](ngx_lua/lua_opt.md)
     * [变量的共享范围](ngx_lua/lua-variable-scope.md)
     * [动态限速](ngx_lua/lua-limit.md)
     * [shared.dict 非队列性质](ngx_lua/shared_get_keys.md)
-    * [如何添加自己的lua api](ngx_lua/add_new_lua_api.md)
     * [正确使用长链接](ngx_lua/keepalive.md)
-    * [如何引用第三方resty库](ngx_lua/how_use_third_lib.md)
-    * [body在location中的传递](ngx_lua/capture.md)
+    * [如何引用第三方 resty 库](ngx_lua/how_use_third_lib.md)
+    * [body 在 location 中的传递](ngx_lua/capture.md)
     * [典型应用场景](ngx_lua/use_case.md)
+    * [Nginx 状态查看器]
+    * [怎样理解 cosocket](ngx_lua/whats_cosocket.md)
+    * [如何使用高速缓存]
+    * [如何安全启动唯一实例的 timer ](ngx_lua/how_one_instance_time.md)
 * [LuaRestyDNSLibrary](dns/main.md)
-    * [使用动态DNS来完成HTTP请求](dns/use_dynamic_dns.md)
+    * [使用动态 DNS 来完成 HTTP 请求](dns/use_dynamic_dns.md)
 * [LuaRestyLock](lock.md)
     * [缓存失效风暴](lock/cache-miss-storm.md)
+* [stream_lua_module]
+    * [TCP 代理负载]
+    * [基本用法]
+    * [故障细节]
+* [balancer_by_lua]
+    * [自定义 upstream 选举]
+* [OpenSSL 与 OpenResty]
+    * [什么是 HTTPS]
+    * [懒惰动态加载证书]
 * [测试](test.md)
     * [单元测试](test/unittest.md)
-    * [API测试](test/apitest.md)
+    * [代码覆盖率](test/coverage.md)
+    * [API 测试](test/apitest.md)
     * [性能测试](test/performance_test.md)
     * [持续集成](test/ci.md)
     * [灰度发布](test/abtest.md)
@@ -124,15 +138,34 @@
     * [协议无痛升级](web/switch_protocol.md)
     * [代码规范](web/code_style.md)
     * [连接池](web/conn_pool.md)
-    * [C10K编程](web/c10k.md)
-    * [TIME_WAIT问题](web/time_wait.md)
-    * [与Docker使用的网络瓶颈](web/docker.md)
+    * [C10K 编程](web/c10k.md)
+    * [TIME_WAIT 问题](web/time_wait.md)
+    * [与 Docker 使用的网络瓶颈](web/docker.md)
 * [火焰图](flame_graph.md)
     * [什么时候使用](flame_graph/when.md)
     * [显示的是什么](flame_graph/what.md)
     * [如何安装火焰图生成工具](flame_graph/install.md)
     * [如何定位问题](flame_graph/how.md)
-* [杂谈]
-    * [开源文化对360企业安全的影响](others/about_qihoo_opensource.md)
-    * [为什么开源项目大多来自国外]
-    * [编译Windows版本]
+* [OpenResty 周边]
+    * [Vanilla/香草](others/vanilla/intro.md)
+        * 为什么要开发Vanilla
+        * Vanilla致力解决的问题
+        * 组织结构
+        * 性能指标
+        * Demo 示例
+        * 新浪移动的OpenResty之路
+        * [Vanilla项目实践]
+            * 新浪移动评论项目
+            * 新浪移动独立产品Vanilla改造
+    * [Mashape/kong]
+    * [如何添加自己的lua api](others/add_new_lua_api.md)
+* 零碎知识点记录
+    * [2016-7 月汇总](something/2016_7.md)
+        - [Test::Nginx 能指定现成的nginx.conf，而不是自动生成一个吗](something/2016_7.md)
+        - [access 日志字符编码问题](something/2016_7.md)
+        - [share_dict 中的过期时间有时候过期有时候不过期？](something/2016_7.md)
+        - [Lua 变量的传递和内存的使用](something/2016_7.md)
+        - [ngx.log 可不可以选择几个不同的 log path](something/2016_7.md)
+    * [2016-8 月汇总]
+        - [如何在后台开启轻量级线程来定时更新共享内存](something/2016_8.md)
+        - [如何使用 os.getenv 获取系统环境变量](something/2016_8.md)

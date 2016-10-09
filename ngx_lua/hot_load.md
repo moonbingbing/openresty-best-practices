@@ -1,6 +1,6 @@
 # 热装载代码
 
-在Openresty中，提及热加载代码，估计大家的第一反应是[lua_code_cache](http://wiki.nginx.org/HttpLuaModule#lua_code_cache)这个开关。在开发阶段我们把它配置成lua_code_cache off，是很方便、有必要的，修改完代码，肯定都希望自动加载最新的代码（否则我们就要噩梦般的reload服务，然后再测试脚本）。
+在Openresty中，提及热加载代码，估计大家的第一反应是 [lua_code_cache](https://github.com/openresty/lua-nginx-module#lua_code_cache) 这个开关。在开发阶段我们把它配置成lua_code_cache off，是很方便、有必要的，修改完代码，肯定都希望自动加载最新的代码（否则我们就要噩梦般的reload服务，然后再测试脚本）。
 
 禁用 Lua 代码缓存（即配置 lua_code_cache off）只是为了开发便利，一般不应以高于 1 并发来访问，否则可能会有race condition等等问题。同时因为它会有带来严重的性能衰退，所以不应在生产上使用此种模式。生产上应当总是启用Lua代码缓存，即配置lua_code_cache on。
 

@@ -1,8 +1,8 @@
 # 简单API Server框架
 
-我们实现一个最最简单的数学计算：加、减、乘、除，给大家演示如何搭建简单的 API Server。
+实现一个最最简单的数学计算：加、减、乘、除，给大家演示如何搭建简单的 API Server。
 
-按照我们前面几章的写法，我们先来看看加法、减法示例代码：
+按照前面几章的写法，先来看看加法、减法示例代码：
 
 ```nginx
 worker_processes  1;        #nginx worker 数量
@@ -12,7 +12,7 @@ events {
 }
 http {
     server {
-        listen 6699;
+        listen 80;
 
         # 加法
         location /addition {
@@ -49,12 +49,12 @@ http {
 }
 ```
 
-代码写多了我们一眼就可以看出来，这么简单的加减乘除，居然写了这么长，而且我们还要对每个 API 都写一个 location ，这明显是让人不爽的。如果我们的某个API接口比较冗长，这样写岂不是直接会撑爆 nginx.conf 文件。要知道即使你喜欢这样写，nginx的配置文件对字符串最大长度有限制，不能超过4K。而且代码中如果需要出现单引号等字符，都需要进行转义，这些都是比较痛苦的。
+代码写多了一眼就可以看出来，这么简单的加减乘除，居然写了这么长，而且还要对每个 API 都写一个 location ，作为有追求的人士，怎能容忍这种代码风格？
 
-* 首先就是把这些 location 合并为一个；
+* 首先是需要把这些 location 合并；
 * 其次是这些接口的实现放到独立文件中，保持 nginx 配置文件的简洁；
 
-基于这两点要求，我们可以改成下面的版本，看上去有那么几分模样：
+基于这两点要求，可以改成下面的版本，看上去有那么几分模样的样子：
 
 > nginx.conf 内容：
 
@@ -67,13 +67,18 @@ events {
 
 http {
     # 设置默认 lua 搜索路径，添加 lua 路径
-    lua_package_path 'lua/?.lua;/blah/?.lua;;';
+    # 此处写相对路径时，对启动 nginx 的路径有要求，必须在 nginx 目录下启动，require 找不到
+    # comm.param 绝对路径当然也没问题，但是不可移植，因此应使用变量 $prefix 或 
+    # ${prefix}，OR 会替换为 nginx 的 prefix path。
+    
+    # lua_package_path 'lua/?.lua;/blah/?.lua;;';
+    lua_package_path '$prefix/lua/?.lua;/blah/?.lua;;'
 
-    # 对于开发研究，我们可以对代码 cache 进行关闭，这样我们不必每次都重新加载 nginx。
+    # 对于开发研究，可以对代码 cache 进行关闭，这样不必每次都重新加载 nginx。
     lua_code_cache off;
 
     server {
-        listen 6699;
+        listen 80;
 
         # 在代码路径中使用nginx变量
         # 注意： nginx var 的变量一定要谨慎，否则将会带来非常大的风险
@@ -107,10 +112,10 @@ local args = ngx.req.get_uri_args()
 ngx.say(args.a / args.b)
 ```
 
-既然我们对外提供的是 API Server，作为一个服务端程序员，怎么可以容忍输入参数不检查呢？万一对方送过来的不是数字或者为空，这些都要过滤掉嘛。参数检查过滤的方法是统一，在这几个 API 中如何共享这个方法呢？这时候就需要 Lua 中的模块来完成了。
+既然对外提供的是 API Server，作为一个服务端程序员，怎么可以容忍输入参数不检查呢？万一对方送过来的不是数字或者为空，这些都要过滤掉嘛。参数检查过滤的方法是统一，在这几个 API 中如何共享这个方法呢？这时候就需要 Lua 模块来完成了。
 
 * 使用统一的公共模块，完成参数验证；
-* 对本示例，参数验证的方式方法是统一的，我们可以把它们集中在一处完成；
+* 验证入口最好也统一，不要分散在不同地方；
 
 > nginx.conf 内容：
 
@@ -122,13 +127,13 @@ events {
 }
 http {
     server {
-        listen 6699;
+        listen 80;
 
         # 在代码路径中使用nginx变量
         # 注意： nginx var 的变量一定要谨慎，否则将会带来非常大的风险
         location ~ ^/api/([-_a-zA-Z0-9/]+) {
-            access_by_lua_file  /path/to/lua/app/root/access_check.lua;
-            content_by_lua_file /path/to/lua/app/root/$1.lua;
+            access_by_lua_file  lua/access_check.lua;
+            content_by_lua_file lua/$1.lua;
         }
     }
 }
@@ -170,7 +175,7 @@ end
 看看curl测试结果吧：
 
 ```shell
-$  nginx  curl '127.0.0.1:6699/api/addition?a=1'
+$  nginx  curl '127.0.0.1:80/api/addition?a=1'
 <html>
 <head><title>400 Bad Request</title></head>
 <body bgcolor="white">
@@ -178,13 +183,13 @@ $  nginx  curl '127.0.0.1:6699/api/addition?a=1'
 <hr><center>openresty/1.9.3.1</center>
 </body>
 </html>
-$  nginx  curl '127.0.0.1:6699/api/addition?a=1&b=3'
+$  nginx  curl '127.0.0.1:80/api/addition?a=1&b=3'
 4
 ```
 
-基本是按照我们预期执行的。参数不全、错误时，会提示400错误。正常处理，可以返回预期结果。
+基本是按照预期执行的。参数不全、错误时，会提示400错误。正常处理，可以返回预期结果。
 
-我们来整体看一下目前的目录关系：
+来整体看一下目前的目录关系：
 
 ```
 .
@@ -205,6 +210,6 @@ $  nginx  curl '127.0.0.1:6699/api/addition?a=1&b=3'
     └── nginx
 ```
 
-怎么样，有点 magic 的味道不？其实你的接口越是规范，有固定规律可寻，那么 OpenResty 就总是很容易能找到适合你的位置。当然这里你也可以把 `access_check.lua` 内容分别复制到加、减、乘、除实现的四个 Lua 文件中，肯定也是能用的。这里只是为了给大家提供更多的玩法，偶尔需要的时候我们可以有更多的选择。
+怎么样，有点 magic 的味道不？其实你的接口越是规范，有固定规律可寻，那么 OpenResty 就总是很容易能找到适合你的位置。当然这里你也可以把 `access_check.lua` 内容分别复制到加、减、乘、除实现的四个 Lua 文件中，肯定也是能用的。这里只是为了给大家提供更多的玩法，需要的时候可以有更多的选择。
 
-本章目的是搭建一个简单API Server，记住这绝对不是终极版本。这里面还有很多需要我们进一步去考虑的地方，但是作为最基本的框架已经有了。
+本章目的是搭建一个简单API Server，记住这绝对不是终极版本。这里面还有很多需要进一步去考虑的地方，但是作为最基本的框架已经有了。

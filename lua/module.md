@@ -18,7 +18,7 @@ local function getname()
     return "Lucy"
 end
 
-function foo.Greeting()
+function foo.greeting()
     print("hello " .. getname())
 end
 
@@ -29,7 +29,7 @@ return foo
 
 ```lua
 local fp = require("my")
-fp.Greeting()     -->output: hello Lucy
+fp.greeting()     -->output: hello Lucy
 ```
 
 注：对于需要导出给外部使用的公共模块，处于安全考虑，是要避免全局变量的出现。我们可以使用 lua-releng 工具完成全局变量的检测，具体参考 lua 的 [局部变量](local.md) 章节。
