@@ -170,4 +170,4 @@
         - [如何在后台开启轻量级线程来定时更新共享内存](something/2016_8.md)
         - [如何使用 os.getenv 获取系统环境变量](something/2016_8.md)
     * [2016-10 月汇总]
-        - [一个 openresty 内存“泄漏”问题](something/2016_10.md)
+        - [一个 openresty 内存“泄漏”问题](something/2016_10_1.md)
