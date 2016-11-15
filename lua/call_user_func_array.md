@@ -49,5 +49,3 @@ end
 do_action(run, 1, 2)         -- output: run 1 2
 do_action(attack, 1111)      -- output: targetId    1111
 ```
-
-
