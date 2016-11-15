@@ -157,7 +157,15 @@
         * [Vanilla项目实践]
             * 新浪移动评论项目
             * 新浪移动独立产品Vanilla改造
-    * [Mashape/kong]
+    * [Mashape/kong](others/kong/intro.md)
+        * Kong名字的来历(others/kong/origin.md)
+        * Kong能解决什么问题(others/kong/apigateway.md)
+        * 国内外有哪些类似的产品(others/kong/products.md)
+        * 关键概念(others/kong/keyconcepts.md)
+        * 集群功能(others/kong/cluster.md)
+        * 开发自定义插件(others/kong/plugin.md)
+            * 扩展已经存在的插件(others/kong/plugin-upgrad.md)
+            * 开发一个新的插件(others/kong/plugin-new.md)
     * [如何添加自己的lua api](others/add_new_lua_api.md)
 * 零碎知识点记录
     * [2016-7 月汇总](something/2016_7.md)
