@@ -1,14 +1,126 @@
 # 什么是 JIT ？
 
-自从 OpenResty 1.5.8.1 版本之后，默认捆绑的 Lua 解释器就被替换成了 LuaJIT ，而不在是标准 Lua。单从名字上，我们就可以直接看到这个新的解释器多了一个 `JIT`，接下来我们就一起来聊聊这个 `JIT` 是个什么东东。
+自从 OpenResty 1.5.8.1 版本之后，默认捆绑的 Lua 解释器就被替换成了 LuaJIT ，而不在是标准 Lua。单从名字上，我们就可以直接看到这个新的解释器多了一个 `JIT`，接下来我们就一起来聊聊 `JIT` 。
 
-我们先来看一下 LuaJIT 官方站点的解释： LuaJIT is a Just-In-Time Compilerfor the Lua programming language。
+先看一下 LuaJIT 官方的解释： LuaJIT is a Just-In-Time Compilerfor the Lua programming language。
 
-肯定有读者可能要问了，什么 Just-In-Time ？他的中文名称是即时编译器，是一个把程序字节码（包括需要被解释的指令的程序）转换成可以直接发送给处理器的指令的程序。
+LuaJIT 的运行时环境包括一个用手写汇编实现的 Lua 解释器和一个可以直接生成机器代码的 JIT 编译器。
 
-还没听懂？说的再直白一些，就是把 Lua 代码直接解释成 CPU 可以执行的指令，要知道原本 Lua 代码是只能在 Lua 虚拟机中运行，现在突然有办法让 Lua 代码一次编译后直接运行在 CPU 上，效率自然更胜一筹。
+Lua 代码在被执行之前总是会先被 lfn 成 LuaJIT 自己定义的字节码（Byte Code）。关于 LuaJIT
+字节码的文档，可以参见：[http://wiki.luajit.org/Bytecode-2.0](http://wiki.luajit.org/Bytecode-2.0)（这个文档描述的是 LuaJIT 2.0
+的字节码，不过 2.1 里面的变化并不算太大）。
 
-给这个 JIT 吹了半天，实用效果怎样？大家看下面例子：
+一开始的时候，Lua 字节码总是被 LuaJIT 的解释器解释执行。LuaJIT
+的解释器会在执行字节码时同时记录一些运行时的统计信息，比如每个 Lua 函数调用入口的实际运行次数，还有每个 Lua
+循环的实际执行次数。当这些次数超过某个预设的阈值时，便认为对应的 Lua 函数入口或者对应的 Lua 循环足够的“热”，这时便会触发 JIT
+编译器开始工作。
+
+JIT 编译器会从热函数的入口或者热循环的某个位置开始尝试编译对应的 Lua 代码路径。编译的过程是把 LuaJIT 字节码先转换成
+LuaJIT 自己定义的中间码（IR），然后再生成针对目标体系结构的机器码（比如 x86_64 指令组成的机器码）。
+
+如果当前 Lua 代码路径上的所有的操作都可以被 JIT 编译器顺利编译，则这条编译过的代码路径便被称为一个“trace”，在物理上对应一个
+`trace` 类型的 GC 对象（即参与 Lua GC 的对象）。
+
+你可以通过 `ngx-lj-gc-objs` 工具看到指定的 nginx worker 进程里所有 `trace` 对象的一些基本的统计信息，见 [https://github.com/agentzh/stapxx#ngx-lj-gc-objs](https://github.com/agentzh/stapxx#ngx-lj-gc-objs)
+
+比如下面这一行 `ngx-lj-gc-objs` 工具的输出
+
+    102 trace objects: max=928, avg=337, min=160, sum=34468 (in bytes)
+
+则表明当前进程内的 LuaJIT VM 里一共有 102 个 trace 类型的 GC 对 象，其中最小的 trace 占用 160
+个字节，最大的占用 928 个字节，平均大小是 337 字节，而所有 trace 的总大小是 34468 个字节。
+
+LuaJIT 的 JIT 编译器的实现目前还不完整，有一些基本原语它还无法编译，比如 pairs() 函数、unpack()
+函数、string.match() 函数、基于 lua_CFunction 实现的 Lua C 模块、FNEW 字节码，等等。所以当 JIT
+编译器在当前代码路径上遇到了它不支持的操作，便会立即终止当前的 trace 编译过程（这被称为 trace
+abort），而重新退回到解释器模式。
+
+JIT 编译器不支持的原语被称为 NYI（Not Yet Implemented）原语。比较完整的 NYI 列表在这篇文档里面：
+
+    http://wiki.luajit.org/NYI
+
+所谓“让更多的 Lua 代码被 JIT 编译”，其实就是帮助更多的 Lua 代码路径能为 JIT 编译器所接受。这一般通过两种途径来实现：
+
+1. 调整对应的 Lua 代码，避免使用 NYI 原语。
+2. 增强 JIT 编译器，让越来越多的 NYI 原语能够被编译。
+
+对于第 2 种方式，春哥一直在推动公司（CloudFlare）赞助 Mike Pall
+的开发工作。不过有些原语因为本身的代价过高，而永远不会被编译，比如基于经典的 lua_CFunction 方式实现的 Lua C
+模块（所以需要尽量通过 LuaJIT 的 FFI 来调用 C）。
+
+而对于第 1 种方法，我们如何才能知道具体是哪一行 Lua 代码上的哪一个 NYI 原语终止了 trace 编译呢？答案很简单。就是使用
+LuaJIT 安装自带的 jit.v 和 jit.dump 这两个 Lua 模块。这两个 Lua 模块会打印出 JIT
+编译器工作的细节过程。
+
+在 Nginx 的上下文中，我们可以在 nginx.conf 文件中的 http {} 配置块中添加下面这一段：
+
+    init_by_lua '
+        local verbose = false
+        if verbose then
+            local dump = require "jit.dump"
+            dump.on(nil, "/tmp/jit.log")
+        else
+            local v = require "jit.v"
+            v.on("/tmp/jit.log")
+        end
+
+        require "resty.core"
+    ';
+
+那一行 require "resty.core" 倒并不是必需的，放在那里的主要目的是为了尽量避免使用 ngx_lua 模块自己的基于
+lua_CFunction 的 Lua API，减少 NYI 原语。
+
+在上面这段 Lua 代码中，当 verbose 变量为 false 时（默认就为 false 哈），我们使用 jit.v
+模块打印出比较简略的流水信息到 /tmp/jit.log 文件中；而当 verbose 变量为 true 时，我们则使用 jit.dump
+模块打印所有的细节信息，包括每个 trace 内部的字节码、IR 码和最终生成的机器指令。
+
+这里我们主要以 jit.v 模块为例。在启动 nginx 之后，应当使用 ab 和 weighttp
+这样的工具对相应的服务接口进行预热，以触发 LuaJIT 的 JIT
+编译器开始工作（还记得刚才我们说的“热函数”和“热循环”吗？）。预热过程一般不用太久，跑个二三百个请求足矣。当然，压更多的请求也没关系。完事后，我们就可以检查
+/tmp/jit.log 文件里面的输出了。
+
+jit.v 模块的输出里如果有类似下面这种带编号的 TRACE 行，则指示成功编译了的 trace 对象，例如
+
+   [TRACE   6 shdict.lua:126 return]
+
+这个 trace 对象编号为 6，对应的 Lua 代码路径是从 shdict.lua 文件的第 126 行开始的。
+
+下面这样的也是成功编译了的 trace:
+
+    [TRACE  16 (15/1) waf-core.lua:419 -> 15]
+
+这个 trace 编号为 16，是从 waf-core.lua 文件的第 419 行开始的，同时它和编号为 15 的 trace 联接了起来。
+
+而下面这个例子则是被中断的 trace:
+
+    [TRACE --- waf-core.lua:455 -- NYI: FastFunc pairs at waf-core.lua:458]
+
+上面这一行是说，这个 trace 是从 waf-core.lua 文件的第 455 行开始编译的，但当编译到 waf-core.lua
+文件的第 458 行时，遇到了一个 NYI 原语编译不了，即 pairs() 这个内建函数，于是当前的 trace 编译过程被迫终止了。
+
+类似的例子还有下面这些：
+
+    [TRACE --- exit.lua:27 -- NYI: FastFunc coroutine.yield at waf-core.lua:439]
+    [TRACE --- waf.lua:321 -- NYI: bytecode 51 at raven.lua:107]
+
+上面第二行是因为操作码 51 的 LuaJIT 字节码也是 NYI 原语，编译不了。
+
+那么我们如何知道 51 字节码究竟是啥呢？我们可以用 nginx-devel-utils 项目中的 ljbc.lua 脚本来取得 51 号字节码的名字：
+
+    $ /usr/local/openresty/luajit/bin/luajit-2.1.0-alpha ljbc.lua 51
+    opcode 51:
+    FNEW
+
+我们看到原来是用来（动态）创建 Lua 函数的 FNEW 字节码。ljbc.lua 脚本的位置是
+
+    https://github.com/agentzh/nginx-devel-utils/blob/master/ljbc.lua
+
+非常简单的一个脚本，就几行 Lua 代码。
+
+这里需要提醒的是，不同版本的 LuaJIT 的字节码可能是不相同的，所以一定要使用和你 nginx 链接的同一个 LuaJIT 来运行这个
+ljbc.lua 工具，否则有可能会得到错误的结果。
+
+我们实际做个对比实验，看看 JIT 带来的好处：
 
 ```shell
 ➜ cat test.lua
@@ -68,11 +180,14 @@ end
 
 从这个执行结果中，大致可以总结出下面几个观点：
 
-* 在标准 Lua 解释器中，使用 ipairs 或 pairs 没有区别。
-* 对于 pairs 方式，LuaJIT 的性能大约是标准 Lua 的 4 倍。
+* 在标准 Lua 解释器中，使用 ipairs 或 pairs 没有区别；
+* 对于 pairs 方式，LuaJIT 的性能大约是标准 Lua 的 4 倍；
 * 对于 ipairs 方式，LuaJIT 的性能大约是标准 Lua 的 40 倍。
 
-本书中曾多次提及，尽量使用支持可以被 JIT 编译的 API。到底有哪些 API 是可以被 JIT 编译呢？我们的参考来来源是哪里呢？LuaJIT 的官方地址：[http://wiki.luajit.org/NYI](http://wiki.luajit.org/NYI)，需要最新动态的同学，不妨多看看这个地址的内容。下面我们把重要的几个库是否支持 JIT 的点罗列一下。
+## 可以被 JIT 编译的元操作
+
+下面给大家列一下截止到目前已经可以被 JIT 编译的元操作。
+其他还有 IO、Bit、FFI、Coroutine、OS、Package、Debug、JIT 等分类，使用频率相对较低，这里就不罗列了，可以参考官网：[http://wiki.luajit.org/NYI](http://wiki.luajit.org/NYI) 。
 
 ### 基础库的支持情况
 
@@ -171,9 +286,5 @@ end
 |   math.sqrt   |   yes |       |
 |   math.tan    |   yes |       |
 |   math.tanh   |   yes |       |
-
-### 其他
-
-其他还有 IO、Bit、FFI、Coroutine、OS、Package、Debug、JIT 等目录分类，使用频率相对较低，在这里就不逐一罗列，需要的同学可以到 [http://wiki.luajit.org/NYI](http://wiki.luajit.org/NYI) 查看。
 
 
