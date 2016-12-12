@@ -32,7 +32,7 @@ typedef struct foo { int a, b; } foo_t;  /* Declare a struct and typedef.   */
 int printf(const char *fmt, ...);        /* Declare a typical printf function. */
 ]]
 ```
-并不是所有的 C 标准函数都能满足我们的需求，那么如何使用第三方库函数或自定义的函数呢，这会稍微麻烦一点，不用担心，你可以很快学会：）
+并不是所有的 C 标准函数都能满足我们的需求，那么如何使用第三方库函数或自定义的函数呢，这会稍微麻烦一点，不用担心，你可以很快学会 : )  
 首先创建一个 myffi.c，其内容是  
 ```c
 int add(int x, int y)
