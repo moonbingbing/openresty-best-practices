@@ -32,8 +32,8 @@ typedef struct foo { int a, b; } foo_t;  /* Declare a struct and typedef.   */
 int printf(const char *fmt, ...);        /* Declare a typical printf function. */
 ]]
 ```
-并不是所有的 C 标准函数都能满足我们的需求，那么如何使用第三方库函数或自定义的函数呢，这会稍微麻烦一点，不用担心，你可以很快学会:)  
-首先创建一个 myffi.c，其内容是
+并不是所有的 C 标准函数都能满足我们的需求，那么如何使用第三方库函数或自定义的函数呢，这会稍微麻烦一点，不用担心，你可以很快学会：）
+首先创建一个 myffi.c，其内容是  
 ```c
 int add(int x, int y)
 {
@@ -123,6 +123,8 @@ local c_str = ffi.cast(c_str_t, str)       /*转换为指针地址*/
 local uintptr_t = ffi.typeof("uintptr_t")
 tonumber(ffi.cast(uintptr_t, c_str))       /*转换为数字*/
 ```
+
+相信看完上面的 API 你已经很累了，再坚持一下吧！休息几分钟后，让我们来看看下面对官方文档中的示例做剖析，希望能再加深你对 ffi 的理解。
 
 #### 调用 C 函数
 
