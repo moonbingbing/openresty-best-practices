@@ -1,6 +1,6 @@
 # FFI
 
-FFI 库，是 LuaJIT 中最重要的一个扩展库。它允许从纯 Lua 代码调用外部C函数，使用 C 数据结构。有了它，就不用再像 Lua 标准 math 库一样，编写 Lua 扩展库。把开发者从开发 Lua 扩展 C 库（语言/功能绑定库）的繁重工作中释放出来。学习完本小节对开发纯ffi的库有帮助，像 lru-resty-lrucache 中的 pureffi.lua，这个纯 ffi 库非常高效地完成了 lru 缓存策略
+FFI 库，是 LuaJIT 中最重要的一个扩展库。它允许从纯 Lua 代码调用外部C函数，使用 C 数据结构。有了它，就不用再像 Lua 标准 math 库一样，编写 Lua 扩展库。把开发者从开发 Lua 扩展 C 库（语言/功能绑定库）的繁重工作中释放出来。学习完本小节对开发纯 ffi 的库是有帮助的，像 lru-resty-lrucache 中的 pureffi.lua，这个纯 ffi 库非常高效地完成了 lru 缓存策略。
 
 简单解释一下 Lua 扩展 C 库，对于那些能够被 Lua 调用的 C 函数来说，它的接口必须遵循 Lua 要求的形式，就是`typedef int (*lua_CFunction)(lua_State* L)`，这个函数包含的参数是 lua 状态指针 L。可以通过这个指针进一步获取通过 Lua 代码传入的参数。这个函数的返回值类型是一个整型，表示返回值的数量。需要注意的是，用 C 编写的函数无法把返回值返回给 Lua 代码，而是通过虚拟栈来传递 Lua 和 C 之间的调用参数和返回值。不仅在编程上开发效率变低，而且性能上比不上 FFI 库调用 C 函数。
 
@@ -8,21 +8,21 @@ FFI 库最大限度的省去了使用 C 手工编写繁重的 Lua/C 绑定的需
 
 FFI 紧紧的整合进了 LuaJIT（几乎不可能作为一个独立的模块）。JIT 编译器在 Lua 代码直接访问 C 数据结构上所产生的代码，等同于一个 C 编译器应该生产的代码。在 JIT 编译过的代码中，调用 C 函数，可以被内连处理，不同于基于 Lua/C API 函数调用。
 
-#### ffi 库 词汇
-cdecl: 一个抽象的C类型定义(其实是一个lua字符串)
-ctype: 一个C类型对象
-cdata: 一个C数据对象
-ct:    一个C类型格式，就是一个模板对象，可能是cdecl,cdata,ctype
-cb:    一个回调对象
-VLA:   一个可变长度的数组
-VLS:   一个可变长度的结构体
+### ffi 库 词汇
+cdecl: 一个抽象的C类型定义(其实是一个lua字符串)  
+ctype: 一个C类型对象  
+cdata: 一个C数据对象  
+ct:    一个C类型格式，就是一个模板对象，可能是cdecl,cdata,ctype  
+cb:    一个回调对象  
+VLA:   一个可变长度的数组  
+VLS:   一个可变长度的结构体  
 
-#### ffi.\*API
+### ffi.\*API
 毫无疑问，在 lua 文件中使用 ffi 库的时候，必须要有下面的一行  
 ```lua
 local ffi = require "ffi"
 ```
-##### ffi.cdef(def)
+#### ffi.cdef(def)
 功能：声明 C 函数或者 C 的数据结构
 数据结构可以是结构体、枚举或者是联合体  
 函数可以是 C 标准函数，或者第三方库函数，也可以是自定义的函数，注意这里只是函数的声明，并不是函数的定义。声明的函数应该要和原来的函数保持一致  
@@ -41,9 +41,10 @@ int add(int x, int y)
 }
 ```
 接下来在 Linux 下生成动态链接库  
-`gcc -g -o libmyffi.so -fpic -shared myffi.c`  
-
-为了方便我们测试，我们在 LD_LIBRARY_PATH 这个环境变量中加入了刚刚库所在的路劲，因为编译器在查找动态库所在的路径的时候其中一个环节就是在 LD_LIBRARY_PATH 这个环境变量中的所有路劲进行查找。命令如下所示。
+```shell
+gcc -g -o libmyffi.so -fpic -shared myffi.c
+```
+为了方便我们测试，我们在 LD_LIBRARY_PATH 这个环境变量中加入了刚刚库所在的路劲，因为编译器在查找动态库所在的路径的时候其中一个环节就是在 LD_LIBRARY_PATH 这个环境变量中的所有路劲进行查找。命令如下所示。  
 `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:your_lib_path`
 
 在 lua 代码中要增加如下的行
@@ -84,7 +85,7 @@ local res = ffi.C.add(1, 2)
 print(res)
 ```
 #### ffi.typeof
-`ctype = ffi.typeof(ct)`
+`ctype = ffi.typeof(ct)`  
 功能：创建一个 ctype 对象，会解析一个抽象的 C 类型定义（cdecl）
 ```lua
 local uintptr_t = ffi.typeof("uintptr_t")
@@ -94,7 +95,7 @@ local int_array_t = ffi.typeof("int[?]")
 ```
 
 #### ffi.new
-`cdata = ffi.new(ct [,nelem] [,init...])`
+`cdata = ffi.new(ct [,nelem] [,init...])`  
 功能：开辟空间, ，第一个参数为 ctype 对象，ctype 对象通过`ctype = ffi.typeof(ct)`构建
 ```lua
 local int_array_t = ffi.typeof("int[?]")
@@ -105,16 +106,16 @@ local q = ffi.new(queue_arr_type, size + 1)
 ```
 
 #### ffi.fill
-`ffi.fill(dst, len [,c])`
-功能：填充数据
-此函数和 memset(dst, c, len) 类似，注意参数的顺序
+`ffi.fill(dst, len [,c])`  
+功能：填充数据  
+此函数和 memset(dst, c, len) 类似，注意参数的顺序  
 ```lua
 ffi.fill(self.bucket_v, ffi_sizeof(int_t, bucket_sz), 0)
 ffi.fill(q, ffi_sizeof(queue_type, size + 1), 0)
 ```
 #### ffi.cast
-`cdata = ffi.cast(ct, init)`
-功能：创建一个 scalar cdata 对象
+`cdata = ffi.cast(ct, init)`  
+功能：创建一个 scalar cdata 对象  
 ```lua
 local c_str_t = ffi.typeof("const char*")
 local c_str = ffi.cast(c_str_t, str)       /*转换为指针地址*/
