@@ -96,7 +96,12 @@ local int_array_t = ffi.typeof("int[?]")
 
 #### ffi.new
 `cdata = ffi.new(ct [,nelem] [,init...])`  
-功能：开辟空间, ，第一个参数为 ctype 对象，ctype 对象通过`ctype = ffi.typeof(ct)`构建
+功能：开辟空间, ，第一个参数为 ctype 对象，ctype 对象最好通过`ctype = ffi.typeof(ct)`构建  
+顺便一提，可能很多人会有疑问，到底 ffi.new 和 ffi.C.malloc 有什么区别呢？  
+如果使用 ffi.new 分配的 cdata 对象指向的内存块是由垃圾回收器 LuaJIT GC 自动管理的，所以不需要用户去释放内存
+如果使用 ffi.C.malloc 分配的空间便不再使用 LuaJIT 自己的分配器了，所以不是由 LuaJIT GC 来管理的，但是，要注意的是 ffi.C.malloc 返回的指针本身所对应的 cdata 对象还是由 LuaJIT GC 来管理的，也就是这个指针的 cdata 对象指向的是用 ffi.C.malloc 分配的内存空间。这个时候，你应该通过 ffi.gc() 函数在这个 C 指针的 cdata 对象上面注册自己的析构函数，这个析构函数里面你可以再调用 ffi.C.free，这样的话当 C 指针所对应的 cdata 对象被 Luajit GC 管理器垃圾回收时候，也会自动调用你注册的那个析构函数来执行 C 级别的内存释放  
+请尽可能使用最新版本的 Luajit，x86_64 上由 LuaJIT 管理的内存已经由 1G->2G，虽然管理的内存变大了，但是如果要使用很大的内存，还是用 ffi.C.malloc 来分配会比较好，避免耗尽了 LuaJIT GC 管理内存的上限，不过还是建议不要一下子分配很大的内存，能用流式处理的情况最好用流式处理。
+
 ```lua
 local int_array_t = ffi.typeof("int[?]")
 local bucket_v = ffi.new(int_array_t, bucket_sz)
@@ -122,6 +127,20 @@ local c_str = ffi.cast(c_str_t, str)       /*转换为指针地址*/
 
 local uintptr_t = ffi.typeof("uintptr_t")
 tonumber(ffi.cast(uintptr_t, c_str))       /*转换为数字*/
+```
+
+#### cdata 对象的垃圾回收
+所有由显式的 (ffi.new(), ffi.cast() etc.) 或者隐式的 (accessors) 所创建的 cdata 对象都是能被垃圾回收的，当他们被使用的时候，你需要确保有在 Lua stack，upvalue，或者 Lua table 上保留有对 cdata 对象的有效引用，一旦最后一个 cdata 对象的有效引用失效了，那么垃圾回收器将自动释放内存（在下一个 GC 周期结束时候）。另外如果你要分配一个 cdata 数组给一个指针的话，你必须保持这个持有这个数据的 cdata 对象活跃，下面给出一个官方的示例
+```lua
+ffi.cdef[[
+typedef struct { int *a; } foo_t;
+]]
+
+local s = ffi.new("foo_t", ffi.new("int[10]")) -- WRONG!
+
+local a = ffi.new("int[10]") -- OK
+local s = ffi.new("foo_t", a)
+-- Now do something with 's', but keep 'a' alive until you're done.
 ```
 
 相信看完上面的 API 你已经很累了，再坚持一下吧！休息几分钟后，让我们来看看下面对官方文档中的示例做剖析，希望能再加深你对 ffi 的理解。
