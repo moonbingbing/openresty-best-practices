@@ -127,10 +127,10 @@ ffi.fill(q, ffi_sizeof(queue_type, size + 1), 0)
 功能：创建一个 scalar cdata 对象  
 ```lua
 local c_str_t = ffi.typeof("const char*")
-local c_str = ffi.cast(c_str_t, str)       /*转换为指针地址*/
+local c_str = ffi.cast(c_str_t, str)       -- 转换为指针地址
 
 local uintptr_t = ffi.typeof("uintptr_t")
-tonumber(ffi.cast(uintptr_t, c_str))       /*转换为数字*/
+tonumber(ffi.cast(uintptr_t, c_str))       -- 转换为数字
 ```
 
 #### cdata 对象的垃圾回收
