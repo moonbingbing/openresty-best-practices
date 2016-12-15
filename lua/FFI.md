@@ -9,7 +9,7 @@
 · 紧紧的整合进了 `LuaJIT` （几乎不可能作为一个独立的模块）。 `JIT` 编译器在 C 数据结构上所产生的代码，等同于一个 C 编译器应该生产的代码。在 `JIT` 编译过的代码中，调用 C 函数，可以被内连处理，不同于基于 `Lua/C API` 函数调用。
 
 ffi 库 词汇
----------------
+-----------
 | *名词*  | *解释* |
 | ----  |------|
 | cdecl | 一个抽象的C类型定义(其实是一个lua字符串)|
@@ -21,7 +21,7 @@ ffi 库 词汇
 | VLS   | 一个可变长度的结构体|
 
 ffi.\* API
----------------
+----------
 **功能：** *lua ffi 库的 API，与 LuaJIT 不可分割。*
 
 毫无疑问，在 `lua` 文件中使用 `ffi` 库的时候，必须要有下面的一行。
@@ -30,8 +30,8 @@ ffi.\* API
 local ffi = require "ffi"
 ```
 
-#### ffi.cdef
----------------
+ffi.cdef
+--------
 **语法：** *ffi.cdef(def)*
 
 **功能：** *声明 C 函数或者 C 的数据结构，数据结构可以是结构体、枚举或者是联合体，函数可以是 C 标准函数，或者第三方库函数，也可以是自定义的函数，注意这里只是函数的声明，并不是函数的定义。声明的函数应该要和原来的函数保持一致。*
@@ -103,8 +103,8 @@ local res = ffi.C.add(1, 2)
 print(res)
 ```
 
-#### ffi.typeof
----------------
+ffi.typeof
+----------
 **语法：** *ctype = ffi.typeof(ct)*
 
 **功能：** *创建一个 ctype 对象，会解析一个抽象的 C 类型定义。*
@@ -116,8 +116,8 @@ local int_t = ffi.typeof("int")
 local int_array_t = ffi.typeof("int[?]")
 ```
 
-#### ffi.new
-------------
+ffi.new
+-------
 **语法：** *cdata = ffi.new(ct [,nelem] [,init...])*
 
 **功能：** *开辟空间，第一个参数为 ctype 对象， ctype 对象最好通过 ctype = ffi.typeof(ct) 构建。*
@@ -138,8 +138,8 @@ local queue_arr_type = ffi.typeof("lrucache_pureffi_queue_t[?]")
 local q = ffi.new(queue_arr_type, size + 1)
 ```
 
-#### ffi.fill
--------------
+ffi.fill
+--------
 **语法：** *ffi.fill(dst, len [,c])*
 
 **功能：** *填充数据，此函数和 memset(dst, c, len) 类似，注意参数的顺序。*
@@ -149,8 +149,8 @@ ffi.fill(self.bucket_v, ffi_sizeof(int_t, bucket_sz), 0)
 ffi.fill(q, ffi_sizeof(queue_type, size + 1), 0)
 ```
 
-#### ffi.cast
--------------
+ffi.cast
+--------
 **语法：** *cdata = ffi.cast(ct, init)*
 
 **功能：** *创建一个 scalar cdata 对象。*
@@ -163,8 +163,8 @@ local uintptr_t = ffi.typeof("uintptr_t")
 tonumber(ffi.cast(uintptr_t, c_str))       -- 转换为数字
 ```
 
-#### cdata 对象的垃圾回收
------------------------
+cdata 对象的垃圾回收
+-------------------
 所有由显式的 `ffi.new(), ffi.cast() etc.` 或者隐式的 `accessors` 所创建的 `cdata` 对象都是能被垃圾回收的，当他们被使用的时候，你需要确保有在 `Lua stack`， `upvalue`，或者 `Lua table` 上保留有对 `cdata` 对象的有效引用，一旦最后一个 `cdata` 对象的有效引用失效了，那么垃圾回收器将自动释放内存（在下一个 `GC` 周期结束时候）。另外如果你要分配一个 `cdata` 数组给一个指针的话，你必须保持这个持有这个数据的 `cdata` 对象活跃，下面给出一个官方的示例：
 
 ```lua
@@ -181,8 +181,8 @@ local s = ffi.new("foo_t", a)
 
 相信看完上面的 `API` 你已经很累了，再坚持一下吧！休息几分钟后，让我们来看看下面对官方文档中的示例做剖析，希望能再加深你对 `ffi` 的理解。
 
-#### 调用 C 函数
----------------
+调用 C 函数
+----------
 真的很用容易去调用一个外部C库函数，示例代码：
 
 ```lua
@@ -249,8 +249,8 @@ assert(txt2 == txt)
 
 在C语言中，我们可以传递变量地址。但因为在Lua中并没有地址相关的操作符，所以我们使用只有一个元素的数组来代替。我们先用最大缓冲区大小初始化这唯一一个元素，接下来就是很直观地调用 `zlib.compress2` 函数了。使用 `ffi.string` 函数得到一个存储着压缩数据的Lua字符串，这个函数需要一个指向数据起始区的指针和实际长度。实际长度将会在`buflen`这个数组中返回。因为压缩数据并不包括原始字符串的长度，所以我们要显式地传递进去。
 
-#### 使用 C 数据结构
--------------------
+使用 C 数据结构
+--------------
 `cdata` 类型用来将任意 C 数据保存在 `Lua` 变量中。这个类型相当于一块原生的内存，除了赋值和相同性判断，Lua 没有为之预定义任何操作。 然而，通过使用 `metatable` （元表），程序员可以为 `cdata` 自定义一组操作。 `cdata` 不能在 `Lua` 中创建出来，也不能在 `Lua` 中修改。这样的操作只能通过 `C API`。这一点保证了宿主程序完全掌管其中的数据。
 
 我们将C语言类型与 `metamethod` （元方法）关联起来，这个操作只用做一次。`ffi.metatype`会返回一个该类型的构造函数。原始C类型也可以被用来创建数组，元方法会被自动地应用到每个元素。
@@ -302,6 +302,6 @@ print(#b)        --> 12.5
 | Pointer dereference | x = p1 - p2 | x = p1 - p2 |
 | Array element pointer | x = &a[i] | x = a + i |
 
-#### 内存问题
-------------
+内存问题
+-------
 todo：介绍 FFI 就必须从必要的 C 基础，包括内存管理的细节，说起，同时也须介绍包括 Valgrind 在内的内存问题调试工具的细节（by agentzh），后面重点补充。
