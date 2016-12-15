@@ -6,7 +6,7 @@
 
 `FFI` 库最大限度的省去了使用 C 手工编写繁重的 `Lua/C` 绑定的需要。不需要学习一门独立/额外的绑定语言——它解析普通 C 声明。这样可以从 C 头文件或参考手册中，直接剪切，粘贴。它的任务就是绑定很大的库，但不需要捣鼓脆弱的绑定生成器。
 
-· 紧紧的整合进了 `LuaJIT` （几乎不可能作为一个独立的模块）。 `JIT` 编译器在 C 数据结构上所产生的代码，等同于一个 C 编译器应该生产的代码。在 `JIT` 编译过的代码中，调用 C 函数，可以被内连处理，不同于基于 `Lua/C API` 函数调用。
+`FFI` 紧紧的整合进了 `LuaJIT` （几乎不可能作为一个独立的模块）。 `JIT` 编译器在 C 数据结构上所产生的代码，等同于一个 C 编译器应该生产的代码。在 `JIT` 编译过的代码中，调用 C 函数，可以被内连处理，不同于基于 `Lua/C API` 函数调用。
 
 ffi 库 词汇
 -----------
@@ -84,7 +84,7 @@ int add(int x, int y);   /* don't forget to declare */
 ]]
 
 local res = myffi.add(1, 2)
-print(res)  -- output: 3   (please use luajit to run this script.)
+print(res)  -- output: 3   Note: please use luajit to run this script.
 ```
 
 除此之外，还能使用 `ffi.C` (调用 `ffi.cdef` 中声明的系统函数) 来直接调用 `add` 函数，记得要在 `ffi.load` 的时候加上参数 `true`，例如 `ffi.load('myffi', true)`。
@@ -100,7 +100,7 @@ int add(int x, int y);   /* don't forget to declare */
 ]]
 
 local res = ffi.C.add(1, 2)
-print(res)
+print(res)  -- output: 3   Note: please use luajit to run this script.
 ```
 
 ffi.typeof
