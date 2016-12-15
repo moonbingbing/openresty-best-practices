@@ -61,9 +61,11 @@ int add(int x, int y)
 gcc -g -o libmyffi.so -fpic -shared myffi.c
 ```
 
-为了方便我们测试，我们在 `LD_LIBRARY_PATH` 这个环境变量中加入了刚刚库所在的路劲，因为编译器在查找动态库所在的路径的时候其中一个环节就是在 LD_LIBRARY_PATH 这个环境变量中的所有路劲进行查找。命令如下所示。
+为了方便我们测试，我们在 `LD_LIBRARY_PATH` 这个环境变量中加入了刚刚库所在的路劲，因为编译器在查找动态库所在的路径的时候其中一个环节就是在 `LD_LIBRARY_PATH` 这个环境变量中的所有路劲进行查找。命令如下所示。
 
-`export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:your_lib_path`
+```shell
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:your_lib_path
+```
 
 在 lua 代码中要增加如下的行：
 
