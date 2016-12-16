@@ -4,7 +4,7 @@
 
 [lua-resty-dns](https://github.com/openresty/lua-resty-dns)
 
-这个 Lua 库基于 ngx_lua 的 cosocket API 实现，可以确定是100%非阻塞的。注意，该模块需要至少需要 ngx_lua 0.5.12 或 ngx_openresty 1.2.1.11 版本。Lua bit 模块也是需要的。如果你的 ngx_lua 中的 LuaJIT 2.0，Lua bit 模块已经被默认开启。注意，这个模块在 ngx_openresty 集成环境中是被默认绑定并开启的。
+这个 Lua 库基于 ngx_lua 的 cosocket API 实现，可以确定是 100% 非阻塞的。注意，该模块至少需要 ngx_lua 0.5.12 或 OpenResty 1.2.1.11 版本。Lua bit 模块也是需要的。如果你的 ngx_lua 绑定的 LuaJIT 的版本是 2.0，就已经默认开启了 Lua bit 模块。注意，这个模块在 OpenResty 集成环境中默认是开启的。
 
 使用代码示例：
 
