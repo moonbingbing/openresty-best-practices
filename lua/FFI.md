@@ -2,7 +2,7 @@
 
 `FFI` 库，是 `LuaJIT` 中最重要的一个扩展库。它允许从纯 `Lua` 代码调用外部 C 函数，使用 C 数据结构。有了它，就不用再像 `Lua` 标准 `math` 库一样，编写 `Lua` 扩展库。把开发者从开发 `Lua` 扩展 C 库（语言/功能绑定库）的繁重工作中释放出来。学习完本小节对开发纯 `ffi` 的库是有帮助的，像 [lru-resty-lrucache](https://github.com/openresty/lua-resty-lrucache) 中的 `pureffi.lua`，这个纯 `ffi` 库非常高效地完成了 lru 缓存策略。
 
-简单解释一下 Lua 扩展 C 库，对于那些能够被 Lua 调用的 C 函数来说，它的接口必须遵循 `Lua` 要求的形式，就是 `typedef int (*lua_CFunction)(lua_State* L)`，这个函数包含的参数是 `lua` 状态指针 L。可以通过这个指针进一步获取通过 `Lua` 代码传入的参数。这个函数的返回值类型是一个整型，表示返回值的数量。需要注意的是，用 C 编写的函数无法把返回值返回给 `Lua` 代码，而是通过虚拟栈来传递 `Lua` 和 C 之间的调用参数和返回值。不仅在编程上开发效率变低，而且性能上比不上 `FFI` 库调用 C 函数。
+简单解释一下 Lua 扩展 C 库，对于那些能够被 Lua 调用的 C 函数来说，它的接口必须遵循 `Lua` 要求的形式，就是 `typedef int (*lua_CFunction)(lua_State* L)`，这个函数包含的参数是 `lua_State` 类型的指针 L。可以通过这个指针进一步获取通过 `Lua` 代码传入的参数。这个函数的返回值类型是一个整型，表示返回值的数量。需要注意的是，用 C 编写的函数无法把返回值返回给 `Lua` 代码，而是通过虚拟栈来传递 `Lua` 和 C 之间的调用参数和返回值。不仅在编程上开发效率变低，而且性能上比不上 `FFI` 库调用 C 函数。
 
 `FFI` 库最大限度的省去了使用 C 手工编写繁重的 `Lua/C` 绑定的需要。不需要学习一门独立/额外的绑定语言——它解析普通 C 声明。这样可以从 C 头文件或参考手册中，直接剪切，粘贴。它的任务就是绑定很大的库，但不需要捣鼓脆弱的绑定生成器。
 
@@ -10,15 +10,15 @@
 
 ffi 库 词汇
 -----------
-| *名词*  | *解释* |
-| ----  |------|
-| cdecl | 一个抽象的C类型定义(其实是一个 lua 字符串)|
-| ctype | 一个 C 类型对象|
-| cdata | 一个 C 数据对象|
-| ct    | 一个 C 类型格式，就是一个模板对象，可能是 cdecl, cdata, ctype |
-| cb    | 一个回调对象|
-| VLA   | 一个可变长度的数组|
-| VLS   | 一个可变长度的结构体|
+| *noun* |                 *Explanation*                                    |
+| ----  |                    ------                                         |
+| cdecl |   A definition of an abstract C type(actually, is a lua string)   |
+| ctype |                  C type object                                    |
+| cdata |                  C data object                                    |
+| ct    |   C type format, is a template object, may be cdecl, cdata, ctype |
+| cb    |                 callback object                                   |
+| VLA   |                An array of variable length                        |
+| VLS   |             A structure of variable length                        |
 
 ffi.\* API
 ----------
@@ -288,21 +288,21 @@ print(#b)        --> 12.5
 
 >附表：Lua 与 C 语言语法对应关系
 
-| *Idiom*  | *C code* | *Lua code* |
-| ----  |------| ------|
-| Pointer dereference | x = *p | x = p[0] |
-| int *p | *p = y | p[0] = y |
-| Pointer indexing | x = p[i] | x = p[i] |
-| int i, *p | p[i+1] = y | p[i+1] = y |
-| Array indexing | x = a[i] | x = a[i] |
-| int i, a[] | a[i+1] = y | a[i+1] = y |
-| struct/union dereference | x = s.field | x = s.field |
-| struct foo s | s.field = y | s.field = y |
-| struct/union pointer deref | x = sp->field | x = sp.field |
-| struct foo *sp | sp->field = y | s.field = y |
-| int i, *p | y = p - i | y = p - i |
-| Pointer dereference | x = p1 - p2 | x = p1 - p2 |
-| Array element pointer | x = &a[i] | x = a + i |
+| *Idiom*                    | *C code*        | *Lua code*   |
+| ----                       |------           | ------       |
+| Pointer dereference        | x = *p          | x = p[0]     |
+| int *p                     | *p = y          | p[0] = y     |
+| Pointer indexing           | x = p[i]        | x = p[i]     |
+| int i, *p                  | p[i+1] = y      | p[i+1] = y   |
+| Array indexing             | x = a[i]        | x = a[i]     |
+| int i, a[]                 | a[i+1] = y      | a[i+1] = y   |
+| struct/union dereference   | x = s.field     | x = s.field  |
+| struct foo s               | s.field = y     | s.field = y  |
+| struct/union pointer deref | x = sp->field   | x = sp.field |
+| struct foo *sp             | sp->field = y   | s.field = y  |
+| int i, *p                  | y = p - i       | y = p - i    |
+| Pointer dereference        | x = p1 - p2     | x = p1 - p2  |
+| Array element pointer      | x = &a[i]       | x = a + i    |
 
 内存问题
 -------
