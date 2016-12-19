@@ -26,7 +26,7 @@
     * [日期时间函数](lua/time_date_function.md)
     * [数学库函数](lua/math_library.md)
     * [文件操作](lua/file.md)
-* [Lua高阶]
+* [Lua 高阶]
     * [元表](lua/metatable.md)
     * [面向对象编程](lua/object_oriented.md)
     * [局部变量](lua/local.md)
