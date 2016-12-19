@@ -93,10 +93,17 @@ A =   365
 
 Lua 上下文中应当严格避免使用自己定义的全局变量。可以使用一个 lua-releng 工具来扫描 Lua 代码，定位使用 Lua 全局变量的地方。lua-releng 的相关链接：[https://github.com/openresty/lua-nginx-module#lua-variable-scope](https://github.com/openresty/lua-nginx-module#lua-variable-scope)
 
-把 lua-releng 文件所在的目录的绝对路径添加进 PATH 环境变量。然后进入你自己的 Lua 文件所在的工作目录，得到如下结果：
+如果使用 macOS 或者 Linux ，可以使用下面命令安装 `lua-releng`:
+
+```bash
+curl -L https://github.com/openresty/openresty-devel-utils/raw/master/lua-releng > /usr/local/bin/lua-releng
+chmod +x /usr/local/bin/lua-releng
+```
+
+Windows 用户把 lua-releng 文件所在的目录的绝对路径添加进 PATH 环境变量。然后进入你自己的 Lua 文件所在的工作目录，得到如下结果：
 
 ```
-#  perl lua-releng.pl
+#  lua-releng
 foo.lua: 0.01 (0.01)
 Checking use of Lua global variables in file foo.lua...
   op no.  line  instruction args  ; code
@@ -115,5 +122,3 @@ Checking line length exceeding 80...
 结果显示：
 在 foo.lua 文件中，第 8 行设置了一个全局变量 A ；
 在 use_foo.lua 文件中，没有版本信息，并且第 1 行设置了一个全局变量 A，第 4、8 行使用了全局变量 A。
-
-
