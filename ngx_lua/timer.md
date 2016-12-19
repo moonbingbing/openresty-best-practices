@@ -1,6 +1,6 @@
 # 定时任务
 
-在[请求返回后继续执行](../ngx_lua/timer.md)章节中，我们介绍了一种实现的方法，这里我们
+在[请求返回后继续执行](../ngx_lua/continue_after_eof.md)章节中，我们介绍了一种实现的方法，这里我们
 介绍一种更优雅更通用的方法：[ngx.timer.at()](https://github.com/openresty/lua-nginx-module#ngxtimerat)。
 这个函数是在后台用nginx轻线程（light thread），在指定的延时后，调用指定的函数。
 有了这种机制，ngx_lua的功能得到了非常大的扩展，我们有机会做一些更有想象力的功能出来。比如
