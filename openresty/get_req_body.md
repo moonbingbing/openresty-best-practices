@@ -13,6 +13,7 @@ http {
 
         location /test {
             content_by_lua_block {
+                ngx.req.read_body()
                 local data = ngx.req.get_body_data()
                 ngx.say("hello ", data)
             }
