@@ -1,6 +1,6 @@
 # 什么是 JIT ？
 
-自从 OpenResty 1.5.8.1 版本之后，默认捆绑的 Lua 解释器就被替换成了 LuaJIT ，而不在是标准 Lua。单从名字上，我们就可以直接看到这个新的解释器多了一个 `JIT`，接下来我们就一起来聊聊 `JIT` 。
+自从 OpenResty 1.5.8.1 版本之后，默认捆绑的 Lua 解释器就被替换成了 LuaJIT ，而不再是标准 Lua。单从名字上，我们就可以直接看到这个新的解释器多了一个 `JIT`，接下来我们就一起来聊聊 `JIT` 。
 
 先看一下 LuaJIT 官方的解释： LuaJIT is a Just-In-Time Compilerfor the Lua programming language。
 
@@ -170,13 +170,13 @@ for i=1,loop_count do
 end
 ```
 
-|执行参数|执行结果|
-|------|------|
-|time lua test.lua 1000 ipairs|3.96s user 0.02s system 98% cpu 4.039 total|
-|time lua test.lua 1000 pairs|3.97s user 0.01s system 99% cpu 3.992 total|
-|time luajit test.lua 1000 ipairs|0.10s user 0.00s system 95% cpu 0.113 total|
-|time luajit test.lua 10000 ipairs|0.98s user 0.00s system 99% cpu 0.991 total|
-|time luajit test.lua 1000 pairs|1.54s user 0.01s system 99% cpu 1.559 total|
+|  执行参数                           |  执行结果                                     |
+|:------------------------------------|:----------------------------------------------|
+|  time lua test.lua 1000 ipairs      |  3.96s user 0.02s system 98% cpu 4.039 total  |
+|  time lua test.lua 1000 pairs       |  3.97s user 0.01s system 99% cpu 3.992 total  |
+|  time luajit test.lua 1000 ipairs   |  0.10s user 0.00s system 95% cpu 0.113 total  |
+|  time luajit test.lua 10000 ipairs  |  0.98s user 0.00s system 99% cpu 0.991 total  |
+|  time luajit test.lua 1000 pairs    |  1.54s user 0.01s system 99% cpu 1.559 total  |
 
 从这个执行结果中，大致可以总结出下面几个观点：
 
@@ -191,100 +191,98 @@ end
 
 ### 基础库的支持情况
 
-|   函数    |   编译?   |   备注 |
-|---------|--------|-----------------|
-|   assert  |   yes |       |
-|   collectgarbage  |   no  |       |
-|   dofile  |   never   |       |
-|   error   |   never   |       |
-|   getfenv |   2.1 partial |   只有 getfenv(0) 能编译    |
-|   getmetatable    |   yes |       |
-|   ipairs  |   yes |       |
-|   load    |   never   |       |
-|   loadfile    |   never   |       |
-|   loadstring  |   never   |       |
-|   next    |   no  |       |
-|   pairs   |   no  |       |
-|   pcall   |   yes |       |
-|   print   |   no  |       |
-|   rawequal    |   yes |       |
-|   rawget  |   yes |       |
-|   rawlen (5.2)    |   yes |       |
-|   rawset  |   yes |       |
-|   select  |   partial |  第一个参数是静态变量的时候可以编译|
-|   setfenv |   no  |       |
-|   setmetatable    |   yes |       |
-|   tonumber    |   partial | 不能编译非10进制，非预期的异常输入 |
-|   tostring    |   partial | 只能编译：字符串、数字、布尔、nil 以及支持 __tostring元方法的类型 |
-|   type    |   yes |       |
-|   unpack  |   no  |       |
-|   xpcall  |   yes |       |
+|  函数            |  编译?        |  备注                                                               |
+|:-----------------|:--------------|:--------------------------------------------------------------------|
+|  assert          |  yes          |                                                                     |
+|  collectgarbage  |  no           |                                                                     |
+|  dofile          |  never        |                                                                     |
+|  error           |  never        |                                                                     |
+|  getfenv         |  2.1 partial  |  只有 getfenv(0) 能编译                                             |
+|  getmetatable    |  yes          |                                                                     |
+|  ipairs          |  yes          |                                                                     |
+|  load            |  never        |                                                                     |
+|  loadfile        |  never        |                                                                     |
+|  loadstring      |  never        |                                                                     |
+|  next            |  no           |                                                                     |
+|  pairs           |  no           |                                                                     |
+|  pcall           |  yes          |                                                                     |
+|  print           |  no           |                                                                     |
+|  rawequal        |  yes          |                                                                     |
+|  rawget          |  yes          |                                                                     |
+|  rawlen (5.2)    |  yes          |                                                                     |
+|  rawset          |  yes          |                                                                     |
+|  select          |  partial      |  第一个参数是静态变量的时候可以编译                                 |
+|  setfenv         |  no           |                                                                     |
+|  setmetatable    |  yes          |                                                                     |
+|  tonumber        |  partial      |  不能编译非10进制，非预期的异常输入                                 |
+|  tostring        |  partial      |  只能编译：字符串、数字、布尔、nil 以及支持 __tostring元方法的类型  |
+|  type            |  yes          |                                                                     |
+|  unpack          |  no           |                                                                     |
+|  xpcall          |  yes          |                                                                     |
 
 ### 字符串库
 
-|   函数    |   编译?   |   备注 |
-|---------|----------|-------------|
-|   string.byte |   yes |       |
-|   string.char |   2.1 |       |
-|   string.dump |   never   |       |
-|   string.find |   2.1 partial | 只有字符串样式查找（没有样式）|
-|   string.format   |   2.1 partial |  不支持 %p 或 非字符串参数的 %s |
-|   string.gmatch   |   no  |       |
-|   string.gsub |   no  |       |
-|   string.len  |   yes |       |
-|   string.lower    |   2.1 |       |
-|   string.match    |   no  |       |
-|   string.rep  |   2.1 |       |
-|   string.reverse  |   2.1 |       |
-|   string.sub  |   yes |       |
-|   string.upper    |   2.1 |       |
+|  函数            |  编译?        |  备注                            |
+|:-----------------|:--------------|:---------------------------------|
+|  string.byte     |  yes          |                                  |
+|  string.char     |  2.1          |                                  |
+|  string.dump     |  never        |                                  |
+|  string.find     |  2.1 partial  |  只有字符串样式查找（没有样式）  |
+|  string.format   |  2.1 partial  |  不支持 %p 或 非字符串参数的 %s  |
+|  string.gmatch   |  no           |                                  |
+|  string.gsub     |  no           |                                  |
+|  string.len      |  yes          |                                  |
+|  string.lower    |  2.1          |                                  |
+|  string.match    |  no           |                                  |
+|  string.rep      |  2.1          |                                  |
+|  string.reverse  |  2.1          |                                  |
+|  string.sub      |  yes          |                                  |
+|  string.upper    |  2.1          |                                  |
 
 ### 表
 
-|   函数    |   编译?   |   备注 |
-|---------|----------|-------------|
-|   table.concat    |   2.1 |       |
-|   table.foreach   |   no  |   2.1: 内部编译，但还没有外放 |
-|   table.foreachi  |   2.1 |       |
-|   table.getn  |   yes |       |
-|   table.insert    |   partial |  只有 push 操作  |
-|   table.maxn  |   no  |       |
-|   table.pack (5.2)    |   no  |       |
-|   table.remove    |   2.1 |  部分，只有 pop 操作 |
-|   table.sort  |   no  |       |
-|   table.unpack (5.2)  |   no  |       |
+|  函数                |  编译?    |  备注                         |
+|:---------------------|:----------|:------------------------------|
+|  table.concat        |  2.1      |                               |
+|  table.foreach       |  no       |  2.1: 内部编译，但还没有外放  |
+|  table.foreachi      |  2.1      |                               |
+|  table.getn          |  yes      |                               |
+|  table.insert        |  partial  |  只有 push 操作               |
+|  table.maxn          |  no       |                               |
+|  table.pack (5.2)    |  no       |                               |
+|  table.remove        |  2.1      |  部分，只有 pop 操作          |
+|  table.sort          |  no       |                               |
+|  table.unpack (5.2)  |  no       |                               |
 
 ### math 库
 
-|   函数    |   编译?   |   备注 |
-|---------|----------|-------------|
-|   math.abs    |   yes |       |
-|   math.acos   |   yes |       |
-|   math.asin   |   yes |       |
-|   math.atan   |   yes |       |
-|   math.atan2  |   yes |       |
-|   math.ceil   |   yes |       |
-|   math.cos    |   yes |       |
-|   math.cosh   |   yes |       |
-|   math.deg    |   yes |       |
-|   math.exp    |   yes |       |
-|   math.floor  |   yes |       |
-|   math.fmod   |   no  |       |
-|   math.frexp  |   no  |       |
-|   math.ldexp  |   yes |       |
-|   math.log    |   yes |       |
-|   math.log10  |   yes |       |
-|   math.max    |   yes |       |
-|   math.min    |   yes |       |
-|   math.modf   |   yes |       |
-|   math.pow    |   yes |       |
-|   math.rad    |   yes |       |
-|   math.random |   yes |       |
-|   math.randomseed |   no  |       |
-|   math.sin    |   yes |       |
-|   math.sinh   |   yes |       |
-|   math.sqrt   |   yes |       |
-|   math.tan    |   yes |       |
-|   math.tanh   |   yes |       |
-
-
+|  函数             |  编译?  |  备注  |
+|:------------------|:--------|:-------|
+|  math.abs         |  yes    |        |
+|  math.acos        |  yes    |        |
+|  math.asin        |  yes    |        |
+|  math.atan        |  yes    |        |
+|  math.atan2       |  yes    |        |
+|  math.ceil        |  yes    |        |
+|  math.cos         |  yes    |        |
+|  math.cosh        |  yes    |        |
+|  math.deg         |  yes    |        |
+|  math.exp         |  yes    |        |
+|  math.floor       |  yes    |        |
+|  math.fmod        |  no     |        |
+|  math.frexp       |  no     |        |
+|  math.ldexp       |  yes    |        |
+|  math.log         |  yes    |        |
+|  math.log10       |  yes    |        |
+|  math.max         |  yes    |        |
+|  math.min         |  yes    |        |
+|  math.modf        |  yes    |        |
+|  math.pow         |  yes    |        |
+|  math.rad         |  yes    |        |
+|  math.random      |  yes    |        |
+|  math.randomseed  |  no     |        |
+|  math.sin         |  yes    |        |
+|  math.sinh        |  yes    |        |
+|  math.sqrt        |  yes    |        |
+|  math.tan         |  yes    |        |
+|  math.tanh        |  yes    |        |
