@@ -7,14 +7,14 @@
 
 下面将用一个实际应用中遇到问题抽象出来的示例（CPU 占用过高）来说明如何通过火焰图定位问题。
 
-问题表现，nginx worker 运行一段时间后出现 CPU 占用 100% 的情况，reload 后一段时间后复现，当出现 CPU 占用率高情况的时候是某个 worker 占用率高。
+问题表现，Nginx worker 运行一段时间后出现 CPU 占用 100% 的情况，reload 后一段时间后复现，当出现 CPU 占用率高情况的时候是某个 worker 占用率高。
 
 问题分析，单 worker cpu 高的情况一定是某个 input 中包含的信息不能被 Lua 函数以正确地方式处理导致的，因此上火焰图找出具体的函数，抓取的过程需要抓取 C 级别的函数和 Lua 级别的函数，抓取相同的时间，两张图一起分析才能得到准确的结果。
 
 抓取步骤：
 
 * [安装SystemTap](install.md)
-* 获取 CPU 异常的 worker 的进程 ID：
+* 获取 CPU 异常的 worker 的进程 ID ：
 > ps -ef | grep nginx
 
 * 使用 [lj-lua-stacks.sxx](https://github.com/openresty/stapxx#lj-lua-stacks)抓取栈信息，并用 [fix-lua-bt](https://github.com/agentzh/nginx-systemtap-toolkit#fix-lua-bt) 工具处理：
