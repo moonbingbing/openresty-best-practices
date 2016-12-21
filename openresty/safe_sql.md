@@ -99,7 +99,7 @@ location /test {
 -- for MySQL
 local req_id = [[1'; drop table cats;--]]
 res, err, errno, sqlstate =
-    db:query(string.format([[select * from cats where id = '%s']],
+    db:query(string.format([[select * from cats where id = %s]],
     ndk.set_var.set_quote_sql_str(req_id)))
 if not res then
     ngx.say("bad result: ", err, ": ", errno, ": ", sqlstate, ".")
@@ -112,6 +112,3 @@ end
     bad result: You have an error in your SQL syntax; check the manual that
     corresponds to your MySQL server version for the right syntax to use near
     '1\'; drop table cats;--''' at line 1: 1064: 42000.
-
-
-
