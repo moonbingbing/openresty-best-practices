@@ -26,7 +26,7 @@ Nginx 的设计极具扩展性，它完全是由多个不同功能、不同层�
 
 6、热部署
 
-master 管理进程与 worker 工作进程的分离设计，使得 Nginx 具有热部署的功能，可以在 7×24 小时不间断服务的前提下，升级 Nginx 的可执行文件。也可以在不停止服务的情况下修改配置文件，更换日志文件等功能。
+master 管理进程与 worker 工作进程的分离设计，使得 Nginx 具有热部署的功能，可以在 7 × 24 小时不间断服务的前提下，升级 Nginx 的可执行文件。也可以在不停止服务的情况下修改配置文件，更换日志文件等功能。
 
 7、自由的 BSD 许可协议
 
@@ -43,9 +43,9 @@ Nginx 安装：
 3. 进入解压缩目录，执行 ./configure
 4. make & make install
 
-若安装时找不到上述依赖模块，使用 --with-openssl=`<openssl_dir>`、--with-pcre=`<pcre_dir>`、--with-zlib=`<zlib_dir>` 指定依赖的模块目录。如已安装过，此处的路径为安装目录；若未安装，则此路径为编译安装包路径，nginx 将执行模块的默认编译安装。
+若安装时找不到上述依赖模块，使用 --with-openssl=`<openssl_dir>`、--with-pcre=`<pcre_dir>`、--with-zlib=`<zlib_dir>` 指定依赖的模块目录。如已安装过，此处的路径为安装目录；若未安装，则此路径为编译安装包路径，Nginx 将执行模块的默认编译安装。
 
-启动 nginx 之后，浏览器中输入 http://localhost 可以验证是否安装启动成功。
+启动 Nginx 之后，浏览器中输入 http://localhost 可以验证是否安装启动成功。
 
 ![](../images/nginx_hello.jpg)
 
@@ -69,7 +69,7 @@ ubuntu: /opt/nginx-1.7.7/conf$ tree |grep -v default
 
 除了 `nginx.conf`，其余配置文件，一般只需要使用默认提供即可。
 
-nginx.conf是主配置文件，默认配置去掉注释之后的内容如下图所示：
+`nginx.conf` 是主配置文件，默认配置去掉注释之后的内容如下图所示：
 
 ```nginx
 worker_process      # 表示工作进程的数量，一般设置为cpu的核数
@@ -97,7 +97,7 @@ server{}            # 块定义了虚拟主机
 
 ![](../images/nginx_conf.jpg)
 
-从配置可以看出，nginx 监听了 80 端口、域名为 localhost、根路径为 html 文件夹（我的安装路径为 /opt/nginx-1.7.7，所以 /opt/nginx-1.7.7/html）、默认 index 文件为 index.html，index.htm 服务器错误重定向到 50x.html 页面。
+从配置可以看出，Nginx 监听了 80 端口、域名为 localhost、根路径为 html 文件夹（我的安装路径为 /opt/nginx-1.7.7，所以 /opt/nginx-1.7.7/html）、默认 index 文件为 index.html，index.htm 服务器错误重定向到 50x.html 页面。
 
 可以看到 /opt/nginx-1.7.7/html/ 有以下文件：
 

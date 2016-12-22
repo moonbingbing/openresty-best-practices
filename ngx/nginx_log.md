@@ -4,7 +4,7 @@ Nginx 日志主要有两种：access_log(访问日志) 和 error_log(错误日�
 
 ### access_log 访问日志
 
-access_log 主要记录客户端访问 Nginx 的每一个请求，格式可以自定义。通过 access_log 你可以得到用户地域来源、跳转来源、使用终端、某个URL访问量等相关信息。
+access_log 主要记录客户端访问 Nginx 的每一个请求，格式可以自定义。通过 access_log 你可以得到用户地域来源、跳转来源、使用终端、某个 URL 访问量等相关信息。
 
 log_format 指令用于定义日志的格式，语法: `log_format name string;` 其中 name 表示格式名称，string 表示定义的格式字符串。log_format 有一个默认的无需设置的组合日志格式。
 
@@ -79,4 +79,4 @@ http {
 }
 ```
 
-另外 Linux 系统可以使用 tail 命令方便的查阅正在改变的文件,`tail -f filename`会把 filename 里最尾部的内容显示在屏幕上,并且不断刷新,使你看到最新的文件内容。Windows 系统没有这个命令，你可以在网上找到动态查看文件的工具。
+另外 Linux 系统可以使用 tail 命令方便的查阅正在改变的文件,`tail -f filename` 会把 filename 里最尾部的内容显示在屏幕上, 并且不断刷新, 使你看到最新的文件内容。Windows 系统没有这个命令，你可以在网上找到动态查看文件的工具。
