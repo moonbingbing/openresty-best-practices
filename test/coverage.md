@@ -8,11 +8,11 @@
 luarocks install luacov
 ```
 
-当然，你也可以通过 [github 上的源码](https://github.com/keplerproject/luacov) 编译来安装。这个方式你可以修改 LuaCov 的一些默认配置。
+当然，你也可以通过 [GitHub 上的源码](https://github.com/keplerproject/luacov) 编译来安装。这个方式你可以修改 LuaCov 的一些默认配置。
 
-比如 LuaCov 的分析文件是按照 100 条一批来写入的，如果你的代码量不大，可能就会不准确。你可以修改 /src/luacov/defaults.lua 里面的 savestepsize，改为 2，来适应你的应用场景。
+比如 LuaCov 的分析文件是按照 100 条一批来写入的，如果你的代码量不大，可能就会不准确。你可以修改 /src/luacov/defaults.Lua 里面的 savestepsize，改为 2 ，来适应你的应用场景。
 
-在 OpenResty 里面使用 LuaCov，只用在 nginx.conf 中增加  init_by_lua_block（只能放在 http 上下文中） 既可。
+在 OpenResty 里面使用 LuaCov，只用在 Nginx.conf 中增加  init_by_lua_block（只能放在 http 上下文中）既可。
 ```
 init_by_lua_block {
     require 'luacov.tick'
@@ -43,6 +43,6 @@ luacov
 
 ![覆盖率报告](../images/code_coverage.png)
 
-可以看到，在我的这个单元测试里面，一共涉及到近 20 个代码文件。其中倒数第三个是我测试的 API 接口， 覆盖到的代码有 19 行，没有覆盖的有 3 行，所以代码覆盖率是 86.36% （19.0 / (19 + 3)）。
+可以看到，在我的这个单元测试里面，一共涉及到近 20 个代码文件。其中倒数第三个是我测试的 API 接口，覆盖到的代码有 19 行，没有覆盖的有 3 行，所以代码覆盖率是 86.36%（19.0 / (19 + 3)）。
 
 最后有一个总的代码覆盖率是 28.3%，这个值在跑完所有单元测试后是有意义的，单跑一个是没有参考价值的，因为很多基础函数可能并没有运行到。
