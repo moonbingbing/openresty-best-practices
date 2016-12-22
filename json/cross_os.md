@@ -1,8 +1,8 @@
 # 跨平台的库选择
 
-大家看过上面三个json的例子就发现，都是围绕cjson库的。原因也比较简单，就是cjson是默认绑定到openresty上的。很多开发喜欢 windows 系统，可以选择 dkjson（编解码效率没有cjson快，优势是纯Lua，完美跨任何平台）。
+大家看过上面三个 json 的例子就发现，都是围绕 cjson 库的。原因也比较简单，就是 cjson 是默认绑定到 OpenResty 上的。很多开发喜欢 windows 系统，可以选择 dkjson（编解码效率没有 cjson 快，优势是纯 Lua，完美跨任何平台）。
 
-并且我们的代码肯定不会因为 win、linux 的并存而写两套程序。那么我们就必须要把json处理部分封装一下，隐藏系统差异造成的差异化处理。
+并且我们的代码肯定不会因为 win、linux 的并存而写两套程序。那么我们就必须要把 json 处理部分封装一下，隐藏系统差异造成的差异化处理。
 
 ```lua
 local _M = { _VERSION = '1.0' }
@@ -22,7 +22,7 @@ return _M
 
 在我们的应用中，对于操作系统版本差异、操作系统位数差异、同时支持不同数据库使用等，几乎都是使用这个方法完成的，十分值得推荐。
 
-额外说个点，github上有个项目[cloudflare/lua-resty-json](https://github.com/cloudflare/lua-resty-json)，从官方资料上介绍decode的速度更快，我们也做了小范围应用。所以上面的json_decode对象来源，就可以改成这个库。
+额外说个点，GitHub 上有个项目[cloudflare/lua-resty-json](https://github.com/cloudflare/lua-resty-json)，从官方资料上介绍 decode 的速度更快，我们也做了小范围应用。所以上面的 json_decode 对象来源，就可以改成这个库。
 
 外面总是有新鲜玩意，多抬头多发现，充实自己，站在巨人肩膀上，总是能够更容易够到高峰。
 
