@@ -1,6 +1,6 @@
-# PostgresNginxModule模块的调用方式
+# PostgresNginxModule 模块的调用方式
 
-### ngx\_postgres模块使用方法
+### ngx\_postgres 模块使用方法
 
 ```nginx
 location /postgres {
@@ -21,11 +21,11 @@ location /postgres {
 
 这里有很多指令要素：
 
-* internal 这个指令指定所在的 location 只允许使用于处理内部请求，否则返回 404 。
-* set\_by\_lua 这一段内嵌的 Lua 代码用于计算出 $query_sql 变量的值，即后续通过指令 postgres_query 发送给 PostgreSQL 处理的 SQL 语句。这里使用了GET请求的 query 参数作为 SQL 语句输入。
+* internal 这个指令指定所在的 location 只允许使用于处理内部请求，否则返回 404。
+* set\_by\_lua 这一段内嵌的 Lua 代码用于计算出 $query_sql 变量的值，即后续通过指令 postgres_query 发送给 PostgreSQL 处理的 SQL 语句。这里使用了 GET 请求的 query 参数作为 SQL 语句输入。
 * postgres\_pass 这个指令可以指定一组提供后台服务的 PostgreSQL 数据库的 upstream 块。
 * rds\_json 这个指令是 ngx\_rds\_json 提供的，用于指定 ngx\_rds\_json 的 output 过滤器的开关状态，其模块作用就是一个用于把 rds 格式数据转换成 json 格式的 output filter。这个指令在这里出现意思是让 ngx\_rds\_json 模块帮助 ngx\_postgres 模块把模块输出数据转换成 json 格式的数据。
-* rds_json_buffer_size 这个指令指定 ngx\_rds\_json 用于每个连接的数据转换的内存大小. 默认是 4/8k,适当加大此参数，有利于减少 CPU 消耗。
+* rds_json_buffer_size 这个指令指定 ngx\_rds\_json 用于每个连接的数据转换的内存大小. 默认是 4/8k, 适当加大此参数，有利于减少 CPU 消耗。
 * postgres_query 指定 SQL 查询语句，查询语句将会直接发送给 PostgreSQL 数据库。
 * postgres_connect_timeout 设置连接超时时间。
 * postgres_result_timeout 设置结果返回超时时间。
@@ -83,9 +83,9 @@ function test()
 end
 ```
 
-### 与resty-mysql调用方式的不同
+### 与 resty-mysql 调用方式的不同
 
-先来看一下`lua-resty-mysql`模块的调用示例代码。
+先来看一下 `lua-resty-mysql` 模块的调用示例代码。
 
 ```nginx
 # you do not need the following line if you are using
@@ -143,8 +143,8 @@ server {
 }
 ```
 
-看过这段代码，大家肯定会说：这才是我熟悉的，我想要的。为什么刚刚`ngx_postgres`模块的调用这么诡异，配置那么复杂，其实这是发展历史造成的。`ngx_postgres`起步比较早，当时`OpenResty`也还没开始流行，所以更多的 Nginx 数据库都是以 ngx_c_module 方式存在。有了`OpenResty`，才让我们具有了使用完整的语言来描述我们业务能力。
+看过这段代码，大家肯定会说：这才是我熟悉的，我想要的。为什么刚刚 `ngx_postgres` 模块的调用这么诡异，配置那么复杂，其实这是发展历史造成的。`ngx_postgres` 起步比较早，当时 `OpenResty` 也还没开始流行，所以更多的 Nginx 数据库都是以 ngx_c_module 方式存在。有了 `OpenResty`，才让我们具有了使用完整的语言来描述我们业务能力。
 
-后面我们会单独说一说使用`ngx_c_module`的各种不方便，也就是我们所踩过的坑。希望能给大家一个警示，能转到`lua-resty-***`这个方向的，就千万不要和`ngx_c_module`玩，`ngx_c_module`的扩展性、可维护性、升级等各方面都没有`lua-resty-***`好。
+后面我们会单独说一说使用 `ngx_c_module` 的各种不方便，也就是我们所踩过的坑。希望能给大家一个警示，能转到 `lua-resty-***` 这个方向的，就千万不要和 `ngx_c_module` 玩，`ngx_c_module` 的扩展性、可维护性、升级等各方面都没有 `lua-resty-***` 好。
 
 这绝对是经验的总结。不服来辩！
