@@ -38,12 +38,12 @@ $ brew install pcre openssl
 
     ```
      Type the following commands to build and install:
-     gmake
-     gmake install
+     make
+     sudo make install
     ```
 
-7. 编译。根据上一步命令提示，输入```gmake```。
-8. 安装。输入```gmake install```，这里可能需要输入你的管理员密码。
+7. 编译。根据上一步命令提示，输入```make```。
+8. 安装。输入```sudo make install```，这里可能需要输入你的管理员密码。
 9. 上面的步骤顺利完成之后，安装已经完成。可以在你指定的安装目录下看到一些相关目录及文件。
 
 #### 设置环境变量
