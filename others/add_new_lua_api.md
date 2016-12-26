@@ -1,8 +1,8 @@
-# 如何对nginx Lua module添加新api
+# 如何对 Nginx Lua module 添加新 api
 
-本文真正的目的，绝对不是告诉大家如何在nginx Lua module添加新api这么点东西。而是以此为例，告诉大家nginx模块开发环境搭建、码字编译、编写测试用例、代码提交、申请代码合并等。给大家顺路普及一下git的使用。
+本文真正的目的，绝对不是告诉大家如何在 Nginx Lua module 添加新 api 这么点东西。而是以此为例，告诉大家 Nginx 模块开发环境搭建、码字编译、编写测试用例、代码提交、申请代码合并等。给大家顺路普及一下 git 的使用。
 
-目前有个应用场景，需要获取当前nginx worker数量的需要，所以添加一个新的接口ngx.config.workers()。由于这个功能实现简单，非常适合大家当做例子。废话不多说，let's fly now！
+目前有个应用场景，需要获取当前 Nginx worker 数量的需要，所以添加一个新的接口 ngx.config.workers()。由于这个功能实现简单，非常适合大家当做例子。废话不多说，let's fly now！
 
 > 获取openresty默认安装包（辅助搭建基础环境）：
 
@@ -12,10 +12,10 @@ $ tar -xvf ngx_openresty-1.7.10.1.tar.gz
 $ cd ngx_openresty-1.7.10.1
 ```
 
-> 从github上fork代码
+> 从 GitHub 上 fork 代码
 
-* 进入[lua-nginx-module](https://github.com/openresty/lua-nginx-module)，点击右侧的Fork按钮
-* Fork完毕后，进入自己的项目，点击 Clone in Desktop 把项目clone到本地
+* 进入[lua-nginx-module](https://github.com/openresty/lua-nginx-module)，点击右侧的 Fork 按钮
+* Fork 完毕后，进入自己的项目，点击 Clone in Desktop 把项目 clone 到本地
 
 > 预编译，本步骤参考[这里](http://openresty.com/#Installation)：
 
@@ -143,13 +143,13 @@ Result: PASS
 
 # 提交代码，推动我们的修改被官方合并
 
-* 首先把代码commit到github
-* commit成功后，以次点击github右上角的Pull request -> New pull request
-* 这时候github会弹出一个自己与官方版本对比结果的页面，里面包含有我们所有的修改，确定我们的修改都被包含其中，点击Create pull request按钮
-* 输入标题、内容（you'd better write in english）,点击Create pull request按钮
-* 提交完成，就可以等待官方作者是否会被采纳了（代码+测试用例，必不可少）
+* 首先把代码 commit 到 GitHub
+* commit 成功后，以次点击 GitHub 右上角的 Pull request -> New pull request
+* 这时候 GitHub 会弹出一个自己与官方版本对比结果的页面，里面包含有我们所有的修改，确定我们的修改都被包含其中，点击 Create pull request 按钮
+* 输入标题、内容（you'd better write in english）, 点击 Create pull request 按钮
+* 提交完成，就可以等待官方作者是否会被采纳了（代码 + 测试用例，必不可少）
 
 来看看我们的成果吧：
 
-pull request : [点击查看](https://github.com/openresty/lua-nginx-module/pull/531)
+pull request : [点击查看](https://gitHub.com/openresty/lua-nginx-module/pull/531)
 commit detail: [点击查看](https://github.com/membphis/lua-nginx-module/commit/9d991677c090e1f86fa5840b19e02e56a4a17f86)
