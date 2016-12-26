@@ -25,7 +25,7 @@ location /postgres {
 * set\_by\_lua 这一段内嵌的 Lua 代码用于计算出 $query_sql 变量的值，即后续通过指令 postgres_query 发送给 PostgreSQL 处理的 SQL 语句。这里使用了 GET 请求的 query 参数作为 SQL 语句输入。
 * postgres\_pass 这个指令可以指定一组提供后台服务的 PostgreSQL 数据库的 upstream 块。
 * rds\_json 这个指令是 ngx\_rds\_json 提供的，用于指定 ngx\_rds\_json 的 output 过滤器的开关状态，其模块作用就是一个用于把 rds 格式数据转换成 json 格式的 output filter。这个指令在这里出现意思是让 ngx\_rds\_json 模块帮助 ngx\_postgres 模块把模块输出数据转换成 json 格式的数据。
-* rds_json_buffer_size 这个指令指定 ngx\_rds\_json 用于每个连接的数据转换的内存大小. 默认是 4/8k, 适当加大此参数，有利于减少 CPU 消耗。
+* rds_json_buffer_size 这个指令指定 ngx\_rds\_json 用于每个连接的数据转换的内存大小. 默认是 4/8k，适当加大此参数，有利于减少 CPU 消耗。
 * postgres_query 指定 SQL 查询语句，查询语句将会直接发送给 PostgreSQL 数据库。
 * postgres_connect_timeout 设置连接超时时间。
 * postgres_result_timeout 设置结果返回超时时间。
