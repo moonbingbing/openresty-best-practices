@@ -6,5 +6,5 @@ PostgreSQL 可以使用许多方法扩展，比如，通过增加新的数据类
 
 PostgreSQL 在灵活的 BSD 风格许可证下发行，任何人都可以根据自己的需要免费使用、修改和分发 PostgreSQL，不管是用于私人、商业、还是学术研究。
 
-ngx\_postgres 是一个提供 nginx 与 PostgreSQL 直接通讯的 upstream 模块。应答数据采用了 rds 格式,所以模块与 ngx\_rds\_json 和 ngx\_drizzle 模块是兼容的。
+ngx\_postgres 是一个提供 Nginx 与 PostgreSQL 直接通讯的 upstream 模块。应答数据采用了 rds 格式, 所以模块与 ngx\_rds\_json 和 ngx\_drizzle 模块是兼容的。
 
