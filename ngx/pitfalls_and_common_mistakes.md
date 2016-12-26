@@ -210,7 +210,7 @@ server {
 }
 ```
 
-我们不再尝试使用 if 来判断$uri 是否存在，用 try_files 意味着你可以测试一个序列。
+我们不再尝试使用 if 来判断 $uri 是否存在，用 try_files 意味着你可以测试一个序列。
 如果 $uri 不存在，就会尝试 $uri/，还不存在的话，在尝试一个回调 location。
 
 在上面配置的例子里面，如果 $uri 这个文件存在，就正常服务；
@@ -228,8 +228,8 @@ try_files $uri $uri/ /index.php?q=$uri&$args;
 
 注意：你实际使用的软件包，在参数名字上会有差异。比如：
 
-- "q"参数用在 Drupal, Joomla, WordPress
-- "page"用在 CMS Made Simple
+- "q" 参数用在 Drupal, Joomla, WordPress
+- "page" 用在 CMS Made Simple
 
 一些软件甚至不需要查询字符串，它们可以从 REQUEST_URI 中读取。
 比如 WordPress 就支持这样的配置：
@@ -258,7 +258,7 @@ location ~* \.php$ {
 }
 ```
 
-在这里，每一个.php 结尾的请求，都会传递给 FastCGI 的后台处理程序。
+在这里，每一个 .php 结尾的请求，都会传递给 FastCGI 的后台处理程序。
 这样做的问题是，当完整的路径未能指向文件系统里面一个确切的文件时，
 默认的 PHP 配置试图是猜测你想执行的是哪个文件。
 
