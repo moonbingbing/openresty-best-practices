@@ -1,6 +1,6 @@
 # Nginx 陷阱和常见错误
 
-翻译自：https://www.Nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+翻译自：https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
 
 >### 警告：
 >
@@ -59,8 +59,8 @@ server {
 ```
 
 这个是能工作的。把 root 放在 location 区块里面会工作，但并不是完全有效的。
-错就错在只要你开始增加其他的 location 区块，就需要给每一个 location 区块增加一个 root 。
-如果没有添加，就会没有 root 。让我们看下正确的配置。
+错就错在只要你开始增加其他的 location 区块，就需要给每一个 location 区块增加一个 root。
+如果没有添加，就会没有 root。让我们看下正确的配置。
 
 推荐的配置：
 
@@ -108,7 +108,7 @@ http {
 }
 ```
 
-为什么重复了这么多行不需要的配置呢？简单的使用“index”指令一次就够了。只需要把它放到 `http
+为什么重复了这么多行不需要的配置呢？简单的使用“ index ”指令一次就够了。只需要把它放到 `http
  {}` 区块里面，下面的就会继承这个配置。
 
 推荐的配置：
@@ -183,7 +183,7 @@ server {
 
 #### 用 if 检查文件是否存在
 
-使用 if 指令来判断文件是否存在是很可怕的，如果你在使用新版本的 Nginx ，
+使用 if 指令来判断文件是否存在是很可怕的，如果你在使用新版本的 Nginx，
 你应该看看 try_files，这会让你的生活变得更轻松。
 
 糟糕的配置：
@@ -210,14 +210,14 @@ server {
 }
 ```
 
-我们不再尝试使用 if 来判断$uri是否存在，用 try_files 意味着你可以测试一个序列。
-如果 $uri 不存在，就会尝试 $uri/ ，还不存在的话，在尝试一个回调 location 。
+我们不再尝试使用 if 来判断$uri 是否存在，用 try_files 意味着你可以测试一个序列。
+如果 $uri 不存在，就会尝试 $uri/，还不存在的话，在尝试一个回调 location。
 
 在上面配置的例子里面，如果 $uri 这个文件存在，就正常服务；
 如果不存在就检测 $uri/ 这个目录是否存在；如果不存在就按照 index.html 来处理，你需要保证 index.html 是存在的。
-try_files的加载是如此简单。这是另外一个你可以完全的消除 if 指令的实例。
+try_files 的加载是如此简单。这是另外一个你可以完全的消除 if 指令的实例。
 
-### 前端控制器模式的web应用
+### 前端控制器模式的 web 应用
 
 “前端控制器模式”是流行的设计，被用在很多非常流行的 PHP 软件包里面。
 里面的很多示例配置都过于复杂。想要 Drupal, Joomla 等运行起来，只用这样做就可以了：
@@ -228,8 +228,8 @@ try_files $uri $uri/ /index.php?q=$uri&$args;
 
 注意：你实际使用的软件包，在参数名字上会有差异。比如：
 
-- "q"参数用在Drupal, Joomla, WordPress
-- "page"用在CMS Made Simple
+- "q"参数用在 Drupal, Joomla, WordPress
+- "page"用在 CMS Made Simple
 
 一些软件甚至不需要查询字符串，它们可以从 REQUEST_URI 中读取。
 比如 WordPress 就支持这样的配置：
@@ -244,7 +244,7 @@ try_files $uri $uri/ /index.php;
 
 如果你不关心目录是否存在这个检测的话，你也可以决定忽略这个目录的检测，去掉 “$uri/” 这个配置。
 
-### 把不可控制的请求发给PHP
+### 把不可控制的请求发给 PHP
 
 很多网络上面推荐的和 PHP 相关的 Nginx 配置，都是把每一个 .php 结尾的 URI 传递给 PHP 解释器。
 请注意，大部分这样的 PHP 设置都有严重的安全问题，因为它可能允许执行任意第三方代码。
@@ -258,18 +258,18 @@ location ~* \.php$ {
 }
 ```
 
-在这里，每一个.php结尾的请求，都会传递给 FastCGI 的后台处理程序。
+在这里，每一个.php 结尾的请求，都会传递给 FastCGI 的后台处理程序。
 这样做的问题是，当完整的路径未能指向文件系统里面一个确切的文件时，
 默认的 PHP 配置试图是猜测你想执行的是哪个文件。
 
 举个例子，如果一个请求中的 `/forum/avatar/1232.jpg/file.php` 文件不存在，
-但是`/forum/avatar/1232.jpg`存在，那么PHP解释器就会取而代之，
-使用`/forum/avatar/1232.jpg`来解释。如果这里面嵌入了 PHP 代码，
+但是 `/forum/avatar/1232.jpg` 存在，那么 PHP 解释器就会取而代之，
+使用 `/forum/avatar/1232.jpg` 来解释。如果这里面嵌入了 PHP 代码，
 这段代码就会被执行起来。
 
 有几个避免这种情况的选择：
 
-* 在`php.ini`中设置`cgi.fix_pathinfo=0`。
+* 在 `php.ini` 中设置 `cgi.fix_pathinfo=0`。
 这会让 PHP 解释器只尝试给定的文件路径，如果没有找到这个文件就停止处理。
 
 * 确保 Nginx 只传递指定的 PHP 文件去执行
@@ -290,7 +290,7 @@ location /uploaddir {
 }
 ```
 
-* 使用 *try_files* 指令过滤出文件不存在的情况
+* 使用 * try_files* 指令过滤出文件不存在的情况
 
 ```Nginx
 location ~* \.php$ {
@@ -313,7 +313,7 @@ location ~* \.php$ {
 ### 脚本文件名里面的 FastCGI 路径
 
 很多外部指南喜欢依赖绝对路径来获取你的信息。这在 PHP 的配置块里面很常见。
-当你从仓库安装 Nginx ，通常都是以在配置里面折腾好“include fastcgi_params;”来收尾。
+当你从仓库安装 Nginx，通常都是以在配置里面折腾好“ include fastcgi_params; ”来收尾。
 这个配置文件位于你的 Nginx 根目录下，通常在 `/etc/Nginx/` 里面。
 
 推荐的配置：
@@ -333,8 +333,8 @@ $document_root$ 在哪里设置呢？它是 server 块里面的 root 指令来�
 
 ### 费力的 rewrites
 
-不要知难而退， rewrite 很容易和正则表达式混为一谈。
-实际上， rewrite 是很容易的，我们应该努力去保持它们的整洁。
+不要知难而退，rewrite 很容易和正则表达式混为一谈。
+实际上，rewrite 是很容易的，我们应该努力去保持它们的整洁。
 很简单，不添加冗余代码就行了。
 
 糟糕的配置：
@@ -356,12 +356,12 @@ return 301 http://example.com$request_uri;
 ```
 
 反复对比下这几个配置。
-第一个 rewrite 捕获不包含第一个斜杠的完整 URI 。
-使用内置的变量 $request_uri ，我们可以有效的完全避免任何捕获和匹配。
+第一个 rewrite 捕获不包含第一个斜杠的完整 URI。
+使用内置的变量 $request_uri，我们可以有效的完全避免任何捕获和匹配。
 
-### 忽略 http:// 的rewrite
+### 忽略 http:// 的 rewrite
 
-这个非常简单， rewrites 是用相对路径的，除非你告诉 Nginx 不是相对路径。
+这个非常简单，rewrites 是用相对路径的，除非你告诉 Nginx 不是相对路径。
 生成绝对路径的 rewrite 也很简单，加上 scheme 就行了。
 
 糟糕的配置：
@@ -394,12 +394,12 @@ server {
 }
 ```
 
-这个是令人讨厌的配置，你把 **所有东西** 都丢给了 PHP 。
-为什么呢？ Apache 可能要这样做，但在 Nginx 里你不必这样。
+这个是令人讨厌的配置，你把 **所有东西** 都丢给了 PHP。
+为什么呢？Apache 可能要这样做，但在 Nginx 里你不必这样。
 换个思路，try_files 有一个神奇之处，它是按照特定顺序去尝试文件的。
 这意味着 Nginx 可以先尝试下静态文件，如果没有才继续往后走。
-这样PHP就不用参与到这个处理中，会快很多。
-特别是如果你提供一个1MB图片数千次请求的服务，通过PHP处理还是直接返回静态文件呢？
+这样 PHP 就不用参与到这个处理中，会快很多。
+特别是如果你提供一个 1MB 图片数千次请求的服务，通过 PHP 处理还是直接返回静态文件呢？
 让我们看下怎么做到吧。
 
 推荐的配置：
@@ -436,11 +436,11 @@ server {
 }
 ```
 
-这个很容易，不是吗？你看，如果请求的 URI 存在， Nginx 会处理掉；
+这个很容易，不是吗？你看，如果请求的 URI 存在，Nginx 会处理掉；
 如果不存在，检查下目录是不是存在，是的话也可以被 Nginx 处理；
-只有在 Nginx 不能直接处理请求的URI的时候，才会进入 proxy 这个 location 来处理。
+只有在 Nginx 不能直接处理请求的 URI 的时候，才会进入 proxy 这个 location 来处理。
 
-现在，考虑下你的请求中有多少静态内容，比如图片、css、javascript等。这可能会帮你节省很多开销。
+现在，考虑下你的请求中有多少静态内容，比如图片、css、javascript 等。这可能会帮你节省很多开销。
 
 ### 配置的修改没有起效
 
@@ -449,15 +449,15 @@ server {
 
 怎么修复：
 
-* 在 Firefox 里面 Ctrl+Shift+Delete ，检查缓存，点击立即清理。可以用你喜欢的搜索引擎找到其他浏览器清理缓存的方法。
+* 在 Firefox 里面 Ctrl + Shift + Delete，检查缓存，点击立即清理。可以用你喜欢的搜索引擎找到其他浏览器清理缓存的方法。
 每次更改配置后，都需要清理下缓存（除非你知道这个不必要），这会省很多事儿。
 
-* 使用 curl 。
+* 使用 curl。
 
 ### VirtualBox
 
-如果你在 VirtualBox 的虚拟机中运行 Nginx ，而它不工作，可能是因为 sendfile() 引起的麻烦。
-只用简单的注释掉 sendfile 指令，或者设置为 off。 该指令大都会写在  Nginx .conf 文件中：
+如果你在 VirtualBox 的虚拟机中运行 Nginx，而它不工作，可能是因为 sendfile() 引起的麻烦。
+只用简单的注释掉 sendfile 指令，或者设置为 off。该指令大都会写在  Nginx .conf 文件中：
 
 ```
  sendfile off;
@@ -472,7 +472,7 @@ Nginx 将会自动丢弃带有下划线的 HTTP 头(根据 HTTP 标准，这样�
 
 ### 没有使用标准的 Document Root Location
 
-在所有的文件系统中，一些目录永远也不应该被用做数据的托管。这些目录包括 / 和 /root 。
+在所有的文件系统中，一些目录永远也不应该被用做数据的托管。这些目录包括 / 和 /root。
 你永远不应该使用这些目录作为你的 document root。
 
 使用这些目录的话，等于打开了潘多拉魔盒，请求会超出你的预期获取到隐私的数据。
@@ -495,7 +495,7 @@ server {
 
 当一个对 /foo 的请求，会传递给 PHP 处理，因为文件没有找到。
 这可能没有问题，直到遇到 /etc/passwd 这个请求。没错，你刚才给了我们这台服务器的所有用户列表。
-在某些情况下， Nginx 的 workers 甚至是 root 用户运行的。那么，我们现在有你的用户列表，
+在某些情况下，Nginx 的 workers 甚至是 root 用户运行的。那么，我们现在有你的用户列表，
 以及密码哈希值，我们也知道哈希的方法。这台服务器已经变成我们的肉鸡了。
 
 Filesystem Hierarchy Standard (FHS) 定义了数据应该如何存在。你一定要去阅读下。
@@ -503,7 +503,7 @@ Filesystem Hierarchy Standard (FHS) 定义了数据应该如何存在。你一�
 
 ### 使用默认的 Document Root
 
-在 Ubuntu、 Debian 等操作系统中， Nginx 会被封装成一个易于安装的包，
+在 Ubuntu、Debian 等操作系统中，Nginx 会被封装成一个易于安装的包，
 里面通常会提供一个“默认”的配置文件作为范例，也通常包含一个 document root 来保存基础的 HTML 文件。
 
 大部分这些打包系统，并没有检查默认的 document root 里面的文件是否修改或者存在。
@@ -557,7 +557,7 @@ server {
 
 由于 SSLv3 的 [POODLE 漏洞](https://www.openssl.org/~bodo/ssl-poodle.pdf)，
 建议不要在开启 SSL 的网站使用 SSLv3。
-你可以简单粗暴的直接禁止 SSLv3， 用 TLS 来替代：
+你可以简单粗暴的直接禁止 SSLv3，用 TLS 来替代：
 
 ```
 ssl_protocols TLSv1 TLSv1.1 TLSv1.2;

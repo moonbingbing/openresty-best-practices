@@ -13,7 +13,7 @@
 |location /uri | 不带任何修饰符，也表示前缀匹配，但是在正则匹配之后 |
 |location /   |通用匹配，任何未匹配到其它location的请求都会匹配到，相当于switch中的default|
 
-前缀匹配时，nginx 不对 url 做编码，因此请求为`/static/20%/aa`，可以被规则`^~ /static/ /aa`匹配到（注意是空格）
+前缀匹配时，Nginx 不对 url 做编码，因此请求为 `/static/20%/aa`，可以被规则 `^~ /static/ /aa` 匹配到（注意是空格）
 
 多个 location 配置的情况下匹配顺序为（参考资料而来，还未实际验证，试试就知道了，不必拘泥，仅供参考）:
 
@@ -58,16 +58,16 @@ location / {
 
 那么产生的效果如下：
 
-* 访问根目录 `/`， 比如 `http://localhost/` 将匹配`规则A`
-* 访问 `http://localhost/login` 将匹配`规则B`，`http://localhost/register` 则匹配`规则F`
-* 访问 `http://localhost/static/a.html` 将匹配`规则C`
-* 访问 `http://localhost/static/files/a.exe` 将匹配`规则X`，虽然`规则C`也能匹配到，但因为最大匹配原则，最中选中了`规则X`。你可以测试下，去掉规则X，则当前URL会匹配上`规则C`。
-* 访问 `http://localhost/a.gif`, `http://localhost/b.jpg` 将匹配`规则D` 和`规则 E`，但是`规则 D` 顺序优先，`规则 E` 不起作用，而 `http://localhost/static/c.png` 则优先匹配到`规则 C`
-* 访问 `http://localhost/a.PNG` 则匹配`规则 E`，而不会匹配`规则 D`，因为`规则 E` 不区分大小写。
-* 访问 `http://localhost/img/a.gif` 会匹配上`规则D`,虽然`规则Y`也可以匹配上，但是因为正则匹配优先，而忽略了`规则Y`。
-* 访问 `http://localhost/img/a.tiff` 会匹配上`规则Y`。
+* 访问根目录 `/`，比如 `http://localhost/` 将匹配 `规则A`
+* 访问 `http://localhost/login` 将匹配 `规则B`，`http://localhost/register` 则匹配 `规则F`
+* 访问 `http://localhost/static/a.html` 将匹配 `规则C`
+* 访问 `http://localhost/static/files/a.exe` 将匹配 `规则X`，虽然 `规则C` 也能匹配到，但因为最大匹配原则，最中选中了 `规则X`。你可以测试下，去掉规则 X ，则当前 URL 会匹配上 `规则C`。
+* 访问 `http://localhost/a.gif`, `http://localhost/b.jpg` 将匹配 `规则D` 和 `规则 E` ，但是 `规则 D` 顺序优先，`规则 E` 不起作用，而 `http://localhost/static/c.png` 则优先匹配到 `规则 C`
+* 访问 `http://localhost/a.PNG` 则匹配 `规则 E` ，而不会匹配 `规则 D` ，因为 `规则 E` 不区分大小写。
+* 访问 `http://localhost/img/a.gif` 会匹配上 `规则D`,虽然 `规则Y` 也可以匹配上，但是因为正则匹配优先，而忽略了 `规则Y`。
+* 访问 `http://localhost/img/a.tiff` 会匹配上 `规则Y`。
 
-访问 `http://localhost/category/id/1111` 则最终匹配到规则 F，因为以上规则都不匹配，这个时候应该是 nginx 转发请求给后端应用服务器，比如 FastCGI（php），tomcat（jsp），nginx 作为反向代理服务器存在。
+访问 `http://localhost/category/id/1111` 则最终匹配到规则 F ，因为以上规则都不匹配，这个时候应该是 Nginx 转发请求给后端应用服务器，比如 FastCGI（php），tomcat（jsp），Nginx 作为反向代理服务器存在。
 
 所以实际使用中，笔者觉得至少有三个匹配规则定义，如下：
 
@@ -96,7 +96,7 @@ location / {
 }
 ```
 
-#### ReWrite语法
+#### rewrite 语法
 
 * last          – 基本上都用这个 Flag
 * break         – 中止 Rewirte，不再继续匹配
@@ -120,7 +120,7 @@ location / {
     $document_root：D:\nginx/html
     $request_filename：D:\nginx/html/test1/test2/test.php
 
-#### Redirect 语法
+#### redirect 语法
 
 ```nginx
 server {

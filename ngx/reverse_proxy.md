@@ -18,7 +18,7 @@ Nginx 的其中一个用途是做 HTTP 反向代理，下面简单介绍 Nginx �
 
 >场景描述：访问本地服务器上的 README.md 文件 [http://localhost/README.md](http://localhost/README.md)，本地服务器进行反向代理，从 [https://github.com/moonbingbing/openresty-best-practices/blob/master/README.md](https://github.com/moonbingbing/openresty-best-practices/blob/master/README.md) 获取页面内容。
 
-nginx.conf 配置示例：
+`nginx.conf` 配置示例：
 
 ```nginx
 worker_processes 1;
@@ -58,25 +58,25 @@ http {
 }
 ```
 
-成功启动 nginx 后，我们打开浏览器，验证下反向代理的效果。在浏览器地址栏中输入 `localhost/README.md`，返回的结果是我们 github 源代码的 README 页面。如下图：
+成功启动 Nginx 后，我们打开浏览器，验证下反向代理的效果。在浏览器地址栏中输入 `localhost/README.md`，返回的结果是我们 GitHub 源代码的 README 页面。如下图：
 
 ![proxy_example](../images/proxy_example.png)
 
-我们只需要配置一下 nginx.conf 文件，不用写任何 web 页面，就可以偷偷地从别的服务器上读取一个页面返回给用户。
+我们只需要配置一下 `nginx.conf` 文件，不用写任何 web 页面，就可以偷偷地从别的服务器上读取一个页面返回给用户。
 
-下面我们来看一下 nginx.conf 里用到的配置项：
+下面我们来看一下 `nginx.conf` 里用到的配置项：
 
-（1）location
+(1) location
 
 location 项对请求 URI 进行匹配，location 后面配置了匹配规则。例如上面的例子中，如果请求的 URI 是 `localhost/`，则会匹配 `location /` 这一项；如果请求的 URI 是 `localhost/README.md`，则会匹配 `location /README.md` 这项。
 
 上面这个例子只是针对一个确定的 URI 做了反向代理，有的读者会有疑惑：如果对每个页面都进行这样的配置，那将会大量重复，能否做 **批量** 配置呢？此时需要配合使用 location 的正则匹配功能。具体实现方法可参考本书的 [URL 匹配章节](../ngx/match_uri.md)。
 
-（2）proxy_pass
+(2) proxy_pass
 
 proxy_pass 后面跟着一个 URL，用来将请求反向代理到 URL 参数指定的服务器上。例如我们上面例子中的 `proxy_pass https://github.com`，则将匹配的请求反向代理到 `https://github.com`。
 
-（3）proxy_set_header
+(3) proxy_set_header
 
 默认情况下，反向代理不会转发原始请求中的 Host 头部，如果需要转发，就需要加上这句：`proxy_set_header Host $host;`
 
