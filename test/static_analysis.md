@@ -8,7 +8,7 @@
 
 作为开发人员，在日常编码中，难免会范一些低级错误，比如少个括号，少个逗号，使用了未定义变量等等，我们往往会使用编辑器的 lint 插件来检测此类错误。
 
-对于我们 Openresty 开发中，日常开发的都是 Lua 代码，所以我们可以使用 [Luacheck](https://github.com/mpeterv/luacheck) 这款静态代码检测工具来帮助我们检查，比较好的一点是这款工具对 ngx_lua 做了一些支持，我们使用的 ngx 变量在开启了配置 `--std ngx_lua` 后即可被 luacheck 识别，而不会被认为是未定义的变量。
+对于我们 OpenResty 开发中，日常开发的都是 Lua 代码，所以我们可以使用 [Luacheck](https://github.com/mpeterv/luacheck) 这款静态代码检测工具来帮助我们检查，比较好的一点是这款工具对 ngx_lua 做了一些支持，我们使用的 ngx 变量在开启了配置 `--std ngx_lua` 后即可被 luacheck 识别，而不会被认为是未定义的变量。
 
 我们可以通过 luarocks 来安装:
 
