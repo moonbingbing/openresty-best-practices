@@ -1,8 +1,8 @@
-# 什么是 JIT ？
+# 什么是 JIT？
 
-自从 OpenResty 1.5.8.1 版本之后，默认捆绑的 Lua 解释器就被替换成了 LuaJIT ，而不再是标准 Lua。单从名字上，我们就可以直接看到这个新的解释器多了一个 `JIT`，接下来我们就一起来聊聊 `JIT` 。
+自从 OpenResty 1.5.8.1 版本之后，默认捆绑的 Lua 解释器就被替换成了 LuaJIT，而不再是标准 Lua。单从名字上，我们就可以直接看到这个新的解释器多了一个 `JIT`，接下来我们就一起来聊聊 `JIT`。
 
-先看一下 LuaJIT 官方的解释： LuaJIT is a Just-In-Time Compilerfor the Lua programming language。
+先看一下 LuaJIT 官方的解释：LuaJIT is a Just-In-Time Compilerfor the Lua programming language。
 
 LuaJIT 的运行时环境包括一个用手写汇编实现的 Lua 解释器和一个可以直接生成机器代码的 JIT 编译器。
 
@@ -21,7 +21,7 @@ LuaJIT 自己定义的中间码（IR），然后再生成针对目标体系结�
 如果当前 Lua 代码路径上的所有的操作都可以被 JIT 编译器顺利编译，则这条编译过的代码路径便被称为一个“trace”，在物理上对应一个
 `trace` 类型的 GC 对象（即参与 Lua GC 的对象）。
 
-你可以通过 `ngx-lj-gc-objs` 工具看到指定的 nginx worker 进程里所有 `trace` 对象的一些基本的统计信息，见 [https://github.com/agentzh/stapxx#ngx-lj-gc-objs](https://github.com/agentzh/stapxx#ngx-lj-gc-objs)
+你可以通过 `ngx-lj-gc-objs` 工具看到指定的 Nginx worker 进程里所有 `trace` 对象的一些基本的统计信息，见 [https://github.com/openresty/stapxx#ngx-lj-gc-objs](https://github.com/openresty/stapxx#ngx-lj-gc-objs)
 
 比如下面这一行 `ngx-lj-gc-objs` 工具的输出
 
@@ -74,7 +74,7 @@ lua_CFunction 的 Lua API，减少 NYI 原语。
 模块打印出比较简略的流水信息到 /tmp/jit.log 文件中；而当 verbose 变量为 true 时，我们则使用 jit.dump
 模块打印所有的细节信息，包括每个 trace 内部的字节码、IR 码和最终生成的机器指令。
 
-这里我们主要以 jit.v 模块为例。在启动 nginx 之后，应当使用 ab 和 weighttp
+这里我们主要以 jit.v 模块为例。在启动 Nginx 之后，应当使用 ab 和 weighttp
 这样的工具对相应的服务接口进行预热，以触发 LuaJIT 的 JIT
 编译器开始工作（还记得刚才我们说的“热函数”和“热循环”吗？）。预热过程一般不用太久，跑个二三百个请求足矣。当然，压更多的请求也没关系。完事后，我们就可以检查
 /tmp/jit.log 文件里面的输出了。
@@ -117,7 +117,7 @@ jit.v 模块的输出里如果有类似下面这种带编号的 TRACE 行，则�
 
 非常简单的一个脚本，就几行 Lua 代码。
 
-这里需要提醒的是，不同版本的 LuaJIT 的字节码可能是不相同的，所以一定要使用和你 nginx 链接的同一个 LuaJIT 来运行这个
+这里需要提醒的是，不同版本的 LuaJIT 的字节码可能是不相同的，所以一定要使用和你的 Nginx 链接的同一个 LuaJIT 来运行这个
 ljbc.lua 工具，否则有可能会得到错误的结果。
 
 我们实际做个对比实验，看看 JIT 带来的好处：
@@ -187,7 +187,7 @@ end
 ## 可以被 JIT 编译的元操作
 
 下面给大家列一下截止到目前已经可以被 JIT 编译的元操作。
-其他还有 IO、Bit、FFI、Coroutine、OS、Package、Debug、JIT 等分类，使用频率相对较低，这里就不罗列了，可以参考官网：[http://wiki.luajit.org/NYI](http://wiki.luajit.org/NYI) 。
+其他还有 IO、Bit、FFI、Coroutine、OS、Package、Debug、JIT 等分类，使用频率相对较低，这里就不罗列了，可以参考官网：[http://wiki.luajit.org/NYI](http://wiki.luajit.org/NYI)。
 
 ### 基础库的支持情况
 

@@ -96,7 +96,7 @@ print(not c)    -->打印 true
 print(not d)    -->打印 false
 ```
 
-**注意：所有逻辑操作符将 false 和 nil 视作假，其他任何值视作真，对于 and 和 or，“短路求值”，对于not，永远只返回 true 或者 false。**
+**注意：所有逻辑操作符将 false 和 nil 视作假，其他任何值视作真，对于 and 和 or，“短路求值”，对于 not，永远只返回 true 或者 false。**
 
 #### 字符串连接
 
