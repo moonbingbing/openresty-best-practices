@@ -1,26 +1,26 @@
-# 调用其他C函数动态库
+# 调用其他 C 函数动态库
 
-Linux下的动态库一般都以 .so 结束命名，而Windows下一般都以 .dll 结束命名。Lua作为一种嵌入式语言，和C具有非常好的亲缘性，这也是LUA赖以生存、发展的根本，所以Nginx+Lua=Openresty，魔法就这么神奇的发生了。
+Linux 下的动态库一般都以 .so 结束命名，而 Windows 下一般都以 .dll 结束命名。Lua 作为一种嵌入式语言，和 C 具有非常好的亲缘性，这也是 Lua 赖以生存、发展的根本，所以 Nginx + Lua=OpenResty，魔法就这么神奇的发生了。
 
-NgxLuaModule里面尽管提供了十分丰富的API，但他一定不可能满足我们的形形色色的需求。我们总是要和各种组件、算法等形形色色的第三方库进行协作。那么如何在Lua中加载动态加载第三方库，就显得非常有用。
+NgxLuaModule 里面尽管提供了十分丰富的 API，但他一定不可能满足我们的形形色色的需求。我们总是要和各种组件、算法等形形色色的第三方库进行协作。那么如何在 Lua 中加载动态加载第三方库，就显得非常有用。
 
-扯一些额外话题，Lua解释器目前有两个最主流分支。
+扯一些额外话题，Lua 解释器目前有两个最主流分支。
 
-* Lua官方发布的标准版[Lua](http://lua.org/)
-* Google开发维护的[LuaJIT](http://luajit.org/index.html)
+* Lua 官方发布的标准版[Lua](http://lua.org/)
+* Google 开发维护的[LuaJIT](http://luajit.org/index.html)
 
-LuaJIT中加入了Just In Time等编译技术，是的Lua的解释、执行效率有非常大的提升。除此以外，还提供了[FFI](http://luajit.org/ext_ffi.html)。
+LuaJIT 中加入了 Just In Time 等编译技术，使得 Lua 的解释、执行效率有非常大的提升。除此以外，还提供了[FFI](http://luajit.org/ext_ffi.html)。
 
 > 什么是FFI？
 
 ```
-The FFI library allows calling external C functions and using C data 
+The FFI library allows calling external C functions and using C data
 structures from pure Lua code.
 ```
 
-通过FFI的方式加载其他C接口动态库，这样我们就可以有很多有意思的玩法。
+通过 FFI 的方式加载其他 C 接口动态库，这样我们就可以有很多有意思的玩法。
 
-当我们碰到CPU密集运算部分，我们可以把他用C的方式实现一个效率最高的版本，对外导出API，打包成动态库，通过FFI来完成API调用。这样我们就可以兼顾程序灵活、执行高效，大大弥补了LuaJIT自身的不足。
+当我们碰到 CPU 密集运算部分，我们可以把他用 C 的方式实现一个效率最高的版本，对外导出 API，打包成动态库，通过 FFI 来完成 API 调用。这样我们就可以兼顾程序灵活、执行高效，大大弥补了 LuaJIT 自身的不足。
 
 > 使用FFI判断操作系统
 
@@ -102,7 +102,7 @@ print(#b)        --> 12.5
 
 > Lua和LuaJIT对比
 
-可以这么说，LuaJIT应该是全面胜出，无论是功能、效率都是标准Lua不能比的。目前最新版Openresty默认也都使用LuaJIT。
+可以这么说，LuaJIT 应该是全面胜出，无论是功能、效率都是标准 Lua 不能比的。目前最新版 OpenResty 默认也都使用 LuaJIT。
 
 世界为我所用，总是有惊喜等着你，如果哪天你发现自己站在了顶峰，那我们就静下心来改善一下顶峰，把他推到更高吧。
 
