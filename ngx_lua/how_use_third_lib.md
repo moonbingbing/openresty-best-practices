@@ -34,5 +34,5 @@ server {
 
 访问 [http://127.0.0.1:8080/baidu](http://127.0.0.1:8080/baidu) , 如果出现的是百度的首页，说明你配置成功了。
 
-当然这里也可以自定义 [`lua_package_path`](https://github.com/iresty/nginx-lua-module-zh-wiki#lua_package_path) 指定 Lua 的查找路径，这样就可以把第三方代码放到相应的位置下，这么做更加方便归类文件，明确什么类型的文件放到什么地方（比如：公共文件、业务文件）。
+当然这里也可以自定义 [lua_package_path](https://github.com/iresty/nginx-lua-module-zh-wiki#lua_package_path) 指定 Lua 的查找路径，这样就可以把第三方代码放到相应的位置下，这么做更加方便归类文件，明确什么类型的文件放到什么地方（比如：公共文件、业务文件）。
 

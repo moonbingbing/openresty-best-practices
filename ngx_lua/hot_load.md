@@ -10,7 +10,7 @@
 * 自动加载后的代码，享用 `lua_code_cache on` 带来的高效特性
 
 
-这里有多种玩法（[引自OpenResty讨论组](https://groups.google.com/forum/#!searchin/openresty/package.loaded/openresty/-MZ9AzXaaG8/TeXTyLCuoYUJ)）：
+这里有多种玩法（[引自 OpenResty 讨论组](https://groups.google.com/forum/#!searchin/openresty/package.loaded/openresty/-MZ9AzXaaG8/TeXTyLCuoYUJ)）：
 
 * 使用 HUP reload 或者 binary upgrade 方式动态加载 Nginx 配置或重启 Nginx。这不会导致中间有请求被 drop 掉。
 * 当 `content_by_lua_file` 里使用 Nginx 变量时，是可以动态加载新的 Lua 脚本的，不过要记得对 Nginx 变量的值进行基本的合法性验证，以免被注入攻击。
