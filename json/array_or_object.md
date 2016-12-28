@@ -1,4 +1,4 @@
-# 编码为array还是object
+# 编码为 array 还是 object
 
 首先大家请看这段源码：
 ```lua
@@ -12,9 +12,9 @@ ngx.say("value --> ", json.encode({dogs={}}))
 输出结果
 > value --> {"dogs":{}}
 
-注意看下encode后key的值类型，"{}" 代表key的值是个object，"[]" 则代表key的值是个数组。对于强类型语言(c/c++, java等)，这时候就有点不爽。因为类型不是他期望的要做容错。对于Lua本身，是把数组和字典融合到一起了，所以他是无法区分空数组和空字典的。
+注意看下 encode 后 key 的值类型，"{}" 代表 key 的值是个 object，"[]" 则代表 key 的值是个数组。对于强类型语言(C/C++, Java 等)，这时候就有点不爽。因为类型不是他期望的要做容错。对于 Lua 本身，是把数组和字典融合到一起了，所以他是无法区分空数组和空字典的。
 
-参考openresty-cjson中额外贴出测试案例，我们就很容易找到思路了。
+参考 [openresty/lua-cjson](https://github.com/openresty/lua-cjson) 中额外贴出测试案例，我们就很容易找到思路了。
 
 ```lua
 -- 内容节选lua-cjson-2.1.0.2/tests/agentzh.t
@@ -39,7 +39,7 @@ print(cjson.encode({dogs = {}}))
 {"dogs":[]}
 ```
 
-综合本章节提到的各种问题，我们可以封装一个json encode的示例函数：
+综合本章节提到的各种问题，我们可以封装一个 `json_encode` 的示例函数：
 
 ```lua
 function json_encode( data, empty_table_as_object )
