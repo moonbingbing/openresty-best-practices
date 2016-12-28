@@ -50,11 +50,11 @@ end
 return _M
 ```
 
-然后，再在 content\_by\_lua\_file 指向的 `.lua` 文件中调用它：
+然后，再在 `content_by_lua_file` 指向的 `.lua` 文件中调用它：
 
 ```lua
 local my_module = require "my_module"
 my_module.foo()
 ```
 
-因为 Lua module 只会在第一次请求时加载一次（除非显式禁用了 lua\_code\_cache 配置指令），后续请求便可直接复用。
+因为 Lua module 只会在第一次请求时加载一次（除非显式禁用了 `lua_code_cache` 配置指令），后续请求便可直接复用。

@@ -1,6 +1,6 @@
 # 控制结构 if-else
 
-if-else 是我们熟知的一种控制结构。Lua 跟其他语言一样，提供了if-else 的控制结构。因为是大家熟悉的语法，本节只简单介绍一下它的使用方法。
+if-else 是我们熟知的一种控制结构。Lua 跟其他语言一样，提供了 if-else 的控制结构。因为是大家熟悉的语法，本节只简单介绍一下它的使用方法。
 
 #### 单个 if 分支 型
 
@@ -42,7 +42,7 @@ end
 
 > 运行输出：Congratulations, you have passed it,your score greater or equal to 60
 
-与 C 语言的不同之处是 else与if 是连在一起的，若将 else 与 if 写成 "else if" 则相当于在 else 里嵌套另一个if语句，如下代码：
+与 C 语言的不同之处是 else 与 if 是连在一起的，若将 else 与 if 写成 "else if" 则相当于在 else 里嵌套另一个 if 语句，如下代码：
 
 ```lua
 score = 0

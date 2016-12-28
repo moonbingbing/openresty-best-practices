@@ -3,7 +3,7 @@
 在 Lua 中，函数 time、date 和 difftime 提供了所有的日期和时间功能。
 
 在 OpenResty 的世界里，不推荐使用这里的标准时间函数，因为这些函数通常会引发不止一个昂贵的系统调用，同时无法为 LuaJIT JIT 编译，对性能造成较大影响。推荐使用 ngx_lua 模块提供的带缓存的时间接口，如 `ngx.today`, `ngx.time`, `ngx.utctime`,
-`ngx.localtime`, `ngx.now`, `ngx.http_time`， 以及 `ngx.cookie_time` 等。
+`ngx.localtime`, `ngx.now`, `ngx.http_time`，以及 `ngx.cookie_time` 等。
 
 所以下面的部分函数，简单了解一下即可。
 
@@ -21,7 +21,7 @@
 |sec|0--61|
 |isdst|boolean（true表示夏令时）|
 
-对于 time 函数，如果参数为 table，那么 table 中必须含有 year、 month、 day字段。其他字缺省时段默认为中午（12:00:00）。
+对于 time 函数，如果参数为 table，那么 table 中必须含有 year、month、day 字段。其他字缺省时段默认为中午（12:00:00）。
 
 >示例代码：（地点为北京）
 
@@ -77,7 +77,7 @@ tab1 = { hour = 17, min = 28, wday = 5, day = 30, month = 7, year = 2015, sec = 
 tab2 = { hour = 8, min = 6, wday = 5, day = 1, month = 1, year = 1970, sec = 0, yday = 1, isdst = false,}
 ```
 
-该表中除了使用到了 time 函数参数 table 的字段外，这还提供了星期（wday，星期天为1）和一年中的第几天（yday，一月一日为 1）。
+该表中除了使用到了 time 函数参数 table 的字段外，这还提供了星期（wday，星期天为 1）和一年中的第几天（yday，一月一日为 1）。
 除了使用 "*t" 格式字符串外，如果使用带标记（见下表）的特殊字符串，os.date 函数会将相应的标记位以时间信息进行填充，得到一个包含时间的字符串。
 表如下：
 

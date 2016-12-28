@@ -13,7 +13,7 @@ local l_var = 2   -- local var
 
 #### 作用域
 
-局部变量的生命周期是有限的，它的作用域仅限于声明它的块（block）。  一个块是一个控制结构的执行体、或者是一个函数的执行体再或者是一个程序块（chunk）。我们可以通过下面这个例子来理解一下局部变量作用域的问题：
+局部变量的生命周期是有限的，它的作用域仅限于声明它的块（block）。一个块是一个控制结构的执行体、或者是一个函数的执行体再或者是一个程序块（chunk）。我们可以通过下面这个例子来理解一下局部变量作用域的问题：
 
 > 示例代码test.lua
 
@@ -41,10 +41,10 @@ print(x)            -- 打印 10
 #### 使用局部变量的好处
 
 1. 局部变量可以避免因为命名问题污染了全局环境
-2. local变量的访问比全局变量更快
+2. local 变量的访问比全局变量更快
 3. 由于局部变量出了作用域之后生命周期结束，这样可以被垃圾回收器及时释放
 
-常见实现如： `local print = print`
+常见实现如：`local print = print`
 
 在 Lua 中，应该尽量让定义变量的语句靠近使用变量的语句，这也可以被看做是一种良好的编程风格。在 C 这样的语言中，强制程序员在一个块（或一个过程）的起始处声明所有的局部变量，所以有些程序员认为在一个块的中间使用声明语句是一种不良好地习惯。实际上，在需要时才声明变量并且赋予有意义的初值，这样可以提高代码的可读性。对于程序员而言，相比在块中的任意位置顺手声明自己需要的变量，和必须跳到块的起始处声明，大家应该能掂量哪种做法比较方便了吧？
 
@@ -93,7 +93,7 @@ A =   365
 
 Lua 上下文中应当严格避免使用自己定义的全局变量。可以使用一个 lua-releng 工具来扫描 Lua 代码，定位使用 Lua 全局变量的地方。lua-releng 的相关链接：[https://github.com/openresty/lua-nginx-module#lua-variable-scope](https://github.com/openresty/lua-nginx-module#lua-variable-scope)
 
-如果使用 macOS 或者 Linux ，可以使用下面命令安装 `lua-releng`:
+如果使用 macOS 或者 Linux，可以使用下面命令安装 `lua-releng`:
 
 ```bash
 curl -L https://github.com/openresty/openresty-devel-utils/raw/master/lua-releng > /usr/local/bin/lua-releng
@@ -121,4 +121,4 @@ Checking line length exceeding 80...
 
 结果显示：
 在 foo.lua 文件中，第 8 行设置了一个全局变量 A ；
-在 use_foo.lua 文件中，没有版本信息，并且第 1 行设置了一个全局变量 A，第 4、8 行使用了全局变量 A。
+在 use_foo.lua 文件中，没有版本信息，并且第 1 行设置了一个全局变量 A ，第 4、8 行使用了全局变量 A 。

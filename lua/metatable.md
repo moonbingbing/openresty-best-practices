@@ -1,6 +1,6 @@
 # 元表
 
-在 Lua 5.1 语言中，元表 *(metatable)* 的表现行为类似于 C++ 语言中的操作符重载，例如我们可以重载 "\_\_add" 元方法 *(metamethod)* ，来计算两个 Lua 数组的并集；或者重载 "\_\_index" 方法，来定义我们自己的 Hash 函数。Lua 提供了两个十分重要的用来处理元表的方法，如下：
+在 Lua 5.1 语言中，元表 *(metatable)* 的表现行为类似于 C++ 语言中的操作符重载，例如我们可以重载 "\_\_add" 元方法 *(metamethod)*，来计算两个 Lua 数组的并集；或者重载 "\_\_index" 方法，来定义我们自己的 Hash 函数。Lua 提供了两个十分重要的用来处理元表的方法，如下：
 
 - setmetatable(table, metatable)：此方法用于为一个表设置元表。
 - getmetatable(table)：此方法用于获取表的元表对象。
@@ -93,7 +93,7 @@ mytable = setmetatable({key1 = "value1"},   --原始表
 print(mytable.key1,mytable.key2)  --> output：value1 metatablevalue
 ```
 
-关于 \_\_index 元方法，有很多比较高阶的技巧，例如： \_\_index 的元方法不需要非是一个函数，他也可以是一个表。
+关于 \_\_index 元方法，有很多比较高阶的技巧，例如：\_\_index 的元方法不需要非是一个函数，他也可以是一个表。
 
 ```lua
 t = setmetatable({[1] = "hello"}, {__index = {[2] = "world"}})
@@ -124,7 +124,7 @@ end})
 print(arr)  --> {1, 2, 3, 4}
 ```
 
-#### \_\_call元方法
+#### \_\_call 元方法
 
 \_\_call 元方法的功能类似于 C++ 中的仿函数，使得普通的表也可以被调用。
 
@@ -140,9 +140,9 @@ functor("functor")  --> called from functor
 print(functor)      --> output：0x00076fc8 （后面这串数字可能不一样）
 ```
 
-#### \_\_metatable元方法
+#### \_\_metatable 元方法
 
-假如我们想保护我们的对象使其使用者既看不到也不能修改 metatables。我们可以对 metatable 设置了 \_\_metatable 的值， getmetatable 将返回这个域的值， 而调用 setmetatable 将会出错：
+假如我们想保护我们的对象使其使用者既看不到也不能修改 metatables。我们可以对 metatable 设置了 \_\_metatable 的值，getmetatable 将返回这个域的值，而调用 setmetatable 将会出错：
 
 ```lua
 Object = setmetatable({}, {__metatable = "You cannot access here"})
