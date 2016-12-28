@@ -4,7 +4,7 @@
 
 在我们的应用场景中，有大量的限制并发、下载传输速率这类要求。突发性的网络峰值会对企业用户的网络环境带来难以预计的网络灾难。
 
-nginx示例配置：
+Nginx 示例配置：
 ```
 location /download_internal/ {
     internal;
@@ -19,7 +19,7 @@ location /download_internal/ {
 }
 ```
 
-我们从一开始，就想把速度值做成变量，但是发现limit_rate不接受变量。我们就临时的修改配置文件限速值，然后给nginx信号做reload。只是没想到这一临时，我们就用了一年多。
+我们从一开始，就想把速度值做成变量，但是发现 limit_rate 不接受变量。我们就临时的修改配置文件限速值，然后给 Nginx 信号做 reload。只是没想到这一临时，我们就用了一年多。
 
 直到刚刚，讨论组有人问起网络限速如何实现的问题，春哥给出了大家都喜欢的办法：
 
@@ -28,7 +28,7 @@ location /download_internal/ {
 ```
 可以在 Lua 里面（比如 access_by_lua 里面）动态读取当前的 URL 参数，然后设置 nginx 的内建变量$limit_rate（在 Lua 里访问就是 ngx.var.limit_rate）。
 
-http://nginx.org/en/docs/http/ngx_http_core_module.html#var_limit_rate 
+http://nginx.org/en/docs/http/ngx_http_core_module.html#var_limit_rate
 ```
 
 改良后的限速代码：
@@ -46,15 +46,15 @@ location /download_internal/ {
 }
 ```
 
-经过测试，绝对达到要求。有了这个东东，我们就可以在Lua上直接操作限速变量实时生效。再也不用之前笨拙的reload方式了。
+经过测试，绝对达到要求。有了这个东东，我们就可以在 Lua 上直接操作限速变量实时生效。再也不用之前笨拙的 reload 方式了。
 
-PS: ngx.var.limit_rate 限速是基于请求的，如果相同终端发起两个连接，那么终端的最大速度将是limit_rate的两倍，原文如下：  
+PS: ngx.var.limit_rate 限速是基于请求的，如果相同终端发起两个连接，那么终端的最大速度将是 limit_rate 的两倍，原文如下：
 
 ```
 Syntax: limit_rate rate;
-Default:    
+Default:
 limit_rate 0;
-Context: http, server, location, if in location    
+Context: http, server, location, if in location
 
 Limits the rate of response transmission to a client. The rate is specified in bytes per second. The zero value disables rate limiting. The limit is set per a request, and so if a client simultaneously opens two connections, the overall rate will be twice as much as the specified limit.
 ```

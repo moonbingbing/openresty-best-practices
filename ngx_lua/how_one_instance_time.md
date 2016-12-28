@@ -2,9 +2,9 @@
 
 > 应用场景
 
-整个 openresty 启动后，我们有时候需要后台处理某些动作，比如数据定期清理、同步数据等。而这个后台任务实例我们期望是唯一并且安全，这里的安全指的是所有 nginx worker 任意 crash 任何一个，有机制合理保证后续 timer 依然可以正常工作。
+整个 OpenResty 启动后，我们有时候需要后台处理某些动作，比如数据定期清理、同步数据等。而这个后台任务实例我们期望是唯一并且安全，这里的安全指的是所有 Nginx worker 任意 crash 任何一个，有机制合理保证后续 timer 依然可以正常工作。
 
-这里需要给大家介绍一个重要 API [ngx.worker.id()](https://github.com/iresty/nginx-lua-module-zh-wiki#ngxworkerid) 。
+这里需要给大家介绍一个重要 API [ngx.worker.id()](https://github.com/iresty/nginx-lua-module-zh-wiki#ngxworkerid)。
 
 
     语法: seq_id = ngx.worker.id()
@@ -17,7 +17,7 @@
 
 > 解决办法
 
-通过 API 描述可以看到，我们可以用它来确定这个 worker 的内部身份，并且这个身份是相对稳定的。即使当前 nginx 进程因为某些原因 crash 了，新 fork 出来的 nginx worker 是会继承这个 worker id 的。
+通过 API 描述可以看到，我们可以用它来确定这个 worker 的内部身份，并且这个身份是相对稳定的。即使当前 Nginx 进程因为某些原因 crash 了，新 fork 出来的 Nginx worker 是会继承这个 worker id 的。
 
 剩下的问题就比较简单了，完全可以把我们的 timer 绑定到某个特定的 worker 上即可。
 下面的例子，演示如何只在 worker.id 为 0 的进程上运行后台 timer。

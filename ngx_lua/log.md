@@ -1,8 +1,8 @@
 # 正确的记录日志
 
-看过本章第一节的同学应该还记得，log_by_lua是一个请求阶段最后发生的，文件操作是阻塞的（FreeBSD直接无视），nginx为了实时高效的给请求方应答后，日志记录是在应答后异步记录完成的。由此可见如果我们有日志输出的情况，最好统一到log_by_lua阶段。如果我们自定义放在content_by_lua阶段，那么将线性的增加请求处理时间。
+看过本章第一节的同学应该还记得，log_by_lua 是一个请求阶段最后发生的，文件操作是阻塞的（FreeBSD 直接无视），Nginx 为了实时高效的给请求方应答后，日志记录是在应答后异步记录完成的。由此可见如果我们有日志输出的情况，最好统一到 log_by_lua 阶段。如果我们自定义放在 content_by_lua 阶段，那么将线性的增加请求处理时间。
 
-在公司某个定制化项目中，nginx上的日志内容都要输送到syslog日志服务器。我们使用了[lua-resty-logger-socket](https://github.com/cloudflare/lua-resty-logger-socket)这个库。
+在公司某个定制化项目中，Nginx 上的日志内容都要输送到 syslog 日志服务器。我们使用了[lua-resty-logger-socket](https://github.com/cloudflare/lua-resty-logger-socket)这个库。
 
 > 调用示例代码如下（有问题的）：
 
@@ -42,12 +42,12 @@ end
 
 在实测过程中我们发现了些问题：
 
-* 缓存无效：如果flush_limit的值稍大一些（例如 2000），会导致某些体积比较小的日志出现莫名其妙的丢失，所以我们只能把flush_limit调整的很小
-* 自己拼写msg所有内容，比较辛苦
+* 缓存无效：如果 flush_limit 的值稍大一些（例如 2000），会导致某些体积比较小的日志出现莫名其妙的丢失，所以我们只能把 flush_limit 调整的很小
+* 自己拼写 msg 所有内容，比较辛苦
 
-那么我们来看[lua-resty-logger-socket](https://github.com/cloudflare/lua-resty-logger-socket)这个库的log函数是如何实现的呢，代码如下：
+那么我们来看[lua-resty-logger-socket](https://github.com/cloudflare/lua-resty-logger-socket)这个库的 log 函数是如何实现的呢，代码如下：
 ```lua
-function _M.log(msg)  
+function _M.log(msg)
    ...
 
     if (debug) then
@@ -79,14 +79,14 @@ function _M.log(msg)
                     .. "dropped")
         end
         bytes = 0
-        --- this log message doesn't fit in buffer, drop it  
+        --- this log message doesn't fit in buffer, drop it
 
         ...
 ```
 
-由于在content_by_lua阶段变量的生命周期会随着请求的终结而终结，所以当日志量小于flush_limit的情况下这些日志就不能被累积，也不会触发_flush_buffer函数，所以小日志会丢失。
+由于在 content_by_lua 阶段变量的生命周期会随着请求的终结而终结，所以当日志量小于 flush_limit 的情况下这些日志就不能被累积，也不会触发 `_flush_buffer` 函数，所以小日志会丢失。
 
-这些坑回头看来这么明显，所有的问题都是因为我们把lua/log.lua用错阶段了，应该放到log_by_lua阶段，所有的问题都不复存在。
+这些坑回头看来这么明显，所有的问题都是因为我们把 `lua/log.lua` 用错阶段了，应该放到 log_by_lua 阶段，所有的问题都不复存在。
 
 > 修正后：
 
@@ -101,7 +101,7 @@ function _M.log(msg)
     }
 ```
 
-这里有个新问题，如果我的log里面需要输出一些content的临时变量，两阶段之间如何传递参数呢？
+这里有个新问题，如果我的 log 里面需要输出一些 content 的临时变量，两阶段之间如何传递参数呢？
 
 > 方法肯定有，推荐下面这个：
 
@@ -120,4 +120,4 @@ function _M.log(msg)
     }
 ```
 
-更多有关ngx.ctx信息，请看[这里](https://github.com/openresty/lua-nginx-module#ngxctx)。
+更多有关 ngx.ctx 信息，请看[这里](https://github.com/openresty/lua-nginx-module#ngxctx)。
