@@ -557,7 +557,7 @@ server {
 
 由于 SSLv3 的 [POODLE 漏洞](https://www.openssl.org/~bodo/ssl-poodle.pdf)，
 建议不要在开启 SSL 的网站使用 SSLv3。
-你可以简单粗暴的直接禁止 SSLv3，用 TLS 来替代：
+你可以简单粗暴的直接禁用 SSLv3，用 TLS 来替代：
 
 ```
 ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
