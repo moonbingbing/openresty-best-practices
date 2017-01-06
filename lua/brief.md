@@ -30,4 +30,4 @@ LuaJIT 是采用 C 和汇编语言编写的 Lua 解释器与即时编译器。Lu
 
 若无特殊说明，我们接下来的章节都是基于 LuaJIT 进行介绍的。
 
-Lua 官网链接：http://www.lua.org，LuaJIT 官网链接：http://luajit.org
+Lua 官网链接：http://www.lua.org LuaJIT 官网链接：http://luajit.org
