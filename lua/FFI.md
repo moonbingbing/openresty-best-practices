@@ -61,7 +61,7 @@ int add(int x, int y)
 gcc -g -o libmyffi.so -fpic -shared myffi.c
 ```
 
-为了方便我们测试，我们在 `LD_LIBRARY_PATH` 这个环境变量中加入了刚刚库所在的路劲，因为编译器在查找动态库所在的路径的时候其中一个环节就是在 `LD_LIBRARY_PATH` 这个环境变量中的所有路劲进行查找。命令如下所示。
+为了方便我们测试，我们在 `LD_LIBRARY_PATH` 这个环境变量中加入了刚刚库所在的路径，因为编译器在查找动态库所在的路径的时候其中一个环节就是在 `LD_LIBRARY_PATH` 这个环境变量中的所有路径进行查找。命令如下所示。
 
 ```shell
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:your_lib_path
@@ -73,7 +73,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:your_lib_path
 ffi.load(name [,global])
 ```
 
-`ffi.load` 会通过给定的 `name` 加载动态库，返回一个绑定到这个库符号的新的 C 库命名空间，在 `POSIX` 系统中，如果 `global` 被设置为 `ture`，这个库符号被加载到一个全局命名空间。另外这个 `name` 可以是一个动态库的路径，那么会根据路劲来查找，否则的话会在默认的搜索路径中去找动态库。在 `POSIX` 系统中，如果在 `name` 这个字段中没有写上点符号 `.`，那么 `.so` 将会被自动添加进去，例如 `ffi.load("z")` 会在默认的共享库搜寻路劲中去查找 `libz.so`，在 `windows` 系统，如果没有包含点号，那么 `.dll` 会被自动加上。
+`ffi.load` 会通过给定的 `name` 加载动态库，返回一个绑定到这个库符号的新的 C 库命名空间，在 `POSIX` 系统中，如果 `global` 被设置为 `ture`，这个库符号被加载到一个全局命名空间。另外这个 `name` 可以是一个动态库的路径，那么会根据路径来查找，否则的话会在默认的搜索路径中去找动态库。在 `POSIX` 系统中，如果在 `name` 这个字段中没有写上点符号 `.`，那么 `.so` 将会被自动添加进去，例如 `ffi.load("z")` 会在默认的共享库搜寻路径中去查找 `libz.so`，在 `windows` 系统，如果没有包含点号，那么 `.dll` 会被自动加上。
 
 下面看一个完整例子：
 
