@@ -26,7 +26,7 @@
     * [日期时间函数](lua/time_date_function.md)
     * [数学库函数](lua/math_library.md)
     * [文件操作](lua/file.md)
-* [Lua 高阶]
+* Lua 高阶
     * [元表](lua/metatable.md)
     * [面向对象编程](lua/object_oriented.md)
     * [局部变量](lua/local.md)
@@ -50,7 +50,7 @@
     * [反向代理](ngx/reverse_proxy.md)
     * [负载均衡](ngx/balancer.md)
     * [陷阱和常见错误](ngx/pitfalls_and_common_mistakes.md)
-* [OpenResty]
+* OpenResty
     * [环境搭建](openresty/install.md)
         * [Windows 平台](openresty/install_on_windows.md)
         * [CentOS 平台](openresty/install_on_centos.md)
@@ -68,7 +68,7 @@
     * [不同阶段共享变量](openresty/share_var.md)
     * [防止 SQL 注入](openresty/safe_sql.md)
     * [如何发起新 HTTP 请求](openresty/how_request_http.md)
-* [LuaRestyRedisLibrary]
+* LuaRestyRedisLibrary
     * [访问有授权验证的 Redis](redis/auth_connect.md)
     * [select+set_keepalive 组合操作引起的数据读写错误](redis/select-keeplive.md)
     * [redis 接口的二次封装（简化建连、拆连等细节）](redis/out_package.md)
@@ -117,13 +117,13 @@
     * [使用动态 DNS 来完成 HTTP 请求](dns/use_dynamic_dns.md)
 * [LuaRestyLock](lock.md)
     * [缓存失效风暴](lock/cache-miss-storm.md)
-* [stream_lua_module]
+* stream_lua_module
     * [TCP 代理负载]
     * [基本用法]
     * [故障细节]
-* [balancer_by_lua]
+* balancer_by_lua
     * [自定义 upstream 选举]
-* [OpenSSL 与 OpenResty]
+* OpenSSL 与 OpenResty
     * [什么是 HTTPS]
     * [懒惰动态加载证书]
 * [测试](test.md)
@@ -147,7 +147,7 @@
     * [显示的是什么](flame_graph/what.md)
     * [如何安装火焰图生成工具](flame_graph/install.md)
     * [如何定位问题](flame_graph/how.md)
-* [OpenResty 周边]
+* OpenResty 周边
     * [Vanilla/香草](others/vanilla/intro.md)
         * 为什么要开发Vanilla
         * Vanilla致力解决的问题
@@ -175,10 +175,10 @@
         - [share_dict 中的过期时间有时候过期有时候不过期？](something/2016_7.md)
         - [Lua 变量的传递和内存的使用](something/2016_7.md)
         - [ngx.log 可不可以选择几个不同的 log path](something/2016_7.md)
-    * [2016-8 月汇总]
+    * 2016-8 月汇总
         - [如何在后台开启轻量级线程来定时更新共享内存](something/2016_8.md)
         - [如何使用 os.getenv 获取系统环境变量](something/2016_8.md)
-    * [2016-10 月汇总]
+    * 2016-10 月汇总
         - [一个 openresty 内存“泄漏”问题](something/2016_10_1.md)
         - [用 do-end 整理你的代码](something/2016_10_2.md)
         - [lua 中如何 continue](something/2016_10_3.md)
