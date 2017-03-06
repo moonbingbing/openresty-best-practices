@@ -80,7 +80,6 @@
     * [json解析的异常捕获](json/parse_exception.md)
     * [稀疏数组](json/sparse_array.md)
     * [空table编码为array还是object](json/array_or_object.md)
-    * [跨平台的库选择](json/cross_os.md)
 * [PostgresNginxModule](postgres.md)
     * [调用方式简介](postgres/how_to_use.md)
     * [不支持事务](postgres/not_support_transaction.md)
