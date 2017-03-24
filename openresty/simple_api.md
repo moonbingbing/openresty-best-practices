@@ -72,7 +72,7 @@ http {
     # ${prefix}，OR 会替换为 nginx 的 prefix path。
     
     # lua_package_path 'lua/?.lua;/blah/?.lua;;';
-    lua_package_path '$prefix/lua/?.lua;/blah/?.lua;;'
+    lua_package_path '$prefix/lua/?.lua;/blah/?.lua;;';
 
     # 对于开发研究，可以对代码 cache 进行关闭，这样不必每次都重新加载 nginx。
     lua_code_cache off;
