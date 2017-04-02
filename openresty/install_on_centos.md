@@ -1,5 +1,20 @@
 # CentOS 平台安装
 
+#### 从包管理安装
+
+OpenResty 现在提供了 CentOS 上的 [官方包](http://openresty.org/cn/linux-packages.html)。
+你只需运行下面的命令：
+
+```
+sudo yum-config-manager --add-repo https://openresty.org/yum/cn/centos/OpenResty.repo
+sudo yum install openresty
+```
+
+如果一切顺利，OpenResty 应该已经安装好了。
+接下来，我们就可以进入到后面的章节 [HelloWorld](helloworld.md) 学习。
+
+如果你想了解更多 OpenResty 上的细节，且不介意弄脏双手；抑或有自定义 OpenResty 安装的需求，可以往下看从源码安装的方式。
+
 #### 源码包准备
 
 我们首先要在[官网](http://openresty.org/)下载 OpenResty 的源码包。官网上会提供很多的版本，各个版本有什么不同也会有说明，我们可以按需选择下载。
