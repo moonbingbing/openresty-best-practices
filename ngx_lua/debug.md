@@ -8,11 +8,21 @@
 对于 OpenResty，坏消息是，没有单步调试这些玩意儿（我们尝试搞出来过 ngx Lua 的单步调试，但是没人用...）; 好消息是，它像 Python 一样，非常简单，不用复杂的技术，只靠 print 和 log 就能定位绝大部分问题，难题有[火焰图](openresty-best-practices/flame_gragh.md)这个神器。
 
 * ####关闭 code cache
-这个选项在调试的时候最好关闭。
+
+在调试的时候最好关闭 `lua_code_cache` 这个选项。
 ```lua
 lua_code_cache off;
 ```
+
+关闭 `lua_code_cache` 之后，OpenResty 会给每个请求创建新的 Lua VM。由于没有 Lua module 的缓存，新的 VM 会去加载刚最新的 Lua 文件。
 这样，你修改完代码后，不用 reload Nginx 就可以生效了。在生产环境下记得打开这个选项。
+
+当然，由于每个请求运行在独立的 Lua VM 里，`lua_code_cache off` 会带来以下几个问题:
+1. 每个请求都会有独立的 module，独立的 lrucache，独立的 timer，独立的线程池。
+2. 跟请求无关的模块，由于不会被新的请求加载，并不会主动更新。比如 `init_by_lua_file` 引用的文件就不会被更新。
+3. `*_by_lua_block` 里面的代码，由于不在 Lua 文件里面，设置 `lua_code_cache` 对其没有意义。
+
+如果调试的目标涉及以上内容，仍需设置 `lua_code_cache on`，通过 reload 来更新代码。
 
 * ####记录日志
 

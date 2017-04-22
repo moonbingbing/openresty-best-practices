@@ -1,13 +1,12 @@
 # 热装载代码
 
-在 OpenResty 中，提及热加载代码，估计大家的第一反应是 [Lua_code_cache](https://github.com/openresty/lua-nginx-module#lua_code_cache) 这个开关。在开发阶段我们把它配置成 Lua_code_cache off，是很方便、有必要的，修改完代码，肯定都希望自动加载最新的代码（否则我们就要噩梦般的 reload 服务，然后再测试脚本）。
-
-禁用 Lua 代码缓存（即配置 Lua_code_cache off）只是为了开发便利，一般不应以高于 1 并发来访问，否则可能会有 race condition 等等问题。同时因为它会有带来严重的性能衰退，所以不应在生产上使用此种模式。生产上应当总是启用 Lua 代码缓存，即配置 Lua_code_cache on 。
+在 OpenResty 中，提及热加载代码，估计大家的第一反应是 [lua_code_cache](https://github.com/openresty/lua-nginx-module#lua_code_cache) 这个开关。
+但 `lua_code_cache off` 的工作原理，是给每个请求创建一个独立的 Lua VM。即使抛去性能因素不谈，考虑到程序的正确性，也不应该在生产环境中关闭 `lua_code_cache`。
 
 那么我们是否可以在生产环境中完成热加载呢？
 
-* 代码有变动时，自动加载最新 Lua 代码，但是 Nginx 本身，不做任何 reload
-* 自动加载后的代码，享用 `lua_code_cache on` 带来的高效特性
+* 代码有变动时，自动加载最新 Lua 代码，但是 Nginx 本身，不做任何 reload。
+* 自动加载后的代码，享用 `lua_code_cache on` 带来的高效特性。
 
 
 这里有多种玩法（[引自 OpenResty 讨论组](https://groups.google.com/forum/#!searchin/openresty/package.loaded/openresty/-MZ9AzXaaG8/TeXTyLCuoYUJ)）：
@@ -21,7 +20,7 @@
     }
 ```
 
-* 自己从外部数据源（包括文件系统）加载 Lua 源码或字节码，然后使用 `loadstring()` "eval" 进 Lua VM. 可以通过 package.loaded 自己来做缓存，毕竟频繁地加载源码和调用 `loadstring()`，以及频繁地 JIT 编译还是很昂贵的（类似 lua_code_cache off 的情形）。比如 CloudFlare 公司采用的方法是从 modsecurity 规则编译出来的 Lua 代码就是通过 KyotoTycoon 动态分发到全球网络中的每一个 Nginx 服务器的。无需 reload 或者 binary upgrade.
+* 自己从外部数据源（包括文件系统）加载 Lua 源码或字节码，然后使用 `loadstring()` "eval" 进 Lua VM. 可以通过 package.loaded 自己来做缓存，毕竟频繁地加载源码和调用 `loadstring()`，以及频繁地 JIT 编译还是很昂贵的。比如 CloudFlare 公司采用的方法是从 modsecurity 规则编译出来的 Lua 代码就是通过 KyotoTycoon 动态分发到全球网络中的每一个 Nginx 服务器的。无需 reload 或者 binary upgrade.
 
 ## 自定义 module 的动态装载
 
