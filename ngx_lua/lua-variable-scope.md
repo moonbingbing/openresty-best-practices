@@ -47,12 +47,12 @@ self.jsonp 变量一不留神全局共享了，而这肯定不是作者期望的
 
 ```lua
     location /test {
-        rewrite_by_lua '
+        rewrite_by_lua_block {
             ngx.ctx.foo = 76
-        ';
-        access_by_lua '
+        }
+        access_by_lua_block {
             ngx.ctx.foo = ngx.ctx.foo + 3
-        ';
+        }
         content_by_lua_block {
             ngx.say(ngx.ctx.foo)
         }

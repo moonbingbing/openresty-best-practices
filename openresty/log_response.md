@@ -91,7 +91,7 @@ lua_package_path "/path/to/lua-resty-logger-socket/lib/?.lua;;";
 
     server {
         location / {
-            log_by_lua '
+            log_by_lua_block {
                 local logger = require "resty.logger.socket"
                 if not logger.initted() then
                     local ok, err = logger.init{
@@ -115,7 +115,7 @@ lua_package_path "/path/to/lua-resty-logger-socket/lib/?.lua;;";
                     ngx.log(ngx.ERR, "failed to log message: ", err)
                     return
                 end
-            ';
+            }
         }
     }
 ```

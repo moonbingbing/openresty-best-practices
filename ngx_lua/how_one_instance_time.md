@@ -23,7 +23,7 @@
 下面的例子，演示如何只在 worker.id 为 0 的进程上运行后台 timer。
 
 ```
-init_worker_by_lua '
+init_worker_by_lua_block {
      local delay = 3  -- in seconds
      local new_timer = ngx.timer.at
      local log = ngx.log
@@ -48,6 +48,6 @@ init_worker_by_lua '
              return
          end
      end
- ';
+}
 ```
 

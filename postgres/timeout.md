@@ -9,7 +9,7 @@ location /postgres {
     internal;
 
     default_type text/html;
-    set_by_lua $query_sql 'return ngx.unescape_uri(ngx.var.arg_sql)';
+    set_by_lua_block $query_sql {return ngx.unescape_uri(ngx.var.arg_sql)}
 
     postgres_pass   pg_server;
     rds_json          on;

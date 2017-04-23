@@ -1,6 +1,6 @@
 # 正确的记录日志
 
-看过本章第一节的同学应该还记得，log_by_lua 是一个请求阶段最后发生的，文件操作是阻塞的（FreeBSD 直接无视），Nginx 为了实时高效的给请求方应答后，日志记录是在应答后异步记录完成的。由此可见如果我们有日志输出的情况，最好统一到 log_by_lua 阶段。如果我们自定义放在 content_by_lua 阶段，那么将线性的增加请求处理时间。
+看过本章第一节的同学应该还记得，`log_by_lua*` 是一个请求经历的最后阶段。由于记日志跟应答内容无关，Nginx 通常在结束请求之后才更新访问日志。由此可见，如果我们有日志输出的情况，最好统一到 `log_by_lua*` 阶段。如果我们把记日志的操作放在 `content_by_lua*` 阶段，那么将线性的增加请求处理时间。
 
 在公司某个定制化项目中，Nginx 上的日志内容都要输送到 syslog 日志服务器。我们使用了[lua-resty-logger-socket](https://github.com/cloudflare/lua-resty-logger-socket)这个库。
 
@@ -84,9 +84,9 @@ function _M.log(msg)
         ...
 ```
 
-由于在 content_by_lua 阶段变量的生命周期会随着请求的终结而终结，所以当日志量小于 flush_limit 的情况下这些日志就不能被累积，也不会触发 `_flush_buffer` 函数，所以小日志会丢失。
+由于在 `content_by_lua*` 阶段变量的生命周期会随着请求的终结而终结，所以当日志量小于 `flush_limit` 的情况下这些日志就不能被累积，也不会触发 `_flush_buffer` 函数，所以小日志会丢失。
 
-这些坑回头看来这么明显，所有的问题都是因为我们把 `lua/log.lua` 用错阶段了，应该放到 log_by_lua 阶段，所有的问题都不复存在。
+这些坑回头看来这么明显，所有的问题都是因为我们把 `lua/log.lua` 用错阶段了，应该放到 `log_by_lua*` 阶段，所有的问题都不复存在。
 
 > 修正后：
 
@@ -96,7 +96,7 @@ function _M.log(msg)
     server {
         location / {
             content_by_lua_file lua/content.lua;
-            log_by_lua lua/log.lua;
+            log_by_lua_file lua/log.lua;
         }
     }
 ```
@@ -107,13 +107,13 @@ function _M.log(msg)
 
 ```
     location /test {
-        rewrite_by_lua '
+        rewrite_by_lua_block {
             ngx.say("foo = ", ngx.ctx.foo)
             ngx.ctx.foo = 76
-        ';
-        access_by_lua '
+        }
+        access_by_lua_block {
             ngx.ctx.foo = ngx.ctx.foo + 3
-        ';
+        }
         content_by_lua_block {
             ngx.say(ngx.ctx.foo)
         }

@@ -92,9 +92,9 @@ URI 请求串可以与 URI 本身连在一起，例如，
 ```nginx
 
  location /foo {
-     content_by_lua '
+     content_by_lua_block {
          res = ngx.location.capture("/bar")
-     ';
+     }
  }
  location /bar {
      echo_location /blah;

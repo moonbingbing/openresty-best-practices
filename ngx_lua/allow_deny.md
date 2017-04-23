@@ -55,7 +55,7 @@ if ($country == ZZ){
 > 示例代码：
 
 ```
-init_by_lua '
+init_by_lua_block {
   local iputils = require("resty.iputils")
   iputils.enable_lrucache()
   local whitelist_ips = {
@@ -67,14 +67,14 @@ init_by_lua '
   -- WARNING: Global variable, recommend this is cached at the module level
   -- https://github.com/openresty/lua-nginx-module#data-sharing-within-an-nginx-worker
   whitelist = iputils.parse_cidrs(whitelist_ips)
-';
+}
 
-access_by_lua '
+access_by_lua_block {
     local iputils = require("resty.iputils")
     if not iputils.ip_in_cidrs(ngx.var.remote_addr, whitelist) then
       return ngx.exit(ngx.HTTP_FORBIDDEN)
     end
-';
+}
 ```
 
 以次类推，我们想要完成域名、Cookie、location、特定 body 的准入控制，甚至可以做到与本地 iptable 防火墙联动。

@@ -54,7 +54,7 @@ LuaJIT 安装自带的 jit.v 和 jit.dump 这两个 Lua 模块。这两个 Lua �
 
 在 Nginx 的上下文中，我们可以在 nginx.conf 文件中的 http {} 配置块中添加下面这一段：
 
-    init_by_lua '
+    init_by_lua_block {
         local verbose = false
         if verbose then
             local dump = require "jit.dump"
@@ -65,7 +65,7 @@ LuaJIT 安装自带的 jit.v 和 jit.dump 这两个 Lua 模块。这两个 Lua �
         end
 
         require "resty.core"
-    ';
+    }
 
 那一行 require "resty.core" 倒并不是必需的，放在那里的主要目的是为了尽量避免使用 ngx_lua 模块自己的基于
 lua_CFunction 的 Lua API，减少 NYI 原语。

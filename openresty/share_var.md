@@ -6,15 +6,15 @@ ngx.ctx 表就是为了解决这类问题而设计的。参考下面例子：
 
 ```nginx
 location /test {
-     rewrite_by_lua '
+     rewrite_by_lua_block {
          ngx.ctx.foo = 76
-     ';
-     access_by_lua '
+     }
+     access_by_lua_block {
          ngx.ctx.foo = ngx.ctx.foo + 3
-     ';
-     content_by_lua '
+     }
+     content_by_lua_block {
          ngx.say(ngx.ctx.foo)
-     ';
+     }
  }
 ```
 
@@ -24,21 +24,21 @@ location /test {
 
 ```nginx
  location /sub {
-     content_by_lua '
+     content_by_lua_block {
          ngx.say("sub pre: ", ngx.ctx.blah)
          ngx.ctx.blah = 32
          ngx.say("sub post: ", ngx.ctx.blah)
-     ';
+     }
  }
 
  location /main {
-     content_by_lua '
+     content_by_lua_block {
          ngx.ctx.blah = 73
          ngx.say("main pre: ", ngx.ctx.blah)
          local res = ngx.location.capture("/sub")
          ngx.print(res.body)
          ngx.say("main post: ", ngx.ctx.blah)
-     ';
+     }
  }
 ```
 

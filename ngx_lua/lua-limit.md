@@ -26,7 +26,7 @@ location /download_internal/ {
 > 地址：https://groups.google.com/forum/#!topic/openresty/aespbrRvWOU
 
 ```
-可以在 Lua 里面（比如 access_by_lua 里面）动态读取当前的 URL 参数，然后设置 nginx 的内建变量$limit_rate（在 Lua 里访问就是 ngx.var.limit_rate）。
+可以在 Lua 里面（比如 `access_by_lua*` 里面）动态读取当前的 URL 参数，然后设置 Nginx 的内建变量 `$limit_rate`（在 Lua 里访问就是 ngx.var.limit_rate）。
 
 http://nginx.org/en/docs/http/ngx_http_core_module.html#var_limit_rate
 ```
@@ -37,7 +37,9 @@ http://nginx.org/en/docs/http/ngx_http_core_module.html#var_limit_rate
 location /download_internal/ {
     internal;
     send_timeout 10s;
-    access_by_lua 'ngx.var.limit_rate = "300K"';
+    access_by_lua_block {
+        ngx.var.limit_rate = "300K"
+    }
 
     chunked_transfer_encoding off;
     default_type application/octet-stream;

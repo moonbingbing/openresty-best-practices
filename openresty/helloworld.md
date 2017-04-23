@@ -43,11 +43,11 @@ http {
 }
 ```
 
-提示：openresty 1.9.3.1 及以下版本，请使用 content_by_lua 命令；在 openresty 1.9.3.2 以上，content_by_lua 改成了 content_by_lua_block。可使用 nginx -V 命令查看版本号。
+提示：如果你安装的是 openresty 1.9.3.1 及以下版本，请使用 `content_by_lua` 命令代替示例中的 `content_by_lua_block`。可使用 `nginx -V` 命令查看版本号。
 
 #### 万事俱备只欠东风
 
-我们启动 nginx 即可，输入命令形式为：`nginx -p ~/openresty-test`，如果没有提示错误。如果提示 nginx 不存在，则需要在环境变量中加入安装路径，可以根据你的操作平台，参考前面的安装章节（一般需要重启生效）。
+我们启动 Nginx 即可，输入命令形式为：`nginx -p ~/openresty-test`，如果没有提示错误。如果提示 nginx 不存在，则需要在环境变量中加入安装路径，可以根据你的操作平台，参考前面的安装章节（一般需要重启生效）。
 
 启动成功后，我们可以查看 nginx 进程是否存在，并通过访问 HTTP 页面查看应答内容。操作提示如下：
 
