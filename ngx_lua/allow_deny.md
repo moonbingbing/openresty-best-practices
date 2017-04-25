@@ -50,7 +50,7 @@ if ($country == ZZ){
 
 目前为止所有的控制，都是用 Nginx 模块完成，执行效率、配置明确是它的优点。缺点也比较明显，修改配置代价比较高（reload 服务）。并且无法完成与第三方服务的对接功能交互（例如调用 iptable）。
 
-在 OpenResty 里面，这些问题就都容易解决，还记得 access_by_Lua 么？推荐一个第三方库[Lua-resty-iputils](https://github.com/hamishforbes/lua-resty-iputils)。
+在 OpenResty 里面，这些问题就都容易解决，还记得 `access_by_lua*` 么？推荐一个第三方库[lua-resty-iputils](https://github.com/hamishforbes/lua-resty-iputils)。
 
 > 示例代码：
 
