@@ -42,22 +42,30 @@ print(cjson.encode({dogs = {}}))
 综合本章节提到的各种问题，我们可以封装一个 `json_encode` 的示例函数：
 
 ```lua
-function json_encode( data, empty_table_as_object )
-  --Lua的数据类型里面，array和dict是同一个东西。对应到json encode的时候，就会有不同的判断
-  --对于linux，我们用的是cjson库：A Lua table with only positive integer keys of type number will be encoded as a JSON array. All other tables will be encoded as a JSON object.
-  --cjson对于空的table，就会被处理为object，也就是{}
-  --dkjson默认对空table会处理为array，也就是[]
-  --处理方法：对于cjson，使用encode_empty_table_as_object这个方法。文档里面没有，看源码
-  --对于dkjson，需要设置meta信息。local a= {}；a.s = {};a.b='中文';setmetatable(a.s,  { __jsontype = 'object' });ngx.say(comm.json_encode(a))
+local json = require("cjson")
+--稀疏数组会被处理成object
+json.encode_sparse_array(true)
 
-    local json_value = nil
-    if json.encode_empty_table_as_object then
-        json.encode_empty_table_as_object(empty_table_as_object or false) -- 空的table默认为array
+local function _json_encode(data)
+    return json.encode(data)
+end
+
+function json_encode( data, empty_table_as_object )
+    --Lua的数据类型里面，array和dict是同一个东西。对应到json encode的时候，就会有不同的判断
+    --cjson对于空的table，就会被处理为object，也就是{}
+    --处理方法：对于cjson，使用encode_empty_table_as_object这个方法。
+    json.encode_empty_table_as_object(empty_table_as_object or false) -- 空的table默认为array
+    local ok, json_value = pcall(_json_encode, data)
+    if not ok then
+        return nil
     end
-    if require("ffi").os ~= "Windows" then
-        json.encode_sparse_array(true)
-    end
-    pcall(function (data) json_value = json.encode(data) end, data)
     return json_value
 end
+```
+
+另一种思路是，使用 `setmetatable(data, json.empty_array_mt)`，来标记特定的 table，让 cjson 在编码这个空 table 时把它处理成 array：
+```lua
+local data = {}
+setmetatable(data, json.empty_array_mt)
+ngx.say("empty array: ", json.encode(data)) -- empty array: []
 ```
