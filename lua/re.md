@@ -6,13 +6,20 @@
 
 `ngx.re.*` 中的 `o` 选项，指明该参数，被编译的 Pattern 将会在工作进程中缓存，并且被当前工作进程的每次请求所共享。Pattern 缓存的上限值通过 `lua_regex_cache_max_entries` 来修改。
 
+`ngx.re.*` 中的 `j` 选项，指明该参数，如果使用的 PCRE 库支持 JIT，OpenResty 会在编译 Pattern 时启用 JIT。启用 JIT 后正则匹配会有明显的性能提升。较新的平台，自带的 PCRE 库均支持 JIT。如果系统自带的 PCRE 库不支持 JIT，出于性能考虑，最好自己编译一份 libpcre.so，然后在编译 OpenResty 时链接过去。要想验证当前 PCRE 库是否支持 JIT，可以这么做
+1. 编译 OpenResty 时在 `./configure` 中指定 `--with-debug` 选项
+2. 在 `error_log` 指令中指定日志级别为 `debug`
+3. 运行正则匹配代码，查看日志中是否有 `pcre JIT compiling result: 1`
+
+即使运行在不支持 JIT 的 OpenResty 上，加上 `j` 选项也不会带来坏的影响。在 OpenResty 官方的 Lua 库中，正则匹配至少都会带上 `jo` 这两个选项。
+
 ```nginx
 location /test {
     content_by_lua_block {
         local regex = [[\d+]]
 
-        -- 参数 "o" 是开启缓存必须的
-        local m = ngx.re.match("hello, 1234", regex, "o")
+        -- 参数 "j" 启用 JIT 编译，参数 "o" 是开启缓存必须的
+        local m = ngx.re.match("hello, 1234", regex, "jo")
         if m then
             ngx.say(m[0])
         else
@@ -28,6 +35,9 @@ location /test {
 ➜  ~ curl 127.0.0.1/test
 1234
 ```
+
+另外还可以试试引入 `lua-resty-core` 中的正则表达式 API。这么做需要在代码里加入 `require 'resty.core.regex'`。
+`lua-resty-core` 版本的 `ngx.re.*`，是通过 FFI 而非 Lua/C API 来跟 OpenResty C 代码交互的。某些情况下，会带来明显的性能提升。
 
 #### Lua 正则简单汇总
 
