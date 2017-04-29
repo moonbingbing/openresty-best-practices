@@ -38,7 +38,7 @@ else
 end
 ```
 
-对于简单类型的变量，我们可以用 *if (var == nil) then* 这样的简单句子来判断。但是对于 table 型的 Lua 对象，就不能这么简单判断它是否为空了。一个 table 型变量的值可能是 {}，这时它不等于 nil。我们来看下面这段代码：
+对于简单类型的变量，我们可以用 *if (var == nil) then* 这样的简单句子来判断。但是对于 table 型的 Lua 对象，就不能这么简单判断它是否为空了。一个 table 型变量的值可能是 `{}`，这时它不等于 nil。我们来看下面这段代码：
 
 ```lua
 local next = next
@@ -60,7 +60,7 @@ if b == nil then
 	print("b == nil")
 end
 
-if c== nil then
+if c == nil then
 	print("c == nil")
 end
 
@@ -91,15 +91,11 @@ d == nil
 next(a) == nil
 ```
 
-因此，我们要判断一个 table 是否为 {}，不能采用 `#table == 0` 的方式来判断。可以用下面这样的方法来判断：
+因此，我们要判断一个 table 是否为 `{}`，不能采用 `#table == 0` 的方式来判断。可以用下面这样的方法来判断：
 
 ```lua
 function isTableEmpty(t)
-	if t == nil or next(t) == nil then
-		return true
-	else
-		return false
-	end
+    return t == nil or next(t) == nil
 end
 ```
 

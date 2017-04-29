@@ -31,7 +31,7 @@
     * [面向对象编程](lua/object_oriented.md)
     * [局部变量](lua/local.md)
     * [判断数组大小](lua/array_size.md)
-    * [非空判断](lua/not_nill.md)
+    * [非空判断](lua/not_nil.md)
     * [正则表达式](lua/re.md)
     * [不用标准库](lua/not_use_lib.md)
     * [虚变量](lua/dummy_var.md)
