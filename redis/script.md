@@ -54,20 +54,23 @@ OpenResty 中已经对 Redis 的所有原语操作进行了封装。下面我们
             end
 
             --- use scripts in eval cmd
-            local id = "1"
-            ok, err = red:eval([[
+            local id = 1
+            local res, err = red:eval([[
+                -- 注意在 Redis 执行脚本的时候，从 KEYS/ARGV 取出来的值类型为 string
                 local info = redis.call('get', KEYS[1])
-                info = json.decode(info)
+                info = cjson.decode(info)
                 local g_id = info.gid
 
                 local g_info = redis.call('get', g_id)
                 return g_info
                 ]], 1, id)
 
-            if not ok then
+            if not res then
                ngx.say("failed to get the group info: ", err)
                return
             end
+
+            ngx.say(res)
 
             -- put it into the connection pool of size 100,
             -- with 10 seconds max idle time
