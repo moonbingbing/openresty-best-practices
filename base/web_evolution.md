@@ -27,7 +27,7 @@ select 目前几乎在所有的平台上支持，其良好跨平台支持是它�
 int poll (struct pollfd *fds, unsigned int nfds, int timeout);
 ```
 
-不同与 select 使用三个位图来表示三个 fdset 的方式，poll 使用一个 pollfd 的指针实现。
+不同于 select 使用三个位图来表示三个 fdset 的方式，poll 使用一个 pollfd 的指针实现。
 
 ```c
 struct pollfd {
