@@ -97,7 +97,6 @@
     * [禁止某些终端访问](ngx_lua/allow_deny.md)
     * [请求返回后继续执行](ngx_lua/continue_after_eof.md)
     * [调试](ngx_lua/debug.md)
-    * [调用其他 C 函数动态库](ngx_lua/ffi.md)
     * [请求中断后的处理](ngx_lua/on_abort.md)
     * [我的 lua 代码需要调优么](ngx_lua/lua_opt.md)
     * [变量的共享范围](ngx_lua/lua-variable-scope.md)
