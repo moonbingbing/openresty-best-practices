@@ -43,4 +43,4 @@ local ok, err = ngx.timer.at(delay, function()
     tcpsock:send() -- bad request!
 end)
 ```
-cosocket 跟某个特定的 `ngx_request_t` 绑定在一起的。虽然由于闭包，在回调函数中我们依旧可以访问 `tcpsock`，但整个上下文已经不一样了。
+cosocket 跟某个特定的 `ngx_http_request_t*` 绑定在一起的。虽然由于闭包，在回调函数中我们依旧可以访问 `tcpsock`，但整个上下文已经不一样了。
