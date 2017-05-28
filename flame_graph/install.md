@@ -35,45 +35,36 @@ Pass 5: run completed in 20usr/30sys/354real ms.
 ```
 如果出现如上输出表示安装成功。
 
-> 在 Ubuntu 14.04 Desktop 上的安装方法
+> 在 Ubuntu 上的安装方法
 
-打开 Systemtap Ubuntu 系统安装官方 [wiki](https://sourceware.org/systemtap/wiki/SystemtapOnUbuntu) 地址，获取 systemtap 安装包：
+对于 Ubuntu 上的安装，参考 Ubuntu 官方维护的一个 wiki：
+https://wiki.ubuntu.com/Kernel/Systemtap
 
-```shell
-sudo apt-get install systemtap
+一般来说，仅需引入 ddeb 源，然后 `apt-get` 就能解决了。
+
+由于 systemtap 需要依赖某些内核特性，对于 `Ubuntu Gutsy` (或更老的版本)，必须重新编译内核。
+编译的步骤参见 systemtap 的这篇 wiki：
+https://sourceware.org/systemtap/wiki/SystemtapOnUbuntu
+
+另外，由于 Ubuntu 16.04 官方库里的 systemtap 版本过旧（version 2.9），从 `apt-get` 安装的 systemtap 有些情况下并不能正确地运行。
+这时候需要从 systemtap 源码中编译出可用的 systemtap。
+编译的过程参考 systemtap 的这篇文档：
+https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=README;hb=HEAD
+
+大体上就这几步：
 ```
+# 下载依赖……
+sudo apt install elfutils
+sudo apt-get build-dep systemtap
 
-其次我们还需要内核支持（具有 CONFIG_DEBUG_FS, CONFIG_DEBUG_KERNEL, CONFIG_DEBUG_INFO 和 CONFIG_KPROBES 标识的内核，不需要重新编译内核）。对于 `Ubuntu Gutsy` (或更老的版本)，必须重新编译内核。
+# 下载最新的版本
+wget/git ...
 
-生成 ddeb repository 配置：
-
+# 构建，并祈祷能一次成功
+./configure
+make all
+[sudo] make install
 ```
-# cat > /etc/apt/sources.list.d/ddebs.list << EOF
-deb http://ddebs.ubuntu.com/ precise main restricted universe multiverse
-EOF
-
-etc.
-
-# apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ECDCAD72428D7C01
-# apt-get update
-```
-
-针对 Ubuntu 14.04 版本（其他版本，只要不太老，相差不大），我们按照下面顺序尝试重新编译内核：
-
-```
-# uname -r
-3.13.0-34-generic
-# dpkg --list | grep linux | grep 3.13.0-34-generic
-ii  linux-headers-3.13.0-34-generic                       3.13.0-34.60
-amd64        Linux kernel headers for version 3.13.0 on 64 bit x86 SMP
-ii  linux-image-3.13.0-34-generic                         3.13.0-34.60
-amd64        Linux kernel image for version 3.13.0 on 64 bit x86 SMP
-ii  linux-image-extra-3.13.0-34-generic                   3.13.0-34.60
-amd64        Linux kernel extra modules for version 3.13.0 on 64 bit x86 SMP
-# apt-get install linux-image-3.13.0-34-generic
-```
-
-上面的输出比较乱，大家要跟紧一条主线，`3.13.0-34-generic` 也就是 `uname -r` 的输出结果（如果您的系统和这个不一样，请自行更改），结合刚刚给出的 systemtap 官方 wiki 我们可以知道，正确的安装包地址应当是 `linux-image-**` 开头。这样我们，就可以很容易找到 `linux-image-3.13.0-34-generic` 是我们需要的。
 
 #### 火焰图绘制
 
