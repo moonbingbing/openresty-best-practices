@@ -121,9 +121,10 @@
     * [故障细节]
 * balancer_by_lua
     * [自定义 upstream 选举]
-* OpenSSL 与 OpenResty
-    * [什么是 HTTPS]
-    * [懒惰动态加载证书]
+* OpenResty 与 SSL
+    * [HTTPS 时代](ssl/introduction.md)
+    * [动态加载证书和 OSCP 装订](ssl/certificate.md)
+    * [SSL session resumption]
 * [测试](test.md)
     * [单元测试](test/unittest.md)
     * [代码覆盖率](test/coverage.md)
