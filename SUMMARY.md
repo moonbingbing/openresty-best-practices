@@ -123,7 +123,7 @@
     * [自定义 upstream 选举]
 * OpenResty 与 SSL
     * [HTTPS 时代](ssl/introduction.md)
-    * [动态加载证书和 OSCP 装订](ssl/certificate.md)
+    * [动态加载证书和 OCSP stapling](ssl/certificate.md)
     * [SSL session resumption]
 * [测试](test.md)
     * [单元测试](test/unittest.md)
