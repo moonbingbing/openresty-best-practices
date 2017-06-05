@@ -202,6 +202,7 @@ if ocsp_resp and #ocsp_resp > 0 then
 end
 ```
 
-CA 返回的 OCSP stapling 结果需要缓存起来。目前 OpenResty 还缺乏提取 OCSP stapling 有效时间(nextUpdate - thisUpdate)的接口。
+CA 返回的 OCSP stapling 结果需要缓存起来，直到需要刷新为止。目前 OpenResty 还缺乏提取 OCSP stapling 有效时间(nextUpdate - thisUpdate)的接口。
 有一个相关的 [PR](https://github.com/openresty/lua-nginx-module/pull/1041/files)，需要的话，你可以参照着在一个独立的 Nginx C 模块里实现对应功能。
-按经验来说，缓存 5 分钟到 1 小时之间应该没问题。你可以咨询下签发证书的 CA。
+作为参照，Nginx 计算刷新时间的公式是 `max(min(nextUpdate - now - 5m, 1h), now + 5m)`，即 5 分钟到 1 小时之间。而另一个服务器 Caddy，则采用 `(nextUpdate - thisUpdate) / 2` 作为刷新的时间。
+具体缓存多久会比较好，你也可以咨询下签发证书的 CA。
