@@ -124,7 +124,7 @@
 * OpenResty 与 SSL
     * [HTTPS 时代](ssl/introduction.md)
     * [动态加载证书和 OCSP stapling](ssl/certificate.md)
-    * [SSL session resumption]
+    * [TLS session resumption](ssl/session_resumption.md)
 * [测试](test.md)
     * [单元测试](test/unittest.md)
     * [代码覆盖率](test/coverage.md)
