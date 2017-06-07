@@ -126,6 +126,7 @@
     * [动态加载证书和 OCSP stapling](ssl/certificate.md)
     * [TLS session resumption](ssl/session_resumption.md)
 * [测试](test.md)
+    * [代码静态分析](test/static_analysis.md)
     * [单元测试](test/unittest.md)
     * [代码覆盖率](test/coverage.md)
     * [API 测试](test/apitest.md)

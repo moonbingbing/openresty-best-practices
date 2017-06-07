@@ -89,36 +89,39 @@ b =   720
 A =   365
 ```
 
-无论是做基础模块或是上层应用，肯定都不愿意存在这类灰色情况存在，因为他对我们系统的存在，带来很多不确定性，生产中我们是要尽力避免这种情况的出现。
+无论是做基础模块或是上层应用，肯定都不愿意存在这类灰色情况存在，因为它对我们系统的存在，带来很多不确定性（注意 OpenResty 会限制请求过程中全局变量的使用）。
+生产中我们是要尽力避免这种情况的出现。
 
-Lua 上下文中应当严格避免使用自己定义的全局变量。可以使用一个 lua-releng 工具来扫描 Lua 代码，定位使用 Lua 全局变量的地方。lua-releng 的相关链接：[https://github.com/openresty/lua-nginx-module#lua-variable-scope](https://github.com/openresty/lua-nginx-module#lua-variable-scope)
+Lua 上下文中应当严格避免使用自己定义的全局变量。可以使用一个 lj-releng 工具来扫描 Lua 代码，定位使用 Lua 全局变量的地方。lj-releng 的相关链接：<https://github.com/openresty/openresty-devel-utils/blob/master/lj-releng>
 
-如果使用 macOS 或者 Linux，可以使用下面命令安装 `lua-releng`:
+如果使用 macOS 或者 Linux，可以使用下面命令安装 `lj-releng`:
 
 ```bash
-curl -L https://github.com/openresty/openresty-devel-utils/raw/master/lua-releng > /usr/local/bin/lua-releng
-chmod +x /usr/local/bin/lua-releng
+curl -L https://github.com/openresty/openresty-devel-utils/blob/master/lj-releng > /usr/local/bin/lj-releng
+chmod +x /usr/local/bin/lj-releng
 ```
 
-Windows 用户把 lua-releng 文件所在的目录的绝对路径添加进 PATH 环境变量。然后进入你自己的 Lua 文件所在的工作目录，得到如下结果：
+Windows 用户把 lj-releng 文件所在的目录的绝对路径添加进 PATH 环境变量。然后进入你自己的 Lua 文件所在的工作目录，得到如下结果：
 
 ```
-#  lua-releng
+#  lj-releng
 foo.lua: 0.01 (0.01)
 Checking use of Lua global variables in file foo.lua...
-  op no.  line  instruction args  ; code
-  2 [8] SETGLOBAL 0 -1  ; A
+op no.  line  instruction args  ; code
+2  [8] SETGLOBAL 0 -1  ; A
 Checking line length exceeding 80...
 WARNING: No "_VERSION" or "version" field found in `use_foo.lua`.
 Checking use of Lua global variables in file use_foo.lua...
-  op no.  line  instruction args  ; code
-  2 [1] SETGLOBAL 0 -1  ; A
-  7 [4] GETGLOBAL 2 -1  ; A
-  8 [4] GETGLOBAL 3 -1  ; A
-  18  [8] GETGLOBAL 4 -1  ; A
+op no.  line  instruction args  ; code
+2  [1] SETGLOBAL 0 -1  ; A
+7  [4] GETGLOBAL 2 -1  ; A
+8  [4] GETGLOBAL 3 -1  ; A
+18 [8] GETGLOBAL 4 -1  ; A
 Checking line length exceeding 80...
 ```
 
 结果显示：
 在 foo.lua 文件中，第 8 行设置了一个全局变量 A ；
 在 use_foo.lua 文件中，没有版本信息，并且第 1 行设置了一个全局变量 A ，第 4、8 行使用了全局变量 A 。
+
+当然，更推荐采用 luacheck 来检查项目中全局变量，见[代码静态分析](../test/static_analysis.md) 一节的内容。

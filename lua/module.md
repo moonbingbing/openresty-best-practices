@@ -32,4 +32,6 @@ local fp = require("my")
 fp.greeting()     -->output: hello Lucy
 ```
 
-注：对于需要导出给外部使用的公共模块，处于安全考虑，是要避免全局变量的出现。我们可以使用 lua-releng 工具完成全局变量的检测，具体参考本章的 [局部变量](local.md) 一节。
+注：对于需要导出给外部使用的公共模块，处于安全考虑，是要避免全局变量的出现。
+我们可以使用 lj-releng 或 luacheck 工具完成全局变量的检测。
+具体参考本章的 [局部变量](local.md) 和 “测试” 一章的 [代码静态分析](../test/static_analysis.md) 。
