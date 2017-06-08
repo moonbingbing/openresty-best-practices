@@ -124,4 +124,4 @@ Checking line length exceeding 80...
 在 foo.lua 文件中，第 8 行设置了一个全局变量 A ；
 在 use_foo.lua 文件中，没有版本信息，并且第 1 行设置了一个全局变量 A ，第 4、8 行使用了全局变量 A 。
 
-当然，更推荐采用 luacheck 来检查项目中全局变量，见[代码静态分析](../test/static_analysis.md) 一节的内容。
+当然，更推荐采用 luacheck 来检查项目中全局变量，之后的“代码静态分析”一节，我们还会讲到如何使用 luacheck。

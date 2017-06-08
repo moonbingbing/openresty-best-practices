@@ -8,9 +8,7 @@
 luarocks install luacov
 ```
 
-当然，你也可以通过 [GitHub 上的源码](https://github.com/keplerproject/luacov) 编译来安装。这个方式你可以修改 LuaCov 的一些默认配置。
-
-比如 LuaCov 的分析文件是按照 100 条一批来写入的，如果你的代码量不大，可能就会不准确。你可以修改 /src/luacov/defaults.Lua 里面的 savestepsize，改为 2 ，来适应你的应用场景。
+安装了 LuaCov 之后，还需要先配置一下。
 
 在 OpenResty 里面使用 LuaCov，只用在 Nginx.conf 中增加  init_by_lua_block（只能放在 http 上下文中）既可。
 ```
@@ -19,7 +17,14 @@ init_by_lua_block {
     jit.off()
 }
 ```
-这个 \*_bolck 语法在较新的 OpenResty 版本中新引入，如果提示指令不存在，请使用最新的来版本来测试。
+这个 `*_bolck` 语法在较新的 OpenResty 版本中新引入，如果提示指令不存在，请使用最新的版本来测试。
+抑或在 LuaCov 配置文件 `.luacov` 中加入 `tick = true` 这一行。效果是一样的。
+
+另外，由于 LuaCov 的分析文件默认按照 100 条一批来写入的，如果你的代码量不大，可能就会不准确。
+这时候可以设置 `savestepsize = 2` 来提高写入频率。
+
+更多可用配置请访问 LuaCov 的配置文档：
+http://keplerproject.github.io/luacov/doc/modules/luacov.defaults.html
 
 重新启动 OpenResty 后，LuaCov 就已经生效了。你可以跑下单元测试，或者访问下 API 接口，在当前工作目录下，就会生成 `luacov.stats.out` 这个统计文件。然后 cd 到这个目录下，运行：
 ```

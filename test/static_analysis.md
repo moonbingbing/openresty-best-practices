@@ -51,6 +51,43 @@ Total: 10 warnings / 1 error in 5 files
 
 除了使用命令行参数，luacheck 还支持使用配置文件的形式，这也是我们推荐的做法。luacheck 使用时会优先查找当前目录下的 `.luacheckrc` 文件，未找到则去上层目录查找，以此类推。所以我们可以在项目的根目录下放置一个我们配置好的 `.luacheckrc` 文件以便之后使用。
 
+一个 `.luacheckrc` 大概是这样子的：
+```lua
+-- .luacheckrc 文件其实就是个 lua 代码文件
+cache = true
+std = 'ngx_lua'
+ignore = {"_"}
+-- 这里因为客观原因，定的比较松。如果条件允许，你可以去掉这些豁免条例。
+unused = false
+unused_args = false
+unused_secondaries = false
+redefined = false
+-- top-level module name
+globals = {
+    -- 标记 ngx.header and ngx.status 是可以被写入的
+    "ngx",
+}
+
+-- 因为历史遗留原因，我们代码里有部分采用了旧风格的 module(..., package.seeall)
+-- 来定义模块。下面一行命令用于找出这一类文件，并添加豁免的规则。
+-- find -name '*.lua' -exec grep '^module(' -l {} \; | awk '{ print "\""$0"\"," }'
+local old_style_modules = {
+    -- ...
+}
+for _, path in ipairs(old_style_modules) do
+    files[path].module = true
+    files[path].allow_defined_top = true
+end
+
+-- 对用了 busted 测试框架的测试文件添加额外的标准
+files["test/*_spec.lua"].std = "+busted"
+
+-- 不检查来自第三方的代码库
+exclude_files = {
+    "nginx/resty",
+}
+```
+
 luacheck 也可以集成进编辑器使用，支持的有 Vim，Sublime Text，Atom，Emacs，Brackets。基本主流的编辑器都有支持。具体可以看相应的 [使用文档](https://github.com/mpeterv/luacheck#editor-support)，这里就不做说明了。
 
 这里特别说一下的是，我们在项目中使用了 git pre-commit hooks 来进行静态检查，在 git commit 前会检测本次提交修改和新增的代码，判断是否通过了 luacheck 的检测，未通过会给出提示并询问是否退出这次 commit。这一切都是通过 git hooks 来做的，顾名思义我们的钩子是下在 commit 这个动作上的，只要进行了 commit 操作，就会触发我们的钩子。git 内置了一些钩子，不同的 git 操作会触发不同的钩子，这些钩子放在项目文件夹的 `.git/hooks/` 文件夹下，我们这里用到的是 pre-commit。
