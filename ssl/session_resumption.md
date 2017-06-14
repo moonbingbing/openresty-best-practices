@@ -37,17 +37,25 @@ TLSv1.2 提供了名为 Session Tickets 的拓展，用来代替之前的 Sessio
 Session ID 方案要求服务端记住会话状态，有违于 HTTP 服务无状态的特点。Session Tickets 方案旨在解决这个问题。
 
 Session Tickets 跟 Session ID 差不多，只是有点关键上的不同：现在轮到由客户端记住会话状态。
-服务端仅需记住当初用于加密返回给客户端的 Ticket 的密钥，以。
-这么一来，只要在不同的服务器间共享同一个密钥，就能避免会话丢失的问题，不再需要独立的 Redis 或 Memcached 服务器。
 
 1. Client 发送 ClientHello（包含 Session Ticket）；Server 回复 ServerHello 和 Finished
 1. 握手完毕，Client 发送加密后的 HTTP 请求；Server 回复加密后的 HTTP 响应
 
-对于 Nginx，你需要关注两个指令：`ssl_session_tickets` 和 `ssl_session_ticket_file`。
+服务端仅需记住当初用于加密返回给客户端的 Ticket 的密钥，以解密客户端握手时发送的 Session Ticket。
+这么一来，只要在不同的服务器间共享同一个密钥，就能避免会话丢失的问题，不再需要独立的 Redis 或 Memcached 服务器来存储会话信息。
 
 在高兴之余看下两个坏消息：
-1. Session Tickets 不具有前向安全性，所以你需要定期轮换服务端用于加密的 ticket key。
+1. Session Tickets 不具有前向安全性，所以你需要定期轮换服务端用于加密的密钥。
 2. 只有现代浏览器才支持这一 TLS 拓展。比如 Win7 下的 IE 就不支持。
+
+对于 Nginx，你需要关注两个指令：`ssl_session_tickets` 和 `ssl_session_ticket_file`。
+前者启用 Session Tickers 支持，后者决定具体用到的密钥。如果不配置后者，则使用随机生成的密钥。这意味着每台服务器返回的 session ticket 会不一样。
+
+如果你需要管理一整套 OpenResty 集群，可以看下 [lua-ssl-nginx-module](https://github.com/openresty/lua-ssl-nginx-module) 这个模块，它可以实现集群层面上的密钥轮换（且无需重启 Worker 进程）。
+尽管 lua-ssl-nginx-module 只提供了跟 memcache 配套使用的接口，但是参照 `lualib/ngx/ssl/session/ticket/key_rotation.lua`，实现自己的一套密钥存储/同步方案不过是照葫芦画瓢。
+关键在于 `lualib/ngx/ssl/session/ticket.lua` 其中的这两个函数：
+1. `update_ticket_encryption_key(key, nkeys)`：插入新的密钥，之前的密钥会被轮转成解密密钥，最多保留 `nkeys` 个密钥。
+1. `update_last_ticket_decryption_key(key)`：替换当前的解密密钥。
 
 #### 0 RTT!?
 
