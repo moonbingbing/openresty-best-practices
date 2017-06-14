@@ -19,7 +19,7 @@ OpenResty 中的 cosocket 不仅需要协程特性支撑，它还需 Nginx 非�
 
 暂停自己，把网络事件注册到 Nginx 监听列表中，并把运行权限交给 Nginx。当有 Nginx 注册网络事件达到触发条件时，唤醒对应的协程继续处理。
 
-以此为蓝板，封装实现 connect、read、recieve 等操作，形成了大家目前所看到的 cosocket API。
+以此为蓝图，封装实现 connect、read、receive 等操作，形成了大家目前所看到的 cosocket API。
 
 可以看到，cosocket 是依赖 Lua 协程 + Nginx 事件通知两个重要特性拼的。
 
@@ -79,7 +79,7 @@ location /test {
 
         local data, err, partial = sock:receive()
         if err then
-            ngx.say("failed to recieve to baidu: ", err)
+            ngx.say("failed to receive from baidu: ", err)
             return
         end
 

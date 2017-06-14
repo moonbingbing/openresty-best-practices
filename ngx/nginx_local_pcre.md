@@ -98,8 +98,8 @@ location / {
 
 #### rewrite 语法
 
-* last          – 基本上都用这个 Flag
-* break         – 中止 Rewirte，不再继续匹配
+* last          – 基本上都用这个 flag
+* break         – 中止 rewrite，不再继续匹配
 * redirect      – 返回临时重定向的 HTTP 状态 302
 * permanent     – 返回永久重定向的 HTTP 状态 301
 
