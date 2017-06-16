@@ -16,8 +16,6 @@ OpenResty 最佳实践
 希望你能 enjoy OpenResty 之旅！
 
 - - -
-我们团队在 OpenResty 社区的[待做任务列表](https://github.com/iresty/OpenResty_todolist)，欢迎大家提交自己的贡献！
-- - -
 
 [点我看书](http://moonbingbing.gitbooks.io/openresty-best-practices/content/index.html)
 
