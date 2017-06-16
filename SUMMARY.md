@@ -14,7 +14,7 @@
         * [while](lua/while.md)
         * [repeat](lua/repeat.md)
         * [for](lua/for.md)
-        * [break，return](lua/break.md)
+        * [break，return 和 goto](lua/break.md)
     * [Lua函数](lua/function_descrip.md)
         * [函数的定义](lua/function_define.md)
         * [函数的参数](lua/function_parameter.md)
@@ -180,6 +180,5 @@
     * 2016-10 月汇总
         - [一个 openresty 内存“泄漏”问题](something/2016_10_1.md)
         - [用 do-end 整理你的代码](something/2016_10_2.md)
-        - [lua 中如何 continue](something/2016_10_3.md)
         - [调用 FFI 出现 "table overflow"](something/2016_10_4.md)
         - [如何定位 openresty 崩溃 bug](something/2016_10_5.md)
