@@ -33,7 +33,6 @@
     * [判断数组大小](lua/array_size.md)
     * [非空判断](lua/not_nil.md)
     * [正则表达式](lua/re.md)
-    * [不用标准库](lua/not_use_lib.md)
     * [虚变量](lua/dummy_var.md)
     * [抵制使用 module() 定义模块](lua/not_use_module.md)
     * [调用代码前先定义函数](lua/function_before_use.md)
@@ -103,23 +102,14 @@
     * [shared.dict 非队列性质](ngx_lua/shared_get_keys.md)
     * [正确使用长链接](ngx_lua/keepalive.md)
     * [如何引用第三方 resty 库](ngx_lua/how_use_third_lib.md)
-    * [body 在 location 中的传递](ngx_lua/capture.md)
     * [典型应用场景](ngx_lua/use_case.md)
-    * [Nginx 状态查看器]
     * [怎样理解 cosocket](ngx_lua/whats_cosocket.md)
-    * [如何使用高速缓存]
     * [如何安全启动唯一实例的 timer ](ngx_lua/how_one_instance_time.md)
     * [如何正确的解析域名](ngx_lua/resolve_the_domain_name.md)
 * [LuaRestyDNSLibrary](dns/main.md)
     * [使用动态 DNS 来完成 HTTP 请求](dns/use_dynamic_dns.md)
 * [LuaRestyLock](lock.md)
     * [缓存失效风暴](lock/cache-miss-storm.md)
-* stream_lua_module
-    * [TCP 代理负载]
-    * [基本用法]
-    * [故障细节]
-* balancer_by_lua
-    * [自定义 upstream 选举]
 * OpenResty 与 SSL
     * [HTTPS 时代](ssl/introduction.md)
     * [动态加载证书和 OCSP stapling](ssl/certificate.md)
@@ -145,24 +135,3 @@
     * [什么时候使用](flame_graph/when.md)
     * [如何安装火焰图生成工具](flame_graph/install.md)
     * [如何定位问题](flame_graph/how.md)
-* OpenResty 周边
-    * [Vanilla/香草](others/vanilla/intro.md)
-        * 为什么要开发Vanilla
-        * Vanilla致力解决的问题
-        * 组织结构
-        * 性能指标
-        * Demo 示例
-        * 新浪移动的OpenResty之路
-        * [Vanilla项目实践]
-            * 新浪移动评论项目
-            * 新浪移动独立产品Vanilla改造
-    * [Mashape/kong](others/kong/intro.md)
-        * Kong名字的来历(others/kong/origin.md)
-        * Kong能解决什么问题(others/kong/apigateway.md)
-        * 国内外有哪些类似的产品(others/kong/products.md)
-        * 关键概念(others/kong/keyconcepts.md)
-        * 集群功能(others/kong/cluster.md)
-        * 开发自定义插件(others/kong/plugin.md)
-            * 扩展已经存在的插件(others/kong/plugin-upgrad.md)
-            * 开发一个新的插件(others/kong/plugin-new.md)
-    * [如何添加自己的lua api](others/add_new_lua_api.md)
