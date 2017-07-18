@@ -12,25 +12,28 @@ Lua 提供了一个名为 `require` 的函数用来加载模块。要加载一�
 > 把下面的代码保存在文件 my.lua 中
 
 ```lua
-local foo={}
+local _M = {}
 
-local function getname()
+local function get_name()
     return "Lucy"
 end
 
-function foo.greeting()
-    print("hello " .. getname())
+function _M.greeting()
+    print("hello " .. get_name())
 end
 
-return foo
+return _M
 ```
 
 > 把下面代码保存在文件 main.lua 中，然后执行 main.lua，调用上述模块。
 
 ```lua
-local fp = require("my")
-fp.greeting()     -->output: hello Lucy
+local my_module = require("my")
+my_module.greeting()     -->output: hello Lucy
 ```
 
 注：对于需要导出给外部使用的公共模块，处于安全考虑，是要避免全局变量的出现。
 我们可以使用 lj-releng 或 luacheck 工具完成全局变量的检测。至于如何做，到后面再讲。
+
+另一个要注意的是，由于在 LuaJIT 中，require 函数内不能进行上下文切换，所以不能够在模块的顶级上下文中调用 cosocket 一类的 API。
+否则会报 `attempt to yield across C-call boundary` 错误。
