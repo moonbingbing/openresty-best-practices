@@ -1,4 +1,5 @@
 # 代码覆盖率
+
 这是一个重要的可量化指标，如果代码覆盖率很高，你就可以放心的修改代码，在发版本的时候也能睡个安稳觉。否则就是拆东墙补西墙，陷入无尽的 bug 诅咒中。
 
 那么在 OpenResty 里面如何看到代码覆盖率呢？其实很简单，使用 [LuaCov](https://keplerproject.github.io/luacov/) 可以很方便的实现。
@@ -7,6 +8,13 @@
 ```
 luarocks install luacov
 ```
+
+如果你的项目比较大，建议安装
+```
+luarocks install cluacov
+```
+
+后者通过 C 代码加速了 luacov 的耗时操作。亲测能够快近一倍呢。
 
 安装了 LuaCov 之后，还需要先配置一下。
 
