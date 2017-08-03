@@ -10,8 +10,8 @@ SystemTap 是一个诊断 Linux 系统性能或功能问题的开源软件，为
 
 ```
 # #Installaion:
-# rpm -ivh kernel-debuginfo-$(uname -r).rpm
 # rpm -ivh kernel-debuginfo-common-$(uname -r).rpm
+# rpm -ivh kernel-debuginfo-$(uname -r).rpm
 # rpm -ivh kernel-devel-$(uname -r).rpm
 ```
 
