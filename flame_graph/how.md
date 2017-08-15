@@ -17,7 +17,7 @@
 * 获取 CPU 异常的 worker 的进程 ID ：
 > ps -ef | grep nginx
 
-* 使用 [lj-lua-stacks.sxx](https://github.com/openresty/stapxx#lj-lua-stacks)抓取栈信息，并用 [fix-lua-bt](https://github.com/openresty/openresty-systemtap-toolkit#fix-lua-bt) 工具处理：
+* 使用 [lj-lua-stacks.sxx](https://github.com/openresty/stapxx#lj-lua-stacks) 抓取栈信息，并用 [fix-lua-bt](https://github.com/openresty/openresty-systemtap-toolkit#fix-lua-bt) 工具处理：
 ```
 # making the ./stap++ tool visible in PATH:
 $ export PATH=$PWD:$PATH
