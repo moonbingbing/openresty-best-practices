@@ -56,7 +56,10 @@ Total: 10 warnings / 1 error in 5 files
 -- .luacheckrc 文件其实就是个 lua 代码文件
 cache = true
 std = 'ngx_lua'
-ignore = {"_"}
+ignore = {
+    "_", -- 忽略 _ 变量，我们用它来表示没有用到的变量
+    "6..", -- 忽略格式上的warning
+}
 -- 这里因为客观原因，定的比较松。如果条件允许，你可以去掉这些豁免条例。
 unused = false
 unused_args = false
