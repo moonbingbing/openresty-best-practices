@@ -83,7 +83,7 @@ print(string.len("hello lua")) -->output  9
 #### string.find(s, p [, init [, plain]])
 
 在 s 字符串中第一次匹配 p 字符串。若匹配成功，则返回 p 字符串在 s 字符串中出现的开始位置和结束位置；若匹配失败，则返回 nil。
-第三个参数 init 默认为 1，并且可以为负整数，当 init 为负数时，表示从 s 字符串的 string.len(s) + init 索引处开始向后匹配字符串 p 。
+第三个参数 init 默认为 1，并且可以为负整数，当 init 为负数时，表示从 s 字符串的 string.len(s) + init + 1 索引处开始向后匹配字符串 p 。
 第四个参数默认为 false，当其为 true 时，只会把 p 看成一个字符串对待。
 
 > 示例代码
@@ -93,7 +93,7 @@ local find = string.find
 print(find("abc cba", "ab"))
 print(find("abc cba", "ab", 2))     -- 从索引为2的位置开始匹配字符串：ab
 print(find("abc cba", "ba", -1))    -- 从索引为7的位置开始匹配字符串：ba
-print(find("abc cba", "ba", -3))    -- 从索引为6的位置开始匹配字符串：ba
+print(find("abc cba", "ba", -3))    -- 从索引为5的位置开始匹配字符串：ba
 print(find("abc cba", "(%a+)", 1))  -- 从索引为1处匹配最长连续且只含字母的字符串
 print(find("abc cba", "(%a+)", 1, true)) --从索引为1的位置开始匹配字符串：(%a+)
 
@@ -128,7 +128,7 @@ today is: 29/07/2015
 
 #### string.match(s, p [, init])
 
-在字符串 s 中匹配（模式）字符串 p，若匹配成功，则返回目标字符串中与模式匹配的子串；否则返回 nil。第三个参数 init 默认为 1，并且可以为负整数，当 init 为负数时，表示从 s 字符串的 string.len(s) + init 索引处开始向后匹配字符串 p。
+在字符串 s 中匹配（模式）字符串 p，若匹配成功，则返回目标字符串中与模式匹配的子串；否则返回 nil。第三个参数 init 默认为 1，并且可以为负整数，当 init 为负数时，表示从 s 字符串的 string.len(s) + init + 1 索引处开始向后匹配字符串 p。
 
 > 示例代码
 
