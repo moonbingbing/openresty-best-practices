@@ -6,10 +6,12 @@
 你只需运行下面的命令：
 
 ```shell
-brew tap homebrew/nginx
-brew install homebrew/nginx/openresty
+brew install openresty/brew/openresty
 ```
-
+如果你之前是从 homebrew/nginx 安装的 OpenResty，请先执行：
+```shell
+brew untap homebrew/nginx
+```
 如果一切顺利，OpenResty 应该已经安装好了。
 接下来，我们就可以进入到后面的章节 [HelloWorld](helloworld.md) 学习。
 
