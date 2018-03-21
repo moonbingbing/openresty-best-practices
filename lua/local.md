@@ -97,7 +97,7 @@ Lua 上下文中应当严格避免使用自己定义的全局变量。可以使�
 如果使用 macOS 或者 Linux，可以使用下面命令安装 `lj-releng`:
 
 ```bash
-curl -L https://github.com/openresty/openresty-devel-utils/blob/master/lj-releng > /usr/local/bin/lj-releng
+curl -L https://raw.githubusercontent.com/openresty/openresty-devel-utils/master/lj-releng > /usr/local/bin/lj-releng
 chmod +x /usr/local/bin/lj-releng
 ```
 
