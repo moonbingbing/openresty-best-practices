@@ -42,7 +42,7 @@ access_by_lua_block {
 # nginx.conf
 lua_code_cache on;
 # 注意 limit_conn_store 的大小需要足够放置限流所需的键值。
-# 每个 $binary_remote_addr 大小不会超过 16K，算上 lua_shared_dict 的节点大小，总共不到 64 字节。
+# 每个 $binary_remote_addr 大小不会超过 16 字节(IPv6 情况下)，算上 lua_shared_dict 的节点大小，总共不到 64 字节。
 # 100M 可以放 1.6M 个键值对
 lua_shared_dict limit_conn_store 100M;
 server {
