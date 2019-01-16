@@ -30,14 +30,10 @@ coroutine 0:
 这可不是期望结果：decode 失败，500 错误直接退了。改良了一下代码：
 
 ```lua
-local json = require("cjson")
-
-local function _json_decode(str)
-  return json.decode(str)
-end
+local decode = require("cjson").decode
 
 function json_decode( str )
-    local ok, t = pcall(_json_decode, str)
+    local ok, t = pcall(decode, str)
     if not ok then
       return nil
     end
