@@ -68,7 +68,7 @@ ngx.say("dog: ", res)
 * 每次 Redis 使用完毕，自动释放 Redis 连接到连接池供其他请求复用；
 * 要支持 Redis 的重要优化手段 pipeline；
 
-> 不卖关子，只要干货，我们最后是这样干的，可以这里看到 [gist代码](https://gist.github.com/moonbingbing/9915c66346e8fddcefb5)
+> 不卖关子，只要干货，我们最后是这样干的，可以这里看到 [git代码](https://gist.github.com/moonbingbing/9915c66346e8fddcefb5)
 
 ```lua
 -- file name: resty/redis_iresty.lua
