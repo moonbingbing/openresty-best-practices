@@ -7,6 +7,7 @@
 * [Lua 入门](lua/main.md)
     * [Lua 简介](lua/brief.md)
     * [Lua 环境搭建](lua/build_env.md)
+    * [Lua 编辑器选择](lua/editor.md) 
     * [基础数据类型](lua/class.md)
     * [表达式](lua/operator.md)
     * [控制结构](lua/control_structrues.md)
