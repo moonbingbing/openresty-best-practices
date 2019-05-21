@@ -19,7 +19,7 @@ OpenResty 最佳实践
 
 [在 gitbook 上查看本书](http://moonbingbing.gitbooks.io/openresty-best-practices/content/index.html)
 
-作者极客时间专栏：[OpenResty 从入门到实战](http://gk.link/a/103tv)
+*作者极客时间专栏：[《OpenResty 从入门到实战》](http://gk.link/a/103tv)*
 
 本书源码在 GitHub 上维护，欢迎参与：[我要写书](https://github.com/moonbingbing/openresty-best-practices)。也可以加入 QQ 群来和我们交流：
 
