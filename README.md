@@ -19,11 +19,12 @@ OpenResty 最佳实践
 
 [在 gitbook 上查看本书](http://moonbingbing.gitbooks.io/openresty-best-practices/content/index.html)
 
-*作者极客时间专栏：[《OpenResty 从入门到实战》](http://gk.link/a/103tv)*
-
 本书源码在 GitHub 上维护，欢迎参与：[我要写书](https://github.com/moonbingbing/openresty-best-practices)。也可以加入 QQ 群来和我们交流：
 
 - 34782325（技术交流 ①群）
 - 481213820（技术交流 ②群）
 - 124613000（技术交流 ③群 已满）
 - 679145170（技术交流 ④群）
+
+**作者极客时间专栏：[《OpenResty 从入门到实战》](http://gk.link/a/103tv)**
+![](./images/OpenResty图谱-二维码.jpg)
