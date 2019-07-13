@@ -26,6 +26,12 @@
 
 从实际应用性能表现来看，LuaJIT 2.1 虽然目前还是 beta 版本，但是生产运行稳定性已经很不错，并且在运行效率上要比 LuaJIT 2.0 好很多（大家可自行爬文了解一下），所以作为 OpenResty 的默认搭档，已经是 LuaJIT 2.1 很久了。但是针对不同系统的工具包安装工具，他们当前默认绑定推送的都还是 LuaJIT 2.0，所以这里就直接给出最符合我们最终方向的安装方法了。
 
+由于LuaJIT 2.1 目前还是beta版本，所以在make install后，并没有进行luajit的符号连接，可以执行下面的指令将luajit-2.1.0-beta1和luajit进行软连接，从而可以直接使用luajit命令
+
+```
+ln -sf luajit-2.1.0-beta1 /usr/local/bin/luajit
+```
+
 ###### 验证 LuaJIT 是否安装成功
 
 ```
