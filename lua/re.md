@@ -4,7 +4,7 @@
 
 *Lua* 中的正则表达式与 Nginx 中的正则表达式相比，有 5% - 15% 的性能损失，而且 Lua 将表达式编译成 Pattern 之后，并不会将 Pattern 缓存，而是每此使用都重新编译一遍，潜在地降低了性能。`ngx.re.*` 中的正则表达式可以通过参数缓存编译过后的 Pattern，不会有类似的性能损失。
 
-`ngx.re.*` 中的 `o` 选项，指明该参数，被编译的 Pattern 将会在工作进程中缓存，并且被当前工作进程的每次请求所共享。Pattern 缓存的上限值通过 `lua_regex_cache_max_entries` 来修改。
+`ngx.re.*` 中的 `o` 选项，指明该参数，被编译的 Pattern 将会在工作进程中缓存，并且被当前工作进程的每次请求所共享。Pattern 缓存的上限值通过 `lua_regex_cache_max_entries` 来修改，它的默认值为1024。
 
 `ngx.re.*` 中的 `j` 选项，指明该参数，如果使用的 PCRE 库支持 JIT，OpenResty 会在编译 Pattern 时启用 JIT。启用 JIT 后正则匹配会有明显的性能提升。较新的平台，自带的 PCRE 库均支持 JIT。如果系统自带的 PCRE 库不支持 JIT，出于性能考虑，最好自己编译一份 libpcre.so，然后在编译 OpenResty 时链接过去。要想验证当前 PCRE 库是否支持 JIT，可以这么做
 1. 编译 OpenResty 时在 `./configure` 中指定 `--with-debug` 选项
