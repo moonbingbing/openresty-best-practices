@@ -32,7 +32,7 @@ OpenResty 提供了 `ssl_session_fetch_by_lua*` 和 `ssl_session_store_by_lua*` 
 #### Session Tickets
 
 不过你可能已经不需要额外折腾 `ssl_session_*` 的代码。因为 Session ID 已经过时了。
-TLSv1.1 提供了名为 Session Tickets 的拓展，用来代替之前的 Session ID 方案。
+TLS 提供了名为 [Session Tickets](https://tools.ietf.org/html/rfc5077) 的拓展，用来代替之前的 Session ID 方案。
 
 Session ID 方案要求服务端记住会话状态，有违于 HTTP 服务无状态的特点。Session Tickets 方案旨在解决这个问题。
 
