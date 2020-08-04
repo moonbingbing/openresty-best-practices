@@ -1,8 +1,8 @@
 # for 控制结构
 
-Lua 提供了一组传统的、小巧的控制结构，包括用于条件判断的 if 用于迭代的 while、repeat 和 for，本章节主要介绍 for 的使用。
+Lua 提供了一组传统的、小巧的控制结构，包括用于条件判断的 if，用于迭代的 while、repeat 和 for，本章节主要介绍 for 的使用。
 
-#### for 数字型
+#### 一，for 数字型
 
 for 语句有两种形式：数字 for（numeric for）和范型 for（generic for）。
 
@@ -15,11 +15,11 @@ end
 ```
 
 关于数字 for 需要关注以下几点：
-1.var 从 begin 变化到 finish，每次变化都以 step 作为步长递增 var
-2.begin、finish、step 三个表达式只会在循环开始时执行一次
-3.第三个表达式 step 是可选的，默认为 1
-4.控制变量 var 的作用域仅在 for 循环内，需要在外面控制，则需将值赋给一个新的变量
-5.循环过程中不要改变控制变量的值，那样会带来不可预知的影响
+- 1、var 从 begin 变化到 finish，每次变化都以 step 作为步长递增 var；
+- 2、begin、finish、step 三个表达式只会在循环开始时执行一次；
+- 3、第三个表达式 step 是可选的，默认为 1；
+- 4、控制变量 var 的作用域仅在 for 循环内，若需要在外面控制，则需将值赋给一个新的变量；
+- 5、循环过程中不要改变控制变量的值，那样会带来不可预知的影响。
 
 > 示例
 
@@ -73,12 +73,12 @@ for i = 1, math.huge do
 end
 ```
 
-#### for 泛型
+#### 二，for 泛型
 
 泛型 for 循环通过一个迭代器（iterator）函数来遍历所有值：
 
 ```lua
--- 打印数组a的所有值
+-- 打印数组 a 的所有值
 local a = {"a", "b", "c", "d"}
 for i, v in ipairs(a) do
   print("index:", i, " value:", v)
@@ -103,8 +103,13 @@ end
 ```
 
 从外观上看泛型 for 比较简单，但其实它是非常强大的。通过不同的迭代器，几乎可以遍历所有的东西，
-而且写出的代码极具可读性。标准库提供了几种迭代器，包括用于迭代文件中每行的（io.lines）、
-迭代 table 元素的（pairs）、迭代数组元素的（ipairs）、迭代字符串中单词的（string.gmatch）等。
+而且写出的代码极具可读性。
+
+标准库提供了几种迭代器，包括：
+- 用于迭代文件中每行的（io.lines）；
+- 迭代 table 元素的（pairs）；
+- 迭代数组元素的（ipairs）；
+- 迭代字符串中单词的（string.gmatch）等。
 
 泛型 for 循环与数字型 for 循环有两个相同点：
 （1）循环变量是循环体的局部变量；
@@ -125,17 +130,17 @@ local days = {
 
 ```lua
   local revDays = {
-    ["Sunday"] = 1,
-    ["Monday"] = 2,
-    ["Tuesday"] = 3,
+    ["Sunday"]    = 1,
+    ["Monday"]    = 2,
+    ["Tuesday"]   = 3,
     ["Wednesday"] = 4,
-    ["Thursday"] = 5,
-    ["Friday"] = 6,
-    ["Saturday"] = 7
+    ["Thursday"]  = 5,
+    ["Friday"]    = 6,
+    ["Saturday"]  = 7
   }
 ```
 
-接下来，要找出一个名称所对应的需要，只需用名字来索引这个 reverse table 即可：
+接下来，要找出一个名称所对应的位置，只需用名字来索引这个逆向 table 即可：
 
 ```lua
 local x = "Tuesday"
