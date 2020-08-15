@@ -110,22 +110,22 @@ A =   365
 
 然后进入你自己的 Lua 文件所在的工作目录，执行 `lj-releng` 命令，结果如下：
 
-    ```
-    #  lj-releng
-    foo.lua: 0.01 (0.01)
-    Checking use of Lua global variables in file foo.lua...
-    op no.  line  instruction args  ; code
-    2  [8] SETGLOBAL 0 -1  ; A
-    Checking line length exceeding 80...
-    WARNING: No "_VERSION" or "version" field found in `use_foo.lua`.
-    Checking use of Lua global variables in file use_foo.lua...
-    op no.  line  instruction args  ; code
-    2  [1] SETGLOBAL 0 -1  ; A
-    7  [4] GETGLOBAL 2 -1  ; A
-    8  [4] GETGLOBAL 3 -1  ; A
-    18 [8] GETGLOBAL 4 -1  ; A
-    Checking line length exceeding 80...
-    ```
+```
+#  lj-releng
+foo.lua: 0.01 (0.01)
+Checking use of Lua global variables in file foo.lua...
+op no.  line  instruction args  ; code
+2  [8] SETGLOBAL 0 -1  ; A
+Checking line length exceeding 80...
+WARNING: No "_VERSION" or "version" field found in `use_foo.lua`.
+Checking use of Lua global variables in file use_foo.lua...
+op no.  line  instruction args  ; code
+2  [1] SETGLOBAL 0 -1  ; A
+7  [4] GETGLOBAL 2 -1  ; A
+8  [4] GETGLOBAL 3 -1  ; A
+18 [8] GETGLOBAL 4 -1  ; A
+Checking line length exceeding 80...
+```
 
 > 结果显示：
 
