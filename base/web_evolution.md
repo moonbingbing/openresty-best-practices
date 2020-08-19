@@ -59,20 +59,20 @@ struct pollfd {
 ```c
 int epoll_create(int size)；
 int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)；
-            typedef union epoll_data {
-                void *ptr;
-                int fd;
-                __uint32_t u32;
-                __uint64_t u64;
-            } epoll_data_t;
 
-            struct epoll_event {
-                __uint32_t events;      /* Epoll events */
-                epoll_data_t data;      /* User data variable */
-            };
+typedef union epoll_data {
+    void *ptr;
+    int fd;
+    __uint32_t u32;
+    __uint64_t u64;
+} epoll_data_t;
 
-int epoll_wait(int epfd, struct epoll_event * events,
-                int maxevents, int timeout);
+struct epoll_event {
+    __uint32_t events;      /* Epoll events */
+    epoll_data_t data;      /* User data variable */
+};
+
+int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout);
 ```
 
 主要是 `epoll_create`、`epoll_ctl` 和 `epoll_wait` 三个函数。
@@ -110,8 +110,8 @@ int epoll_wait(int epfd, struct epoll_event * events,
 
 3. **支持水平触发和边沿触发两种模式**：
 
-    * 水平触发模式，文件描述符状态发生变化后，如果没有采取行动，它后面将 **反复通知**，这种情况下编程相对简单，libevent 等开源库很多都是使用的这种模式。
-* 边沿触发模式，只告诉进程哪些文件描述符刚刚变为就绪状态，**只说一遍**，如果没有采取行动，那么它将不会再次告知。理论上边沿触发的性能要更高一些，但是代码实现相当复杂（Nginx 使用的边沿触发）。
+    - 水平触发模式，文件描述符状态发生变化后，如果没有采取行动，它后面将 **反复通知**，这种情况下编程相对简单，libevent 等开源库很多都是使用的这种模式。
+    - 边沿触发模式，只告诉进程哪些文件描述符刚刚变为就绪状态，**只说一遍**，如果没有采取行动，那么它将不会再次告知。理论上边沿触发的性能要更高一些，但是代码实现相当复杂（Nginx 使用的边沿触发）。
 
 4. **`mmap` 加速内核与用户空间的信息传递。**
 
