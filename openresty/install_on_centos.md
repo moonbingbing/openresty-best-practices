@@ -7,6 +7,9 @@ OpenResty 现在提供了 CentOS 上的 [官方包](http://openresty.org/cn/linu
 
 ```shell
 # sudo yum-config-manager --add-repo https://openresty.org/yum/cn/centos/OpenResty.repo
+
+# sudo yum check-update
+
 # sudo yum install openresty
 ```
 
@@ -34,7 +37,7 @@ OpenResty 现在提供了 CentOS 上的 [官方包](http://openresty.org/cn/linu
 
 - 1、 输入下面的命令，一次性安装需要的库：
     ```shell
-    # sudo yum install readline-devel pcre-devel openssl-devel perl
+    # sudo yum install readline-devel pcre-devel openssl-devel perl gcc curl
     ```
 - 2、 安装成功后会有 “Complete！” 字样。
 
@@ -45,8 +48,8 @@ OpenResty 现在提供了 CentOS 上的 [官方包](http://openresty.org/cn/linu
     # cd /usr/local/src/
     ```
 - 2、 解压源码包；（若你下载的源码包版本不一样，将相应的版本号改为你所下载的即可。）
-    ```
-    # tar xzvf ngx_openresty-1.9.7.1.tar.gz
+    ```shell
+    # tar -xzvf ngx_openresty-1.9.7.1.tar.gz
     ```
 - 3、 切换到解压后的源码目录；
     ```shell
@@ -64,8 +67,8 @@ OpenResty 现在提供了 CentOS 上的 [官方包](http://openresty.org/cn/linu
     ```shell
     # sudo ./configure --prefix=/opt/openresty \
                 --with-luajit \
-                --with-http_iconv_module
-                --without-http_redis2_module \
+                --with-http_iconv_module \
+                --without-http_redis2_module
     ```
     命令解析：
     - 配置 OpenResty 的安装目录为 `/opt/openresty` （注意使用 root 用户）
@@ -78,38 +81,38 @@ OpenResty 现在提供了 CentOS 上的 [官方包](http://openresty.org/cn/linu
     - 若没有错误，则会出现如下信息：
 
     ```shell
-     Type the following commands to build and install:
-         gmake
-         gmake install
+    Type the following commands to build and install:
+        make
+        make install
     ```
 
 - 7、 根据上一步命令提示，输入以下命令执行编译：
-	```
-	# sudo gmake
-	```
+    ```shell
+    # sudo make
+    ```
 - 8、 输入以下命令执行安装：
-	```
-	# sudo gmake install
-	```
+    ```shell
+    # sudo make install
+    ```
 - 9、 上面的步骤顺利完成之后，安装已经完成。可以在你指定的安装目录下看到一些目录及文件。
 
 #### 4、设置环境变量
 
 为了后面启动 OpenResty 的命令简单一些，不用每次都切换到 OpenResty 的安装目录下执行启动，我们设置环境变量来简化操作。
 - 将 nginx 的目录添加到 PATH 中。
-	打开文件 `/etc/profile`：
-	```
-	# sudo vim /etc/profile
-	```
+    打开文件 `/etc/profile`：
+    ```shell
+    # sudo vim /etc/profile
+    ```
 
-	在文件末尾添加下面的内容 (若你的安装目录不一样，则需做相应修改)：
-	```
-	export PATH=$PATH:/opt/openresty/nginx/sbin
-	```
+    在文件末尾添加下面的内容 (若你的安装目录不一样，则需做相应修改)：
+    ```shell
+    export PATH=$PATH:/opt/openresty/nginx/sbin
+    ```
 - 使环境变量立即生效：
-	```
-	# sudo source /etc/profile
-	```
+    ```shell
+    # sudo source /etc/profile
+    ```
 
 注意：这一步操作只是在本终端有效，如果新打开一个终端仍然是没有生效的。若要使环境变量永久生效需重启服务器。
 
