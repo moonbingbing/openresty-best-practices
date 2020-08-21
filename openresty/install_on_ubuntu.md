@@ -6,7 +6,7 @@ OpenResty 官方的 Linux 各发行版安装指引在 https://openresty.org/cn/l
 > 注：从 OpenResty 1.13.6.1 开始支持，旧版的只能编译安装。
 
 你可以在你的 Ubuntu 系统中添加 OpenResty 的 APT 仓库，这样便于未来安装或更新软件包（通过 apt-get update 命令）。 运行下面的命令就可以添加仓库（每个系统只需要运行一次）：
-```
+```shell
 # 安装导入 GPG 公钥时所需的几个依赖包（整个安装过程完成后可以随时删除它们）：
 sudo apt-get -y install --no-install-recommends wget gnupg ca-certificates
 
@@ -22,18 +22,18 @@ sudo apt-get update
 ```
 
 然后就可以像下面这样安装软件包，比如 openresty：
-```
+```shell
 # sudo apt-get -y install openresty
 ```
 这个包同时也推荐安装 `openresty-opm` 和 `openresty-restydoc` 包，所以后面两个包会缺省安装上。 如果你不想自动关联安装，可以用下面方法关闭自动关联安装：
-```
+```shell
 # sudo apt-get -y install --no-install-recommends openresty
 ```
 参阅 [OpenResty Deb 包](https://openresty.org/cn/deb-packages.html) 页面获取这个仓库里头更多可用包的信息。
 
 ### 从源码编译安装
 
-OpenResty 官方的源码安装指引在 https://openresty.org/en/installation.html  页面。
+OpenResty 官方的源码安装指引在 https://openresty.org/cn/installation.html  页面。
 
 #### 1、源码包准备
 
@@ -65,8 +65,8 @@ OpenResty 官方的源码安装指引在 https://openresty.org/en/installation.h
     # cd /usr/local/src/
     ```
 - 2、 解压源码包；（若你下载的源码包版本不一样，将相应的版本号改为你所下载的即可。）
-    ```
-    # tar xzvf ngx_openresty-1.9.7.1.tar.gz
+    ```shell
+    # tar -xzvf ngx_openresty-1.9.7.1.tar.gz
     ```
 - 3、 切换到解压后的源码目录；
     ```shell
@@ -84,8 +84,8 @@ OpenResty 官方的源码安装指引在 https://openresty.org/en/installation.h
     ```shell
     # sudo ./configure --prefix=/opt/openresty \
                 --with-luajit \
-                --with-http_iconv_module
-                --without-http_redis2_module \
+                --with-http_iconv_module \
+                --without-http_redis2_module
     ```
     命令解析：
     - 配置 OpenResty 的安装目录为 `/opt/openresty` （注意使用 root 用户）
@@ -98,17 +98,17 @@ OpenResty 官方的源码安装指引在 https://openresty.org/en/installation.h
     - 若没有错误，则会出现如下信息：
 
     ```shell
-     Type the following commands to build and install:
-         make
-         make install
+    Type the following commands to build and install:
+        make
+        make install
     ```
 
 - 7、 根据上一步命令提示，输入以下命令执行编译：
-    ```
+    ```shell
     # sudo gmake
     ```
 - 8、 输入以下命令执行安装：
-    ```
+    ```shell
     # sudo gmake install
     ```
 - 9、 上面的步骤顺利完成之后，安装已经完成。可以在你指定的安装目录下看到一些目录及文件。
@@ -118,16 +118,16 @@ OpenResty 官方的源码安装指引在 https://openresty.org/en/installation.h
 为了后面启动 OpenResty 的命令简单一些，不用每次都切换到 OpenResty 的安装目录下执行启动，我们设置环境变量来简化操作。
 - 将 nginx 的目录添加到 PATH 中。
     打开文件 `/etc/profile`：
-    ```
+    ```shell
     # sudo vim /etc/profile
     ```
 
     在文件末尾添加下面的内容 (若你的安装目录不一样，则需做相应修改)：
-    ```
+    ```shell
     export PATH=$PATH:/opt/openresty/nginx/sbin
     ```
 - 使环境变量立即生效：
-    ```
+    ```shell
     # sudo source /etc/profile
     ```
 
