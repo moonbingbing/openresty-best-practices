@@ -11,7 +11,7 @@
 | 1 | location =  /uri| `=` 表示 **精确匹配**，只有完全匹配上才能生效 |
 | 2 | location ^~ /uri| `^~` 开头表示对 URL 路径进行 **前缀匹配**，发生在 **正则匹配** <font color=red>之前</font> |
 | 3 | location ~ pattern  | **正则匹配**，`~` 开头表示 **区分** 大小写 |
-| 3 | location ~* pattern | **正则匹配**，`~` 开头表示 **不区分** 大小写 |
+| 3 | location ~* pattern | **正则匹配**，`~*` 开头表示 **不区分** 大小写 |
 | 4 | location /uri| 不带任何修饰符，同样也表示 **前缀匹配**，但是在 **正则匹配** <font color=red>之后</font> |
 | 5 | location /| **通用匹配**，任何未匹配到其他 location 的请求都会匹配到，<br>相当于 switch 中的 default |
 
