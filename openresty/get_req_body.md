@@ -28,7 +28,9 @@ http {
 hello nil
 ```
 
-大家可以看到 data 部分获取为空，如果你熟悉其他 web 开发框架，估计立刻就觉得 OpenResty 弱爆了。查阅一下官方 wiki 我们很快知道，原来我们还需要添加指令 lua_need_request_body 。究其原因，主要是 Nginx 诞生之初主要是为了解决负载均衡情况，而这种情况，是不需要读取 body 就可以决定负载策略的，所以这个点对于 API Server 和 Web Application 开发的同学有点怪。
+大家可以看到 data 部分获取为空，如果你熟悉其他 Web 开发框架，估计立刻就觉得 OpenResty 弱爆了。查阅一下官方 wiki 我们很快知道，原来我们还需要添加指令 `lua_need_request_body`。
+
+究其原因，在于 Nginx 诞生之初主要是为了解决负载均衡问题，而这种情况，是不需要读取 body 就可以决定负载策略的，所以这个点对于 API Server 和 Web Application 开发的同学来说有点怪。
 
 参看下面例子：
 
@@ -37,7 +39,7 @@ http {
     server {
         listen    80;
 
-        # 默认读取 body
+        # 默认读取 body，全局行为，所有 location 均受影响
         lua_need_request_body on;
 
         location /test {
@@ -57,7 +59,7 @@ http {
 hello jack
 ```
 
-如果你只是某个接口需要读取 body（并非全局行为），那么这时候也可以显示调用 ngx.req.read_body() 接口，参看下面示例：
+如果你只是某个接口需要读取 body（并非全局行为），那么这时候也可以显式调用 `ngx.req.read_body()` 接口，参看下面示例：
 
 ```nginx
 http {
@@ -66,7 +68,7 @@ http {
 
         location /test {
             content_by_lua_block {
-                ngx.req.read_body()
+                ngx.req.read_body()      -- 局部行为，仅在本接口内读取 body
                 local data = ngx.req.get_body_data()
                 ngx.say("hello ", data)
             }
@@ -77,13 +79,13 @@ http {
 
 ### body 偶尔读取不到？
 
-ngx.req.get_body_data() 读请求体，会偶尔出现读取不到直接返回 nil 的情况。
+`ngx.req.get_body_data()` 读请求体，会偶尔出现读取不到直接返回 `nil` 的情况。
 
-如果请求体尚未被读取，请先调用 [ngx.req.read_body](#ngxreqread_body) (或打开 [lua_need_request_body](#lua_need_request_body) 选项强制本模块读取请求体，此方法不推荐）。
+- 如果请求体 **尚未被读取**，请先调用 [ngx.req.read_body](#ngxreqread_body) (或打开 [lua_need_request_body](#lua_need_request_body) 选项强制本模块读取请求体，此方法不推荐）。
 
-如果请求体已经被存入临时文件，请使用 [ngx.req.get_body_file](#ngxreqget_body_file) 函数代替。
+- 如果请求体 **已经被存入临时文件**，请使用 [ngx.req.get_body_file](#ngxreqget_body_file) 函数代替。
 
-如需要强制在内存中保存请求体，请设置 [client_body_buffer_size](http://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_buffer_size) 和 [client_max_body_size](http://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size) 为同样大小。
+- 如需要 **强制在内存中保存请求体**，请设置 [client_body_buffer_size](http://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_buffer_size) 和 [client_max_body_size](http://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size) 为 **同样大小**。
 
 参考下面代码：
 
@@ -129,4 +131,5 @@ http {
 hello jack
 ```
 
-由于 Nginx 是为了解决负载均衡场景诞生的，所以它默认是不读取 body 的行为，会对 API Server 和 Web Application 场景造成一些影响。根据需要正确读取、丢弃 body 对 OpenResty 开发是至关重要的。
+由于 Nginx 是为了应对负载均衡场景诞生的，所以它默认不读取 body 的行为，会对 API Server 和 Web Application 场景造成一些影响。
+根据需要 **正确读取、丢弃 body** 对 OpenResty 开发是 **至关重要** 的。
