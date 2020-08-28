@@ -67,11 +67,11 @@ http {
 ```
 
 重点说明：
-① 上游访问地址清单(可以按需配置不同的权重规则)；
-② 上游访问长连接，是否开启长连接，对整体性能影响比较大（大家可以实测一下）；
-③ 接口访问通过 `ngx.location.capture` 的子查询方式发起；
-④ 由于 `ngx.location.capture` 方式只能是 Nginx 自身的子查询，需要借助 `proxy_pass` 发出 HTTP 连接信号；
-⑤ 公共 API 输出服务；
+- ① 上游访问地址清单（可以按需配置不同的权重规则）；
+- ② 上游访问长连接，是否开启长连接，对整体性能影响比较大（大家可以实测一下）；
+- ③ 接口访问通过 `ngx.location.capture` 的子查询方式发起；
+- ④ 由于 `ngx.location.capture` 方式只能是 Nginx 自身的子查询，需要借助 `proxy_pass` 发出 HTTP 连接信号；
+- ⑤ 公共 API 输出服务；
 
 这里大家可以看到，借用 Nginx 周边成熟组件力量，为了发起一个 HTTP 请求，我们需要绕好几个弯子，甚至还有可能踩到坑（`upstream` 中长连接的细节处理），显然没有足够优雅，所以我们继续看下一章节。
 
@@ -127,8 +127,8 @@ http {
 ```
 
 重点解释：
-① 引用 `resty.http` 库资源，它来自 github [https://github.com/pintsized/lua-resty-http](https://github.com/pintsized/lua-resty-http)。
-② 参考 `resty-http` 官方 wiki 说明，我们可以知道 request_uri 函数完成了连接池、HTTP 请求等一系列动作。
+- ① 引用 `resty.http` 库资源，它来自 github [https://github.com/pintsized/lua-resty-http](https://github.com/pintsized/lua-resty-http)。
+- ② 参考 `resty-http` 官方 wiki 说明，我们可以知道 request_uri 函数完成了连接池、HTTP 请求等一系列动作。
 
 题外话，为什么这么简单的方法我们还要求助外部开源组件呢？其实我也觉得这个功能太基础了，真的应该集成到 OpenResty 官方包里面，只不过目前官方默认包里还没有。
 
