@@ -22,7 +22,7 @@
 
 * 自己从外部数据源（包括文件系统）加载 Lua 源码或字节码，然后使用 `loadstring()` "eval" 进 Lua VM。 可以通过 package.loaded 自己来做缓存，毕竟频繁地加载源码和调用 `loadstring()`，以及频繁地 JIT 编译还是很昂贵的。比如 CloudFlare 公司采用的方法是从 modsecurity 规则编译出来的 Lua 代码就是通过 KyotoTycoon 动态分发到全球网络中的每一个 Nginx 服务器的。无需 reload 或者 binary upgrade.
 
-## 自定义 module 的动态装载
+### 自定义 module 的动态装载
 
 对于已经装载的 module，我们可以通过 `package.loaded.* = nil` 的方式卸载（注意：如果对应模块是通过本地文件 `require` 加载的，该方式失效，`ngx_lua_module` 里面对以文件加载模块的方式做了特殊处理）。
 
@@ -44,7 +44,7 @@ https://github.com/openresty/lua-nginx-module#lua-coroutine-yieldingresuming
 这样的 Lua 模块应避免手动从 package.loaded 卸载。当然，如果你永不手工卸载这样的模块，只是动态加载的话，倒也无所谓了。但在我们的 Lua WAF 的场景，已动态加载的一些 Lua 模块还需要被热替换掉（但不重新创建 Lua VM ）。
 
 
-## 自定义 Lua script 的动态装载实现
+### 自定义 Lua script 的动态装载实现
 
 > [引自OpenResty讨论组](https://groups.google.com/forum/#!searchin/openresty/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BDlua%E8%84%9A%E6%9C%AC/openresty/-MZ9AzXaaG8/TeXTyLCuoYUJ)
 
