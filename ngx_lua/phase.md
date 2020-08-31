@@ -5,7 +5,7 @@ OpenResty 处理一个请求，它的处理流程请参考下图（从 Request s
 ![openresty_phases](../images/openresty_phases.png)
 
 我们在这里做个测试，示例代码如下：
-```
+```nginx
 location /mixed {
     set_by_lua_block $a {
         ngx.log(ngx.ERR, "set_by_lua*")
@@ -58,9 +58,9 @@ log_by_lua*
 
 实际上我们只使用其中一个阶段 `content_by_lua*`，也可以完成所有的处理。但这样做，会让我们的代码比较臃肿，越到后期越发难以维护。把我们的逻辑放在不同阶段，分工明确，代码独立，后期发力可以有很多有意思的玩法。
 
-举一个例子，如果在最开始的开发中，请求体和响应体都是通过 HTTP 明文传输，后面需要使用 aes 加密，利用不同的执行阶段，我们可以非常简单的实现：
+举一个例子，如果在最开始的开发中，请求体和响应体都是通过 HTTP 明文传输，后面需要使用 AES 加密，利用不同的执行阶段，我们可以非常简单的实现：
 
-```
+```nginx
 # 明文协议版本
 location /mixed {
     content_by_lua_file ...;       # 请求处理
@@ -78,4 +78,4 @@ location /mixed {
 
 最后我们是在 `access_by_lua*` 完成密文协议解码，`body_filter_by_lua*` 完成应答加密编码。如此一来世界都宁静了，我们没有更改已实现功能的一行代码，只是利用 OpenResty 的阶段处理特性，非常优雅的解决了这个问题。
 
-不同的阶段，有不同的处理行为，这是 OpenResty 的一大特色。学会它，适应它，会给你打开新的一扇门。这些东西不是 OpenResty 自身所创，而是 Nginx module 对外开放的处理阶段。理解了他，也能更好的理解 Nginx 的设计思维。
+不同的阶段，有不同的处理行为，这是 OpenResty 的一大特色。学会它，适应它，会给你打开新的一扇门。这些东西不是 OpenResty 自身所创，而是 Nginx module 对外开放的处理阶段。理解了它，也能更好的理解 Nginx 的设计思维。
