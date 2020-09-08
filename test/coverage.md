@@ -5,21 +5,21 @@
 那么在 OpenResty 里面如何看到代码覆盖率呢？其实很简单，使用 [LuaCov](https://keplerproject.github.io/luacov/) 可以很方便的实现。
 
 我们先了解下 LuaCov，这是一个针对 Lua 脚本的代码覆盖率工具，通过 luarocks 来安装：
-```
-luarocks install luacov
+```shell
+# luarocks install luacov
 ```
 
 如果你的项目比较大，建议安装
-```
-luarocks install cluacov
+```shell
+# luarocks install cluacov
 ```
 
 后者通过 C 代码加速了 luacov 的耗时操作。亲测能够快近一倍呢。
 
 安装了 LuaCov 之后，还需要先配置一下。
 
-在 OpenResty 里面使用 LuaCov，只用在 Nginx.conf 中增加  init_by_lua_block（只能放在 http 上下文中）既可。
-```
+在 OpenResty 里面使用 LuaCov，只需要在 `nginx.conf` 中增加 `init_by_lua_block`（只能放在 `http` 上下文中）即可。
+```lua
 init_by_lua_block {
     require 'luacov.tick'
     jit.off()
@@ -35,20 +35,20 @@ init_by_lua_block {
 http://keplerproject.github.io/luacov/doc/modules/luacov.defaults.html
 
 重新启动 OpenResty 后，LuaCov 就已经生效了。你可以跑下单元测试，或者访问下 API 接口，在当前工作目录下，就会生成 `luacov.stats.out` 这个统计文件。然后 cd 到这个目录下，运行：
+```shell
+# luacov
 ```
-luacov
-```
-就会生成 `luacov.report.out` 这个可读性比较好的覆盖率报告。需要注意的是，luacov 这个命令后面不用加任何的参数，这个在官方文档里面有说明，只是比较隐晦。
+就会生成 `luacov.report.out` 这个可读性比较好的覆盖率报告。需要注意的是，`luacov` 这个命令后面不用加任何的参数，这个在官方文档里面有说明，只是比较隐晦。
 
 我们看下 `luacov.report.out` 里面的一个片段：
 ```
-1	function get_config(mid, args)
-13	  local configs = {}
-13	  local res, err = red:hmget("client_".. mid, "tpl_id", "gid")
-13	  if err then
-****0     return nil, err
+1    function get_config(mid, args)
+13      local configs = {}
+13      local res, err = red:hmget("client_".. mid, "tpl_id", "gid")
+13      if err then
+****0      return nil, err
         end
-      end
+     end
 ```
 代码前面的数字，代表的是运行的次数。而 `****0` 很明确的指出这行代码没有被测试案例覆盖到。
 
