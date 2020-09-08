@@ -34,7 +34,7 @@ print(color[3])                       --> output: nil
         print(i,v)             -- 打印 str 的元素
     end
 
-    -- output: (正确的结果)
+    -- output: （正确的结果）
     str_len:4
     1   a
     2   b
@@ -52,7 +52,7 @@ print(color[3])                       --> output: nil
         print(i,v)              -- 打印 str 的元素
     end
 
-    -- output: (正确的结果)
+    -- output: （正确的结果）
     str_len:3
     1   a
     2   b
@@ -69,7 +69,7 @@ print(color[3])                       --> output: nil
         print(i,v)              -- 打印 str 的元素
     end
 
-    -- output: (不期望的结果)
+    -- output: （不期望的结果）
     str_len:3
     1   a
     2   b
@@ -86,7 +86,7 @@ print(color[3])                       --> output: nil
         print(i,v)              -- 打印 str 的元素
     end
 
-    -- output: (不期望的结果)
+    -- output: （不期望的结果）
     str_len:2
     1   a
     2   b
@@ -110,7 +110,6 @@ print(color[3])                       --> output: nil
     2   2
     3   3
     ```
-
 
 #### table.getn 获取长度
 
@@ -175,6 +174,43 @@ print(table.concat(a, " ", 4, 2))   -- output:
 print(table.concat(a, " ", 2, 4))   -- output: 3 5 hello
 ```
 
+当需要循环拼接字符时，推荐使用`table.concat`。因为若使用`..`在循环中拼接字符，会产生大量的中间字符串。如果拼接的字符串很大，经过多次循环拼接后，其内存开销急剧增大，也会同时触发多次`GC`，甚至会导致 Lua 虚拟机内存不足。
+
+> 问题示例代码
+
+```lua
+    local chunk, eof = ngx.arg[1], ngx.arg[2]
+    if not ngx.ctx.buffer then
+      ngx.ctx.buffer = ""
+    end
+    if eof then
+      local body = body_filter.transform_json_body(match_t, ngx.ctx.buffer) --calc
+      ngx.arg[1] = body
+    else
+      ngx.ctx.buffer = ngx.ctx.buffer .. chunk
+      ngx.arg[1] = nil
+    end
+```
+
+> 问题现象：当响应 body 较大时，luajit 虚拟机会概率性报错内存不足`not enough memory`，同时 openresty 占用的内存居高不下。
+
+> 正确代码
+
+```lua
+    local chunk, eof = ngx.arg[1], ngx.arg[2]
+    if not ngx.ctx.buffer_table then
+      ngx.ctx.buffer_table = {}
+    end
+    if eof then
+      local buffer = table.concat(ngx.ctx.buffer_table) -- 使用 table.concat 拼接
+      local body = body_filter.transform_json_body(match_t, buffer)
+      ngx.arg[1] = body
+    else
+      ngx.arg[1] = nil
+      table.insert(ngx.ctx.buffer_table, chunk)
+    end
+```
+
 #### table.insert (table, [pos ,] value)
 
 在（数组型）表 table 的 pos 索引位置插入 value，其它元素向后移动到空的地方。pos 的默认值是表的长度加一，即默认是插在表的最后。
@@ -184,17 +220,16 @@ print(table.concat(a, " ", 2, 4))   -- output: 3 5 hello
 ```
 local a = {1, 8}          --a[1] = 1,a[2] = 8
 
-table.insert(a, 1, 3)     --在表索引为1处插入3
+table.insert(a, 1, 3)     --在表索引为 1 处插入 3
 print(a[1], a[2], a[3])
 
-table.insert(a, 10)       --在表的最后插入10
+table.insert(a, 10)       --在表的最后插入 10
 print(a[1], a[2], a[3], a[4])
 
 -->output
 3	1	8
 3	1	8	10
 ```
-
 
 #### table.maxn (table)
 
@@ -242,7 +277,6 @@ print(a[1], a[2], a[3], a[4])
 2	3	nil	nil
 ```
 
-
 #### table.sort (table [, comp])
 
 按照给定的比较函数 comp 给表 table 排序，也就是从 table[1] 到 table[n]，这里 n 表示 table 的长度。
@@ -253,7 +287,7 @@ print(a[1], a[2], a[3], a[4])
 
 ```lua
 local function compare(x, y) --从大到小排序
-   return x > y         --如果第一个参数大于第二个就返回true，否则返回false
+   return x > y         --如果第一个参数大于第二个就返回 true，否则返回 false
 end
 
 local a = { 1, 7, 3, 4, 25}
@@ -267,8 +301,6 @@ print(a[1], a[2], a[3], a[4], a[5])
 25	7	4	3	1
 ```
 
-
 #### table 其他非常有用的函数
 
 LuaJIT 2.1 新增加的 `table.new` 和 `table.clear` 函数是非常有用的。前者主要用来预分配 Lua table 空间，后者主要用来高效的释放 table 空间，并且它们都是可以被 JIT 编译的。具体可以参考一下 OpenResty 捆绑的 lua-resty-* 库，里面有些实例可以作为参考。
-
