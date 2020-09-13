@@ -10,6 +10,6 @@
 * OProfile
 * Gprof
 
-数据采集到了，怎么分析它呢？为此，[Brendan Gregg](http://www.brendangregg.com/)开发了专门把采样到的堆栈轨迹（Stack Trace）转化为直观图片显示的工具——[Flame Graph](https://github.com/brendangregg/FlameGraph)，这样就很容易生成火焰图了。
+数据采集到了，怎么分析它呢？为此，[Brendan Gregg](http://www.brendangregg.com/) 开发了专门把采样到的堆栈轨迹（Stack Trace）转化为直观图片显示的工具——[Flame Graph](https://github.com/brendangregg/FlameGraph)，这样就很容易生成火焰图了。
 
-可见，火线图本身其实很简单，难的是从火焰图中发现问题，并且能够解释这种现象，从而找到优化系统或者解决问题的方法。
+可见，火焰图本身其实很简单，难的是从火焰图中发现问题，并且能够解释这种现象，从而找到优化系统或者解决问题的方法。
