@@ -16,7 +16,7 @@ IDEA 是一个在 Java 语言开发者中广受好评的编辑器，但是并不
 
 其中 Community 版本是免费的，下载完后双击安装即可。
 
-安装完成后打开 File->Settings->Plugins 在其中输入 emmylua 点击右边的 install 安装并重启 IDEA。
+安装完成后打开 File->Settings->Plugins 在其中输入 Emmylua 点击右边的 install 安装并重启 IDEA。
 
 ![](../images/installplugins.png)
 
@@ -29,7 +29,7 @@ IDEA 是一个在 Java 语言开发者中广受好评的编辑器，但是并不
 
 至此一个包含 Lua 语法提示和调试的编辑器环境就配置好了。
 
-有关 emmylua 的详细帮助文档请看 [这里](https://emmylua.github.io/zh_CN/)
+有关 Emmylua 的详细帮助文档请看 [这里](https://emmylua.github.io/zh_CN/)
 
 #### 插件基本用法
 **1. 方法提示**
@@ -55,7 +55,7 @@ IDEA 是一个在 Java 语言开发者中广受好评的编辑器，但是并不
 
 
 #### 进阶配置
-由于 emmylua 并没有自带 OpenResty 的库函数，所以我们需要自己写函数提示，这里我提供自己写的供你们 [下载](./ngx.lua) 和丰富。 请丢到你的 lualib 根目录中。
+由于 Emmylua 并没有自带 OpenResty 的库函数，所以我们需要自己写函数提示，这里我提供自己写的供你们 [下载](/codes/emmylua_ngx.lua) 和丰富。 请使用“右键-->另存为”方式下载，然后丢到你的 lualib 根目录中。
 
 下面是一个简单的库函数定义示例：
 
