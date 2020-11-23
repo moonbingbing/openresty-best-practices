@@ -6,7 +6,33 @@
 我从最初的记事本编辑，vi，到后来的 UE 自定义语法高亮和函数列表，以及 scite 等，寻找和尝试过能找到的绝大部分的 Lua 编辑器。
 我想在编辑器选择上面 (Linux 下的不熟= =) 应该比较有发言权。 这里我主要讲我的环境是如何配置的。
 
-选择过程我就不详述了，这里只讲解如何在你自己的 Windows 上配置好 IDE。
+## VS Code
+
+VSCode(Visual Studio Code) 是一个号称“重新定义代码编辑”的可到处运行（跨平台）的开源软件。它同时支持 Windows、Linux、Mac 等平台，通过丰富的插件扩展器功能，当然最重要的是，它完全免费！
+
+#### 为什么选择 VS Code？
+
+简单：免费+好用+功能强大+性能好+其他还很多优势
+
+#### 下载 VS Code 并配置
+
+在官网下载即可：[下载链接](https://code.visualstudio.com/)
+
+傻瓜式一键安装，无需任何配置
+
+#### 推荐插件
+
+Openresty 开发者推荐 EmmyLua 插件
+
+![](https://cdn.jsdelivr.net/gh/Miss-you/img/picgo/20201123161917.png)
+
+Lua 开发者（通常是游戏开发者）推荐 `Lua Helper` 插件
+
+![](https://cdn.jsdelivr.net/gh/Miss-you/img/picgo/20201123161837.png)
+
+## IDEA
+
+本章节讲解如何在你自己的 Windows 上配置好 IDE。
 
 #### 下载 IDEA 并配置
 
@@ -38,14 +64,12 @@ IDEA 是一个在 Java 语言开发者中广受好评的编辑器，但是并不
 
 ![](../images/lua_quickdoc.png)
 
-也可以按 Ctrl+q 手动弹出，效果如下 (= =目前我使用的版本文档中的换行显示还有问题)
+也可以按 Ctrl+q 手动弹出，效果如下 (= =目前我使用的版本文档中的换行显示还有问题）
 ![](../images/lua_quickdocui.png)
-
 
 **2. 快速跳转**
 
 在任何已经被定义的方法上按住 Ctrl+鼠标点击该方法就可以自动打开和跳转到方法定义上面，非常方便。
-
 
 **3. 方法提示**
 
@@ -53,16 +77,15 @@ IDEA 是一个在 Java 语言开发者中广受好评的编辑器，但是并不
 
 ![](../images/lua_autofunc.png)
 
-
 #### 进阶配置
 由于 Emmylua 并没有自带 OpenResty 的库函数，所以我们需要自己写函数提示，这里我提供自己写的供你们 [下载](/codes/emmylua_ngx.lua) 和丰富。 请使用“右键-->另存为”方式下载，然后丢到你的 lualib 根目录中。
 
 下面是一个简单的库函数定义示例：
 
 ```lua
----语法: pid = ngx.worker.pid()
+---语法：pid = ngx.worker.pid()
 ---
----语法: set_by_lua*， rewrite_by_lua*， access_by_lua*， content_by_lua*， header_filter_by_lua*， body_filter_by_lua*， log_by_lua*， ngx.timer.*， init_by_lua*， init_worker_by_lua*
+---语法：set_by_lua*， rewrite_by_lua*， access_by_lua*， content_by_lua*， header_filter_by_lua*， body_filter_by_lua*， log_by_lua*， ngx.timer.*， init_by_lua*， init_worker_by_lua*
 ---
 ---这个函数返回一个 Lua 数字，它是当前 Nginx 工作进程的进程 ID （PID）。 这个 API 比 ngx.var.pid 更有效，ngx.var.VARIABLE API 不能使用的地方（例如 init_worker_by_lua），该 API 是可以的。
 ---@return number
@@ -70,10 +93,9 @@ function ngx.worker.pid()
 end
 ```
 
-方法提示不一定要使用独立的文件定义，可以直接在库里面定义，如:
+方法提示不一定要使用独立的文件定义，可以直接在库里面定义，如：
 ![](../images/lua_func.png)
 
 至于里面的含义就要去 [这里](https://emmylua.github.io/zh_CN/) 看和理解啦。
 
 总之，如果你的库都定义好了方法提示，在你理解源码的时候将会非常方便快速。 相信我。
-
