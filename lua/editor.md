@@ -12,7 +12,20 @@ VSCode(Visual Studio Code) 是一个号称“重新定义代码编辑”的可�
 
 #### 为什么选择 VS Code？
 
-简单：免费+好用+功能强大+性能好+其他还很多优势
+免费免费的里面，虽然有很多好用的，但是各有缺点：
+
+- Win 的 Notepad++：性能强，功能多，但颜值不高，也不支持其他平台 
+- Sublime：颜值高，但是功能总体上算一般 
+- Atom：功能一般，有一定用户量 
+- Eclipse 家族：功能强，支持插件扩展，但太臃肿，性能差，其次 Lua 和 Openresty 插件比较弱
+
+收费里面，有很多很强的，比如 JetBrains
+
+因此，VS Code 诞生了：不仅好用，还免费！VS Code 该有的都有了包括很多不支持的或者功能不够完善的，比如：
+- 列模式包括很多（如 Sublime，Atom 等）
+- 文件编码（检测和转换）、全局和当前文件的搜索、搜索支持正则功能
+- 支持插件扩展。理论上：功能可无限增加，随便列举几个常用的好用的：`Markdown Preview Enhancedindent-rainbowBracket Pair ColorizerPaste Image` 
+- 性能好。使用 Notepad++打开几百 M 或者更大的大文件的人，知道我在说什么；VSCode 打开大文件，秒开，即便开多个窗口，依旧非常流畅
 
 #### 下载 VS Code 并配置
 
