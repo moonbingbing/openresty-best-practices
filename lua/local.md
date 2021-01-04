@@ -15,7 +15,7 @@ local l_var = 2   -- local var
 
 局部变量的生命周期是有限的，它的作用域仅限于声明它的块（block）。一个块是一个控制结构的执行体、或者是一个函数的执行体再或者是一个程序块（chunk）。我们可以通过下面这个例子来理解一下局部变量作用域的问题：
 
-> 示例代码test.lua
+> 示例代码 test.lua
 
 ```lua
 x = 10
@@ -30,7 +30,7 @@ end
 if i > 20 then
     local x           -- then 中的局部变量 x
     x = 20
-    print(x + 2)      -- 如果i > 20 将会打印 22，此处的 x 是局部变量
+    print(x + 2)      -- 如果 i > 20 将会打印 22，此处的 x 是局部变量
 else
     print(x)          -- 打印 10，这里 x 是全局变量
 end
@@ -61,7 +61,7 @@ print(x)              -- 打印 10
 ```lua
 local _M = { _VERSION = '0.01' }
 
-function _M.add(a, b)     --两个number型变量相加
+function _M.add(a, b)     --两个 number 型变量相加
     return a + b
 end
 
@@ -85,7 +85,7 @@ foo.update_A()
 print("A = ", A)
 ```
 
-> 输出结果:
+> 输出结果：
 
 ```lua
 #  luajit use_foo.lua
@@ -95,9 +95,10 @@ A =   365
 
 无论是做基础模块或是上层应用，肯定都不愿意这类灰色情况存在，因为它给我们的系统带来很多不确定性（注意 OpenResty 会限制请求过程中全局变量的使用）。 生产中我们是要尽力避免这种情况的出现。
 
-#### 检测工具
+#### 检测代码中的全局变量
+
 **Lua 上下文中应当严格避免使用自己定义的全局变量**。
-可以使用一个 `lj-releng` 工具来扫描 Lua 代码，定位使用 Lua 全局变量的地方。`lj-releng` 的相关链接：<https://github.com/openresty/openresty-devel-utils/blob/master/lj-releng>
+可以使用一个 `lj-releng` 工具来扫描 Lua 代码，定位使用 Lua 全局变量的地方。`lj` 是 `LuaJIT` 的缩写，所以`lj-releng` 仅支持扫描 `LuaJIT 2.1` 的代码。`lj-releng` 的相关链接：<https://github.com/openresty/openresty-devel-utils/blob/master/lj-releng>
 
 - 如果使用 macOS 或者 Linux，可以使用下面命令安装 `lj-releng`:
 
