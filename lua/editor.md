@@ -10,7 +10,7 @@
 
 VSCode(Visual Studio Code) 是一个号称“重新定义代码编辑”的可到处运行（跨平台）的开源软件。它同时支持 Windows、Linux、Mac 等平台，通过丰富的插件扩展器功能，当然最重要的是，它完全免费！
 
-#### 为什么选择 VS Code？
+### 为什么选择 VS Code？
 
 免费免费的里面，虽然有很多好用的，但是各有缺点：
 
@@ -27,13 +27,13 @@ VSCode(Visual Studio Code) 是一个号称“重新定义代码编辑”的可�
 - 支持插件扩展。理论上：功能可无限增加，随便列举几个常用的好用的：`Markdown Preview Enhancedindent-rainbowBracket Pair ColorizerPaste Image` 
 - 性能好。使用 Notepad++打开几百 M 或者更大的大文件的人，知道我在说什么；VSCode 打开大文件，秒开，即便开多个窗口，依旧非常流畅
 
-#### 下载 VS Code 并配置
+### 下载 VS Code 并配置
 
 在官网下载即可：[下载链接](https://code.visualstudio.com/)
 
 傻瓜式一键安装，无需任何配置
 
-#### 推荐插件
+### 推荐插件
 
 Openresty 开发者推荐 EmmyLua 插件
 
@@ -43,11 +43,29 @@ Lua 开发者（通常是游戏开发者）推荐 `Lua Helper` 插件
 
 ![](https://cdn.jsdelivr.net/gh/Miss-you/img/picgo/20201123161837.png)
 
+### 使用技巧
+
+#### 使用插件格式化代码
+
+代码格式化是一个无聊但又重要的工作，我们通常会使用专门的格式化工具来格式化代码（比如 golang 中的`go fmt`，或者 lua 的`lua-format`工具）。在 VS Code 平台，我们可以使用`emmyLua/LuaHelper/vscode-lua` 插件内置的代码格式化工具来格式化 Lua 代码。
+
+具体流程如下：
+
+1. 安装插件，参考前面的安装流程
+
+2. 打开 VS Code 命令面板。左上角`查看->命令面板`，Windows 快捷键`Ctrl+Shift+P`，Mac 快捷键`Command+Shift+P`。
+
+![](https://cdn.jsdelivr.net/gh/Miss-you/img/picgo/企业微信截图_16097447178420.png)
+
+3. 搜索关键字`format`，选择`格式化文档/Format Document`即可
+
+![](https://cdn.jsdelivr.net/gh/Miss-you/img/picgo/企业微信截图_16097447472358.png)
+
 ## IDEA
 
 本章节讲解如何在你自己的 Windows 上配置好 IDE。
 
-#### 下载 IDEA 并配置
+### 下载 IDEA 并配置
 
 IDEA 是一个在 Java 语言开发者中广受好评的编辑器，但是并不是只支持 Java。
 
@@ -70,7 +88,7 @@ IDEA 是一个在 Java 语言开发者中广受好评的编辑器，但是并不
 
 有关 Emmylua 的详细帮助文档请看 [这里](https://emmylua.github.io/zh_CN/)
 
-#### 插件基本用法
+### 插件基本用法
 **1. 方法提示**
 
 你可以在 Setting 里面配置鼠标移动到方法上之后，自动弹出其相关说明的延迟时间
@@ -90,7 +108,7 @@ IDEA 是一个在 Java 语言开发者中广受好评的编辑器，但是并不
 
 ![](../images/lua_autofunc.png)
 
-#### 进阶配置
+### 进阶配置
 由于 Emmylua 并没有自带 OpenResty 的库函数，所以我们需要自己写函数提示，这里我提供自己写的供你们 [下载](/codes/emmylua_ngx.lua) 和丰富。 请使用“右键-->另存为”方式下载，然后丢到你的 lualib 根目录中。
 
 下面是一个简单的库函数定义示例：
