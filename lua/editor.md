@@ -47,7 +47,7 @@ Lua 开发者（通常是游戏开发者）推荐 `Lua Helper` 插件
 
 #### 使用插件格式化代码
 
-代码格式化是一个无聊但又重要的工作，我们通常会使用专门的格式化工具来格式化代码（比如 golang 中的`go fmt`，或者 lua 的`lua-format`工具）。在 VS Code 平台，我们可以使用`emmyLua/LuaHelper/vscode-lua` 插件内置的代码格式化工具来格式化 Lua 代码。
+代码格式化是一个无聊但又重要的工作，我们通常会使用专门的格式化工具来格式化代码（比如 golang 中的`go fmt`，或者 lua 的`lua-format`工具）。在 VS Code 平台，我们可以使用`Lua Helper` 插件内置的代码格式化工具来格式化 Lua 代码。
 
 具体流程如下：
 
