@@ -11,7 +11,8 @@ install:
 build:
 	gitbook build . $(BOOK_OUTPUT)
 
-all: install build
+#all: install build
+all: build
 
 .PHONY: serve
 serve:
