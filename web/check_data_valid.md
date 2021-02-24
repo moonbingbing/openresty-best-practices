@@ -91,10 +91,12 @@ check_hex_jo    times:0.4539999961853
 
 不知道这个结果大家是否有些意外，`check_hex_default` 的运行效率居然比 `check_hex_lua` 要差。不过所幸的是我们对正则开启了 `jo` 参数优化后，速度上有明显提升。
 
-引用一下 ngx.re.* 官方 wiki 的原文：在优化性能时，`o` 选项非常有用，因为正则表达式模板将仅仅被编译一次，之后缓存在 worker 级的缓存中，并被此 Nginx worker 处理的所有请求共享。缓存数量上限可以通过 lua_regex_cache_max_entries 指令调整。
+引用一下 `ngx.re.*` 官方 wiki 的原文：
+> 在优化性能时，`o` 选项非常有用，因为正则表达式模板将仅仅被编译一次，之后缓存在 worker 级的缓存中，并被此 Nginx worker 处理的所有请求共享。缓存数量上限可以通过 `lua_regex_cache_max_entries` 指令调整。
 
-> 课后小作业：为什么测试用例中要使用 ngx.update_time() 呢？好好想一想。
-> 课后小作业：在测试用例里面加了一行 `require "resty.core.regex"`。试试去掉这一行，重新跑下程序。结果怎么样？
+课后小作业：
+- （1）为什么测试用例中要使用 `ngx.update_time()` 呢？好好想一想。
+- （2） 课后小作业：在测试用例里面加了一行 `require "resty.core.regex"`。试试去掉这一行，重新跑下程序。结果怎么样？
 
 #### TABLE 内部字段类型
 
@@ -133,19 +135,19 @@ check_hex_jo    times:0.4539999961853
 ```lua
 function check_args_template(args, template)
     if type(args) ~= type(template) then
-      return false
+        return false
     elseif "table" ~= type(args) then
-      return true
+        return true
     end
 
     for k,v in pairs(template) do
-      if type(v) ~= type(args[k]) then
-        return false
-      elseif "table" == type(v) then
-        if not check_args_template(args[k], v) then
-          return false
+        if type(v) ~= type(args[k]) then
+            return false
+        elseif "table" == type(v) then
+            if not check_args_template(args[k], v) then
+                return false
+            end
         end
-      end
     end
 
     return true
@@ -166,8 +168,6 @@ valid   check: true
 unvalid check: false
 ```
 
-可以看到，当我们业务层面需要有 email 地址但是请求方没有上送，这时候就能检测出来了。大家看到这里也许会笑，尤其是从其他成熟 web 框架中过来的同学，我们这里的校验可以说是比较粗糙简陋的，很多开源框架中的参数限制，都可以做到更加精确的限制。
+可以看到，当我们业务层面需要有 email 地址但是请求方没有上送，这时候就能检测出来了。大家看到这里也许会笑，尤其是从其他成熟 Web 框架中过来的同学，我们这里的校验可以说是比较粗糙简陋的，很多开源框架中的参数限制，都可以做到更加精确的限制。
 
-如果你有更好更优雅的解决办法，欢迎与我们联系。
-
-
+如果你有更好更优雅的解决办案，欢迎与我们联系。

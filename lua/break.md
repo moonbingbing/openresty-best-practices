@@ -6,7 +6,7 @@
 
 
 ```lua
--- 计算最小的x,使从1到x的所有数相加和大于100
+-- 计算最小的 x，使从 1 到 x 的所有数相加和大于 100
 sum = 0
 i = 1
 while true do
@@ -41,8 +41,8 @@ local function is_positive(x)
         return x .. " is non-positive"
     end
 
-    --由于return只出现在前面显式的语句块，所以此语句不注释也不会报错
-    --，但是不会被执行，此处不会产生输出
+    --由于return只出现在前面显式的语句块，所以此语句不注释也不会报错，
+    --但是不会被执行，此处不会产生输出
     print("function end!")
 end
 
@@ -52,7 +52,7 @@ local answer = is_positive(-10)
 print(answer)                -->output:-10 is non-positive
 ```
 
-有时候，为了调试方便，我们可以想在某个函数的中间提前 `return`，以进行控制流的短路。此时我们可以将 `return` 放在一个 `do ... end` 代码块中，例如：
+有时候，为了调试方便，我们可以在某个函数的中间提前 `return`，以进行控制流的短路。此时我们可以将 `return` 放在一个 `do ... end` 代码块中，例如：
 
 ```lua
 local function foo()

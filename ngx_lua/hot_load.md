@@ -14,23 +14,23 @@
 * 使用 HUP reload 或者 binary upgrade 方式动态加载 Nginx 配置或重启 Nginx。这不会导致中间有请求被 drop 掉。
 * 当 `content_by_lua_file` 里使用 Nginx 变量时，是可以动态加载新的 Lua 脚本的，不过要记得对 Nginx 变量的值进行基本的合法性验证，以免被注入攻击。
 
-```
+    ```
     location ~ '^/lua/(\w+(?:\/\w+)*)$' {
         content_by_lua_file $1;
     }
-```
+    ```
 
-* 自己从外部数据源（包括文件系统）加载 Lua 源码或字节码，然后使用 `loadstring()` "eval" 进 Lua VM. 可以通过 package.loaded 自己来做缓存，毕竟频繁地加载源码和调用 `loadstring()`，以及频繁地 JIT 编译还是很昂贵的。比如 CloudFlare 公司采用的方法是从 modsecurity 规则编译出来的 Lua 代码就是通过 KyotoTycoon 动态分发到全球网络中的每一个 Nginx 服务器的。无需 reload 或者 binary upgrade.
+* 自己从外部数据源（包括文件系统）加载 Lua 源码或字节码，然后使用 `loadstring()` "eval" 进 Lua VM。 可以通过 package.loaded 自己来做缓存，毕竟频繁地加载源码和调用 `loadstring()`，以及频繁地 JIT 编译还是很昂贵的。比如 CloudFlare 公司采用的方法是从 modsecurity 规则编译出来的 Lua 代码就是通过 KyotoTycoon 动态分发到全球网络中的每一个 Nginx 服务器的。无需 reload 或者 binary upgrade.
 
-## 自定义 module 的动态装载
+### 自定义 module 的动态装载
 
-对于已经装载的 module，我们可以通过 `package.loaded.* = nil` 的方式卸载（注意：如果对应模块是通过本地文件 require 加载的，该方式失效，`ngx_lua_module` 里面对以文件加载模块的方式做了特殊处理）。
+对于已经装载的 module，我们可以通过 `package.loaded.* = nil` 的方式卸载（注意：如果对应模块是通过本地文件 `require` 加载的，该方式失效，`ngx_lua_module` 里面对以文件加载模块的方式做了特殊处理）。
 
-不过，值得提醒的是，因为 require 这个内建函数在标准 Lua 5.1 解释器和 LuaJIT 2 中都被实现为 C 函数，所以你在自己的 loader 里可能并不能调用 ngx_lua 那些涉及非阻塞 IO 的 Lua 函数。因为这些 Lua 函数需要 yield 当前的 Lua 协程，而 yield 是无法跨越 Lua 调用栈上的 C 函数帧的。细节见
+不过，值得提醒的是，因为 `require()` 这个内建函数在标准 Lua 5.1 解释器和 LuaJIT 2 中都被实现为 C 函数，所以你在自己的 loader 里可能并不能调用 `ngx_lua` 那些涉及非阻塞 IO 的 Lua 函数。因为这些 Lua 函数需要 yield 当前的 Lua 协程，而 yield 是无法跨越 Lua 调用栈上的 C 函数帧的。细节见
 
 https://github.com/openresty/lua-nginx-module#lua-coroutine-yieldingresuming
 
-所以直接操纵 `package.loaded` 是最简单和最有效的做法。CloudFlare 的 Lua WAF 系统中就是这么做的。
+所以直接操纵 package.loaded 是最简单和最有效的做法。CloudFlare 的 Lua WAF 系统中就是这么做的。
 
 不过，值得提醒的是，从 package.loaded 解注册的 Lua 模块会被 GC 掉。而那些使用下列某一个或某几个特性的 Lua
 模块是不能被安全的解注册的：
@@ -44,7 +44,7 @@ https://github.com/openresty/lua-nginx-module#lua-coroutine-yieldingresuming
 这样的 Lua 模块应避免手动从 package.loaded 卸载。当然，如果你永不手工卸载这样的模块，只是动态加载的话，倒也无所谓了。但在我们的 Lua WAF 的场景，已动态加载的一些 Lua 模块还需要被热替换掉（但不重新创建 Lua VM ）。
 
 
-## 自定义 Lua script 的动态装载实现
+### 自定义 Lua script 的动态装载实现
 
 > [引自OpenResty讨论组](https://groups.google.com/forum/#!searchin/openresty/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BDlua%E8%84%9A%E6%9C%AC/openresty/-MZ9AzXaaG8/TeXTyLCuoYUJ)
 
@@ -96,10 +96,10 @@ end
 debug.sethook()  -- turn off the hooks
 ```
 
-这个例子中我们只允许用户脚本调用 math 模块的所有函数、ngx.say() 以及 jit.off(). 其中 jit.off()是必需引用的，为的是在用户脚本内部禁用 JIT 编译，否则我们注册的 debug hooks 可能不会被调用。
+这个例子中我们只允许用户脚本调用 `math` 模块的所有函数、`ngx.say()` 以及 `jit.off()`。 其中 `jit.off()` 是必须引用的，为的是在用户脚本内部禁用 JIT 编译，否则我们注册的 debug hooks 可能不会被调用。
 
 另外，这个例子中我们设置了脚本最多只能执行 1000 条 VM 指令。你可以根据你自己的场景进行调整。
 
-这里很重要的是，不能向用户脚本暴露 pcall 和 xpcall 这两个 Lua 指令，否则恶意用户会利用它故意拦截掉我们在 debug hook 里为中断脚本执行而抛出的 Lua 异常。
+这里很重要的是，不能向用户脚本暴露 `pcall` 和 `xpcall` 这两个 Lua 指令，否则恶意用户会利用它故意拦截掉我们在 debug hook 里为中断脚本执行而抛出的 Lua 异常。
 
-另外，require()、loadstring()、loadfile()、dofile()、io.*、os.* 等等 API 是一定不能暴露给不被信任的 Lua 脚本的。
+另外，`require()`、`loadstring()`、`loadfile()`、`dofile()`、`io.*`、`os.*` 等等 API 是一定不能暴露给不被信任的 Lua 脚本的。
