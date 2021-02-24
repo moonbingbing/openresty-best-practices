@@ -9,6 +9,7 @@ node_modules
 
 # Book build output
 _book
+docs
 
 # eBook build output
 *.epub
@@ -16,3 +17,6 @@ _book
 *.pdf
 *.plist
 /.idea
+deploy.sh
+.DS_Store
+.idea
