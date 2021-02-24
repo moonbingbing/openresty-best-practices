@@ -1,0 +1,25 @@
+- name: GitHub Pages
+  # You may pin to the exact commit or the version.
+  # uses: crazy-max/ghaction-github-pages@1510b11c0c2f843eafb8ff41b3da8c467c8d4a9f
+  uses: crazy-max/ghaction-github-pages@v2.2.0
+  with:
+    # GitHub repository where assets will be deployed (default current)
+    repo: # optional
+    # Git branch where assets will be deployed
+    target_branch: # optional, default is gh-pages
+    # Create incremental commit instead of doing push force
+    keep_history: # optional, default is false
+    # Allow an empty commit to be created
+    allow_empty_commit: # optional, default is true
+    # Build directory to deploy
+    build_dir: 
+    # The committer name and email address
+    committer: # optional
+    # The author name and email address
+    author: # optional
+    # Commit message
+    commit_message: # optional
+    # Write the given domain name to the CNAME file
+    fqdn: # optional
+    # Allow Jekyll to build your site
+    jekyll: # optional, default is true
