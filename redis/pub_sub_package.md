@@ -33,7 +33,7 @@ function _M.subscribe( self, channel )
 end
 ```
 
-其实这里的实现是有问题的，各位看官，你能发现这段代码的问题么？给个提示，在高并发订阅场景下，极有可能存在漏掉部分订阅信息。原因在于每次订阅到内容后，都会把 Redis 对象进行释放，处理完订阅信息后再次去连接 Redis，在这个时间差里面，很可能有消息已经漏掉了。
+其实这里的实现是有问题的，各位看官，你能发现这段代码的问题么？给个提示，在高并发订阅场景下，**极有可能存在漏掉部分订阅信息**。原因在于每次订阅到内容后，都会把 Redis 对象进行释放，处理完订阅信息后再次去连接 Redis，在这个时间差里面，很可能有消息已经漏掉了。
 
 通过下面的代码可以解决这个问题：
 
@@ -54,6 +54,7 @@ function _M.subscribe( self, channel )
         return nil, err
     end
 
+    -- 封装成一个函数，开始
     local function do_read_func ( do_read )
         if do_read == nil or do_read == true then
             res, err = redis:read_reply()
@@ -67,15 +68,16 @@ function _M.subscribe( self, channel )
         self.set_keepalive_mod(redis)
         return
     end
+    -- 结束
 
-    return do_read_func
+    return do_read_func  -- 返回上面封装的函数
 end
 ```
 
 调用示例代码：
 
 ```lua
-local red = redis:new({timeout=1000})
+local red  = redis:new({timeout=1000})
 local func = red:subscribe( "channel" )
 if not func then
   return nil

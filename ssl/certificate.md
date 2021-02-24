@@ -2,7 +2,7 @@
 
 一个标准的 Nginx ssl 配置必然包含这两行：
 
-```
+```nginx
 ssl_certificate     example.com.crt;
 ssl_certificate_key example.com.key;
 ```
@@ -13,15 +13,14 @@ Nginx 启动时会读取配置的证书内容，并经过一系列解析后，�
 于是有了个新的想法：既然 OpenSSL 允许我们动态地设置证书和私钥，也许我们可以在建立连接前才设置证书和私钥呢？
 这样一来，我们可以结合 SNI，针对不同的请求域名动态设置不同的证书和私钥，而无需事先把可能用到的证书和私钥都准备好。
 
-#### 动态加载证书
+### 动态加载证书
 
 借助 OpenResty，我们可以轻易地把这个想法变成现实。
-所需的，是 `ssl_certificate_by_lua*` 指令和来自 `lua-resty-core` 的 `ngx.ssl` 模块。另外，编译 OpenResty 时指定的
-OpenSSL 需要 1.0.2e 或以上的版本。
+所需的，是 `ssl_certificate_by_lua*` 指令和来自 `lua-resty-core` 的 `ngx.ssl` 模块。另外，编译 OpenResty 时指定的 OpenSSL 需要 1.0.2e 或以上的版本。
 
-见下面的示例代码：
+> 见下面的示例代码：
 
-```
+```nginx
 server {
     listen 443 ssl;
     server_name   test.com;
@@ -48,8 +47,8 @@ server {
 证书/私钥的格式分两种，一种是文本格式的 PEM，另一种是二进制格式的 DER。我们看到的证书一般是 PEM 格式的。
 这两种不同的格式，处理代码有所不同。
 
-先看 PEM 的处理方式：
-```Lua
+> 先看 PEM 的处理方式：
+```lua
 -- 获取证书内容，比如 io.open("my.crt"):read("*a")
 local cert_data, err = get_my_pem_cert_data()
 if not cert_data then
@@ -89,8 +88,8 @@ if not ok then
 end
 ```
 
-再看 DER 的处理方式：
-```Lua
+> 再看 DER 的处理方式：
+```lua
 -- 获取证书内容，比如 io.open("my.crt.der"):read("*a")
 local cert_data, err = get_my_der_cert_data()
 -- 你也可以把 pem 格式的证书直接转换成 der 格式的，像这样：
@@ -124,23 +123,24 @@ if not ok then
 end
 ```
 
-#### OCSP stapling
+### OCSP stapling
 
 基于 CA 的 Public key infrastructure（PKI）需要有及时更新证书吊销情况的机制。
 目前的主流方式是 [Online Certificate Status Protocol (OCSP)](https://en.wikipedia.org/wiki/Online_Certificate_Status_Protocol)。
 即在获取到证书信息时，由浏览器负责向对应的 CA 发起证书吊销状态的查询。除了 Chrome [另辟蹊径](http://www.zdnet.com/article/chrome-does-certificate-revocation-better)，其他浏览器都支持这一协议。
 
 该方式有两个问题：
-1. 每个浏览器访问同一网站时，都会发起独立的查询，导致 CA 的服务会面临较大的压力。
-1. 只有在 OCSP 查询结果出来后，浏览器才能信任所给的证书。所以一旦需要进行 OCSP 查询，会对页面加载时间造成明显影响。
+- 1、每个浏览器访问同一网站时，都会发起独立的查询，这将会导致 CA 的服务面临较大的压力。
+- 2、只有在 OCSP 查询结果出来后，浏览器才能信任所给的证书。所以一旦需要进行 OCSP 查询，会对页面加载时间造成明显影响。
 
 作为开发者，我们并不关心第一点。但第二点却不能不解决。
 还好 OCSP 有一个“补丁”，叫 [OCSP stapling](https://en.wikipedia.org/wiki/OCSP_stapling)。
 Web 应用可以定期通过 OCSP stapling 从 CA 处获取自己证书的吊销状态，然后在 SSL 握手时把结果返回给浏览器。
 
 既然我们的证书已经是动态加载的，我们也需要实现动态的 OCSP stapling。
-看下面的示例代码：
-```
+
+> 看下面的示例代码：
+```lua
 -- ngx.ocsp 来自于 lua-resty-core 标准库
 local ocsp = require "ngx.ocsp"
 local http = require "resty.http"
@@ -202,7 +202,9 @@ if ocsp_resp and #ocsp_resp > 0 then
 end
 ```
 
-CA 返回的 OCSP stapling 结果需要缓存起来，直到需要刷新为止。目前 OpenResty 还缺乏提取 OCSP stapling 有效时间(nextUpdate - thisUpdate)的接口。
+CA 返回的 OCSP stapling 结果需要缓存起来，直到需要刷新为止。目前 OpenResty 还缺乏提取 OCSP stapling 有效时间 `(nextUpdate - thisUpdate)` 的接口。
+
 有一个相关的 [PR](https://github.com/openresty/lua-nginx-module/pull/1041/files)，需要的话，你可以参照着在一个独立的 Nginx C 模块里实现对应功能。
 作为参照，Nginx 计算刷新时间的公式是 `max(min(nextUpdate - now - 5m, 1h), now + 5m)`，即 5 分钟到 1 小时之间。而另一个服务器 Caddy，则采用 `(nextUpdate - thisUpdate) / 2` 作为刷新的时间。
+
 具体缓存多久会比较好，你也可以咨询下签发证书的 CA。

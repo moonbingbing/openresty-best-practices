@@ -10,7 +10,7 @@ table 库是由一些辅助函数构成的，这些函数将 table 作为数组�
 
 确实，对于我们数数来说，总是从 1 开始数的，而从 0 开始对于描述偏移量这样的东西有利。而 Lua 最初设计是一种类似 XML 的数据描述语言，所以索引（index）反应的是数据在里面的位置，而不是偏移量。
 
-在初始化一个数组的时候，若不显式地用键值对方式赋值，则会默认用数字作为下标，从 1 开始。由于在 *Lua* 内部实际采用哈希表和数组分别保存键值对、普通值，所以不推荐混合使用这两种赋值方式。
+在初始化一个数组的时候，若不显式地用 **键值对** 方式赋值，则会默认用数字作为下标，从 1 开始。由于在 *Lua* 内部实际采用哈希表和数组分别保存键值对、普通值，所以不推荐混合使用这两种赋值方式。
 
 ```lua
 local color={first="red", "blue", third="green", "yellow"}
@@ -21,13 +21,101 @@ print(color[2])                       --> output: yellow
 print(color[3])                       --> output: nil
 ```
 
-从其他语言过来的开发者会觉得比较坑的一点是，当我们把 table 当作栈或者队列使用的时候，容易犯错，追加到 table 的末尾用的是 `s[#s+1] = something`，而不是 `s[#s] = something`，而且如果这个 something 是一个 nil 的话，会导致这一次压栈（或者入队列）没有存入任何东西，#s 的值没有变。如果 `s = { 1, 2, 3, 4, 5, 6 }`，你令 `s[4] = nil`，#s 会令你“匪夷所思”地变成 3。
+从其他语言过来的开发者会觉得比较坑的一点是，当我们把 table 当作栈或者队列使用的时候，容易犯错：
+- 追加到 table 的末尾用的是 `s[#s+1] = something`，而不是 `s[#s] = something`，而且如果这个 something 是一个 nil 的话，会导致这一次压栈（或者入队列）没有存入任何东西，`#s` 的值没有变。 示例如下：
+    ```lua
+    -- 情况 1： 使用 `#str+1`, 要添加的值为“真值”或 false
+    str = {'a', 'b', 'c'}
+    str[#str+1] = 'd'
+
+    print('str_len:' .. #str)  -- 打印出 str 的元素个数
+
+    for i,v in ipairs(str) do
+        print(i,v)             -- 打印 str 的元素
+    end
+
+    -- output: （正确的结果）
+    str_len:4
+    1   a
+    2   b
+    3   c
+    4   d
+    -- 注：false 也是可以正常添加的。
+
+    -- 情况 2： 使用 `#str+1`, 要添加的值为 nil
+    str = {'a', 'b', 'c'}
+    str[#str+1] = nil
+
+    print('str_len:' .. #str)   -- 打印出 str 的元素个数
+
+    for i,v in ipairs(str) do
+        print(i,v)              -- 打印 str 的元素
+    end
+
+    -- output: （正确的结果）
+    str_len:3
+    1   a
+    2   b
+    3   c
+    -- str 的元素个数没有变化
+
+    -- 情况 3： 使用 `#str`, 要添加的值为“真值”或 false
+    str = {'a', 'b', 'c'}
+    str[#str] = 'd'
+
+    print('str_len:' .. #str)   -- 打印出 str 的元素个数
+
+    for i,v in ipairs(str) do
+        print(i,v)              -- 打印 str 的元素
+    end
+
+    -- output: （不期望的结果）
+    str_len:3
+    1   a
+    2   b
+    3   d
+    -- str 的元素个数没有变化，但是最后一个元素被覆盖了，并不是期望的添加一个新元素
+
+    -- 情况 4： 使用 `#str`, 要添加的值为 nil
+    str = {'a', 'b', 'c'}
+    str[#str] = nil
+
+    print('str_len:' .. #str)   -- 打印出 str 的元素个数
+
+    for i,v in ipairs(str) do
+        print(i,v)              -- 打印 str 的元素
+    end
+
+    -- output: （不期望的结果）
+    str_len:2
+    1   a
+    2   b
+    -- str 的元素少了一个，不光没有添加反而删除了一个
+    ```
+
+- 如果 `s = { 1, 2, 3, 4, 5, 6 }`，你令 `s[4] = nil`，`#s` 会令你“匪夷所思”地变成 3。 示例如下：
+    ```lua
+    s = { 1, 2, 3, 4, 5, 6 }
+    s[4] = nil
+
+    print('s_len:' .. #s)   -- 打印出 s 的元素个数
+
+    for i,v in ipairs(s) do
+        print(i,v)          -- 打印 s 的元素
+    end
+
+    -- output:
+    s_len:3
+    1   1
+    2   2
+    3   3
+    ```
 
 #### table.getn 获取长度
 
-取长度操作符写作一元操作 #。字符串的长度是它的字节数（就是以一个字符一个字节计算的字符串长度）。
+取长度操作符写作一元操作 `#`。字符串的长度是它的字节数（就是以一个字符一个字节计算的字符串长度）。
 
-对于常规的数组，里面从 1 到 n 放着一些非空的值的时候，它的长度就精确的为 n，即最后一个值的下标。如果数组有一个“空洞”（就是说，nil 值被夹在非空值之间），那么 #t 可能是指向任何一个是 nil 值的前一个位置的下标（就是说，任何一个 nil 值都有可能被当成数组的结束）。这也就说明对于有“空洞”的情况，table 的长度存在一定的 **不可确定性**。
+对于常规的数组，里面从 1 到 n 放着一些非空的值的时候，它的长度就精确的为 n，即最后一个值的下标。如果数组有一个“空洞”（就是说，nil 值被夹在非空值之间），那么 `#t` 可能是指向任何一个是 nil 值的前一个位置的下标（就是说，任何一个 nil 值都有可能被当成数组的结束）。这也就说明对于有“空洞”的情况，table 的长度存在一定的 **不可确定性**。
 
 ```lua
 local tblTest1 = { 1, a = 2, 3 }
@@ -86,6 +174,43 @@ print(table.concat(a, " ", 4, 2))   -- output:
 print(table.concat(a, " ", 2, 4))   -- output: 3 5 hello
 ```
 
+当需要循环拼接字符时，推荐使用`table.concat`。因为若使用`..`在循环中拼接字符，会产生大量的中间字符串。如果拼接的字符串很大，经过多次循环拼接后，其内存开销急剧增大，也会同时触发多次`GC`，甚至会导致 Lua 虚拟机内存不足。
+
+> 问题示例代码
+
+```lua
+    local chunk, eof = ngx.arg[1], ngx.arg[2]
+    if not ngx.ctx.buffer then
+      ngx.ctx.buffer = ""
+    end
+    if eof then
+      local body = body_filter.transform_json_body(match_t, ngx.ctx.buffer) --calc
+      ngx.arg[1] = body
+    else
+      ngx.ctx.buffer = ngx.ctx.buffer .. chunk
+      ngx.arg[1] = nil
+    end
+```
+
+> 问题现象：当响应 body 较大时，luajit 虚拟机会概率性报错内存不足`not enough memory`，同时 openresty 占用的内存居高不下。
+
+> 正确代码
+
+```lua
+    local chunk, eof = ngx.arg[1], ngx.arg[2]
+    if not ngx.ctx.buffer_table then
+      ngx.ctx.buffer_table = {}
+    end
+    if eof then
+      local buffer = table.concat(ngx.ctx.buffer_table) -- 使用 table.concat 拼接
+      local body = body_filter.transform_json_body(match_t, buffer)
+      ngx.arg[1] = body
+    else
+      ngx.arg[1] = nil
+      table.insert(ngx.ctx.buffer_table, chunk)
+    end
+```
+
 #### table.insert (table, [pos ,] value)
 
 在（数组型）表 table 的 pos 索引位置插入 value，其它元素向后移动到空的地方。pos 的默认值是表的长度加一，即默认是插在表的最后。
@@ -93,17 +218,18 @@ print(table.concat(a, " ", 2, 4))   -- output: 3 5 hello
 > 示例代码
 
 ```
-local a = {1, 8}             --a[1] = 1,a[2] = 8
-table.insert(a, 1, 3)   --在表索引为1处插入3
+local a = {1, 8}          --a[1] = 1,a[2] = 8
+
+table.insert(a, 1, 3)     --在表索引为 1 处插入 3
 print(a[1], a[2], a[3])
-table.insert(a, 10)    --在表的最后插入10
+
+table.insert(a, 10)       --在表的最后插入 10
 print(a[1], a[2], a[3], a[4])
 
 -->output
 3	1	8
 3	1	8	10
 ```
-
 
 #### table.maxn (table)
 
@@ -115,8 +241,10 @@ print(a[1], a[2], a[3], a[4])
 
 ```lua
 local a = {}
+
 a[-1] = 10
 print(table.maxn(a))
+
 a[5] = 10
 print(table.maxn(a))
 
@@ -135,10 +263,11 @@ print(table.maxn(a))
 
 ```lua
 local a = { 1, 2, 3, 4}
-print(table.remove(a, 1)) --删除速索引为1的元素
+
+print(table.remove(a, 1)) --删除索引为 1 的元素
 print(a[1], a[2], a[3], a[4])
 
-print(table.remove(a))   --删除最后一个元素
+print(table.remove(a))    --删除最后一个元素
 print(a[1], a[2], a[3], a[4])
 
 -->output
@@ -147,7 +276,6 @@ print(a[1], a[2], a[3], a[4])
 4
 2	3	nil	nil
 ```
-
 
 #### table.sort (table [, comp])
 
@@ -159,13 +287,13 @@ print(a[1], a[2], a[3], a[4])
 
 ```lua
 local function compare(x, y) --从大到小排序
-   return x > y         --如果第一个参数大于第二个就返回true，否则返回false
+   return x > y         --如果第一个参数大于第二个就返回 true，否则返回 false
 end
 
 local a = { 1, 7, 3, 4, 25}
 table.sort(a)           --默认从小到大排序
 print(a[1], a[2], a[3], a[4], a[5])
-table.sort(a, compare) --使用比较函数进行排序
+table.sort(a, compare)  --使用比较函数进行排序
 print(a[1], a[2], a[3], a[4], a[5])
 
 -->output
@@ -173,8 +301,6 @@ print(a[1], a[2], a[3], a[4], a[5])
 25	7	4	3	1
 ```
 
-
 #### table 其他非常有用的函数
 
 LuaJIT 2.1 新增加的 `table.new` 和 `table.clear` 函数是非常有用的。前者主要用来预分配 Lua table 空间，后者主要用来高效的释放 table 空间，并且它们都是可以被 JIT 编译的。具体可以参考一下 OpenResty 捆绑的 lua-resty-* 库，里面有些实例可以作为参考。
-

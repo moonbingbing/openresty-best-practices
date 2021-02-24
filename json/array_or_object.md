@@ -10,9 +10,11 @@ ngx.say("value --> ", json.encode({dogs={}}))
 ```
 
 输出结果
-> value --> {"dogs":{}}
-
-注意看下 encode 后 key 的值类型，"{}" 代表 key 的值是个 object，"[]" 则代表 key 的值是个数组。对于强类型语言(C/C++, Java 等)，这时候就有点不爽。因为类型不是他期望的要做容错。对于 Lua 本身，是把数组和字典融合到一起了，所以他是无法区分空数组和空字典的。
+```
+value --> {"dogs":{}}
+```
+注意看下 encode 后 key 的值类型，"{}" 代表 key 的值是个 object，"[]" 则代表 key 的值是个数组。
+对于强类型语言(C/C++, Java 等)，这时候就有点不爽。因为类型不是它期望的，需要做容错。对于 Lua 而言，它是把数组和字典融合到一起了，所以它是无法区分空数组和空字典的。
 
 参考 [openresty/lua-cjson](https://github.com/openresty/lua-cjson) 中额外贴出测试案例，我们就很容易找到思路了。
 
@@ -43,7 +45,7 @@ print(cjson.encode({dogs = {}}))
 
 ```lua
 local json = require("cjson")
---稀疏数组会被处理成object
+-- 稀疏数组会被处理成 object
 json.encode_sparse_array(true)
 
 local function _json_encode(data)
@@ -51,10 +53,10 @@ local function _json_encode(data)
 end
 
 function json_encode( data, empty_table_as_object )
-    --Lua的数据类型里面，array和dict是同一个东西。对应到json encode的时候，就会有不同的判断
-    --cjson对于空的table，就会被处理为object，也就是{}
-    --处理方法：对于cjson，使用encode_empty_table_as_object这个方法。
-    json.encode_empty_table_as_object(empty_table_as_object or false) -- 空的table默认为array
+    -- Lua 的数据类型里面，array 和 dict 是同一个东西。对应到 json encode 的时候，就会有不同的判断
+    -- cjson 对于空的 table，就会处理为 object，也就是 {}
+    -- 处理方法：cjson 使用 `encode_empty_table_as_object` 这个方法。
+    json.encode_empty_table_as_object(empty_table_as_object or false) -- 空的 table 默认为 array
     local ok, json_value = pcall(_json_encode, data)
     if not ok then
         return nil

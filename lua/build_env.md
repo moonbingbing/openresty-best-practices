@@ -22,14 +22,14 @@
 # sudo make install
 ```
 
-大家都知道，在不同平台，可能都有不同的安装工具来简化我们的安装。为什么我们这给大家推荐的是源码这么原始的方式？笔者为了偷懒么？答案：是的。当然还有另外一个原因，就是我们安装的是 LuaJIT 2.1 版本。
+大家都知道，在不同平台，可能都有不同的安装工具来简化我们的安装。为什么我们还给大家推荐的是源码这么原始的方式？笔者为了偷懒么？答案：是的。当然还有另外一个原因，就是我们安装的是 LuaJIT 2.1 版本。
 
 从实际应用性能表现来看，LuaJIT 2.1 虽然目前还是 beta 版本，但是生产运行稳定性已经很不错，并且在运行效率上要比 LuaJIT 2.0 好很多（大家可自行爬文了解一下），所以作为 OpenResty 的默认搭档，已经是 LuaJIT 2.1 很久了。但是针对不同系统的工具包安装工具，他们当前默认绑定推送的都还是 LuaJIT 2.0，所以这里就直接给出最符合我们最终方向的安装方法了。
 
-由于LuaJIT 2.1 目前还是beta版本，所以在make install后，并没有进行luajit的符号连接，可以执行下面的指令将luajit-2.1.0-beta1和luajit进行软连接，从而可以直接使用luajit命令
+由于 LuaJIT 2.1 目前还是 beta 版本，所以在 make install 之后，并没有进行 luajit 的符号链接，可以执行下面的指令将 luajit-2.1.0-beta1 和 luajit 进行软链接，进而可以直接使用 luajit 命令
 
 ```
-ln -sf luajit-2.1.0-beta1 /usr/local/bin/luajit
+# sudo ln -sf `pwd`/luajit-2.1.0-beta1 /usr/local/bin/luajit
 ```
 
 ###### 验证 LuaJIT 是否安装成功
