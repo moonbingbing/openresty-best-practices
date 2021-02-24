@@ -35,7 +35,7 @@ jobs:
                 
     - name: generate _book folder
       run: |
-        book sm
+        #book sm
         gitbook build
         cp SUMMARY.md _book
                
@@ -72,10 +72,6 @@ jobs:
         MYEMAIL: snowfly1993@gmail.com                  # ！！记得修改为自己github设置的邮箱
         MYNAME: ${{github.repository_owner}}          
       run: |
-        echo "$TOKEN"
-        echo "$REF"
-        echo "$MYEMAIL"
-        echo "$MYNAME"
         cd _book
         git config --global user.email "${MYEMAIL}"
         git config --global user.name "${MYNAME}"
