@@ -140,3 +140,5 @@
     * [什么时候使用](flame_graph/when.md)
     * [如何安装火焰图生成工具](flame_graph/install.md)
     * [如何定位问题](flame_graph/how.md)
+    * [拓展阅读](flame_graph/other.md)
+    * [FAQ](flame_graph/faq.md)

@@ -47,7 +47,7 @@ https://wiki.ubuntu.com/Kernel/Systemtap
 
 一般来说，仅需引入 ddeb 源，然后 `apt-get` 就能解决了。
 
-由于 systemtap 需要依赖某些内核特性，对于 `Ubuntu Gutsy` (或更老的版本)，必须重新编译内核。
+由于 systemtap 需要依赖某些内核特性，对于 `Ubuntu Gutsy` （或更老的版本），必须重新编译内核。
 编译的步骤参见 systemtap 的这篇 wiki：
 https://sourceware.org/systemtap/wiki/SystemtapOnUbuntu
 
@@ -73,13 +73,13 @@ $ sudo make install
 
 ### 火焰图绘制
 
-**首先，需要下载 stapxx 工具包**：[Github地址](https://github.com/openresty/stapxx)。
+**首先，需要下载 stapxx 工具包**：[Github 地址](https://github.com/openresty/stapxx)。
 
 该工具包中包含用 perl 写的，会生成 stap 探测代码并运行的脚本。如果是要抓 Lua 级别的情况，请使用其中的 `lj-lua-stacks.sxx`。
 由于 `lj-lua-stacks.sxx` 输出的是文件绝对路径和行号，要想匹配具体的 Lua 代码，需要用 [fix-lua-bt](https://github.com/openresty/openresty-systemtap-toolkit#fix-lua-bt) 进行转换。
 
 ```shell
-$ ps -ef | grep nginx  （ps：得到类似这样的输出，其中15010即使worker进程的pid，后面需要用到）
+$ ps -ef | grep nginx  （ps：得到类似这样的输出，其中 15010 即使 worker 进程的 pid，后面需要用到）
 ```
 
 结果如下：
@@ -90,10 +90,10 @@ hippo    15010 14857  0 Jul01 ?        00:00:12 nginx: worker process
 
 ```shell
 $ ./samples/lj-lua-stacks.sxx --arg time=5 --skip-badvars -x 15010 > tmp.bt （-x 是要抓的进程的 pid， 探测结果输出到 tmp.bt）
-$ ./fix-lua-bt tmp.bt > flame.bt  (处理 lj-lua-stacks.sxx 的输出，使其可读性更佳)
+$ ./fix-lua-bt tmp.bt > flame.bt  （处理 lj-lua-stacks.sxx 的输出，使其可读性更佳）
 ```
 
-**其次，下载 Flame-Graphic 生成包**：[Github地址](https://github.com/brendangregg/FlameGraph)。
+**其次，下载 Flame-Graphic 生成包**：[Github 地址](https://github.com/brendangregg/FlameGraph)。
 
 该工具包中包含多个火焰图生成工具，其中，`stackcollapse-stap.pl` 才是为 SystemTap 抓取的栈信息的生成工具。
 
