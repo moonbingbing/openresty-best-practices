@@ -29,6 +29,7 @@ $ stap -v -e 'probe vfs.read {printf("read performed\n"); exit()}'
 ```
 
 结果如下：
+
 ```shell
 Pass 1: parsed user script and 103 library script(s) using 201628virt/29508res/3144shr/26860data kb, in 10usr/190sys/219real ms.
 Pass 2: analyzed script: 1 probe(s), 1 function(s), 3 embed(s), 0 global(s) using 296120virt/124876res/4120shr/121352data kb, in 660usr/1020sys/1889real ms.
@@ -38,6 +39,7 @@ Pass 5: starting run.
 read performed
 Pass 5: run completed in 20usr/30sys/354real ms.
 ```
+
 如果出现如上输出表示安装成功。
 
 #### 在 Ubuntu 上的安装方法
@@ -57,6 +59,7 @@ https://sourceware.org/systemtap/wiki/SystemtapOnUbuntu
 https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=README;hb=HEAD
 
 > 大体上就这几步：
+
 ```bash
 # 下载依赖……
 $ sudo apt install elfutils
@@ -83,6 +86,7 @@ $ ps -ef | grep nginx  （ps：得到类似这样的输出，其中 15010 即使
 ```
 
 结果如下：
+
 ```
 hippo    14857     1  0 Jul01 ?        00:00:00 nginx: master process /opt/openresty/nginx/sbin/nginx -p /home/hippo/skylar_server_code/nginx/main_server/ -c conf/nginx.conf
 hippo    15010 14857  0 Jul01 ?        00:00:12 nginx: worker process
@@ -101,6 +105,7 @@ $ ./fix-lua-bt tmp.bt > flame.bt  （处理 lj-lua-stacks.sxx 的输出，使其
 $ stackcollapse-stap.pl flame.bt > flame.cbt
 $ flamegraph.pl flame.cbt > flame.svg
 ```
+
 如果一切正常，那么会生成 flame.svg，这便是火焰图，用浏览器打开即可。
 
 PS：如果在执行 `lj-lua-stacks.sxx` 的时间周期内（上面的命令是 5 秒）, 抓取的 worker 没有任何业务在跑，那么生成的火焰图便没有业务内容。为了让生成的火焰图更有代表性，我们通常都会在抓取的同时进行压测。

@@ -49,7 +49,8 @@
 
 #### 获取时间示例代码
 
->示例代码：
+示例代码：
+
 ```lua
 ngx.log(ngx.INFO, ngx.today())
 ngx.log(ngx.INFO, ngx.time())

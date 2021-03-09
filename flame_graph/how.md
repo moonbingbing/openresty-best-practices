@@ -63,10 +63,13 @@ Systemtap 执行流程如下：
 ### 采集数据
 
 * 获取 CPU 异常的 worker 的进程 ID ：
+
     ```shell
     $ ps -ef | grep nginx
     ```
+
 * 使用 [lj-lua-stacks.sxx](https://github.com/openresty/stapxx#lj-lua-stacks) 抓取栈信息，并用 [fix-lua-bt](https://github.com/openresty/openresty-systemtap-toolkit#fix-lua-bt) 工具处理：
+
     ```shell
     # making the ./stap++ tool visible in PATH:
     $ export PATH=$PWD:$PATH
@@ -84,10 +87,12 @@ Systemtap 执行流程如下：
 获得了统计数据 `a.bt` 后，便可以使用火焰图工具绘制火焰图了
 
 * 使用 [stackcollapse-stap.pl 和 flamegraph.pl](https://github.com/brendangregg/FlameGraph)：
+
     ```shell
     $ ./stackcollapse-stap.pl a.bt > a.cbt
     $ ./flamegraph.pl a.cbt > a.svg
     ```
+    
 * a.svg 即是火焰图，拖入浏览器即可：
 ![problem](../images/flame_graphic_problem.svg)
 
