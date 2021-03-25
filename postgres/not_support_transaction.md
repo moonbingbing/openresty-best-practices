@@ -3,7 +3,7 @@
 我们继续上一章节的内容，大家应该记得我们 Lua 代码中是如何完成 `ngx_postgres` 模块调用的。我们把它简单改造一下，让它更接近真实代码。
 
 ```lua
-    local json = require "cjson"
+    local json = require("cjson")
 
     function db_exec(sql_str)
         local res = ngx.location.capture(

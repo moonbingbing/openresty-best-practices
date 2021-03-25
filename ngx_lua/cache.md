@@ -52,8 +52,8 @@ lua_shared_dict my_cache 128m;
 ```lua
 local _M = {}
 
--- alternatively: local lrucache = require "resty.lrucache.pureffi"
-local lrucache = require "resty.lrucache"
+-- alternatively: local lrucache = require("resty.lrucache.pureffi")
+local lrucache = require("resty.lrucache")
 
 -- we need to initialize the cache on the Lua module level so that
 -- it can be shared by all the requests served by each nginx worker process:

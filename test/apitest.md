@@ -25,7 +25,7 @@ location ~* /unit_test/([\w_]+?)\.json {
 
 ```lua
 -- unit test for /api/get_client_tasks.json
-local tb = require "resty.iresty_test"
+local tb = require("resty.iresty_test")
 local json = require("cjson")
 local test = tb.new({unit_name="get_client_tasks"})
 

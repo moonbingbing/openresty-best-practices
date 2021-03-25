@@ -24,7 +24,7 @@ server {
 > test_case_lua/unit/test_example.lua 文件：
 
 ```lua
-local iresty_test = require "resty.iresty_test"
+local iresty_test = require("resty.iresty_test")
 local tb = iresty_test.new({unit_name="example"})
 
 function tb:init()

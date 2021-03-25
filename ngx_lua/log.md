@@ -17,7 +17,7 @@
 --    }
 
 -- lua/log.lua
-local logger = require "resty.logger.socket"
+local logger = require("resty.logger.socket")
 if not logger.initted() then
     local ok, err = logger.init{
         host = 'xxx',

@@ -70,18 +70,18 @@ JIT 编译器不支持的原语被称为 NYI（Not Yet Implemented）原语。�
 init_by_lua_block {
     local verbose = false
     if verbose then
-        local dump = require "jit.dump"
+        local dump = require("jit.dump")
         dump.on(nil, "/tmp/jit.log")
     else
-        local v = require "jit.v"
+        local v = require("jit.v")
         v.on("/tmp/jit.log")
     end
 
-    require "resty.core"
+    require("resty.core")
 }
 ```
 
-那一行 `require "resty.core"` 倒并不是必需的，放在那里的主要目的是为了尽量避免使用 `ngx_lua` 模块自己的基于 `lua_CFunction` 的 Lua API，减少 NYI 原语。
+那一行 `require("resty.core")` 倒并不是必需的，放在那里的主要目的是为了尽量避免使用 `ngx_lua` 模块自己的基于 `lua_CFunction` 的 Lua API，减少 NYI 原语。
 
 在上面这段 Lua 代码中，可以下分为如下两种情况：
 - 当 `verbose` 变量为 `false` 时（默认就为 `false` 哈），我们使用 `jit.v` 模块打印出比较简略的流水信息到 `/tmp/jit.log` 文件中；

@@ -6,7 +6,7 @@
 server {
     location /test {
         content_by_lua_block {
-            local redis = require "resty.redis"
+            local redis = require("resty.redis")
             local red = redis:new()
 
             red:set_timeout(1000) -- 1 sec

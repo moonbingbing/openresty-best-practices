@@ -92,8 +92,8 @@ _read_dns_servers_from_resolv_file()
 ```lua
 local require = require
 local ngx_re_find = ngx.re.find
-local lrucache = require "resty.lrucache"
-local resolver = require "resty.dns.resolver"
+local lrucache = require("resty.lrucache")
+local resolver = require("resty.dns.resolver")
 local cache_storage = lrucache.new(200)
 
 local _is_addr = function(hostname)

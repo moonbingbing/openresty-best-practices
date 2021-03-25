@@ -5,7 +5,7 @@
 **错误**示例代码：
 
 ```lua
-local redis = require "resty.redis"
+local redis = require("resty.redis")
 local red   = redis:new()
 
 red:set_timeout(1000) -- 1 sec
@@ -53,7 +53,7 @@ end
 大部分 Redis 请求的代码应该是类似这样的：
 
 ```lua
-local redis = require "resty.redis"
+local redis = require("resty.redis")
 local red = redis:new()
 
 red:set_timeout(1000) -- 1 sec

@@ -27,7 +27,7 @@
 server {
     location /test {
         content_by_lua_block {
-            local redis = require "resty.redis"
+            local redis = require("resty.redis")
             local red = redis:new()
 
             local ok, err = red:connect("127.0.0.1", 6379)

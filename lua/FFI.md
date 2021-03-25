@@ -52,7 +52,7 @@ FFI 全称是 **Foreign Function Interface**，是一个可以在某种计算机
 毫无疑问，在 `lua` 文件中使用 `ffi` 库的时候，**必须** 要有下面的一行。
 
 ```lua
-local ffi = require "ffi"
+local ffi = require("ffi")
 ```
 
 - #### 1、 ffi.cdef
@@ -101,7 +101,7 @@ local ffi = require "ffi"
     下面看一个完整例子：
 
     ```lua
-    local ffi   = require "ffi"
+    local ffi   = require("ffi")
     local myffi = ffi.load('myffi')
 
     ffi.cdef[[
@@ -117,7 +117,7 @@ local ffi = require "ffi"
     完整的代码如下所示：
 
     ```lua
-    local ffi = require "ffi"
+    local ffi = require("ffi")
     ffi.load('myffi',true)
 
     ffi.cdef[[

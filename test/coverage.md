@@ -21,7 +21,7 @@
 在 OpenResty 里面使用 LuaCov，只需要在 `nginx.conf` 中增加 `init_by_lua_block`（只能放在 `http` 上下文中）即可。
 ```lua
 init_by_lua_block {
-    require 'luacov.tick'
+    require("luacov.tick")
     jit.off()
 }
 ```

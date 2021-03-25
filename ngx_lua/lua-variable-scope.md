@@ -98,7 +98,7 @@ location = /index {
 
 > `index.lua` 文件
 ```lua
-local var = require "var"
+local var = require("var")
 
 if var.calc() == 1 then
     ngx.say("ok")

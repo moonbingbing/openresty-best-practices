@@ -22,7 +22,7 @@ value --> {"dogs":{}}
 -- 内容节选lua-cjson-2.1.0.2/tests/agentzh.t
 === TEST 1: empty tables as objects
 --- lua
-local cjson = require "cjson"
+local cjson = require("cjson")
 print(cjson.encode({}))
 print(cjson.encode({dogs = {}}))
 --- out
@@ -32,7 +32,7 @@ print(cjson.encode({dogs = {}}))
 
 === TEST 2: empty tables as arrays
 --- lua
-local cjson = require "cjson"
+local cjson = require("cjson")
 cjson.encode_empty_table_as_object(false)
 print(cjson.encode({}))
 print(cjson.encode({dogs = {}}))

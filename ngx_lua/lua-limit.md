@@ -59,7 +59,7 @@ server {
 > 2、`utils/limit_conn.lua` 文件
 ```lua
 -- utils/limit_conn.lua
-local limit_conn = require "resty.limit.conn"
+local limit_conn = require("resty.limit.conn")
 
 -- new 的第四个参数用于估算每个请求会维持多长时间，以便于应用漏桶算法
 local limit, limit_err = limit_conn.new("limit_conn_store", 10, 2, 0.05)
@@ -113,7 +113,7 @@ return _M
 > 3、`src/access.lua` 文件
 ```lua
 -- src/access.lua
-local limit_conn = require "utils.limit_conn"
+local limit_conn = require("utils.limit_conn")
 
 -- 对于内部重定向或子请求，不进行限制。因为这些并不是真正对外的请求。
 if ngx.req.is_internal() then
@@ -125,7 +125,7 @@ limit_conn.incoming()
 > 4、`src/log.lua` 文件
 ```lua
 -- src/log.lua
-local limit_conn = require "utils.limit_conn"
+local limit_conn = require("utils.limit_conn")
 
 
 limit_conn.leaving()
