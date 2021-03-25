@@ -36,7 +36,7 @@ return _M
 > 引用示例代码：
 
 ```lua
-local square = require "square"
+local square = require("square")
 
 local s1 = square:new(1, 2)
 print(s1:get_square())          --output: 2

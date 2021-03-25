@@ -65,7 +65,7 @@ upstream pg_server {
 这样就构成了我们 PostgreSQL 后端通讯的通用 location，在使用 Lua 业务编码的过程中可以直接使用如下代码连接数据库（折腾了这么老半天）：
 
 ```lua
-local json = require "cjson"
+local json = require("cjson")
 
 function test()
     local res = ngx.location.capture('/postgres',
@@ -96,7 +96,7 @@ lua_package_path "/path/to/lua-resty-mysql/lib/?.lua;;";
 server {
     location /test {
         content_by_lua_block {
-            local mysql   = require "resty.mysql"
+            local mysql   = require("resty.mysql")
             local db, err = mysql:new()
             if not db then
                 ngx.say("failed to instantiate mysql: ", err)
@@ -130,7 +130,7 @@ server {
                 return
             end
 
-            local cjson = require "cjson"
+            local cjson = require("cjson")
             ngx.say("result: ", cjson.encode(res))
 
             -- put it into the connection pool of size 100,

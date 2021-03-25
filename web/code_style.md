@@ -7,7 +7,7 @@
 > lua-resty-string 的 string.lua
 
 ```lua
-local ffi = require "ffi"
+local ffi = require("ffi")
 local ffi_new = ffi.new
 local ffi_str = ffi.string
 local C = ffi.C

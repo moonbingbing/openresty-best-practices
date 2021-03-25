@@ -30,7 +30,7 @@ server {
     ssl_certificate_key fake.key;
 
     ssl_certificate_by_lua_block {
-        local ssl = require "ngx.ssl"
+        local ssl = require("ngx.ssl")
 
         -- 清除之前设置的证书和私钥
         local ok, err = ssl.clear_certs()
@@ -142,8 +142,8 @@ Web 应用可以定期通过 OCSP stapling 从 CA 处获取自己证书的吊销
 > 看下面的示例代码：
 ```lua
 -- ngx.ocsp 来自于 lua-resty-core 标准库
-local ocsp = require "ngx.ocsp"
-local http = require "resty.http"
+local ocsp = require("ngx.ocsp")
+local http = require("resty.http")
 
 -- 上接动态获取 DER 格式的证书
 -- 当前 OCSP 接口只支持 DER 格式的证书

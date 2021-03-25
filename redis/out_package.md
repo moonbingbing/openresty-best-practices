@@ -3,7 +3,7 @@
 > 先看一下官方的调用示例代码：
 
 ```lua
-local redis = require "resty.redis"
+local redis = require("resty.redis")
 local red = redis:new()
 
 red:set_timeout(1000) -- 1 sec
@@ -74,7 +74,7 @@ ngx.say("dog: ", res)
 
 ```lua
 -- file name: resty/redis_iresty.lua
-local redis_c = require "resty.redis"
+local redis_c = require("resty.redis")
 
 
 local ok, new_tab = pcall(require, "table.new")
@@ -324,7 +324,7 @@ return _M
 > 调用示例代码：
 
 ```lua
-local redis = require "resty.redis_iresty"
+local redis = require("resty.redis_iresty")
 local red   = redis:new()
 
 local ok, err = red:set("dog", "an animal")

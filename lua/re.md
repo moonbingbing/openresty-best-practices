@@ -49,7 +49,7 @@ location /test {
 1234
 ```
 
-另外还可以试试引入 `lua-resty-core` 中的正则表达式 API。这么做需要在代码里加入 `require 'resty.core.regex'`。
+另外还可以试试引入 `lua-resty-core` 中的正则表达式 API。这么做需要在代码里加入 `require('resty.core.regex')`。
 `lua-resty-core` 版本的 `ngx.re.*`，是通过 FFI 而非 Lua/C API 来跟 OpenResty C 代码交互的。某些情况下，会带来明显的性能提升。
 
 ### Lua 正则简单汇总

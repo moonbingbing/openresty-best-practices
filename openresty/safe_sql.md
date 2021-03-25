@@ -9,7 +9,7 @@
 ```lua
 location /test {
     content_by_lua_block {
-        local mysql = require "resty.mysql"
+        local mysql = require("resty.mysql")
         local db, err = mysql:new()
         if not db then
             ngx.say("failed to instantiate mysql: ", err)
@@ -71,7 +71,7 @@ location /test {
             return
         end
 
-        local cjson = require "cjson"
+        local cjson = require("cjson")
         ngx.say("result: ", cjson.encode(res))
 
         -- 再次查询，table 被删

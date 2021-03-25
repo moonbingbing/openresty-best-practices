@@ -93,7 +93,7 @@ lua_package_path "/path/to/lua-resty-logger-socket/lib/?.lua;;";
 server {
     location / {
         log_by_lua_block {
-            local logger = require "resty.logger.socket"
+            local logger = require("resty.logger.socket")
             if not logger.initted() then
                 local ok, err = logger.init{
                     host = 'xxx',

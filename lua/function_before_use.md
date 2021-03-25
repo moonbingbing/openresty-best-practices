@@ -53,7 +53,7 @@ return _M
 然后，再在 `content_by_lua_file` 指向的 `.lua` 文件中调用它：
 
 ```lua
-local my_module = require "my_module"
+local my_module = require("my_module")
 my_module.foo()
 ```
 

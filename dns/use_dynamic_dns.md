@@ -11,8 +11,8 @@
 使用 `resty.http`，目前这个库只支持 IP : Port 的方式定义 URL，其内部实现并没有支持 domain 解析。`resty.http` 是支持 `set_keepalive` 完成长连接的，这样我们只需要让它支持 DNS 解析就能有完美解决方案了。
 
 ```lua
-local resolver = require "resty.dns.resolver"
-local http = require "resty.http"
+local resolver = require("resty.dns.resolver")
+local http = require("resty.http")
 
 function get_domain_ip_by_dns( domain )
   -- 这里写死了 google 的域名服务 IP，要根据实际情况做调整（例如放到指定配置或数据库中）
