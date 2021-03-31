@@ -1,6 +1,6 @@
 # sleep
 
-这是一个比较常见的功能，你会怎么做呢？Google 一下，你会找到 [Lua 的官方指南](http://lua-users.org/wiki/SleepFunction)，里面介绍了 10 种 sleep 不同的方法（操作系统不一样，方法还有区别），选择一个用，然后你就杯具了:( 你会发现 Nginx 高并发的特性不见了！
+这是一个比较常见的功能，你会怎么做呢？Google 一下，你会找到 [Lua 的官方指南](http://lua-users.org/wiki/SleepFunction)，里面介绍了 10 种 sleep 不同的方法（操作系统不一样，方法还有区别），选择一个用，然后你就杯具了：( 你会发现 Nginx 高并发的特性不见了！
 
 在 OpenResty 里面选择使用库的时候，有一个基本的原则：***尽量使用 OpenResty 的库函数，尽量不用 Lua 的库函数，因为 Lua 的库都是同步阻塞的。***
 
@@ -58,4 +58,10 @@ Requests per second:    56.87 [#/sec] (mean)
 
 ### 为什么会这样？
 
-原因是 sleep_1 接口使用了 OpenResty 提供的非阻塞 API，而 sleep_2 使用了系统自带的阻塞 API。前者只会引起 (进程内) 协程的切换，但进程还是处于运行状态 (其他协程还在运行)，而后者却会触发进程切换，当前进程会变成睡眠状态, 结果 CPU 就进入空闲状态。很明显，非阻塞的 API 的性能会更高。
+原因是 sleep_1 接口使用了 OpenResty 提供的非阻塞 API，而 sleep_2 使用了系统自带的阻塞 API。前者只会引起 （进程内） 协程的切换，但进程还是处于运行状态 （其他协程还在运行），而后者却会触发进程切换，当前进程会变成睡眠状态，结果 CPU 就进入空闲状态。很明显，非阻塞的 API 的性能会更高。
+
+### 注意事项
+
+1. `ngx.sleep` 是 Openresty 提供的同步非阻塞的睡眠函数，在 openresty 平台开发若需要 sleep 接口，推荐使用 `ngx.sleep`
+2. `ngx.sleep` 的时间单位是秒，可以用小数指定更小的时间（最小是 0.001 秒，即 1 毫秒）
+3. `ngx.sleep` 不能在 `init_by_lua/init_worker_by_lua/set_by_lua/header|body_ filter_by_lua/log_by_lua` 等执行阶段里调用
