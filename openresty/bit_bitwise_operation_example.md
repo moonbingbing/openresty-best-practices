@@ -29,6 +29,7 @@
 
 **(4) 实例代码：**
 > missingNumber.lua 文件：
+
 ```lua
 local bit = require("bit")
 
@@ -78,6 +79,7 @@ missingNumber(nums)
 - 时间复杂度：O(n)，空间复杂度：O(1)。
 
 > isPowerOfTwo.lua 文件：
+
 ```lua
 function isPowerOfTwo(num)
     -- 首先判断 num 是否为负数
@@ -133,6 +135,7 @@ end
 - 时间复杂度：O(log2v)，log2v 为二进制数的位数，空间复杂度：O(1)。
 
 > numberOf1Bits-1.lua 文件：
+
 ```lua
 function numberOf1Bits-1(num)
     local count = 0
@@ -157,6 +160,7 @@ n & (n - 1) 可以消除最后一个 1，所以用一个循环不停地消除 1 
 - 时间复杂度：O(m)，m 为数字 num 的二进制表示形式中 1 的个数，空间复杂度：O(1)。
 
 > numberOf1Bits-2.lua 文件：
+
 ```lua
 function numberOf1Bits-2(num)
     local count = 0
@@ -212,6 +216,7 @@ io.write(string.format("从 1 到 %d，共有 %d 个素数，\n", m, count))
 Lua BitOp 相当快。在安装了标准 Lua 的 3GHz CPU 上，该程序可以在不到 90 毫秒的时间内运行完毕，但是执行了超过 100 万次的位函数调用。如果您想要更高的速度，请查看 [LuaJIT](http://luajit.org/)。
 
 ## 参考资料
+
 - 1，《枕边算法书》
 - 2，[LeetCode](https://leetcode-cn.com/)
 - 3，[LuaBitOp](http://bitop.luajit.org)

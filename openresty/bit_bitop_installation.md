@@ -11,6 +11,7 @@
 本页介绍如何针对现有的 Lua 安装版本，从源代码构建 Lua BitOp。如果您是使用包管理器（例如，作为 Linux 发行版的一部分）安装的 Lua，建议您检查并安装 Lua BitOp 的预构建包作为代替。
 
 ## 一，先决条件
+
 要编译 Lua BitOp，您的 Lua 5.1/5.2 安装版本必须包括所有开发文件（例如，include files（包含文件））。如果您是从源代码安装 Lua 的，那么您已经安装了它们（比如，在 POSIX 系统上的 `/usr/local/include` 目录中）。
 
 如果您是使用包管理器安装的 Lua，则可能需要安装额外的 Lua 开发包（例如，Debian/Ubuntu 上的`liblua5.1-dev`）。
@@ -20,14 +21,17 @@
 默认情况下，Lua 被配置为使用 `double` 作为其 `number` 类型。 Lua BitOp 支持 IEEE 754 双精度配置，或使用 `int32_t` 或 `int64_t` 的替代配置（适用于没有浮点硬件的嵌入式系统）。并不支持浮点数类型。
 
 ## 二，配置
+
 您可能需要修改构建脚本，并更改指向 Lua 开发文件或某些编译器标志的路径。检查 `Makefile`（POSIX）、`Makefile.mingw`（Windows 上的 MinGW）或 `msvcbuild.bat`（Windows 上的 MSVC）的开头，然后按照注释中的说明进行操作。
 
 例如，如果您已安装 Debian/Ubuntu Lua 开发包，则 Lua 5.1 的 include files（包含文件）位于 `/usr/include/lua5.1` 中。
 
 ## 三，编译 & 安装
+
 [下载](http://bitop.luajit.org/download.html) Lua BitOp 之后，解压缩分发文件，打开一个 `终端/命令` 窗口，切换到新创建的目录，然后按照以下说明进行操作。
 
 ### 1，Linux，\*BSD，Mac OS X
+
 对于 Linux，\*BSD 和大多数其他 POSIX 系统只需要运行：
 
 ```bash
@@ -52,6 +56,7 @@ $ sudo make install
 ```bash
 mingw32-make -f Makefile.mingw
 ```
+
 如果您已经调整了用于 Lua 的 C 模块的安装路径，则可以运行：
 
 ```bash
@@ -97,11 +102,13 @@ $ make test
 ```
 
 对于 Windows 上的 MinGW：
+
 ```
-mingw32-make -f Makefile.mingw测试
+mingw32-make -f Makefile.mingw 测试
 ```
 
 对于 Windows 上的 MSVC：
+
 ```
 msvctest
 ```
@@ -116,4 +123,3 @@ msvctest
 - `bitbench.lua` 测试基础位操作的速度。该基准测试是自动缩放的，每个部分的最小运行时间为 1 秒。首先计算循环开销，然后从随后的测量中减去。运行位操作的时间包括设置其参数和调用相应的 C 函数的开销。
 - `nsievebits.lua` 是一个简单的基准测试，改编自 [计算机语言基准游戏](http://shootout.alioth.debian.org/)（以前称为计算机语言大战）。比例因子是指数级的，因此请使用介于 2 ~ 10 之间的一个小数字来运行它，并对其计时（例如，`time lua nsievebits.lua 6`）。
 - 当给定参数 “bench” 时，`md5test.lua` 运行一个自动缩放基准测试，并打印出计算（中等长度）字符串的 MD5 散列所需的每个字符的时间。请注意，这个实现主要用于回归测试。它不适合与完全优化的 MD5 实现进行跨语言比较
-
