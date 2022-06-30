@@ -32,7 +32,7 @@ FFI 全称是 **Foreign Function Interface**，是一个可以在某种计算机
 
     - FFI 被紧紧地整合进了 LuaJIT（几乎不可能作为一个独立的模块）。
       `JIT` 编译器在 C 数据结构上所产生的代码，等同于一个 C 编译器应该生产的代码。
-      在 `JIT` 编译过的代码中，调用 C 函数，可以被内连处理，不同于基于 `Lua/C API` 函数调用。
+      在 `JIT` 编译过的代码中，调用 C 函数，可以被内联处理，不同于基于 `Lua/C API` 函数调用。
 
 ### FFI 库词汇
 
@@ -188,7 +188,7 @@ local ffi = require("ffi")
     ```lua
     local c_str_t = ffi.typeof("const char*")
     local c_str   = ffi.cast(c_str_t, str)       -- 转换为指针地址
-
+    
     local uintptr_t = ffi.typeof("uintptr_t")
     tonumber(ffi.cast(uintptr_t, c_str))         -- 转换为数字
     ```

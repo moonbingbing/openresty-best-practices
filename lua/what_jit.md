@@ -11,7 +11,7 @@ LuaJIT 的运行时环境包括一个用 **手写汇编实现的 Lua 解释器**
 
 #### 2、 工作原理
 
-- 1、Lua 代码在被执行之前总是会先被 lfn 成 LuaJIT 自己定义的 **字节码（Byte Code）**。
+- 1、Lua 代码在被执行之前总是会先被转换成 LuaJIT 自己定义的 **字节码（Byte Code）**。
 关于 LuaJIT 字节码的文档，可以参见：[http://wiki.luajit.org/Bytecode-2.0](http://wiki.luajit.org/Bytecode-2.0)（这个文档描述的是 LuaJIT 2.0 的字节码，不过 2.1 里面的变化并不算太大）。
 
 
