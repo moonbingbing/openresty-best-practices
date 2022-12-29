@@ -33,13 +33,13 @@
 
 语法：`str = ngx.localtime()`
 
-返回 Nginx 缓存时间的当前时间戳（格式为 `yyy-mm-dd hh:mm:ss`）（与 Lua 的日期库不同，不涉及系统调用）。
+返回 Nginx 缓存时间的当前时间戳（格式为 `yyyy-mm-dd hh:MM:ss`）（与 Lua 的日期库不同，不涉及系统调用）。
 
 #### ngx.utctime()
 
 语法：`str = ngx.utctime()`
 
-返回 Nginx 缓存时间的当前 UTC 时间戳（格式为 `yyyy-mm-dd hh:mm:ss`）（与 Lua 的日期库不同，不涉及系统调用）。
+返回 Nginx 缓存时间的当前 UTC 时间戳（格式为 `yyyy-mm-dd hh:MM:ss`）（与 Lua 的日期库不同，不涉及系统调用）。
 
 #### ngx.update_time()
 

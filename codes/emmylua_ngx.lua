@@ -996,7 +996,7 @@ end
 ---
 ---环境: init_worker_by_lua*, set_by_lua*, rewrite_by_lua*, access_by_lua*, content_by_lua*, header_filter_by_lua*, body_filter_by_lua*, log_by_lua*, ngx.timer.*, balancer_by_lua*, ssl_certificate_by_lua*, ssl_session_fetch_by_lua*, ssl_session_store_by_lua*
 ---
----返回 nginx 时间缓存(不像 Lua 的 os.date 函数，该时间不涉及系统调用)的当前时间戳(格式：yyyy-mm-dd hh:mm:ss)。
+---返回 nginx 时间缓存(不像 Lua 的 os.date 函数，该时间不涉及系统调用)的当前时间戳(格式：yyyy-mm-dd hh:MM:ss)。
 ---
 ---这是个本地时间。
 function ngx.localtime()
@@ -1006,7 +1006,7 @@ end
 ---
 ---环境: init_worker_by_lua*, set_by_lua*, rewrite_by_lua*, access_by_lua*, content_by_lua*, header_filter_by_lua*, body_filter_by_lua*, log_by_lua*, ngx.timer.*, balancer_by_lua*, ssl_certificate_by_lua*, ssl_session_fetch_by_lua*, ssl_session_store_by_lua*
 ---
----返回 nginx 时间缓存(不像 Lua 的 os.date 函数，该时间不涉及系统调用)的当前时间戳(格式：yyyy-mm-dd hh:mm:ss)。
+---返回 nginx 时间缓存(不像 Lua 的 os.date 函数，该时间不涉及系统调用)的当前时间戳(格式：yyyy-mm-dd hh:MM:ss)。
 ---
 ---这是个UTC时间。
 function ngx.utctime()
